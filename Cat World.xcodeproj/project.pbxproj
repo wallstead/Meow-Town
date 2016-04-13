@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		433DA5EF1CBDDE9F009F1B36 /* SwiftPriorityQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433DA5EE1CBDDE9F009F1B36 /* SwiftPriorityQueue.swift */; };
+		433DA5F11CBEAA12009F1B36 /* SKPixelSpriteNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433DA5F01CBEAA12009F1B36 /* SKPixelSpriteNode.swift */; };
 		439AD67C1CB7681500E1E018 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439AD67B1CB7681500E1E018 /* AppDelegate.swift */; };
 		439AD67E1CB7681500E1E018 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 439AD67D1CB7681500E1E018 /* GameScene.sks */; };
 		439AD6801CB7681500E1E018 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439AD67F1CB7681500E1E018 /* GameScene.swift */; };
@@ -42,6 +43,7 @@
 
 /* Begin PBXFileReference section */
 		433DA5EE1CBDDE9F009F1B36 /* SwiftPriorityQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftPriorityQueue.swift; sourceTree = "<group>"; };
+		433DA5F01CBEAA12009F1B36 /* SKPixelSpriteNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKPixelSpriteNode.swift; sourceTree = "<group>"; };
 		439AD6781CB7681500E1E018 /* Cat World.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Cat World.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		439AD67B1CB7681500E1E018 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		439AD67D1CB7681500E1E018 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -116,6 +118,7 @@
 				439AD67F1CB7681500E1E018 /* GameScene.swift */,
 				439AD6811CB7681500E1E018 /* GameViewController.swift */,
 				439AD6AD1CB7683700E1E018 /* Cat.swift */,
+				433DA5F01CBEAA12009F1B36 /* SKPixelSpriteNode.swift */,
 				439AD6B31CB7737D00E1E018 /* Int+Extensions.swift */,
 				439AD6B51CB7753100E1E018 /* FamilyTree.swift */,
 				439AD6AF1CB7726200E1E018 /* Tree.swift */,
@@ -279,6 +282,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				433DA5EF1CBDDE9F009F1B36 /* SwiftPriorityQueue.swift in Sources */,
+				433DA5F11CBEAA12009F1B36 /* SKPixelSpriteNode.swift in Sources */,
 				439AD6B01CB7726200E1E018 /* Tree.swift in Sources */,
 				439AD6AE1CB7683700E1E018 /* Cat.swift in Sources */,
 				439AD6801CB7681500E1E018 /* GameScene.swift in Sources */,

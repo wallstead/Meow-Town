@@ -9,8 +9,6 @@
 import Foundation
 import SpriteKit
 
-
-
 class Activity: Comparable {
     let action: SKAction
     let priority: Int
@@ -29,8 +27,6 @@ func == (lhs: Activity, rhs: Activity) -> Bool {
     return lhs.priority == rhs.priority
 }
 
-
-
 class Cat {
     
     var name: (firstName: String?, lastName: String?)
@@ -45,45 +41,26 @@ class Cat {
     var todoQueue: PriorityQueue<Activity>
     var isBusy = false
     let scene: SKScene
+    let sprite: SKSpriteNode
     //let family: FamilyTree
-    
-//    init() {
-//        let daysAlive = NSTimeInterval(Int.random(10...15))
-//        
-//        self.name.firstName = "Test"
-//        self.name.lastName = "McTesterson"
-//        self.weight = 0.5
-//        self.skin = "oscar"
-//        self.mood = "Happy"
-//        self.birthday = NSDate()
-//        self.deathday = NSDate(timeInterval: daysAlive*3600*24, sinceDate: birthday)
-//        self.lifespan = daysAlive
-//        
-////        let birth = Activity(action: SKAction.scaleBy(1, duration: 1), priority: 1)
-//        self.todoQueue = PriorityQueue(ascending: true, startingValues: [])
-//        
-//        
-//        doThings()
-//        trackAge()
-//    }
     
     init(name: String, skin: String, mood: String, weight: Float, inScene: SKScene) {
         self.scene = inScene;
         let daysAlive = NSTimeInterval(Int.random(10...15))
-        
         self.name.firstName = "Test"
         self.name.lastName = "McTesterson"
         self.weight = 0.5
         self.skin = "oscar"
         self.mood = "Happy"
-        
+        self.sprite = SKPixelSpriteNode(textureName: skin+"_kitten")
+        self.sprite.position = CGPoint(x: self.scene.frame.midX, y: self.scene.frame.midY)
+        self.scene.addChild(self.sprite)
         self.birthday = NSDate()
         self.deathday = NSDate(timeInterval: daysAlive*3600*24, sinceDate: birthday)
         self.lifespan = daysAlive
-        
-//        let birth = Activity(action: SKAction.scaleBy(1, duration: 5), priority: 1)
-        self.todoQueue = PriorityQueue(ascending: true, startingValues: [])
-        
+        let birth = Activity(action: SKAction.scaleBy(10, duration: 5), priority: 0)
+        self.todoQueue = PriorityQueue(ascending: true, startingValues: [birth])
+    
         doThings()
         trackAge()
     }
@@ -97,40 +74,24 @@ class Cat {
                 die()
             }
         }
-        
     }
     
     func doThings() {
         if isAlive {
-            if todoQueue.count > 0 && !isBusy {
-                
-                
+            if !todoQueue.isEmpty && !isBusy {
                 isBusy = true
-                print("\(todoQueue.count) things to do");
-                
-                print("doing action")
-                
-                let testNode = SKSpriteNode(color: SKColor.blackColor(), size: CGSize(width: 100, height: 100))
-                testNode.position = CGPoint(x: scene.frame.midX, y: scene.frame.midY)
-                
-                scene.addChild(testNode)
-                
                 if let action = todoQueue.peek()?.action {
-                    print(action)
-                    testNode.runAction(action, completion: {
+                    print(action.description)
+                    sprite.runAction(action, completion: {
                         print("finished action")
                         self.todoQueue.pop()
-                        self.isBusy = false;
+                        self.isBusy = false
                     })
                 } else {
                     print("hmmmm.. \(self.name) has things to do but cannot do them.")
                 }
-            } else {
-                print("not doing action. count:\(todoQueue.count) isBusy: \(isBusy)")
             }
-        } else {
-            print("dead men do no things.")
-        }
+        } else { print("dead men do no things.") }
     }
     
     func addActivity(action: SKAction, priority: Int) {
@@ -158,9 +119,5 @@ class Cat {
         isAlive = false
         print("\(name) died.")
     }
-
-    
-    
-    
     
 }
