@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		433DA5EF1CBDDE9F009F1B36 /* SwiftPriorityQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433DA5EE1CBDDE9F009F1B36 /* SwiftPriorityQueue.swift */; };
 		439AD67C1CB7681500E1E018 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439AD67B1CB7681500E1E018 /* AppDelegate.swift */; };
 		439AD67E1CB7681500E1E018 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 439AD67D1CB7681500E1E018 /* GameScene.sks */; };
 		439AD6801CB7681500E1E018 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439AD67F1CB7681500E1E018 /* GameScene.swift */; };
@@ -16,6 +17,10 @@
 		439AD68A1CB7681500E1E018 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 439AD6881CB7681500E1E018 /* LaunchScreen.storyboard */; };
 		439AD6951CB7681500E1E018 /* Cat_WorldTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439AD6941CB7681500E1E018 /* Cat_WorldTests.swift */; };
 		439AD6A01CB7681500E1E018 /* Cat_WorldUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439AD69F1CB7681500E1E018 /* Cat_WorldUITests.swift */; };
+		439AD6AE1CB7683700E1E018 /* Cat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439AD6AD1CB7683700E1E018 /* Cat.swift */; };
+		439AD6B01CB7726200E1E018 /* Tree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439AD6AF1CB7726200E1E018 /* Tree.swift */; };
+		439AD6B41CB7737D00E1E018 /* Int+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439AD6B31CB7737D00E1E018 /* Int+Extensions.swift */; };
+		439AD6B61CB7753100E1E018 /* FamilyTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439AD6B51CB7753100E1E018 /* FamilyTree.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +41,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		433DA5EE1CBDDE9F009F1B36 /* SwiftPriorityQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftPriorityQueue.swift; sourceTree = "<group>"; };
 		439AD6781CB7681500E1E018 /* Cat World.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Cat World.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		439AD67B1CB7681500E1E018 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		439AD67D1CB7681500E1E018 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -51,6 +57,10 @@
 		439AD69B1CB7681500E1E018 /* Cat WorldUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Cat WorldUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		439AD69F1CB7681500E1E018 /* Cat_WorldUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cat_WorldUITests.swift; sourceTree = "<group>"; };
 		439AD6A11CB7681500E1E018 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		439AD6AD1CB7683700E1E018 /* Cat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Cat.swift; path = ../Cat.swift; sourceTree = "<group>"; };
+		439AD6AF1CB7726200E1E018 /* Tree.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tree.swift; sourceTree = "<group>"; };
+		439AD6B31CB7737D00E1E018 /* Int+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Int+Extensions.swift"; sourceTree = "<group>"; };
+		439AD6B51CB7753100E1E018 /* FamilyTree.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FamilyTree.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +115,11 @@
 				439AD67D1CB7681500E1E018 /* GameScene.sks */,
 				439AD67F1CB7681500E1E018 /* GameScene.swift */,
 				439AD6811CB7681500E1E018 /* GameViewController.swift */,
+				439AD6AD1CB7683700E1E018 /* Cat.swift */,
+				439AD6B31CB7737D00E1E018 /* Int+Extensions.swift */,
+				439AD6B51CB7753100E1E018 /* FamilyTree.swift */,
+				439AD6AF1CB7726200E1E018 /* Tree.swift */,
+				433DA5EE1CBDDE9F009F1B36 /* SwiftPriorityQueue.swift */,
 				439AD6831CB7681500E1E018 /* Main.storyboard */,
 				439AD6861CB7681500E1E018 /* Assets.xcassets */,
 				439AD6881CB7681500E1E018 /* LaunchScreen.storyboard */,
@@ -263,9 +278,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				433DA5EF1CBDDE9F009F1B36 /* SwiftPriorityQueue.swift in Sources */,
+				439AD6B01CB7726200E1E018 /* Tree.swift in Sources */,
+				439AD6AE1CB7683700E1E018 /* Cat.swift in Sources */,
 				439AD6801CB7681500E1E018 /* GameScene.swift in Sources */,
+				439AD6B41CB7737D00E1E018 /* Int+Extensions.swift in Sources */,
 				439AD6821CB7681500E1E018 /* GameViewController.swift in Sources */,
 				439AD67C1CB7681500E1E018 /* AppDelegate.swift in Sources */,
+				439AD6B61CB7753100E1E018 /* FamilyTree.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -494,6 +514,7 @@
 				439AD6A61CB7681500E1E018 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		439AD6A71CB7681500E1E018 /* Build configuration list for PBXNativeTarget "Cat WorldTests" */ = {
 			isa = XCConfigurationList;
@@ -502,6 +523,7 @@
 				439AD6A91CB7681500E1E018 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		439AD6AA1CB7681500E1E018 /* Build configuration list for PBXNativeTarget "Cat WorldUITests" */ = {
 			isa = XCConfigurationList;
@@ -510,6 +532,7 @@
 				439AD6AC1CB7681500E1E018 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
