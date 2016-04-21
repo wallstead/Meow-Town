@@ -11,20 +11,22 @@ import SpriteKit
 class GameScene: SKScene {
     override func didMoveToView(view: SKView) {
         
-        let cat = Cat(name: "Fred", skin: "oscar", mood: "happy", weight: 120, inScene: self)
+        let camera = SKCameraNode()
+        self.camera = camera;
+        camera.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
         
-        runAction(SKAction.repeatActionForever(SKAction.sequence([SKAction.runBlock({
-//            cat.trackAge()
-//            cat.printInfo()
-            cat.doThings()
-        }), SKAction.waitForDuration(1.0)])))
-        cat.addActivity(SKAction.waitForDuration(1), priority: 1)
+//        let oscar = Cat(name: "Oscar", skin: "oscar", mood: "happy", weight: 120, inScene: self)
+        self.addChild(camera)
         
-        runAction(SKAction.sequence([SKAction.waitForDuration(0.5),SKAction.runBlock({
-            cat.addActivity(SKAction.waitForDuration(1), priority: 2)
-            cat.addActivity(SKAction.scaleBy(2, duration: 2), priority: 5)
-            cat.addActivity(SKAction.moveByX(10, y: 0, duration: 1), priority: 1)
-        })]))
+        self.addChild(CatSelect(inScene: self))
+//        
+//        let charlie = Cat(name: "Charlie", skin: "oscar", mood: "happy", weight: 120, inScene: self)
+//        oscar.familyNode!.addChild(charlie.familyNode!)
+//        
+//    
+//        charlie.addActivity(SKAction.waitForDuration(1), priority: 1)
+//        
+//       camera.runAction(SKAction.moveByX(100, y: 0, duration: 5))
         
     }
     

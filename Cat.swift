@@ -27,7 +27,7 @@ func == (lhs: Activity, rhs: Activity) -> Bool {
     return lhs.priority == rhs.priority
 }
 
-class Cat {
+public class Cat {
     
     var name: (firstName: String?, lastName: String?)
     let skin: String
@@ -42,25 +42,34 @@ class Cat {
     var isBusy = false
     let scene: SKScene
     let sprite: SKSpriteNode
-    //let family: FamilyTree
+    var familyNode: TreeNode<Cat>?
     
     init(name: String, skin: String, mood: String, weight: Float, inScene: SKScene) {
         self.scene = inScene;
-        let daysAlive = NSTimeInterval(Int.random(10...15))
-        self.name.firstName = "Test"
+        let daysAlive = NSTimeInterval(10)
+        self.name.firstName = name
         self.name.lastName = "McTesterson"
         self.weight = 0.5
         self.skin = "oscar"
         self.mood = "Happy"
-        self.sprite = SKPixelSpriteNode(textureName: skin+"_kitten")
+        self.sprite = SKPixelSpriteNode(textureName: skin)
+        self.sprite.zPosition = 100;
         self.sprite.position = CGPoint(x: self.scene.frame.midX, y: self.scene.frame.midY)
         self.scene.addChild(self.sprite)
         self.birthday = NSDate()
         self.deathday = NSDate(timeInterval: daysAlive*3600*24, sinceDate: birthday)
         self.lifespan = daysAlive
-        let birth = Activity(action: SKAction.scaleBy(10, duration: 5), priority: 0)
+        let birth = Activity(action: SKAction.scaleBy(4, duration: 0.24), priority: 0)
         self.todoQueue = PriorityQueue(ascending: true, startingValues: [birth])
+        self.familyNode = TreeNode(value: self)
     
+        // TODO: find a better way to keep internal clock
+        sprite.runAction(SKAction.repeatActionForever(SKAction.sequence([SKAction.runBlock({
+            self.doThings()
+//            self.printInfo()
+            self.trackAge()
+        }), SKAction.waitForDuration(1)])))
+
         doThings()
         trackAge()
     }
@@ -81,15 +90,11 @@ class Cat {
             if !todoQueue.isEmpty && !isBusy {
                 isBusy = true
                 if let action = todoQueue.peek()?.action {
-                    print(action.description)
                     sprite.runAction(action, completion: {
-                        print("finished action")
                         self.todoQueue.pop()
                         self.isBusy = false
                     })
-                } else {
-                    print("hmmmm.. \(self.name) has things to do but cannot do them.")
-                }
+                } else { print("\(self.name) has things to do but cannot do them.") }
             }
         } else { print("dead men do no things.") }
     }
@@ -104,20 +109,40 @@ class Cat {
         let lifeLeft = lifespan-age
         
         print("-------- Cat Info -------")
-        print("name: \(name)")
+        print("name: \(name.firstName)")
         print("skin: \(skin)")
         print("mood: \(mood)")
         print("age: \(age) years")
         print("life span: \(lifespan) years")
-        print("life remaining: \(lifeLeft) years")
+        if isAlive {
+            print("life remaining: \(lifeLeft) years")
+        } else {
+            print("life remaining: 0")
+
+        }
         print("weight: \(weight) lbs")
         print("birthday: \(simpleBirthDay)")
         print("deathday: \(simpleDeathDay)")
     }
     
     func die() {
-        isAlive = false
+        let flip = SKAction.rotateByAngle(3.14, duration: 1)
+        let dissapear = SKAction.fadeAlphaTo(0, duration: 0.5)
+        let die = SKAction.sequence([flip, dissapear])
+        
+        addActivity(die, priority: 0)
+        
+        let waitToDie = SKAction.waitForDuration(1.5)
+        sprite.runAction(waitToDie, completion: {
+            self.isAlive = false
+        })
+        
         print("\(name) died.")
     }
-    
+}
+
+extension Cat: CustomStringConvertible {
+    public var description: String {
+        return name.firstName! + " " + name.lastName!
+    }
 }

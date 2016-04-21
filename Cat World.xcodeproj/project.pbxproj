@@ -21,7 +21,13 @@
 		439AD6AE1CB7683700E1E018 /* Cat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439AD6AD1CB7683700E1E018 /* Cat.swift */; };
 		439AD6B01CB7726200E1E018 /* Tree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439AD6AF1CB7726200E1E018 /* Tree.swift */; };
 		439AD6B41CB7737D00E1E018 /* Int+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439AD6B31CB7737D00E1E018 /* Int+Extensions.swift */; };
-		439AD6B61CB7753100E1E018 /* FamilyTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439AD6B51CB7753100E1E018 /* FamilyTree.swift */; };
+		43D159751CC1579D001DB5BD /* CatSelect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D159741CC1579D001DB5BD /* CatSelect.swift */; };
+		43D852831CC8A260005BB46D /* SpriteKit-Spring.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D852821CC8A260005BB46D /* SpriteKit-Spring.swift */; };
+		43F453071CC8A543009912D8 /* Fipps-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 43F453061CC8A543009912D8 /* Fipps-Regular.otf */; };
+		43F4530C1CC8AD3B009912D8 /* slkscr.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43F453081CC8AD3B009912D8 /* slkscr.ttf */; };
+		43F4530D1CC8AD3B009912D8 /* slkscrb.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43F453091CC8AD3B009912D8 /* slkscrb.ttf */; };
+		43F4530E1CC8AD3B009912D8 /* slkscre.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43F4530A1CC8AD3B009912D8 /* slkscre.ttf */; };
+		43F4530F1CC8AD3B009912D8 /* slkscreb.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43F4530B1CC8AD3B009912D8 /* slkscreb.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,7 +68,13 @@
 		439AD6AD1CB7683700E1E018 /* Cat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Cat.swift; path = ../Cat.swift; sourceTree = "<group>"; };
 		439AD6AF1CB7726200E1E018 /* Tree.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tree.swift; sourceTree = "<group>"; };
 		439AD6B31CB7737D00E1E018 /* Int+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Int+Extensions.swift"; sourceTree = "<group>"; };
-		439AD6B51CB7753100E1E018 /* FamilyTree.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FamilyTree.swift; sourceTree = "<group>"; };
+		43D159741CC1579D001DB5BD /* CatSelect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CatSelect.swift; sourceTree = "<group>"; };
+		43D852821CC8A260005BB46D /* SpriteKit-Spring.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SpriteKit-Spring.swift"; sourceTree = "<group>"; };
+		43F453061CC8A543009912D8 /* Fipps-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Fipps-Regular.otf"; sourceTree = "<group>"; };
+		43F453081CC8AD3B009912D8 /* slkscr.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = slkscr.ttf; sourceTree = "<group>"; };
+		43F453091CC8AD3B009912D8 /* slkscrb.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = slkscrb.ttf; sourceTree = "<group>"; };
+		43F4530A1CC8AD3B009912D8 /* slkscre.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = slkscre.ttf; sourceTree = "<group>"; };
+		43F4530B1CC8AD3B009912D8 /* slkscreb.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = slkscreb.ttf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,15 +130,21 @@
 				439AD67F1CB7681500E1E018 /* GameScene.swift */,
 				439AD6811CB7681500E1E018 /* GameViewController.swift */,
 				439AD6AD1CB7683700E1E018 /* Cat.swift */,
+				43D159741CC1579D001DB5BD /* CatSelect.swift */,
 				433DA5F01CBEAA12009F1B36 /* SKPixelSpriteNode.swift */,
 				439AD6B31CB7737D00E1E018 /* Int+Extensions.swift */,
-				439AD6B51CB7753100E1E018 /* FamilyTree.swift */,
 				439AD6AF1CB7726200E1E018 /* Tree.swift */,
 				433DA5EE1CBDDE9F009F1B36 /* SwiftPriorityQueue.swift */,
+				43D852821CC8A260005BB46D /* SpriteKit-Spring.swift */,
 				439AD6831CB7681500E1E018 /* Main.storyboard */,
 				439AD6861CB7681500E1E018 /* Assets.xcassets */,
 				439AD6881CB7681500E1E018 /* LaunchScreen.storyboard */,
 				439AD68B1CB7681500E1E018 /* Info.plist */,
+				43F453061CC8A543009912D8 /* Fipps-Regular.otf */,
+				43F453081CC8AD3B009912D8 /* slkscr.ttf */,
+				43F453091CC8AD3B009912D8 /* slkscrb.ttf */,
+				43F4530A1CC8AD3B009912D8 /* slkscre.ttf */,
+				43F4530B1CC8AD3B009912D8 /* slkscreb.ttf */,
 			);
 			path = "Cat World";
 			sourceTree = "<group>";
@@ -255,7 +273,12 @@
 			files = (
 				439AD67E1CB7681500E1E018 /* GameScene.sks in Resources */,
 				439AD68A1CB7681500E1E018 /* LaunchScreen.storyboard in Resources */,
+				43F453071CC8A543009912D8 /* Fipps-Regular.otf in Resources */,
+				43F4530D1CC8AD3B009912D8 /* slkscrb.ttf in Resources */,
 				439AD6871CB7681500E1E018 /* Assets.xcassets in Resources */,
+				43F4530F1CC8AD3B009912D8 /* slkscreb.ttf in Resources */,
+				43F4530C1CC8AD3B009912D8 /* slkscr.ttf in Resources */,
+				43F4530E1CC8AD3B009912D8 /* slkscre.ttf in Resources */,
 				439AD6851CB7681500E1E018 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -281,15 +304,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				43D159751CC1579D001DB5BD /* CatSelect.swift in Sources */,
 				433DA5EF1CBDDE9F009F1B36 /* SwiftPriorityQueue.swift in Sources */,
 				433DA5F11CBEAA12009F1B36 /* SKPixelSpriteNode.swift in Sources */,
 				439AD6B01CB7726200E1E018 /* Tree.swift in Sources */,
+				43D852831CC8A260005BB46D /* SpriteKit-Spring.swift in Sources */,
 				439AD6AE1CB7683700E1E018 /* Cat.swift in Sources */,
 				439AD6801CB7681500E1E018 /* GameScene.swift in Sources */,
 				439AD6B41CB7737D00E1E018 /* Int+Extensions.swift in Sources */,
 				439AD6821CB7681500E1E018 /* GameViewController.swift in Sources */,
 				439AD67C1CB7681500E1E018 /* AppDelegate.swift in Sources */,
-				439AD6B61CB7753100E1E018 /* FamilyTree.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
