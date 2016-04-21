@@ -14,6 +14,11 @@ class CatSelect: SKNode {
         let background = SKPixelSpriteNode(textureName: "catselect_bg")
         let titleBar = SKPixelSpriteNode(textureName: "catselect_titlebar")
         let circleBackground = SKPixelSpriteNode(textureName: "catselect_circle")
+        
+        let leftButton = SKPixelSpriteNode(textureName: "catselect_arrow")
+        let rightButton = SKPixelSpriteNode(textureName: "catselect_arrow")
+        rightButton.xScale = -1
+        
         let circleCropNode = SKCropNode()
         circleCropNode.maskNode = SKPixelSpriteNode(textureName: "catselect_circle_mask")
         
@@ -32,42 +37,48 @@ class CatSelect: SKNode {
         description.setScale(1/4)
         description.fontColor = SKColor(red: 50/255, green: 50/255, blue: 50/255, alpha: 1)
         description.verticalAlignmentMode = .Center
+        description.alpha = 0
+        
         
         super.init()
         self.position = CGPoint(x: scene.frame.midX, y: scene.frame.midY)
         self.setScale(4)
         self.zPosition = 0
         background.zPosition = 0
-        circleBackground.zPosition = 1
-        circleCropNode.zPosition = 2
-        titleBar.zPosition = 4
-        description.zPosition = 4
-        titleBar.position = CGPoint(x: background.frame.midX, y: background.frame.maxY-titleBar.frame.height/2)
-        title.zPosition = 5
-        title.position = CGPoint(x: titleBar.frame.midX, y: titleBar.frame.midY)
+        description.zPosition = 1
+        circleBackground.zPosition = 3
+        circleCropNode.zPosition = 4
+        leftButton.zPosition = 3
+        rightButton.zPosition = 3
+        titleBar.zPosition = 5
+        title.zPosition = 6
         
+        titleBar.position = CGPoint(x: background.frame.midX, y: background.frame.maxY-titleBar.frame.height/2)
+        title.position = CGPoint(x: titleBar.frame.midX, y: titleBar.frame.midY)
         circleCropNode.position = circleBackground.position
-        description.position = CGPoint(x: circleBackground.frame.midX, y: circleBackground.frame.maxY+8)
+        leftButton.position = CGPoint(x: circleBackground.frame.minX-5, y: circleBackground.frame.midY)
+        rightButton.position = CGPoint(x: circleBackground.frame.maxX+5, y: circleBackground.frame.midY)
+        
         self.addChild(background)
         self.addChild(titleBar)
+        self.addChild(description)
         self.addChild(circleBackground)
         self.addChild(circleCropNode)
+        self.addChild(leftButton)
+        self.addChild(rightButton)
         self.addChild(title)
-        self.addChild(description)
+        
         circleCropNode.addChild(catForDisplay)
         circleCropNode.addChild(catForDisplay2)
         
-        catForDisplay.runAction(shift(left: true))
-        catForDisplay2.runAction(shift(left: true))
+//        catForDisplay.runAction(shift(left: true))
+//        catForDisplay2.runAction(shift(left: true))
+        let displayDescription = SKAction.group([SKAction.fadeInWithDuration(0.7),
+                                 SKAction.moveToY(circleBackground.frame.maxY+8, duration: 0.7)])
+        displayDescription.timingMode = .EaseOut
+        description.runAction(displayDescription)
         
-        for family: String in UIFont.familyNames()
-        {
-            print("\(family)")
-            for names: String in UIFont.fontNamesForFamilyName(family)
-            {
-                print("== \(names)")
-            }
-        }
+      
     }
     
     func shift(left left: Bool) -> SKAction {
