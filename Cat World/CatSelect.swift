@@ -10,31 +10,39 @@ import Foundation
 import SpriteKit
 
 class CatSelect: SKNode {
+    var isShiftingCats = false
+    
     init(inScene scene: SKScene) {
-        let background = SKPixelSpriteNode(textureName: "catselect_bg")
-        let titleBar = SKPixelSpriteNode(textureName: "catselect_titlebar")
-        let circleBackground = SKPixelSpriteNode(textureName: "catselect_circle")
+        let background = SKPixelSpriteNode(textureName: "catselect_bg", pressAction: {})
+        let backgroundMusic = SKAudioNode(fileNamed: "mathgrant_calm.mp3")
+        backgroundMusic.positional = false
         
-        let leftButton = SKPixelSpriteNode(textureName: "catselect_arrow")
-        let rightButton = SKPixelSpriteNode(textureName: "catselect_arrow")
+        let titleBar = SKPixelSpriteNode(textureName: "catselect_titlebar", pressAction: {})
+        let circleBackground = SKPixelSpriteNode(textureName: "catselect_circle", pressAction: {})
+        
+        let catForDisplay = SKPixelSpriteNode(textureName: "oscar", pressAction: {})
+        let catForDisplay2 = SKPixelSpriteNode(textureName: "oscar_kitten", pressAction: {})
+        catForDisplay2.position = CGPoint(x: 55, y: 0)
+
+        let leftButton = SKPixelButtonNode(buttonImage: "catselect_arrow", buttonText: nil, buttonAction: {})
+        let rightButton = SKPixelButtonNode(buttonImage: "catselect_arrow", buttonText: nil, buttonAction: {})
         rightButton.xScale = -1
+        let doneButton = SKPixelButtonNode(buttonImage: "catselect_done", buttonText: "Done", buttonAction: {})
         
         let circleCropNode = SKCropNode()
-        circleCropNode.maskNode = SKPixelSpriteNode(textureName: "catselect_circle_mask")
-        
-        let catForDisplay = SKPixelSpriteNode(textureName: "oscar")
-        let catForDisplay2 = SKPixelSpriteNode(textureName: "oscar")
-        catForDisplay2.position = CGPoint(x: 55, y: 0)
+        circleCropNode.maskNode = SKPixelSpriteNode(textureName: "catselect_circle_mask", pressAction: {})
         
         let title = SKLabelNode(fontNamed: "Fipps-Regular")
         title.text = "FAT FELINE"
-        title.setScale(1/4)
+        title.setScale(1/10)
+        title.fontSize = 80
         title.fontColor = SKColor(red: 50/255, green: 50/255, blue: 50/255, alpha: 1)
         title.verticalAlignmentMode = .Center
         
         let description = SKLabelNode(fontNamed: "Silkscreen")
         description.text = "Pick A Cat"
-        description.setScale(1/4)
+        description.setScale(1/10)
+        description.fontSize = 80
         description.fontColor = SKColor(red: 50/255, green: 50/255, blue: 50/255, alpha: 1)
         description.verticalAlignmentMode = .Center
         description.alpha = 0
@@ -42,22 +50,53 @@ class CatSelect: SKNode {
         
         super.init()
         self.position = CGPoint(x: scene.frame.midX, y: scene.frame.midY)
-        self.setScale(4)
-        self.zPosition = 0
+        self.setScale(46/9)// for iphone 6s+
+        self.zPosition = 1000
         background.zPosition = 0
         description.zPosition = 1
         circleBackground.zPosition = 3
         circleCropNode.zPosition = 4
         leftButton.zPosition = 3
         rightButton.zPosition = 3
+        doneButton.zPosition = 3
         titleBar.zPosition = 5
         title.zPosition = 6
+        
+        leftButton.action = {
+            print("left")
+            if !self.isShiftingCats {
+                catForDisplay.runAction(self.shift(left: false))
+                catForDisplay2.runAction(self.shift(left: false), completion: {
+                    self.isShiftingCats = false;
+                })
+            }
+            
+        }
+        
+        
+        
+        rightButton.action = {
+            print("right")
+            if !self.isShiftingCats {
+                catForDisplay.runAction(self.shift(left: true))
+                catForDisplay2.runAction(self.shift(left: true), completion: {
+                    self.isShiftingCats = false;
+                })
+            }
+            
+        }
+        
+        doneButton.action = {
+            self.runAction(SKAction.fadeOutWithDuration(0.5))
+        }
+        
         
         titleBar.position = CGPoint(x: background.frame.midX, y: background.frame.maxY-titleBar.frame.height/2)
         title.position = CGPoint(x: titleBar.frame.midX, y: titleBar.frame.midY)
         circleCropNode.position = circleBackground.position
         leftButton.position = CGPoint(x: circleBackground.frame.minX-5, y: circleBackground.frame.midY)
         rightButton.position = CGPoint(x: circleBackground.frame.maxX+5, y: circleBackground.frame.midY)
+        doneButton.position = CGPoint(x: circleBackground.frame.midX, y: circleBackground.frame.minY-11)
         
         self.addChild(background)
         self.addChild(titleBar)
@@ -66,13 +105,14 @@ class CatSelect: SKNode {
         self.addChild(circleCropNode)
         self.addChild(leftButton)
         self.addChild(rightButton)
+        self.addChild(doneButton)
         self.addChild(title)
+        self.addChild(backgroundMusic)
         
         circleCropNode.addChild(catForDisplay)
         circleCropNode.addChild(catForDisplay2)
         
-//        catForDisplay.runAction(shift(left: true))
-//        catForDisplay2.runAction(shift(left: true))
+        
         let displayDescription = SKAction.group([SKAction.fadeInWithDuration(0.7),
                                  SKAction.moveToY(circleBackground.frame.maxY+8, duration: 0.7)])
         displayDescription.timingMode = .EaseOut
@@ -82,11 +122,12 @@ class CatSelect: SKNode {
     }
     
     func shift(left left: Bool) -> SKAction {
+        isShiftingCats = true
         var multiplier: CGFloat = 1
         if left {
             multiplier = -1
         }
-        let slide = SKAction.moveByX(multiplier*55, y: 0, duration: 1.5, delay: 0, usingSpringWithDamping: 0.65, initialSpringVelocity: 0)
+        let slide = SKAction.moveByX(multiplier*55, y: 0, duration: 0.5, delay: 0, usingSpringWithDamping: 0.65, initialSpringVelocity: 0)
         return slide
     }
 

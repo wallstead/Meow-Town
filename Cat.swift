@@ -41,8 +41,9 @@ public class Cat {
     var todoQueue: PriorityQueue<Activity>
     var isBusy = false
     let scene: SKScene
-    let sprite: SKSpriteNode
+    let sprite: SKPixelSpriteNode
     var familyNode: TreeNode<Cat>?
+    var isFocusedOn = false
     
     init(name: String, skin: String, mood: String, weight: Float, inScene: SKScene) {
         self.scene = inScene;
@@ -52,15 +53,17 @@ public class Cat {
         self.weight = 0.5
         self.skin = "oscar"
         self.mood = "Happy"
-        self.sprite = SKPixelSpriteNode(textureName: skin)
+        self.sprite = SKPixelSpriteNode(textureName: skin, pressAction: {})
         self.sprite.zPosition = 100;
         self.sprite.position = CGPoint(x: self.scene.frame.midX, y: self.scene.frame.midY)
+        self.sprite.userInteractionEnabled = true
         self.scene.addChild(self.sprite)
         self.birthday = NSDate()
         self.deathday = NSDate(timeInterval: daysAlive*3600*24, sinceDate: birthday)
         self.lifespan = daysAlive
-        let birth = Activity(action: SKAction.scaleBy(4, duration: 0.24), priority: 0)
-        self.todoQueue = PriorityQueue(ascending: true, startingValues: [birth])
+        self.sprite.setScale(46/9)
+//        let birth = Activity(action: SKAction.scaleBy(46/9, duration: 0.24), priority: 0)
+        self.todoQueue = PriorityQueue(ascending: true, startingValues: [])
         self.familyNode = TreeNode(value: self)
     
         // TODO: find a better way to keep internal clock
@@ -72,6 +75,25 @@ public class Cat {
 
         doThings()
         trackAge()
+        
+        sprite.pressAction = {
+            if !self.isFocusedOn {
+                let zoomIn = SKAction.scaleTo(0.6, duration: 0.7, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0)
+                let findCat = SKAction.moveTo(self.sprite.position, duration: 0.5)
+                self.scene.camera!.runAction(SKAction.group([zoomIn,findCat]), completion: {
+                    self.isFocusedOn = true
+                })
+            } else {
+                let zoomNorm = SKAction.scaleTo(1, duration: 0.3)
+                zoomNorm.timingMode = .EaseOut
+                let center = CGPoint(x: self.scene.frame.midX, y: self.scene.frame.midY)
+                let centerCam = SKAction.moveTo(center, duration: 0.5)
+                self.scene.camera!.runAction(SKAction.group([zoomNorm,centerCam]), completion: {
+                    self.isFocusedOn = false
+                })
+            }
+            
+        }
     }
     
     func trackAge() {
@@ -94,6 +116,9 @@ public class Cat {
                         self.todoQueue.pop()
                         self.isBusy = false
                     })
+                    if self.isFocusedOn {
+                        self.scene.camera?.runAction(action)
+                    }
                 } else { print("\(self.name) has things to do but cannot do them.") }
             }
         } else { print("dead men do no things.") }
@@ -139,6 +164,8 @@ public class Cat {
         
         print("\(name) died.")
     }
+    
+    
 }
 
 extension Cat: CustomStringConvertible {
