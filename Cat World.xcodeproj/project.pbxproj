@@ -33,6 +33,8 @@
 		43FD713D1CD3F66B0058DFBA /* mathgrant_calm.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 43FD713C1CD3F66B0058DFBA /* mathgrant_calm.mp3 */; };
 		43FD71461CD3FAED0058DFBA /* button_down.wav in Resources */ = {isa = PBXBuildFile; fileRef = 43FD71441CD3FAED0058DFBA /* button_down.wav */; };
 		43FD71471CD3FAED0058DFBA /* button_up.wav in Resources */ = {isa = PBXBuildFile; fileRef = 43FD71451CD3FAED0058DFBA /* button_up.wav */; };
+		43FD71491CD41CAA0058DFBA /* World.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43FD71481CD41CAA0058DFBA /* World.swift */; };
+		43FD714B1CD41E7A0058DFBA /* HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43FD714A1CD41E7A0058DFBA /* HUD.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -85,6 +87,8 @@
 		43FD713C1CD3F66B0058DFBA /* mathgrant_calm.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = mathgrant_calm.mp3; sourceTree = "<group>"; };
 		43FD71441CD3FAED0058DFBA /* button_down.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = button_down.wav; sourceTree = "<group>"; };
 		43FD71451CD3FAED0058DFBA /* button_up.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = button_up.wav; sourceTree = "<group>"; };
+		43FD71481CD41CAA0058DFBA /* World.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = World.swift; sourceTree = "<group>"; };
+		43FD714A1CD41E7A0058DFBA /* HUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUD.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,6 +144,8 @@
 				439AD67F1CB7681500E1E018 /* GameScene.swift */,
 				439AD6811CB7681500E1E018 /* GameViewController.swift */,
 				439AD6AD1CB7683700E1E018 /* Cat.swift */,
+				43FD71481CD41CAA0058DFBA /* World.swift */,
+				43FD714A1CD41E7A0058DFBA /* HUD.swift */,
 				43D159741CC1579D001DB5BD /* CatSelect.swift */,
 				433DA5F01CBEAA12009F1B36 /* SKPixel.swift */,
 				439AD6B31CB7737D00E1E018 /* Int+Extensions.swift */,
@@ -331,7 +337,9 @@
 				43D852831CC8A260005BB46D /* SpriteKit-Spring.swift in Sources */,
 				439AD6AE1CB7683700E1E018 /* Cat.swift in Sources */,
 				439AD6801CB7681500E1E018 /* GameScene.swift in Sources */,
+				43FD71491CD41CAA0058DFBA /* World.swift in Sources */,
 				439AD6B41CB7737D00E1E018 /* Int+Extensions.swift in Sources */,
+				43FD714B1CD41E7A0058DFBA /* HUD.swift in Sources */,
 				439AD6821CB7681500E1E018 /* GameViewController.swift in Sources */,
 				439AD67C1CB7681500E1E018 /* AppDelegate.swift in Sources */,
 			);

@@ -37,27 +37,35 @@ public class Cat {
     let birthday: NSDate
     var deathday: NSDate
     let lifespan: NSTimeInterval
-    var isAlive = true
-    var todoQueue: PriorityQueue<Activity>
-    var isBusy = false
-    let scene: SKScene
+    
+    let world: World
     let sprite: SKPixelSpriteNode
     var familyNode: TreeNode<Cat>?
-    var isFocusedOn = false
+    var todoQueue: PriorityQueue<Activity>
     
-    init(name: String, skin: String, mood: String, weight: Float, inScene: SKScene) {
-        self.scene = inScene;
-        let daysAlive = NSTimeInterval(10)
+    var isBusy = false
+    var isAlive = true
+    var isFocusedOn = false
+    var isKitten = true
+    
+    init(name: String, skin: String, mood: String, weight: Float, inWorld: World) {
+        self.world = inWorld;
+        // 0.04166666667 = 1 hour in real time
+        // 0.01041666667 = 15 minutes in real time
+        // 0.003472222223 = 5 minutes in real time
+        // 0.0006944444446 = 1 minute in real time
+        // 0.0003472222223 = 30 seconds in real time
+        let daysAlive = NSTimeInterval(0.003472222223)
         self.name.firstName = name
         self.name.lastName = "McTesterson"
         self.weight = 0.5
-        self.skin = "oscar"
+        self.skin = skin
         self.mood = "Happy"
-        self.sprite = SKPixelSpriteNode(textureName: skin, pressAction: {})
+        self.sprite = SKPixelSpriteNode(textureName: skin+"_kitten", pressAction: {})
         self.sprite.zPosition = 100;
-        self.sprite.position = CGPoint(x: self.scene.frame.midX, y: self.scene.frame.midY)
+        self.sprite.position = CGPoint(x: self.world.frame.midX, y: self.world.frame.midY)
         self.sprite.userInteractionEnabled = true
-        self.scene.addChild(self.sprite)
+        self.world.addChild(self.sprite)
         self.birthday = NSDate()
         self.deathday = NSDate(timeInterval: daysAlive*3600*24, sinceDate: birthday)
         self.lifespan = daysAlive
@@ -69,7 +77,6 @@ public class Cat {
         // TODO: find a better way to keep internal clock
         sprite.runAction(SKAction.repeatActionForever(SKAction.sequence([SKAction.runBlock({
             self.doThings()
-//            self.printInfo()
             self.trackAge()
         }), SKAction.waitForDuration(1)])))
 
@@ -77,32 +84,40 @@ public class Cat {
         trackAge()
         
         sprite.pressAction = {
-            if !self.isFocusedOn {
-                let zoomIn = SKAction.scaleTo(0.6, duration: 0.7, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0)
-                let findCat = SKAction.moveTo(self.sprite.position, duration: 0.5)
-                self.scene.camera!.runAction(SKAction.group([zoomIn,findCat]), completion: {
-                    self.isFocusedOn = true
-                })
-            } else {
-                let zoomNorm = SKAction.scaleTo(1, duration: 0.3)
-                zoomNorm.timingMode = .EaseOut
-                let center = CGPoint(x: self.scene.frame.midX, y: self.scene.frame.midY)
-                let centerCam = SKAction.moveTo(center, duration: 0.5)
-                self.scene.camera!.runAction(SKAction.group([zoomNorm,centerCam]), completion: {
-                    self.isFocusedOn = false
-                })
-            }
+            self.printInfo()
+//            if !self.isFocusedOn {
+//                let zoomIn = SKAction.scaleTo(0.6, duration: 0.7, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0)
+//                let findCat = SKAction.moveTo(self.sprite.position, duration: 0.3)
+//                self.world.camera!.runAction(SKAction.group([zoomIn,findCat]), completion: {
+//                    self.isFocusedOn = true
+//                })
+//            } else {
+//                let zoomNorm = SKAction.scaleTo(1, duration: 0.3)
+//                zoomNorm.timingMode = .EaseOut
+//                let center = CGPoint(x: self.scene.frame.midX, y: self.scene.frame.midY)
+//                let centerCam = SKAction.moveTo(center, duration: 0.3)
+//                self.scene.camera!.runAction(SKAction.group([zoomNorm,centerCam]), completion: {
+//                    self.isFocusedOn = false
+//                })
+//            }
             
         }
     }
     
     func trackAge() {
+        
         if isAlive {
             let secondsAged = NSDate().timeIntervalSinceDate(birthday)
             age = secondsAged/86400
             
             if (lifespan-age <= 0) {
                 die()
+            }
+            
+            // cats are kittens for 1 year out of their lives (about 1/15 of their lifetime)
+            if (isKitten && age >= lifespan/35) {
+                isKitten = false
+                pube()
             }
         }
     }
@@ -116,10 +131,21 @@ public class Cat {
                         self.todoQueue.pop()
                         self.isBusy = false
                     })
-                    if self.isFocusedOn {
-                        self.scene.camera?.runAction(action)
-                    }
+//                    if self.isFocusedOn {
+//                        self.scene.camera?.runAction(action)
+//                    }
                 } else { print("\(self.name) has things to do but cannot do them.") }
+            } else if todoQueue.isEmpty && !isBusy{
+                let randomNumber = randomPercent()
+                switch(randomNumber) {
+                    
+                case 0..<50:
+//                    prance()
+                    print("You dont move around")
+                default:
+                    print("You dont move around")
+                }
+
             }
         } else { print("dead men do no things.") }
     }
@@ -133,14 +159,17 @@ public class Cat {
         let simpleDeathDay: String = NSDateFormatter.localizedStringFromDate(deathday, dateStyle: .ShortStyle, timeStyle: .ShortStyle)
         let lifeLeft = lifespan-age
         
+        let numberOfPlaces = 5.0
+        let multiplier = pow(10.0, numberOfPlaces)
+        
         print("-------- Cat Info -------")
         print("name: \(name.firstName)")
         print("skin: \(skin)")
         print("mood: \(mood)")
-        print("age: \(age) years")
-        print("life span: \(lifespan) years")
+        print("age: \(round(age * multiplier) / multiplier) years")
+        print("life span: \(round(lifespan * multiplier) / multiplier) years")
         if isAlive {
-            print("life remaining: \(lifeLeft) years")
+            print("life remaining: \(round(lifeLeft * multiplier) / multiplier) years")
         } else {
             print("life remaining: 0")
 
@@ -150,19 +179,127 @@ public class Cat {
         print("deathday: \(simpleDeathDay)")
     }
     
+    
+    func pube() {
+        isBusy = true
+        /* cover non-ui parts with black */
+        let tempBG = SKSpriteNode(color: SKColor.blackColor(), size: world.wallpaper.size)
+        tempBG.position = world.wallpaper.position
+        tempBG.zPosition = 800
+        tempBG.alpha = 0
+        sprite.zPosition = 801
+        
+        world.addChild(tempBG)
+        
+        let cropped1 = SKSpriteNode(color: SKColor.whiteColor(), size: self.world.wallpaper.size)
+        cropped1.alpha = 0
+        let cropped2 = SKSpriteNode(color: SKColor.whiteColor(), size: self.world.wallpaper.size)
+        cropped2.alpha = 0
+        
+        let kittenCropNode = SKCropNode()
+        kittenCropNode.maskNode = SKPixelSpriteNode(textureName: self.skin+"_kitten", pressAction: {})
+        kittenCropNode.xScale = self.sprite.xScale
+        kittenCropNode.yScale = self.sprite.yScale
+        kittenCropNode.zPosition = 802
+        kittenCropNode.addChild(cropped1)
+        kittenCropNode.position = self.sprite.position
+        kittenCropNode.alpha = 1
+        
+        let grownCatCropNode = SKCropNode()
+        grownCatCropNode.maskNode = SKPixelSpriteNode(textureName: self.skin, pressAction: {})
+//        grownCatCropNode.xScale = self.sprite.xScale
+//        grownCatCropNode.yScale = self.sprite.yScale
+        grownCatCropNode.xScale = 0
+        grownCatCropNode.yScale = 0
+        grownCatCropNode.zPosition = 802
+        grownCatCropNode.addChild(cropped2)
+        grownCatCropNode.position = self.sprite.position
+        grownCatCropNode.alpha = 1
+        
+        
+        self.world.addChild(kittenCropNode)
+        self.world.addChild(grownCatCropNode)
+
+        
+        tempBG.runAction(SKAction.fadeInWithDuration(0.57), completion: {
+            /* Add a white node the size of the floor which will be used as a crop of the others */
+            cropped1.runAction(SKAction.fadeInWithDuration(0.57), completion: {
+                
+            })
+            cropped2.runAction(SKAction.fadeInWithDuration(0.57), completion: {
+                
+            })
+        })
+        
+//        
+//        let texture = SKTexture(imageNamed: self.skin)
+//        texture.filteringMode = SKTextureFilteringMode.Nearest
+////        self.sprite.texture = texture
+////        self.sprite.size = texture.size()
+//        print("texture height: \(texture.size().height) and sprite height: \(self.sprite.size.height)")
+//        let grow = SKAction.scaleBy(self.sprite.size.height/texture.size().height, duration: 1)
+//        sprite.runAction(grow)
+//        
+//        print("\(name) pubed.")
+    }
+    
     func die() {
         let flip = SKAction.rotateByAngle(3.14, duration: 1)
         let dissapear = SKAction.fadeAlphaTo(0, duration: 0.5)
         let die = SKAction.sequence([flip, dissapear])
-        
-        addActivity(die, priority: 0)
-        
-        let waitToDie = SKAction.waitForDuration(1.5)
-        sprite.runAction(waitToDie, completion: {
-            self.isAlive = false
-        })
+        self.isAlive = false
+
+        sprite.runAction(die)
         
         print("\(name) died.")
+    }
+    
+    func flyTo(point: CGPoint) -> SKAction {
+        let velocity: Double = 150 //arbitrary speed of cat
+        let xDist: Double = Double(point.x - sprite.position.x)
+        let yDist: Double = Double(point.y - sprite.position.y)
+        let distance: Double = sqrt((xDist * xDist) + (yDist * yDist))
+        let time: NSTimeInterval = distance/velocity //so time is dependent on distance
+        
+        
+        if point.x > sprite.position.x { // face right
+            sprite.xScale = -46/9
+        } else if point.x < sprite.position.x { // face left
+            sprite.xScale = 46/9
+        }
+        let liftLegs = SKAction.runBlock({
+            let texture = SKTexture(imageNamed: self.currentSkin()+"_floating")
+            texture.filteringMode = SKTextureFilteringMode.Nearest
+            self.sprite.texture = texture
+        })
+        let fly = SKAction.moveTo(point, duration: time)
+        let lowerLegs = SKAction.runBlock({
+            let texture = SKTexture(imageNamed: self.currentSkin())
+            texture.filteringMode = SKTextureFilteringMode.Nearest
+            self.sprite.texture = texture
+        })
+        
+        return SKAction.sequence([liftLegs,fly,lowerLegs])
+    }
+    
+    func prance() {
+        /* Go to random point on floor */
+        
+        let randomX = randomInRange(Int(CGRectGetMinX(world.floor.frame)+90), hi: Int(CGRectGetMaxX(world.floor.frame)-91))
+        // y coordinate between MinY (top) and MidY (middle):
+        let randomY = randomInRange(Int(CGRectGetMinY(world.floor.frame)+57), hi: Int(CGRectGetMaxY(world.floor.frame)+15))
+        let randomPoint = CGPoint(x: randomX, y: randomY)
+        
+        addActivity(flyTo(randomPoint), priority: 10)
+        
+    }
+    
+    func currentSkin() -> String {
+        if isKitten {
+            return skin+"_kitten"
+        } else {
+            return skin
+        }
     }
     
     
