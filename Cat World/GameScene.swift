@@ -16,6 +16,7 @@ class GameScene: SKScene {
         self.camera = camera;
         camera.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
         camera.addChild(HUD(inCamera: camera))
+        
         self.addChild(camera)
         
         let world = World(inScene: self)

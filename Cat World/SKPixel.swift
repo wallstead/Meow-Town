@@ -14,12 +14,29 @@ import SpriteKit
 class SKPixelSpriteNode: SKSpriteNode {
     internal var pressAction: () -> Void
     
-    
     init(textureName: String, pressAction: () -> Void) {
         let texture = SKTexture(imageNamed: textureName)
         texture.filteringMode = SKTextureFilteringMode.Nearest
         self.pressAction = pressAction
         super.init(texture: texture, color: UIColor.clearColor(), size: texture.size())
+    }
+    
+    func changeTextureTo(textureName: String) {
+        self.size = CGSizeZero
+        let newTexture = SKTexture(imageNamed: textureName)
+        newTexture.filteringMode = SKTextureFilteringMode.Nearest
+        
+        self.texture = newTexture
+        let oldXScale = xScale
+        let oldYScale = yScale
+        setScale(1)
+        size.height = newTexture.size().height
+        size.width = newTexture.size().width
+        xScale = oldXScale
+        yScale = oldYScale
+        
+        print("size: \(self.size), newTexture size: \(newTexture.size())")
+        
     }
     
     
