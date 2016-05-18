@@ -166,7 +166,7 @@ public class Cat {
     func pube() {
         isBusy = true
         /* cover non-ui parts with black */
-        let tempBG = SKSpriteNode(color: SKColor.blackColor(), size: world.wallpaper.size)
+        let tempBG = SKSpriteNode(color: SKColor.blackColor(), size: CGSize(width: world.wallpaper.size.width*2, height: world.wallpaper.size.height*2))
         tempBG.position = world.wallpaper.position
         tempBG.zPosition = 800
         tempBG.alpha = 0
@@ -200,8 +200,15 @@ public class Cat {
         
         self.world.addChild(kittenCropNode)
         self.world.addChild(grownCatCropNode)
+        
+        // focus if not already focused
+        let previouslyFocused = isFocusedOn
+        if !previouslyFocused {
+            isFocusedOn = true
+        }
 
         // TODO: do all of this better
+        
         tempBG.runAction(SKAction.fadeInWithDuration(0.57), completion: {
             /* Add a white node the size of the floor which will be used as a crop of the others */
             cropped1.runAction(SKAction.fadeInWithDuration(0.57), completion: {
@@ -244,6 +251,9 @@ public class Cat {
                         tempBG.runAction(SKAction.fadeOutWithDuration(0.57), completion: {
                             self.sprite.zPosition = 100;
                             self.isBusy = false
+                            if !previouslyFocused { // unfocus if unfocused prior to puberty
+                                self.isFocusedOn = false
+                            }
                         })
                     })
                 }
@@ -347,23 +357,9 @@ public class Cat {
         if !isFocusedOn {
             print("focusing")
             isFocusedOn = true
-           
-//            let zoomIn = SKAction.scaleTo(0.6, duration: 0.7, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0)
-//            let findCat = SKAction.moveTo(self.sprite.position, duration: 0.3)
-//            self.world.camera.runAction(SKAction.group([zoomIn,findCat]), completion: {
-//                self.isFocusedOn = true
-//            })
         } else {
             print("unfocusing")
             isFocusedOn = false
-            
-//            let zoomNorm = SKAction.scaleTo(1, duration: 0.3)
-//            zoomNorm.timingMode = .EaseOut
-//            let center = CGPoint(x: self.scene.frame.midX, y: self.scene.frame.midY)
-//            let centerCam = SKAction.moveTo(center, duration: 0.3)
-//            self.scene.camera!.runAction(SKAction.group([zoomNorm,centerCam]), completion: {
-//                self.isFocusedOn = false
-//            })
         }
     }
     
@@ -387,32 +383,17 @@ public class Cat {
             }
         } else {
             if world.camera.xScale != 1 {
-                // zoom out
-//                if world.cameraIsZooming == false {
-//                    world.camera.removeAllActions()
-//                    world.cameraIsZooming = true
-                    let zoomNorm = SKAction.scaleTo(1, duration: 0.3)
-                    zoomNorm.timingMode = .EaseOut
-                    world.camera.runAction(zoomNorm, completion: {
-//                        self.world.cameraIsZooming = false
-                    })
-//                }
+                let zoomNorm = SKAction.scaleTo(1, duration: 0.3)
+                zoomNorm.timingMode = .EaseOut
+                world.camera.runAction(zoomNorm)
             }
             if world.camera.position != CGPoint(x: world.scene!.frame.midX, y: world.scene!.frame.midY) {
-                // pan to center
-//                if world.cameraIsPanning == false {
-//                    print("hey")
-//                    world.cameraIsPanning = true
-                    let center = CGPoint(x: world.scene!.frame.midX, y: world.scene!.frame.midY)
-                    let centerCam = SKAction.moveTo(center, duration: 0.2)
-                    world.camera.runAction(centerCam, completion: {
-//                        self.world.cameraIsPanning = false
-                    })
-//                }
+                let center = CGPoint(x: world.scene!.frame.midX, y: world.scene!.frame.midY)
+                let centerCam = SKAction.moveTo(center, duration: 0.2)
+                world.camera.runAction(centerCam)
             }
         }
     }
-    
     
 }
 
