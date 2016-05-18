@@ -9,25 +9,20 @@
 import SpriteKit
 
 class GameScene: SKScene {
+    var oscar: Cat?
     
     override func didMoveToView(view: SKView) {
         
-        let camera = SKCameraNode()
-        self.camera = camera;
-        camera.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
-        camera.addChild(HUD(inCamera: camera))
-        
-        self.addChild(camera)
         
         let world = World(inScene: self)
         self.addChild(world)
         
-        let oscar = Cat(name: "Oscar", skin: "oscar", mood: "happy", weight: 120, inWorld: world)
-        oscar.printInfo()
+        oscar = Cat(name: "Oscar", skin: "oscar", mood: "happy", weight: 120, inWorld: world)
+        oscar!.printInfo()
         
         self.addChild(CatSelect(inScene: self))
         
-        oscar.addActivity(oscar.flyTo(CGPoint(x: world.floor.frame.midX, y: world.floor.frame.midY)), priority: 1)
+        oscar!.addActivity(oscar!.flyTo(CGPoint(x: world.floor.frame.midX, y: world.floor.frame.midY)), priority: 1)
         
         
     
@@ -39,6 +34,6 @@ class GameScene: SKScene {
     }
    
     override func update(currentTime: CFTimeInterval) {
-        
+        oscar!.update()
     }
 }

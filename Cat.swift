@@ -70,7 +70,6 @@ public class Cat {
         self.deathday = NSDate(timeInterval: daysAlive*3600*24, sinceDate: birthday)
         self.lifespan = daysAlive
         self.sprite.setScale(46/9)
-//        let birth = Activity(action: SKAction.scaleBy(46/9, duration: 0.24), priority: 0)
         self.todoQueue = PriorityQueue(ascending: true, startingValues: [])
         self.familyNode = TreeNode(value: self)
     
@@ -84,22 +83,8 @@ public class Cat {
         trackAge()
         
         sprite.pressAction = {
-            self.printInfo()
-//            if !self.isFocusedOn {
-//                let zoomIn = SKAction.scaleTo(0.6, duration: 0.7, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0)
-//                let findCat = SKAction.moveTo(self.sprite.position, duration: 0.3)
-//                self.world.camera!.runAction(SKAction.group([zoomIn,findCat]), completion: {
-//                    self.isFocusedOn = true
-//                })
-//            } else {
-//                let zoomNorm = SKAction.scaleTo(1, duration: 0.3)
-//                zoomNorm.timingMode = .EaseOut
-//                let center = CGPoint(x: self.scene.frame.midX, y: self.scene.frame.midY)
-//                let centerCam = SKAction.moveTo(center, duration: 0.3)
-//                self.scene.camera!.runAction(SKAction.group([zoomNorm,centerCam]), completion: {
-//                    self.isFocusedOn = false
-//                })
-//            }
+//            self.printInfo()
+            self.toggleFocus()
             
         }
     }
@@ -110,12 +95,12 @@ public class Cat {
             let secondsAged = NSDate().timeIntervalSinceDate(birthday)
             age = secondsAged/86400
             
-            if (lifespan-age <= 0) {
+            if (lifespan-age <= 0 && todoQueue.isEmpty && !isBusy) {
                 die()
             }
             
             // cats are kittens for 1 year out of their lives (about 1/15 of their lifetime)
-            if (isKitten && age >= lifespan/60 && todoQueue.isEmpty && !isBusy) {
+            if (isKitten && age >= lifespan/15 && todoQueue.isEmpty && !isBusy) {
                 pube()
             }
         }
@@ -355,6 +340,76 @@ public class Cat {
             return skin+"_kitten"
         } else {
             return skin
+        }
+    }
+    
+    func toggleFocus() {
+        if !isFocusedOn {
+            print("focusing")
+            isFocusedOn = true
+           
+//            let zoomIn = SKAction.scaleTo(0.6, duration: 0.7, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0)
+//            let findCat = SKAction.moveTo(self.sprite.position, duration: 0.3)
+//            self.world.camera.runAction(SKAction.group([zoomIn,findCat]), completion: {
+//                self.isFocusedOn = true
+//            })
+        } else {
+            print("unfocusing")
+            isFocusedOn = false
+            
+//            let zoomNorm = SKAction.scaleTo(1, duration: 0.3)
+//            zoomNorm.timingMode = .EaseOut
+//            let center = CGPoint(x: self.scene.frame.midX, y: self.scene.frame.midY)
+//            let centerCam = SKAction.moveTo(center, duration: 0.3)
+//            self.scene.camera!.runAction(SKAction.group([zoomNorm,centerCam]), completion: {
+//                self.isFocusedOn = false
+//            })
+        }
+    }
+    
+    func update() {
+        if isFocusedOn {
+            if world.camera.xScale != 0.7 {
+                // zoom in
+                if world.cameraIsZooming == false {
+                    world.cameraIsZooming = true
+                    let zoom = SKAction.scaleTo(0.7, duration: 1.1, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0)
+                    world.camera.runAction(zoom, completion: {
+                        self.world.cameraIsZooming = false
+                    })
+                }
+                
+            }
+            if world.camera.position != sprite.position {
+                // pan
+                let pan = SKAction.moveTo(sprite.position, duration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0)
+                world.camera.runAction(pan)
+            }
+        } else {
+            if world.camera.xScale != 1 {
+                // zoom out
+//                if world.cameraIsZooming == false {
+//                    world.camera.removeAllActions()
+//                    world.cameraIsZooming = true
+                    let zoomNorm = SKAction.scaleTo(1, duration: 0.3)
+                    zoomNorm.timingMode = .EaseOut
+                    world.camera.runAction(zoomNorm, completion: {
+//                        self.world.cameraIsZooming = false
+                    })
+//                }
+            }
+            if world.camera.position != CGPoint(x: world.scene!.frame.midX, y: world.scene!.frame.midY) {
+                // pan to center
+//                if world.cameraIsPanning == false {
+//                    print("hey")
+//                    world.cameraIsPanning = true
+                    let center = CGPoint(x: world.scene!.frame.midX, y: world.scene!.frame.midY)
+                    let centerCam = SKAction.moveTo(center, duration: 0.2)
+                    world.camera.runAction(centerCam, completion: {
+//                        self.world.cameraIsPanning = false
+                    })
+//                }
+            }
         }
     }
     
