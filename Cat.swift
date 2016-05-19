@@ -302,6 +302,7 @@ public class Cat {
     }
     
     func die() {
+        isFocusedOn = false
         isBusy = true
         isAlive = false
         let flip = SKAction.rotateByAngle(3.14, duration: 1)
@@ -387,34 +388,37 @@ public class Cat {
     }
     
     func update() {
-        if isFocusedOn {
-            if world.camera.xScale != 0.7 {
-                // zoom in
-                if world.cameraIsZooming == false {
-                    world.cameraIsZooming = true
-                    let zoom = SKAction.scaleTo(0.7, duration: 1.1, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0)
-                    world.camera.runAction(zoom, completion: {
-                        self.world.cameraIsZooming = false
-                    })
+        if isAlive {
+            if isFocusedOn {
+                if world.camera.xScale != 0.7 {
+                    // zoom in
+                    if world.cameraIsZooming == false {
+                        world.cameraIsZooming = true
+                        let zoom = SKAction.scaleTo(0.7, duration: 1.1, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0)
+                        world.camera.runAction(zoom, completion: {
+                            self.world.cameraIsZooming = false
+                        })
+                    }
+                    
                 }
-                
+                if world.camera.position != CGPoint(x: sprite.position.x, y: sprite.frame.midY) {
+                    // pan
+                    let pan = SKAction.moveTo(CGPoint(x: sprite.position.x, y: sprite.frame.midY), duration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0)
+                    world.camera.runAction(pan)
+                }
+            } else {
+                if world.camera.xScale != 1 {
+                    let zoomNorm = SKAction.scaleTo(1, duration: 0.3)
+                    zoomNorm.timingMode = .EaseOut
+                    world.camera.runAction(zoomNorm)
+                }
+                if world.camera.position != CGPoint(x: world.scene!.frame.midX, y: world.scene!.frame.midY) {
+                    let center = CGPoint(x: world.scene!.frame.midX, y: world.scene!.frame.midY)
+                    let centerCam = SKAction.moveTo(center, duration: 0.2)
+                    world.camera.runAction(centerCam)
+                }
             }
-            if world.camera.position != CGPoint(x: sprite.position.x, y: sprite.frame.midY) {
-                // pan
-                let pan = SKAction.moveTo(CGPoint(x: sprite.position.x, y: sprite.frame.midY), duration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0)
-                world.camera.runAction(pan)
-            }
-        } else {
-            if world.camera.xScale != 1 {
-                let zoomNorm = SKAction.scaleTo(1, duration: 0.3)
-                zoomNorm.timingMode = .EaseOut
-                world.camera.runAction(zoomNorm)
-            }
-            if world.camera.position != CGPoint(x: world.scene!.frame.midX, y: world.scene!.frame.midY) {
-                let center = CGPoint(x: world.scene!.frame.midX, y: world.scene!.frame.midY)
-                let centerCam = SKAction.moveTo(center, duration: 0.2)
-                world.camera.runAction(centerCam)
-            }
+ 
         }
     }
     

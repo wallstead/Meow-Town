@@ -11,8 +11,9 @@ import SpriteKit
 
 class HUD: SKNode {
     
-    var menuIsAnimating = false
+    var hudIsAnimating = false
     var itemPanelOpen = false
+    var menuPanelOpen = false
     
     init(inCamera camera: SKCameraNode) {
         
@@ -38,21 +39,71 @@ class HUD: SKNode {
         itemPanel.zPosition = 900
         itemPanel.position.y = topBar.frame.minY+(itemPanel.frame.height/2) // -> topBar.frame.minY-(itemPanel.frame.height/2)
         
+        let menuPanel = SKPixelSpriteNode(textureName: "topbar_menupanel", pressAction: {})
+        menuPanel.setScale(46/18)
+        menuPanel.zPosition = 901
+        menuPanel.position.y = topBar.frame.minY+(menuPanel.frame.height/2) // -> topBar.frame.minY-(itemPanel.frame.height/2)
+        
         itemsButton.action = {
-            if !self.menuIsAnimating {
-                self.menuIsAnimating = true
+            if !self.hudIsAnimating {
+                self.hudIsAnimating = true
+                
+                func toggle() {
+                    if self.itemPanelOpen {
+                        itemPanel.runAction(SKAction.moveTo(CGPoint(x: itemPanel.position.x, y: topBar.frame.minY+(itemPanel.frame.height/2)), duration: 0.1), completion: {
+                            self.hudIsAnimating = false
+                            self.itemPanelOpen = false
+                        })
+                    } else {
+                        itemPanel.runAction(SKAction.moveTo(CGPoint(x: itemPanel.position.x, y: topBar.frame.minY-(itemPanel.frame.height/2)), duration: 0.1), completion: {
+                            self.hudIsAnimating = false
+                            self.itemPanelOpen = true
+                        })
+                    }
+                }
+                
+                if self.menuPanelOpen {
+                    menuPanel.runAction(SKAction.moveTo(CGPoint(x: menuPanel.position.x, y: topBar.frame.minY+(menuPanel.frame.height/2)), duration: 0.25), completion: {
+                        self.hudIsAnimating = false
+                        self.menuPanelOpen = false
+                        toggle()
+                    })
+                } else {
+                    toggle()
+                }
+
+                
+            }
+        }
+        
+        menuButton.action = {
+            if !self.hudIsAnimating {
+                self.hudIsAnimating = true
+                
+                func toggle() {
+                    if self.menuPanelOpen {
+                        menuPanel.runAction(SKAction.moveTo(CGPoint(x: menuPanel.position.x, y: topBar.frame.minY+(menuPanel.frame.height/2)), duration: 0.25), completion: {
+                            self.hudIsAnimating = false
+                            self.menuPanelOpen = false
+                        })
+                    } else {
+                        menuPanel.runAction(SKAction.moveTo(CGPoint(x: menuPanel.position.x, y: topBar.frame.minY-(menuPanel.frame.height/2)), duration: 0.25), completion: {
+                            self.hudIsAnimating = false
+                            self.menuPanelOpen = true
+                        })
+                    }
+                }
                 
                 if self.itemPanelOpen {
                     itemPanel.runAction(SKAction.moveTo(CGPoint(x: itemPanel.position.x, y: topBar.frame.minY+(itemPanel.frame.height/2)), duration: 0.1), completion: {
-                        self.menuIsAnimating = false
+                        self.hudIsAnimating = false
                         self.itemPanelOpen = false
+                        toggle()
                     })
                 } else {
-                    itemPanel.runAction(SKAction.moveTo(CGPoint(x: itemPanel.position.x, y: topBar.frame.minY-(itemPanel.frame.height/2)), duration: 0.1), completion: {
-                        self.menuIsAnimating = false
-                        self.itemPanelOpen = true
-                    })
+                    toggle()
                 }
+                
                 
             }
         }
@@ -61,6 +112,7 @@ class HUD: SKNode {
         self.addChild(menuButton)
         self.addChild(itemsButton)
         self.addChild(itemPanel)
+        self.addChild(menuPanel)
     }
     
     required init?(coder aDecoder: NSCoder) {
