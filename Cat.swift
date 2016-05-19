@@ -45,11 +45,13 @@ public class Cat {
     
     var isBusy = false
     var isAlive = true
+    var isFocusing = false
     var isFocusedOn = false
     var isKitten = true
     
     init(name: String, skin: String, mood: String, weight: Float, inWorld: World) {
         self.world = inWorld;
+        
         // 0.04166666667 = 1 hour in real time
         // 0.01041666667 = 15 minutes in real time
         // 0.003472222223 = 5 minutes in real time
@@ -65,6 +67,7 @@ public class Cat {
         self.sprite.zPosition = 100
         self.sprite.position = CGPoint(x: self.world.frame.midX, y: self.world.frame.midY)
         self.sprite.userInteractionEnabled = true
+        self.sprite.anchorPoint = CGPoint(x: 0.5, y: 0)
         self.world.addChild(self.sprite)
         self.birthday = NSDate()
         self.deathday = NSDate(timeInterval: daysAlive*3600*24, sinceDate: birthday)
@@ -72,6 +75,8 @@ public class Cat {
         self.sprite.setScale(46/9)
         self.todoQueue = PriorityQueue(ascending: true, startingValues: [])
         self.familyNode = TreeNode(value: self)
+        
+        self.world.cats.append(self)
     
         // TODO: find a better way to keep internal clock
         sprite.runAction(SKAction.repeatActionForever(SKAction.sequence([SKAction.runBlock({
@@ -83,10 +88,10 @@ public class Cat {
         trackAge()
         
         sprite.pressAction = {
-//            self.printInfo()
+            self.printInfo()
             self.toggleFocus()
-            
         }
+        
     }
     
     func trackAge() {
@@ -146,7 +151,7 @@ public class Cat {
         let multiplier = pow(10.0, numberOfPlaces)
         
         print("-------- Cat Info -------")
-        print("name: \(name.firstName)")
+        print("name: \(name.firstName!)")
         print("skin: \(skin)")
         print("mood: \(mood)")
         print("age: \(round(age * multiplier) / multiplier) years")
@@ -160,6 +165,7 @@ public class Cat {
         print("weight: \(weight) lbs")
         print("birthday: \(simpleBirthDay)")
         print("deathday: \(simpleDeathDay)")
+        print("todo count: \(todoQueue.count)")
     }
     
     
@@ -180,7 +186,9 @@ public class Cat {
         cropped2.alpha = 0
         
         let kittenCropNode = SKCropNode()
-        kittenCropNode.maskNode = SKPixelSpriteNode(textureName: self.skin+"_kitten", pressAction: {})
+        let kittenmask = SKPixelSpriteNode(textureName: self.skin+"_kitten", pressAction: {})
+        kittenmask.anchorPoint = CGPoint(x: 0.5, y: 0)
+        kittenCropNode.maskNode = kittenmask
         kittenCropNode.xScale = self.sprite.xScale
         kittenCropNode.yScale = self.sprite.yScale
         kittenCropNode.zPosition = 802
@@ -189,7 +197,9 @@ public class Cat {
         kittenCropNode.alpha = 1
         
         let grownCatCropNode = SKCropNode()
-        grownCatCropNode.maskNode = SKPixelSpriteNode(textureName: self.skin, pressAction: {})
+        let grownCatmask = SKPixelSpriteNode(textureName: self.skin, pressAction: {})
+        grownCatmask.anchorPoint = CGPoint(x: 0.5, y: 0)
+        grownCatCropNode.maskNode = grownCatmask
         grownCatCropNode.xScale = 0
         grownCatCropNode.yScale = 0
         grownCatCropNode.zPosition = 802
@@ -243,8 +253,7 @@ public class Cat {
                 func presentCat(size: CGSize) {
                     self.sprite.zPosition = 801;
                     self.isKitten = false
-                    self.sprite.changeTextureTo(self.currentSkin())
-//                    
+                    self.sprite.changeTextureTo(self.currentSkin())         
                     
                     cropped1.runAction(SKAction.fadeOutWithDuration(0.57))
                     cropped2.runAction(SKAction.fadeOutWithDuration(0.57), completion: {
@@ -336,9 +345,17 @@ public class Cat {
     func prance() {
         /* Go to random point on floor */
         
-        let randomX = randomInRange(Int(CGRectGetMinX(world.floor.frame)+90), hi: Int(CGRectGetMaxX(world.floor.frame)-91))
+        let randomX: Int
+        let randomY: Int
+        if isKitten {
+            randomX = randomInRange(Int(CGRectGetMinX(world.floor.frame)+41), hi: Int(CGRectGetMaxX(world.floor.frame)-41))
+            randomY = randomInRange(Int(CGRectGetMinY(world.floor.frame)), hi: Int(CGRectGetMaxY(world.floor.frame)-26))// Int(CGRectGetMaxY(world.floor.frame)+15)
+        } else {
+            randomX = randomInRange(Int(CGRectGetMinX(world.floor.frame)+93), hi: Int(CGRectGetMaxX(world.floor.frame)-93))
+            randomY = randomInRange(Int(CGRectGetMinY(world.floor.frame)), hi: Int(CGRectGetMaxY(world.floor.frame)-31))
+        }
+        
         // y coordinate between MinY (top) and MidY (middle):
-        let randomY = randomInRange(Int(CGRectGetMinY(world.floor.frame)+57), hi: Int(CGRectGetMaxY(world.floor.frame)+15))
         let randomPoint = CGPoint(x: randomX, y: randomY)
         
         addActivity(flyTo(randomPoint), priority: 10)
@@ -354,12 +371,18 @@ public class Cat {
     }
     
     func toggleFocus() {
-        if !isFocusedOn {
-            print("focusing")
-            isFocusedOn = true
-        } else {
-            print("unfocusing")
-            isFocusedOn = false
+        if !isFocusing {
+            isFocusing = true
+            world.camera.runAction(SKAction.waitForDuration(0.7), completion: {
+                self.isFocusing = false
+            })
+            
+            if !isFocusedOn {
+                isFocusedOn = true
+                
+            } else {
+                isFocusedOn = false
+            }
         }
     }
     
@@ -376,9 +399,9 @@ public class Cat {
                 }
                 
             }
-            if world.camera.position != sprite.position {
+            if world.camera.position != CGPoint(x: sprite.position.x, y: sprite.frame.midY) {
                 // pan
-                let pan = SKAction.moveTo(sprite.position, duration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0)
+                let pan = SKAction.moveTo(CGPoint(x: sprite.position.x, y: sprite.frame.midY), duration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0)
                 world.camera.runAction(pan)
             }
         } else {

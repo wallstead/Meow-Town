@@ -9,24 +9,21 @@
 import SpriteKit
 
 class GameScene: SKScene {
-    var oscar: Cat?
+    var world: World!
     
     override func didMoveToView(view: SKView) {
         
+        world = World(inScene: self)
+        let catSelection = CatSelect(inScene: self)
         
-        let world = World(inScene: self)
         self.addChild(world)
+        self.addChild(catSelection)
         
-        oscar = Cat(name: "Oscar", skin: "oscar", mood: "happy", weight: 120, inWorld: world)
-        oscar!.printInfo()
+        let oscar = Cat(name: "Oscar", skin: "oscar", mood: "happy", weight: 120, inWorld: world)
+        oscar.printInfo()
+        oscar.addActivity(oscar.flyTo(CGPoint(x: world.floor.frame.midX, y: world.floor.frame.midY)), priority: 1)
         
-        self.addChild(CatSelect(inScene: self))
-        
-        oscar!.addActivity(oscar!.flyTo(CGPoint(x: world.floor.frame.midX, y: world.floor.frame.midY)), priority: 1)
-        
-        
-    
-                
+       
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -34,6 +31,6 @@ class GameScene: SKScene {
     }
    
     override func update(currentTime: CFTimeInterval) {
-        oscar!.update()
+        world.update()
     }
 }

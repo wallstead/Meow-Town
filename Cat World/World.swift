@@ -16,13 +16,14 @@ class World: SKNode {
     var cameraIsZooming = false
     var cameraIsPanning = false
     
+    var cats: [Cat] = []
+    
     init(inScene scene: SKScene) {
 
         camera = SKCameraNode()
         scene.camera = camera
         camera.position = CGPoint(x: scene.frame.midX, y: scene.frame.midY)
         camera.addChild(HUD(inCamera: camera))
-        
         
         wallpaper.setScale(46/9)
         wallpaper.zPosition = 0
@@ -68,7 +69,16 @@ class World: SKNode {
         scene.addChild(bottomFloor)
     }
     
+    func pause() {
+        
+    }
     
+    func update() {
+        // update all of the cats!
+        for cat in cats {
+            cat.update()
+        }
+    }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
