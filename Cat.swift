@@ -57,7 +57,7 @@ public class Cat {
         // 0.003472222223 = 5 minutes in real time
         // 0.0006944444446 = 1 minute in real time
         // 0.0003472222223 = 30 seconds in real time
-        let daysAlive = NSTimeInterval(0.003472222223)
+        let daysAlive = NSTimeInterval(0.04166666667)
         self.name.firstName = name
         self.name.lastName = "McTesterson"
         self.weight = 0.5
@@ -260,6 +260,7 @@ public class Cat {
                         tempBG.runAction(SKAction.fadeOutWithDuration(0.57), completion: {
                             self.sprite.zPosition = 100;
                             self.isBusy = false
+                            self.addActivity(self.flyTo(CGPoint(x: self.world.floor.frame.midX, y: self.world.floor.frame.midY)), priority: 0)
                             if !previouslyFocused { // unfocus if unfocused prior to puberty
                                 self.isFocusedOn = false
                             }

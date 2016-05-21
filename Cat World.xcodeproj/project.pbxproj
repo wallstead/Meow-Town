@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		433DA5EF1CBDDE9F009F1B36 /* SwiftPriorityQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433DA5EE1CBDDE9F009F1B36 /* SwiftPriorityQueue.swift */; };
 		433DA5F11CBEAA12009F1B36 /* SKPixel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433DA5F01CBEAA12009F1B36 /* SKPixel.swift */; };
+		4370837B1CEF8F1E009416EB /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4370837A1CEF8F1E009416EB /* Menu.swift */; };
+		4370837D1CEF94C8009416EB /* Items.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4370837C1CEF94C8009416EB /* Items.swift */; };
 		4381308D1CD3F1D400BC0102 /* Intro_mixdown.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4381308C1CD3F1D400BC0102 /* Intro_mixdown.mp3 */; };
 		439AD67C1CB7681500E1E018 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439AD67B1CB7681500E1E018 /* AppDelegate.swift */; };
 		439AD67E1CB7681500E1E018 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 439AD67D1CB7681500E1E018 /* GameScene.sks */; };
@@ -57,6 +59,8 @@
 /* Begin PBXFileReference section */
 		433DA5EE1CBDDE9F009F1B36 /* SwiftPriorityQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftPriorityQueue.swift; sourceTree = "<group>"; };
 		433DA5F01CBEAA12009F1B36 /* SKPixel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKPixel.swift; sourceTree = "<group>"; };
+		4370837A1CEF8F1E009416EB /* Menu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Menu.swift; sourceTree = "<group>"; };
+		4370837C1CEF94C8009416EB /* Items.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Items.swift; sourceTree = "<group>"; };
 		4381308C1CD3F1D400BC0102 /* Intro_mixdown.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Intro_mixdown.mp3; sourceTree = "<group>"; };
 		439AD6781CB7681500E1E018 /* Cat World.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Cat World.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		439AD67B1CB7681500E1E018 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -146,6 +150,8 @@
 				439AD6AD1CB7683700E1E018 /* Cat.swift */,
 				43FD71481CD41CAA0058DFBA /* World.swift */,
 				43FD714A1CD41E7A0058DFBA /* HUD.swift */,
+				4370837A1CEF8F1E009416EB /* Menu.swift */,
+				4370837C1CEF94C8009416EB /* Items.swift */,
 				43D159741CC1579D001DB5BD /* CatSelect.swift */,
 				433DA5F01CBEAA12009F1B36 /* SKPixel.swift */,
 				439AD6B31CB7737D00E1E018 /* Int+Extensions.swift */,
@@ -330,9 +336,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4370837B1CEF8F1E009416EB /* Menu.swift in Sources */,
 				43D159751CC1579D001DB5BD /* CatSelect.swift in Sources */,
 				433DA5EF1CBDDE9F009F1B36 /* SwiftPriorityQueue.swift in Sources */,
 				433DA5F11CBEAA12009F1B36 /* SKPixel.swift in Sources */,
+				4370837D1CEF94C8009416EB /* Items.swift in Sources */,
 				439AD6B01CB7726200E1E018 /* Tree.swift in Sources */,
 				43D852831CC8A260005BB46D /* SpriteKit-Spring.swift in Sources */,
 				439AD6AE1CB7683700E1E018 /* Cat.swift in Sources */,
