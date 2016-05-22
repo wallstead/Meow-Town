@@ -14,11 +14,13 @@ class Menu: SKNode {
     var menuPanel: SKPixelSpriteNode
     let hud: HUD
     var isOpen: Bool
+    var currentDepth: Int
     
     init(inHUD hud: HUD) {
         self.hud = hud
         
         isOpen = false
+        currentDepth = 0
         
         menuPanel = SKPixelSpriteNode(textureName: "topbar_menupanel", pressAction: {})
         menuPanel.setScale(46/18)
@@ -31,13 +33,30 @@ class Menu: SKNode {
             print("settings")
         })
         settingsButton.zPosition = 1
-        settingsButton.position = convertPoint(CGPoint(x: menuPanel.frame.minX,
-                                                       y: menuPanel.frame.maxY), toNode: menuPanel)
-        settingsButton.position.x += settingsButton.frame.width/2
-        settingsButton.position.y -= settingsButton.frame.height/2
+        settingsButton.position = pointRelativeToCamera(CGPoint(x: menuPanel.frame.minX, y: menuPanel.frame.maxY),
+                                                        xOffset: settingsButton.frame.width/2,
+                                                        yOffset: -settingsButton.frame.height/2)
+        
+        let infoButton = SKPixelButtonNode(buttonImage: "topbar_menupanel_infobutton", buttonText: nil, buttonAction: {
+            print("info")
+        })
+        infoButton.zPosition = 1
+        infoButton.position = pointRelativeToCamera(CGPoint(x: menuPanel.frame.midX, y: menuPanel.frame.maxY),
+                                                        xOffset: 0,
+                                                        yOffset: -infoButton.frame.height/2)
+        
+        let iapButton = SKPixelButtonNode(buttonImage: "topbar_menupanel_iapbutton", buttonText: nil, buttonAction: {
+            print("iap")
+        })
+        iapButton.zPosition = 1
+        iapButton.position = pointRelativeToCamera(CGPoint(x: menuPanel.frame.maxX, y: menuPanel.frame.maxY),
+                                                    xOffset: -iapButton.frame.width/2,
+                                                    yOffset: -iapButton.frame.height/2)
         
         self.addChild(menuPanel)
         menuPanel.addChild(settingsButton)
+        menuPanel.addChild(infoButton)
+        menuPanel.addChild(iapButton)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -68,5 +87,13 @@ class Menu: SKNode {
             self.isOpen = false
             self.hud.hudIsAnimating = false
         })
+    }
+    
+    func pointRelativeToCamera(point: CGPoint, xOffset: CGFloat, yOffset: CGFloat ) -> CGPoint {
+        var newPoint = convertPoint(point, toNode: menuPanel)
+        newPoint.x += xOffset
+        newPoint.y += yOffset
+        
+        return newPoint
     }
 }
