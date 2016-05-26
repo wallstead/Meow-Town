@@ -86,13 +86,8 @@ class Menu: SKNode {
             nextButton.position = pointRelativeToCamera(CGPoint(x: menuPanel.frame.midX, y: menuPanel.frame.maxY-115-CGFloat(index*95)),
                                                         xOffset: 0,
                                                         yOffset: 0)
-            print(index)
             menuPanel.addChild(nextButton)
         }
-        
-        
-        
-        
     }
     
     func open() {

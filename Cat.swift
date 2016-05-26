@@ -9,24 +9,6 @@
 import Foundation
 import SpriteKit
 
-class Activity: Comparable {
-    let action: SKAction
-    let priority: Int
-    
-    init(action: SKAction, priority: Int) {
-        self.action = action
-        self.priority = priority
-    }
-}
-
-func < (lhs: Activity, rhs: Activity) -> Bool {
-    return lhs.priority < rhs.priority
-}
-
-func == (lhs: Activity, rhs: Activity) -> Bool {
-    return lhs.priority == rhs.priority
-}
-
 public class Cat {
     
     var name: (firstName: String?, lastName: String?)
@@ -40,7 +22,6 @@ public class Cat {
     
     let world: World
     let sprite: SKPixelSpriteNode
-    var familyNode: TreeNode<Cat>?
     var todoQueue: PriorityQueue<Activity>
     
     var isBusy = false
@@ -74,7 +55,6 @@ public class Cat {
         self.lifespan = daysAlive
         self.sprite.setScale(46/9)
         self.todoQueue = PriorityQueue(ascending: true, startingValues: [])
-        self.familyNode = TreeNode(value: self)
         
         self.world.cats.append(self)
     
@@ -120,9 +100,6 @@ public class Cat {
                         self.todoQueue.pop()
                         self.isBusy = false
                     })
-//                    if self.isFocusedOn {
-//                        self.scene.camera?.runAction(action)
-//                    }
                 } else { print("\(self.name) has things to do but cannot do them.") }
             } else if todoQueue.isEmpty && !isBusy {
                 let randomNumber = randomPercent()
@@ -131,7 +108,7 @@ public class Cat {
                 case 0..<50:
                     prance()
                 default:
-                    print("You dont move around")
+                    print("")
                 }
 
             }
@@ -423,10 +400,4 @@ public class Cat {
         }
     }
     
-}
-
-extension Cat: CustomStringConvertible {
-    public var description: String {
-        return name.firstName! + " " + name.lastName!
-    }
 }

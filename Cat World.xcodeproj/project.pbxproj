@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		433DA5EF1CBDDE9F009F1B36 /* SwiftPriorityQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433DA5EE1CBDDE9F009F1B36 /* SwiftPriorityQueue.swift */; };
 		433DA5F11CBEAA12009F1B36 /* SKPixel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433DA5F01CBEAA12009F1B36 /* SKPixel.swift */; };
+		4345CD981CF77692003BA6D4 /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4345CD971CF77692003BA6D4 /* Activity.swift */; };
 		4370837B1CEF8F1E009416EB /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4370837A1CEF8F1E009416EB /* Menu.swift */; };
 		4370837D1CEF94C8009416EB /* Items.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4370837C1CEF94C8009416EB /* Items.swift */; };
 		4381308D1CD3F1D400BC0102 /* Intro_mixdown.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4381308C1CD3F1D400BC0102 /* Intro_mixdown.mp3 */; };
@@ -22,7 +23,6 @@
 		439AD6951CB7681500E1E018 /* Cat_WorldTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439AD6941CB7681500E1E018 /* Cat_WorldTests.swift */; };
 		439AD6A01CB7681500E1E018 /* Cat_WorldUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439AD69F1CB7681500E1E018 /* Cat_WorldUITests.swift */; };
 		439AD6AE1CB7683700E1E018 /* Cat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439AD6AD1CB7683700E1E018 /* Cat.swift */; };
-		439AD6B01CB7726200E1E018 /* Tree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439AD6AF1CB7726200E1E018 /* Tree.swift */; };
 		439AD6B41CB7737D00E1E018 /* Int+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439AD6B31CB7737D00E1E018 /* Int+Extensions.swift */; };
 		43D159751CC1579D001DB5BD /* CatSelect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D159741CC1579D001DB5BD /* CatSelect.swift */; };
 		43D852831CC8A260005BB46D /* SpriteKit-Spring.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D852821CC8A260005BB46D /* SpriteKit-Spring.swift */; };
@@ -59,6 +59,7 @@
 /* Begin PBXFileReference section */
 		433DA5EE1CBDDE9F009F1B36 /* SwiftPriorityQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftPriorityQueue.swift; sourceTree = "<group>"; };
 		433DA5F01CBEAA12009F1B36 /* SKPixel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKPixel.swift; sourceTree = "<group>"; };
+		4345CD971CF77692003BA6D4 /* Activity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Activity.swift; sourceTree = "<group>"; };
 		4370837A1CEF8F1E009416EB /* Menu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Menu.swift; sourceTree = "<group>"; };
 		4370837C1CEF94C8009416EB /* Items.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Items.swift; sourceTree = "<group>"; };
 		4381308C1CD3F1D400BC0102 /* Intro_mixdown.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Intro_mixdown.mp3; sourceTree = "<group>"; };
@@ -78,7 +79,6 @@
 		439AD69F1CB7681500E1E018 /* Cat_WorldUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cat_WorldUITests.swift; sourceTree = "<group>"; };
 		439AD6A11CB7681500E1E018 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		439AD6AD1CB7683700E1E018 /* Cat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Cat.swift; path = ../Cat.swift; sourceTree = "<group>"; };
-		439AD6AF1CB7726200E1E018 /* Tree.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tree.swift; sourceTree = "<group>"; };
 		439AD6B31CB7737D00E1E018 /* Int+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Int+Extensions.swift"; sourceTree = "<group>"; };
 		43D159741CC1579D001DB5BD /* CatSelect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CatSelect.swift; sourceTree = "<group>"; };
 		43D852821CC8A260005BB46D /* SpriteKit-Spring.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SpriteKit-Spring.swift"; sourceTree = "<group>"; };
@@ -148,6 +148,7 @@
 				439AD67F1CB7681500E1E018 /* GameScene.swift */,
 				439AD6811CB7681500E1E018 /* GameViewController.swift */,
 				439AD6AD1CB7683700E1E018 /* Cat.swift */,
+				4345CD971CF77692003BA6D4 /* Activity.swift */,
 				43FD71481CD41CAA0058DFBA /* World.swift */,
 				43FD714A1CD41E7A0058DFBA /* HUD.swift */,
 				4370837A1CEF8F1E009416EB /* Menu.swift */,
@@ -155,7 +156,6 @@
 				43D159741CC1579D001DB5BD /* CatSelect.swift */,
 				433DA5F01CBEAA12009F1B36 /* SKPixel.swift */,
 				439AD6B31CB7737D00E1E018 /* Int+Extensions.swift */,
-				439AD6AF1CB7726200E1E018 /* Tree.swift */,
 				433DA5EE1CBDDE9F009F1B36 /* SwiftPriorityQueue.swift */,
 				43D852821CC8A260005BB46D /* SpriteKit-Spring.swift */,
 				439AD6831CB7681500E1E018 /* Main.storyboard */,
@@ -338,10 +338,10 @@
 			files = (
 				4370837B1CEF8F1E009416EB /* Menu.swift in Sources */,
 				43D159751CC1579D001DB5BD /* CatSelect.swift in Sources */,
+				4345CD981CF77692003BA6D4 /* Activity.swift in Sources */,
 				433DA5EF1CBDDE9F009F1B36 /* SwiftPriorityQueue.swift in Sources */,
 				433DA5F11CBEAA12009F1B36 /* SKPixel.swift in Sources */,
 				4370837D1CEF94C8009416EB /* Items.swift in Sources */,
-				439AD6B01CB7726200E1E018 /* Tree.swift in Sources */,
 				43D852831CC8A260005BB46D /* SpriteKit-Spring.swift in Sources */,
 				439AD6AE1CB7683700E1E018 /* Cat.swift in Sources */,
 				439AD6801CB7681500E1E018 /* GameScene.swift in Sources */,
