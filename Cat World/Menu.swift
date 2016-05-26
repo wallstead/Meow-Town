@@ -57,6 +57,8 @@ class Menu: SKNode {
         menuPanel.addChild(settingsButton)
         menuPanel.addChild(infoButton)
         menuPanel.addChild(iapButton)
+        
+        present(currentDepth)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -73,6 +75,24 @@ class Menu: SKNode {
         } else {
             open()
         }
+    }
+    
+    func present(depth: Int) {
+        for index in 0...5 {
+            let nextButton = SKPixelMenuButtonNode(buttonIcon: "red", UIType: "category", buttonText: String(index), buttonAction: {
+                
+            })
+            nextButton.zPosition = 1
+            nextButton.position = pointRelativeToCamera(CGPoint(x: menuPanel.frame.midX, y: menuPanel.frame.maxY-115-CGFloat(index*95)),
+                                                        xOffset: 0,
+                                                        yOffset: 0)
+            print(index)
+            menuPanel.addChild(nextButton)
+        }
+        
+        
+        
+        
     }
     
     func open() {
