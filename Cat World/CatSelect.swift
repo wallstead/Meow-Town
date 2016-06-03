@@ -11,25 +11,36 @@ import SpriteKit
 
 class CatSelect: SKNode {
     var isShiftingCats = false
+    var catSpriteArray: [SKPixelSpriteNode] = []
+    let leftButton: SKPixelButtonNode
+    let rightButton: SKPixelButtonNode
+    var currentCatSprite: SKPixelSpriteNode
+    let circleCropNode: SKCropNode
     
     init(inScene scene: SKScene) {
         let background = SKPixelSpriteNode(textureName: "catselect_bg", pressAction: {})
         let backgroundMusic = SKAudioNode(fileNamed: "mathgrant_calm.mp3")
         backgroundMusic.positional = false
         
+        // TODO: load list of cats and populate array here
+        catSpriteArray.append(SKPixelSpriteNode(textureName: "oscar", pressAction: {}))
+        catSpriteArray.append(SKPixelSpriteNode(textureName: "oscar_kitten", pressAction: {}))
+        catSpriteArray.append(SKPixelSpriteNode(textureName: "delphi", pressAction: {}))
+        
+        currentCatSprite = catSpriteArray[0]
+        
         let titleBar = SKPixelSpriteNode(textureName: "catselect_titlebar", pressAction: {})
         let circleBackground = SKPixelSpriteNode(textureName: "catselect_circle", pressAction: {})
         
-        let catForDisplay = SKPixelSpriteNode(textureName: "oscar", pressAction: {})
-        let catForDisplay2 = SKPixelSpriteNode(textureName: "oscar_kitten", pressAction: {})
-        catForDisplay2.position = CGPoint(x: 55, y: 0)
+//        let catForDisplay = currentCatSprite
+//        catForDisplay2.position = CGPoint(x: 55, y: 0)
 
-        let leftButton = SKPixelButtonNode(buttonImage: "catselect_arrow", buttonText: nil, buttonAction: {})
-        let rightButton = SKPixelButtonNode(buttonImage: "catselect_arrow", buttonText: nil, buttonAction: {})
+        leftButton = SKPixelButtonNode(buttonImage: "catselect_arrow", buttonText: nil, buttonAction: {})
+        rightButton = SKPixelButtonNode(buttonImage: "catselect_arrow", buttonText: nil, buttonAction: {})
         rightButton.xScale = -1
         let doneButton = SKPixelButtonNode(buttonImage: "catselect_done", buttonText: "Done", buttonAction: {})
         
-        let circleCropNode = SKCropNode()
+        circleCropNode = SKCropNode()
         circleCropNode.maskNode = SKPixelSpriteNode(textureName: "catselect_circle_mask", pressAction: {})
         
         let title = SKLabelNode(fontNamed: "Fipps-Regular")
@@ -46,7 +57,6 @@ class CatSelect: SKNode {
         description.fontColor = SKColor(red: 50/255, green: 50/255, blue: 50/255, alpha: 1)
         description.verticalAlignmentMode = .Center
         description.alpha = 0
-        
         
         super.init()
         self.position = CGPoint(x: scene.frame.midX, y: scene.frame.midY)
@@ -65,25 +75,30 @@ class CatSelect: SKNode {
         leftButton.action = {
             print("left")
             if !self.isShiftingCats {
-                catForDisplay.runAction(self.shift(left: false))
-                catForDisplay2.runAction(self.shift(left: false), completion: {
-                    self.isShiftingCats = false;
-                })
+                self.isShiftingCats = true
+                
+                self.currentCatSprite = self.catSpriteArray[self.catSpriteArray.indexOf(self.currentCatSprite)!-1]
+                self.updateButtons()
+                for cat in self.catSpriteArray {
+                    cat.runAction(self.shift(left: false), completion: {
+                        self.isShiftingCats = false
+                    })
+                }
             }
-            
         }
-        
-        
         
         rightButton.action = {
             print("right")
             if !self.isShiftingCats {
-                catForDisplay.runAction(self.shift(left: true))
-                catForDisplay2.runAction(self.shift(left: true), completion: {
-                    self.isShiftingCats = false;
-                })
+                self.isShiftingCats = true
+                self.currentCatSprite = self.catSpriteArray[self.catSpriteArray.indexOf(self.currentCatSprite)!+1]
+                self.updateButtons()
+                for cat in self.catSpriteArray {
+                    cat.runAction(self.shift(left: true), completion: {
+                        self.isShiftingCats = false
+                    })
+                }
             }
-            
         }
         
         doneButton.action = {
@@ -109,8 +124,7 @@ class CatSelect: SKNode {
         self.addChild(title)
         self.addChild(backgroundMusic)
         
-        circleCropNode.addChild(catForDisplay)
-        circleCropNode.addChild(catForDisplay2)
+//        circleCropNode.addChild(catForDisplay)
         
         
         let displayDescription = SKAction.group([SKAction.fadeInWithDuration(0.7),
@@ -118,11 +132,36 @@ class CatSelect: SKNode {
         displayDescription.timingMode = .EaseOut
         description.runAction(displayDescription)
         
-      
+        displayCats()
+        updateButtons()
+    }
+    
+    func displayCats() { // display all cats in a single row for moving through
+        for cat in catSpriteArray {
+            cat.position = CGPoint(x: 0+(catSpriteArray.indexOf(cat)!*55), y: 0)
+            circleCropNode.addChild(cat)
+        }
+    }
+    
+    func updateButtons() {
+        
+        if catSpriteArray.indexOf(currentCatSprite) == 0 { // if displaying first cat, disable left
+            leftButton.userInteractionEnabled = false
+            rightButton.userInteractionEnabled = true
+            leftButton.runAction(SKAction.fadeAlphaTo(0.5, duration: 0.2))
+        } else if catSpriteArray.indexOf(currentCatSprite) == catSpriteArray.count-1 { // if displaying last cat, disable right
+            leftButton.userInteractionEnabled = true
+            rightButton.userInteractionEnabled = false
+            rightButton.runAction(SKAction.fadeAlphaTo(0.5, duration: 0.2))
+        } else {// if neither, display both
+            leftButton.userInteractionEnabled = true
+            rightButton.userInteractionEnabled = true
+            leftButton.runAction(SKAction.fadeAlphaTo(1, duration: 0.2))
+            rightButton.runAction(SKAction.fadeAlphaTo(1, duration: 0.2))
+        }
     }
     
     func shift(left left: Bool) -> SKAction {
-        isShiftingCats = true
         var multiplier: CGFloat = 1
         if left {
             multiplier = -1

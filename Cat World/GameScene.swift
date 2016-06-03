@@ -19,15 +19,15 @@ class GameScene: SKScene {
         self.addChild(world)
         
         
-        let oscar = Cat(name: "Oscar", skin: "oscar", mood: "happy", weight: 120, inWorld: world)
-        oscar.addActivity(oscar.flyTo(CGPoint(x: world.floor.frame.midX, y: world.floor.frame.midY)), priority: 1)
-        
+//        let oscar = Cat(name: "Oscar", skin: "oscar", mood: "happy", weight: 120, inWorld: world)
+//        oscar.addActivity(oscar.flyTo(CGPoint(x: world.floor.frame.midX, y: world.floor.frame.midY)), priority: 1)
+//        
        
     }
     
-    internal func displayCatSelection() {
-        let catSelection = CatSelect(inScene: self)
-        self.addChild(catSelection)
+    class func displayCatSelection(inScene scene: SKScene) {
+        let catSelection = CatSelect(inScene: scene)
+        scene.addChild(catSelection)
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {

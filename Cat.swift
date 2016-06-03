@@ -55,7 +55,6 @@ public class Cat {
         self.lifespan = daysAlive
         self.sprite.setScale(46/9)
         self.todoQueue = PriorityQueue(ascending: true, startingValues: [])
-        
         self.world.cats.append(self)
     
         // TODO: find a better way to keep internal clock
@@ -75,7 +74,6 @@ public class Cat {
     }
     
     func trackAge() {
-        
         if isAlive {
             let secondsAged = NSDate().timeIntervalSinceDate(birthday)
             age = secondsAged/86400
@@ -149,17 +147,17 @@ public class Cat {
     func pube() {
         isBusy = true
         /* cover non-ui parts with black */
-        let tempBG = SKSpriteNode(color: SKColor.blackColor(), size: CGSize(width: world.wallpaper.size.width*2, height: world.wallpaper.size.height*2))
-        tempBG.position = world.wallpaper.position
+        let tempBG = SKSpriteNode(color: SKColor.blackColor(), size: CGSize(width: world.wallpaper!.size.width*2, height: world.wallpaper!.size.height*2))
+        tempBG.position = world.wallpaper!.position
         tempBG.zPosition = 800
         tempBG.alpha = 0
         sprite.zPosition = 801
         
         world.addChild(tempBG)
         
-        let cropped1 = SKSpriteNode(color: SKColor.whiteColor(), size: self.world.wallpaper.size)
+        let cropped1 = SKSpriteNode(color: SKColor.whiteColor(), size: self.world.wallpaper!.size)
         cropped1.alpha = 0
-        let cropped2 = SKSpriteNode(color: SKColor.whiteColor(), size: self.world.wallpaper.size)
+        let cropped2 = SKSpriteNode(color: SKColor.whiteColor(), size: self.world.wallpaper!.size)
         cropped2.alpha = 0
         
         let kittenCropNode = SKCropNode()
@@ -237,7 +235,7 @@ public class Cat {
                         tempBG.runAction(SKAction.fadeOutWithDuration(0.57), completion: {
                             self.sprite.zPosition = 100;
                             self.isBusy = false
-                            self.addActivity(self.flyTo(CGPoint(x: self.world.floor.frame.midX, y: self.world.floor.frame.midY)), priority: 0)
+                            self.addActivity(self.flyTo(CGPoint(x: self.world.floor!.frame.midX, y: self.world.floor!.frame.midY)), priority: 0)
                             if !previouslyFocused { // unfocus if unfocused prior to puberty
                                 self.isFocusedOn = false
                             }
@@ -327,11 +325,11 @@ public class Cat {
         let randomX: Int
         let randomY: Int
         if isKitten {
-            randomX = randomInRange(Int(CGRectGetMinX(world.floor.frame)+41), hi: Int(CGRectGetMaxX(world.floor.frame)-41))
-            randomY = randomInRange(Int(CGRectGetMinY(world.floor.frame)), hi: Int(CGRectGetMaxY(world.floor.frame)-26))// Int(CGRectGetMaxY(world.floor.frame)+15)
+            randomX = randomInRange(Int(CGRectGetMinX(world.floor!.frame)+41), hi: Int(CGRectGetMaxX(world.floor!.frame)-41))
+            randomY = randomInRange(Int(CGRectGetMinY(world.floor!.frame)), hi: Int(CGRectGetMaxY(world.floor!.frame)-26))// Int(CGRectGetMaxY(world.floor.frame)+15)
         } else {
-            randomX = randomInRange(Int(CGRectGetMinX(world.floor.frame)+93), hi: Int(CGRectGetMaxX(world.floor.frame)-93))
-            randomY = randomInRange(Int(CGRectGetMinY(world.floor.frame)), hi: Int(CGRectGetMaxY(world.floor.frame)-31))
+            randomX = randomInRange(Int(CGRectGetMinX(world.floor!.frame)+93), hi: Int(CGRectGetMaxX(world.floor!.frame)-93))
+            randomY = randomInRange(Int(CGRectGetMinY(world.floor!.frame)), hi: Int(CGRectGetMaxY(world.floor!.frame)-31))
         }
         
         // y coordinate between MinY (top) and MidY (middle):
