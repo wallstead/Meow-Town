@@ -17,6 +17,7 @@ class World: SKNode {
     
     var camera: SKCameraNode
     let parentScene: SKScene
+    var isDisplayingCatSelection = false
     
     var cats: [Cat] = []
     
@@ -100,13 +101,14 @@ class World: SKNode {
             print("No World Data")
             
             // TODO: make this display in a non-intrinsic way
-            
             GameScene.displayCatSelection(inScene: parentScene)
             
             if let bundle = NSBundle.mainBundle().pathForResource("DefaultWorldData", ofType: "plist") {
                 print("Copying New World Data From Default")
                 try! fileManager.copyItemAtPath(bundle, toPath: path)
             }
+        } else if fileManager.fileExistsAtPath(path) && cats.isEmpty {
+            GameScene.displayCatSelection(inScene: parentScene)
         }
         
         let data = NSDictionary(contentsOfFile: path)

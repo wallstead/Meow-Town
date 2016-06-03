@@ -9,13 +9,6 @@
 		<key>skin</key>
 		<string>oscar</string>
 	</dict>
-	<key>Oscar Kitten</key>
-	<dict>
-		<key>name</key>
-		<string>oscarette</string>
-		<key>skin</key>
-		<string>oscar_kitten</string>
-	</dict>
 	<key>Delphi</key>
 	<dict>
 		<key>name</key>
