@@ -22,10 +22,15 @@ class CatSelect: SKNode {
         let backgroundMusic = SKAudioNode(fileNamed: "mathgrant_calm.mp3")
         backgroundMusic.positional = false
         
-        // TODO: load list of cats and populate array here
-        catSpriteArray.append(SKPixelSpriteNode(textureName: "oscar", pressAction: {}))
-        catSpriteArray.append(SKPixelSpriteNode(textureName: "oscar_kitten", pressAction: {}))
-        catSpriteArray.append(SKPixelSpriteNode(textureName: "delphi", pressAction: {}))
+        var myDict: NSDictionary
+        if let path = NSBundle.mainBundle().pathForResource("Cats", ofType: "plist") {
+            myDict = NSDictionary(contentsOfFile: path)!
+            print(myDict.count)
+            for catData in myDict as NSDictionary {
+                let catSkin = catData.value.valueForKey("skin") as! String
+                catSpriteArray.append(SKPixelSpriteNode(textureName: catSkin, pressAction: {}))
+            }
+        }
         
         currentCatSprite = catSpriteArray[0]
         
