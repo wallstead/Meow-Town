@@ -8,5 +8,7 @@
 	<string>wallpaper</string>
 	<key>Floor</key>
 	<string>floor</string>
+	<key>Cats</key>
+	<array/>
 </dict>
 </plist>

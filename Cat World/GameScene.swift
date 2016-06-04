@@ -15,14 +15,7 @@ class GameScene: SKScene {
         
         world = World(inScene: self)
         
-        
         self.addChild(world)
-        
-        
-//        let oscar = Cat(name: "Oscar", skin: "oscar", mood: "happy", weight: 120, inWorld: world)
-//        oscar.addActivity(oscar.flyTo(CGPoint(x: world.floor.frame.midX, y: world.floor.frame.midY)), priority: 1)
-//        
-       
     }
     
     class func displayCatSelection(inScene scene: SKScene) {

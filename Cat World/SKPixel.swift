@@ -12,10 +12,12 @@ import SpriteKit
 
 
 class SKPixelSpriteNode: SKSpriteNode {
+    var textureName: String
     internal var pressAction: () -> Void
     
     init(textureName: String, pressAction: () -> Void) {
         let texture = SKTexture(imageNamed: textureName)
+        self.textureName = textureName
         texture.filteringMode = SKTextureFilteringMode.Nearest
         self.pressAction = pressAction
         super.init(texture: texture, color: UIColor.clearColor(), size: texture.size())

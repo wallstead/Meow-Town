@@ -36,9 +36,6 @@ class CatSelect: SKNode {
         
         let titleBar = SKPixelSpriteNode(textureName: "catselect_titlebar", pressAction: {})
         let circleBackground = SKPixelSpriteNode(textureName: "catselect_circle", pressAction: {})
-        
-//        let catForDisplay = currentCatSprite
-//        catForDisplay2.position = CGPoint(x: 55, y: 0)
 
         leftButton = SKPixelButtonNode(buttonImage: "catselect_arrow", buttonText: nil, buttonAction: {})
         rightButton = SKPixelButtonNode(buttonImage: "catselect_arrow", buttonText: nil, buttonAction: {})
@@ -78,7 +75,6 @@ class CatSelect: SKNode {
         title.zPosition = 6
         
         leftButton.action = {
-            print("left")
             if !self.isShiftingCats {
                 self.isShiftingCats = true
                 
@@ -93,7 +89,6 @@ class CatSelect: SKNode {
         }
         
         rightButton.action = {
-            print("right")
             if !self.isShiftingCats {
                 self.isShiftingCats = true
                 self.currentCatSprite = self.catSpriteArray[self.catSpriteArray.indexOf(self.currentCatSprite)!+1]
@@ -107,9 +102,10 @@ class CatSelect: SKNode {
         }
         
         doneButton.action = {
+            let currentGameScene = scene as! GameScene
+            currentGameScene.world.addCat(self.currentCatSprite.textureName)
             self.runAction(SKAction.fadeOutWithDuration(0.5))
         }
-        
         
         titleBar.position = CGPoint(x: background.frame.midX, y: background.frame.maxY-titleBar.frame.height/2)
         title.position = CGPoint(x: titleBar.frame.midX, y: titleBar.frame.midY)
@@ -128,9 +124,6 @@ class CatSelect: SKNode {
         self.addChild(doneButton)
         self.addChild(title)
         self.addChild(backgroundMusic)
-        
-//        circleCropNode.addChild(catForDisplay)
-        
         
         let displayDescription = SKAction.group([SKAction.fadeInWithDuration(0.7),
                                  SKAction.moveToY(circleBackground.frame.maxY+8, duration: 0.7)])
@@ -154,9 +147,11 @@ class CatSelect: SKNode {
             leftButton.userInteractionEnabled = false
             rightButton.userInteractionEnabled = true
             leftButton.runAction(SKAction.fadeAlphaTo(0.5, duration: 0.2))
+            rightButton.runAction(SKAction.fadeAlphaTo(1, duration: 0.2))
         } else if catSpriteArray.indexOf(currentCatSprite) == catSpriteArray.count-1 { // if displaying last cat, disable right
             leftButton.userInteractionEnabled = true
             rightButton.userInteractionEnabled = false
+            leftButton.runAction(SKAction.fadeAlphaTo(1, duration: 0.2))
             rightButton.runAction(SKAction.fadeAlphaTo(0.5, duration: 0.2))
         } else {// if neither, display both
             leftButton.userInteractionEnabled = true

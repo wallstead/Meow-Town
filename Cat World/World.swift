@@ -122,17 +122,39 @@ class World: SKNode {
         }
     }
     
-    func save() {
-        let saveData = NSKeyedArchiver.archivedDataWithRootObject(wallpaper!);
-        let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true) as NSArray;
-        let documentsDirectory = paths.objectAtIndex(0) as! NSString;
-        let path = documentsDirectory.stringByAppendingPathComponent("WorldData.plist");
+    func save(value: String, forKey key: String) {
+        print("Old Data:")
         
-        saveData.writeToFile(path, atomically: true);
+        let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+        let documentsDirectory = paths[0] as String
+        let path = documentsDirectory.stringByAppendingPathComponent("WorldData.plist")
+        
+        let worldData = NSMutableDictionary(contentsOfFile: path)! as NSMutableDictionary
+        print(worldData)
+        print("New Data:")
+        
+        
+        if key == "Cats" {
+            var catArray = worldData["Cats"] as! Array<String>
+            let catName = value
+            catArray.append(catName)
+            worldData.setValue(catArray, forKey: "Cats")
+        } else {
+            worldData.setValue(value, forKey: key)
+        }
+        worldData.writeToFile(path, atomically: true)
+        
+        print(worldData)
     }
     
     func pause() {
         
+    }
+    
+    func addCat(name: String) {
+        let newCat = Cat(name: name.capitalizedString, skin: name, mood: "happy", weight: 120, inWorld: self)
+        newCat.addActivity(newCat.flyTo(CGPoint(x: self.floor!.frame.midX, y: self.floor!.frame.midY)), priority: 1)
+        save(name, forKey: "Cats")
     }
     
     func update() {
