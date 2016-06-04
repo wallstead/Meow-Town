@@ -103,7 +103,7 @@ class CatSelect: SKNode {
         
         doneButton.action = {
             let currentGameScene = scene as! GameScene
-            currentGameScene.world.addCat(self.currentCatSprite.textureName)
+            currentGameScene.world.addCat(self.currentCatSprite.textureName, alreadySaved: false)
             self.runAction(SKAction.fadeOutWithDuration(0.5))
         }
         

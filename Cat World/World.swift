@@ -32,13 +32,14 @@ class World: SKNode {
         super.init()
         
         let data = load()
-      
-//        data!.writeToFile(path, atomically: true)
+        
         
         wallpaper = SKPixelSpriteNode(textureName: data!.valueForKey("Wallpaper") as! String, pressAction: {})
         floor = SKPixelSpriteNode(textureName: data!.valueForKey("Floor") as! String, pressAction: {})
         
-        
+        for cat in data!.valueForKey("Cats") as! Array<String> {
+            addCat(cat, alreadySaved: true)
+        }
         
         wallpaper!.setScale(46/9)
         wallpaper!.zPosition = 0
@@ -108,7 +109,11 @@ class World: SKNode {
                 try! fileManager.copyItemAtPath(bundle, toPath: path)
             }
         } else if fileManager.fileExistsAtPath(path) && cats.isEmpty {
-            GameScene.displayCatSelection(inScene: parentScene)
+            let worldData = NSMutableDictionary(contentsOfFile: path)! as NSMutableDictionary
+            let catArray = worldData["Cats"] as! Array<String>
+            if catArray.isEmpty {
+                GameScene.displayCatSelection(inScene: parentScene)
+            }
         }
         
         let data = NSDictionary(contentsOfFile: path)
@@ -151,10 +156,12 @@ class World: SKNode {
         
     }
     
-    func addCat(name: String) {
+    func addCat(name: String, alreadySaved: Bool) {
         let newCat = Cat(name: name.capitalizedString, skin: name, mood: "happy", weight: 120, inWorld: self)
         newCat.addActivity(newCat.flyTo(CGPoint(x: self.floor!.frame.midX, y: self.floor!.frame.midY)), priority: 1)
-        save(name, forKey: "Cats")
+        if !alreadySaved {
+            save(name, forKey: "Cats")
+        }
     }
     
     func update() {
