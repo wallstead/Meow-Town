@@ -33,6 +33,8 @@ public class Cat {
     init(name: String, skin: String, mood: String, weight: Float, inWorld: World) {
         self.world = inWorld;
         
+        print(PlistManager.sharedInstance.getValueForKey("Version"))
+        
         // 0.04166666667 = 1 hour in real time
         // 0.01041666667 = 15 minutes in real time
         // 0.003472222223 = 5 minutes in real time
@@ -398,4 +400,28 @@ public class Cat {
         }
     }
     
+    func save() {
+        
+    }
+    
+    func load() {
+        // check if the dictionary for this cat isn't empty
+        // if it is empty populate it with the initial data given in init
+        // if it isn't empty load the data and create a cat with that data
+        
+        
+        let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+        let documentsDirectory = paths[0] as String
+        let path = documentsDirectory.stringByAppendingPathComponent("WorldData.plist")
+        let fileManager = NSFileManager.defaultManager()
+        
+        if fileManager.fileExistsAtPath(path) {
+            let worldData = NSMutableDictionary(contentsOfFile: path)! as NSMutableDictionary
+            let catArray = worldData["Cats"] as! Array<String>
+            if catArray.isEmpty {
+            }
+        }
+        
+
+    }
 }

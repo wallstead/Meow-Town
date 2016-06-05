@@ -14,6 +14,8 @@
 		4362E2BB1D02113600DCDBC4 /* Cats.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4362E2BA1D02113600DCDBC4 /* Cats.plist */; };
 		4370837B1CEF8F1E009416EB /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4370837A1CEF8F1E009416EB /* Menu.swift */; };
 		4370837D1CEF94C8009416EB /* Items.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4370837C1CEF94C8009416EB /* Items.swift */; };
+		438032071D04DCAB004D9D58 /* DefaultStoreData.plist in Resources */ = {isa = PBXBuildFile; fileRef = 438032061D04DCAB004D9D58 /* DefaultStoreData.plist */; };
+		438032091D04DFB4004D9D58 /* PlistManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 438032081D04DFB4004D9D58 /* PlistManager.swift */; };
 		4381308D1CD3F1D400BC0102 /* Intro_mixdown.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4381308C1CD3F1D400BC0102 /* Intro_mixdown.mp3 */; };
 		439AD67C1CB7681500E1E018 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439AD67B1CB7681500E1E018 /* AppDelegate.swift */; };
 		439AD67E1CB7681500E1E018 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 439AD67D1CB7681500E1E018 /* GameScene.sks */; };
@@ -66,6 +68,8 @@
 		4362E2BA1D02113600DCDBC4 /* Cats.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Cats.plist; sourceTree = "<group>"; };
 		4370837A1CEF8F1E009416EB /* Menu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Menu.swift; sourceTree = "<group>"; };
 		4370837C1CEF94C8009416EB /* Items.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Items.swift; sourceTree = "<group>"; };
+		438032061D04DCAB004D9D58 /* DefaultStoreData.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = DefaultStoreData.plist; sourceTree = "<group>"; };
+		438032081D04DFB4004D9D58 /* PlistManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlistManager.swift; sourceTree = "<group>"; };
 		4381308C1CD3F1D400BC0102 /* Intro_mixdown.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Intro_mixdown.mp3; sourceTree = "<group>"; };
 		439AD6781CB7681500E1E018 /* Cat World.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Cat World.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		439AD67B1CB7681500E1E018 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -162,6 +166,7 @@
 				439AD6B31CB7737D00E1E018 /* Int+Extensions.swift */,
 				433DA5EE1CBDDE9F009F1B36 /* SwiftPriorityQueue.swift */,
 				43D852821CC8A260005BB46D /* SpriteKit-Spring.swift */,
+				438032081D04DFB4004D9D58 /* PlistManager.swift */,
 				439AD6831CB7681500E1E018 /* Main.storyboard */,
 				439AD6861CB7681500E1E018 /* Assets.xcassets */,
 				439AD6881CB7681500E1E018 /* LaunchScreen.storyboard */,
@@ -176,6 +181,7 @@
 				43FD713C1CD3F66B0058DFBA /* mathgrant_calm.mp3 */,
 				43FD71441CD3FAED0058DFBA /* button_down.wav */,
 				43FD71451CD3FAED0058DFBA /* button_up.wav */,
+				438032061D04DCAB004D9D58 /* DefaultStoreData.plist */,
 				4345CD991CF77F09003BA6D4 /* DefaultWorldData.plist */,
 				4362E2BA1D02113600DCDBC4 /* Cats.plist */,
 			);
@@ -312,6 +318,7 @@
 				43F4530F1CC8AD3B009912D8 /* slkscreb.ttf in Resources */,
 				43FD713D1CD3F66B0058DFBA /* mathgrant_calm.mp3 in Resources */,
 				43FD71471CD3FAED0058DFBA /* button_up.wav in Resources */,
+				438032071D04DCAB004D9D58 /* DefaultStoreData.plist in Resources */,
 				43F4530C1CC8AD3B009912D8 /* slkscr.ttf in Resources */,
 				43F4530E1CC8AD3B009912D8 /* slkscre.ttf in Resources */,
 				4381308D1CD3F1D400BC0102 /* Intro_mixdown.mp3 in Resources */,
@@ -344,6 +351,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				438032091D04DFB4004D9D58 /* PlistManager.swift in Sources */,
 				4370837B1CEF8F1E009416EB /* Menu.swift in Sources */,
 				43D159751CC1579D001DB5BD /* CatSelect.swift in Sources */,
 				4345CD981CF77692003BA6D4 /* Activity.swift in Sources */,

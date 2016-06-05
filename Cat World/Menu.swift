@@ -97,6 +97,11 @@ class Menu: SKNode {
         })
     }
     
+    func topButtonDisplay(panel: String) {
+        // create a background and push it along with all the other elements on the menu down to take up the menu's height
+        
+    }
+    
     func close() {
         menuPanel.runAction(SKAction.moveTo(CGPoint(x: menuPanel.position.x, y: hud.topBar.frame.minY+(menuPanel.frame.height/2)), duration: 0.25), completion: {
             self.isOpen = false

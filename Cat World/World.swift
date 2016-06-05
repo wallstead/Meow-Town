@@ -110,10 +110,10 @@ class World: SKNode {
             }
         } else if fileManager.fileExistsAtPath(path) && cats.isEmpty {
             let worldData = NSMutableDictionary(contentsOfFile: path)! as NSMutableDictionary
-            let catArray = worldData["Cats"] as! Array<String>
-            if catArray.isEmpty {
-                GameScene.displayCatSelection(inScene: parentScene)
-            }
+            let catArray = worldData["Cats"] as! NSDictionary
+            //if catArray.isEmpty {
+               // GameScene.displayCatSelection(inScene: parentScene)
+            //}
         }
         
         let data = NSDictionary(contentsOfFile: path)
