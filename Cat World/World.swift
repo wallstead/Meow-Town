@@ -31,15 +31,14 @@ class World: SKNode {
         
         super.init()
         
-        let data = load()
         
+       
+        wallpaper = SKPixelSpriteNode(textureName: PlistManager.sharedInstance.getValueForKey("Wallpaper") as! String, pressAction: {})
+        floor = SKPixelSpriteNode(textureName: PlistManager.sharedInstance.getValueForKey("Floor") as! String, pressAction: {})
         
-        wallpaper = SKPixelSpriteNode(textureName: data!.valueForKey("Wallpaper") as! String, pressAction: {})
-        floor = SKPixelSpriteNode(textureName: data!.valueForKey("Floor") as! String, pressAction: {})
-        
-        for cat in data!.valueForKey("Cats") as! Array<String> {
-            addCat(cat, alreadySaved: true)
-        }
+//        for cat in data!.valueForKey("Cats") as! Array<String> {
+//            addCat(cat, alreadySaved: true)
+//        }
         
         wallpaper!.setScale(46/9)
         wallpaper!.zPosition = 0

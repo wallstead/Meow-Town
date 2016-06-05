@@ -33,7 +33,7 @@ public class Cat {
     init(name: String, skin: String, mood: String, weight: Float, inWorld: World) {
         self.world = inWorld;
         
-        print(PlistManager.sharedInstance.getValueForKey("Version"))
+        
         
         // 0.04166666667 = 1 hour in real time
         // 0.01041666667 = 15 minutes in real time
