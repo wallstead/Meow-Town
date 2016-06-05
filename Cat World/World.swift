@@ -36,9 +36,15 @@ class World: SKNode {
         wallpaper = SKPixelSpriteNode(textureName: PlistManager.sharedInstance.getValueForKey("Wallpaper") as! String, pressAction: {})
         floor = SKPixelSpriteNode(textureName: PlistManager.sharedInstance.getValueForKey("Floor") as! String, pressAction: {})
         
-//        for cat in data!.valueForKey("Cats") as! Array<String> {
-//            addCat(cat, alreadySaved: true)
-//        }
+        let cats = PlistManager.sharedInstance.getValueForKey("Cats") as! NSDictionary
+        if cats.count == 0 {
+            print("no cats currently")
+            GameScene.displayCatSelection(inScene: parentScene)
+        } else {
+            for cat in cats {
+                addCat(cat.key as! String, alreadySaved: true)
+            }
+        }
         
         wallpaper!.setScale(46/9)
         wallpaper!.zPosition = 0
