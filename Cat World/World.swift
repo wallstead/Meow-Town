@@ -244,9 +244,9 @@ class NewWorld: SKNode {
         let doneButton = SKPixelSpriteNode(textureName: "catselect_done")
         doneButton.setScale(46/9)
         doneButton.zPosition = 10010
-//        doneButton.position = CGPoint(x: wallpaper.frame.midX, y: wallpaper.frame.maxY-titleBar.frame.height/2)
+        doneButton.position.y = circleBackground.position.y-190
         doneButton.alpha = 0
-        doneButton.pressAction = {
+        doneButton.action = {
             print("whudup")
         }
         
