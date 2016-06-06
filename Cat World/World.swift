@@ -47,6 +47,7 @@ class World: SKNode {
                     if let loadedCat = NSKeyedUnarchiver.unarchiveObjectWithData(cat.value as! NSData) as? NewCat {
                         cats.append(loadedCat)
                         print("Loaded and initialized "+loadedCat.name)
+                        print(loadedCat.isKitten())
                     }
                 }
             }

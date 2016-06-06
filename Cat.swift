@@ -409,7 +409,7 @@ public class NewCat: NSObject, NSCoding {
     var skin: String!
     var mood: String!
     var birthday: NSDate!
-    let lifespan: NSTimeInterval = 7.days
+    let lifespan: NSTimeInterval = 25.seconds
     override public var description: String { return "*** \(name) ***\nskin: \(skin)\nmood: \(mood)\nb-day: \(birthday)" }
     
     required convenience public init(coder decoder: NSCoder) {
@@ -426,6 +426,8 @@ public class NewCat: NSObject, NSCoding {
         self.skin = skin
         self.mood = mood
         self.birthday = birthday
+        
+        
     }
     
     public func encodeWithCoder(coder: NSCoder) {
@@ -433,6 +435,15 @@ public class NewCat: NSObject, NSCoding {
         if let skin = skin { coder.encodeObject(skin, forKey: "skin") }
         if let mood = mood { coder.encodeObject(mood, forKey: "mood") }
         if let birthday = birthday { coder.encodeObject(birthday, forKey: "birthday") }
+    }
+    
+    func isKitten() -> Bool {
+        print(age()/lifespan)
+        if age()/lifespan < (1/15) {
+            return true
+        } else {
+            return false
+        }
     }
     
     func age() -> NSTimeInterval {
