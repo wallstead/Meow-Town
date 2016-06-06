@@ -409,6 +409,7 @@ public class NewCat: NSObject, NSCoding {
     var skin: String!
     var mood: String!
     var birthday: NSDate!
+    let lifespan: NSTimeInterval = 7.days
     override public var description: String { return "*** \(name) ***\nskin: \(skin)\nmood: \(mood)\nb-day: \(birthday)" }
     
     required convenience public init(coder decoder: NSCoder) {
@@ -443,3 +444,4 @@ public class NewCat: NSObject, NSCoding {
         PlistManager.sharedInstance.saveValue(catDictionary, forKey: "Cats")
     }
 }
+
