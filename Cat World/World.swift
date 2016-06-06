@@ -123,6 +123,9 @@ class NewWorld: SKNode {
         self.wallpaper = decoder.decodeObjectForKey("wallpaper") as! SKPixelSpriteNode
         self.floor = decoder.decodeObjectForKey("floor") as! SKPixelSpriteNode
         self.cats = decoder.decodeObjectForKey("cats") as! [NewCat]
+        if self.cats.isEmpty {
+            displayCatSelection()
+        }
         
         layout()
     }
@@ -132,6 +135,7 @@ class NewWorld: SKNode {
         self.wallpaper = SKPixelSpriteNode(textureName: "wallpaper")
         self.floor = SKPixelSpriteNode(textureName: "floor")
         self.cats = []
+        displayCatSelection()
         
         layout()
     }
@@ -159,15 +163,20 @@ class NewWorld: SKNode {
         self.addChild(self.floor)
     }
     
-    func displayCatSelection(world: NewWorld) {
-//        let catSelection = CatSelect(world: NewWorld)
-//        node.addChild(catSelection)
-    }
-    
     func addCat(name: String) {
         let testCat = NewCat(name: "Oscar", skin: "oscar", mood: "happy", birthday: NSDate(), world: self)
         cats.append(testCat)
         save()
+    }
+    
+    func displayCatSelection() {
+        let background = SKPixelSpriteNode(textureName: "catselect_bg")
+        background.setScale(46/9)
+        background.zPosition = 10000
+        background.alpha = 0
+        self.addChild(background)
+        
+        background.runAction(SKAction.fadeAlphaTo(1, duration: 1))
     }
 }
 
