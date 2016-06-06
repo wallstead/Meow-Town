@@ -205,6 +205,16 @@ class NewWorld: SKNode {
         title.verticalAlignmentMode = .Center
         title.alpha = 0
         
+        let description = SKLabelNode(fontNamed: "Silkscreen")
+        description.zPosition = 10002
+        description.text = "Pick A Cat"
+        description.setScale(5/10)
+        description.fontSize = 80
+        description.position.y = title.position.y-140
+        description.fontColor = SKColor(red: 50/255, green: 50/255, blue: 50/255, alpha: 1)
+        description.verticalAlignmentMode = .Center
+        description.alpha = 0
+        
         let circleBackground = SKPixelSpriteNode(textureName: "catselect_circle")
         circleBackground.setScale(46/9)
         circleBackground.zPosition = 10002
@@ -217,12 +227,14 @@ class NewWorld: SKNode {
         background.runAction(SKAction.fadeAlphaTo(1, duration: 1))
         titleBar.runAction(SKAction.fadeAlphaTo(1, duration: 1))
         title.runAction(SKAction.fadeAlphaTo(1, duration: 1))
+        description.runAction(SKAction.fadeAlphaTo(1, duration: 1))
         circleBackground.runAction(SKAction.fadeAlphaTo(1, duration: 1))
         circleCropNode.runAction(SKAction.fadeAlphaTo(1, duration: 1))
         
         self.addChild(background)
         self.addChild(titleBar)
         self.addChild(title)
+        self.addChild(description)
         self.addChild(circleBackground)
     }
 }
