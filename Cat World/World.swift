@@ -45,6 +45,7 @@ class World: SKNode {
                 print("***LOADING CATS***")
                 for cat in catDictionary as NSDictionary {
                     if let loadedCat = NSKeyedUnarchiver.unarchiveObjectWithData(cat.value as! NSData) as? NewCat {
+                        cats.append(loadedCat)
                         print("Loaded and initialized "+loadedCat.name)
                     }
                 }
@@ -183,7 +184,9 @@ class World: SKNode {
 //        }
         
         let testCat = NewCat(name: "Oscar", skin: "oscar", mood: "happy", birthday: NSDate())
+        cats.append(testCat)
         testCat.save()
+        print(testCat)
     }
     
     func update() {

@@ -409,11 +409,14 @@ public class NewCat: NSObject, NSCoding {
     var skin: String!
     var mood: String!
     var birthday: NSDate!
+    override public var description: String { return "*** \(name) ***\nskin: \(skin)\nmood: \(mood)\nb-day: \(birthday)" }
     
     required convenience public init(coder decoder: NSCoder) {
         self.init()
         self.name = decoder.decodeObjectForKey("name") as! String
         self.skin = decoder.decodeObjectForKey("skin") as! String
+        self.mood = decoder.decodeObjectForKey("mood") as! String
+        self.birthday = decoder.decodeObjectForKey("birthday") as! NSDate
     }
     
     convenience init(name: String, skin: String, mood: String, birthday: NSDate) {
@@ -429,6 +432,10 @@ public class NewCat: NSObject, NSCoding {
         if let skin = skin { coder.encodeObject(skin, forKey: "skin") }
         if let mood = mood { coder.encodeObject(mood, forKey: "mood") }
         if let birthday = birthday { coder.encodeObject(birthday, forKey: "birthday") }
+    }
+    
+    func age() -> NSTimeInterval {
+        return NSDate().timeIntervalSinceDate(birthday)
     }
     
     func save() {
