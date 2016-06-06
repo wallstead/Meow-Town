@@ -123,11 +123,14 @@ class NewWorld: SKNode {
         self.wallpaper = decoder.decodeObjectForKey("wallpaper") as! SKPixelSpriteNode
         self.floor = decoder.decodeObjectForKey("floor") as! SKPixelSpriteNode
         self.cats = decoder.decodeObjectForKey("cats") as! [NewCat]
+        
+        layout()
+        
         if self.cats.isEmpty {
             displayCatSelection()
         }
         
-        layout()
+        
     }
     
     convenience init(name: String) {
@@ -135,9 +138,10 @@ class NewWorld: SKNode {
         self.wallpaper = SKPixelSpriteNode(textureName: "wallpaper")
         self.floor = SKPixelSpriteNode(textureName: "floor")
         self.cats = []
-        displayCatSelection()
         
         layout()
+        
+        displayCatSelection()
     }
     
     override func encodeWithCoder(coder: NSCoder) {
@@ -186,6 +190,7 @@ class NewWorld: SKNode {
         for cat in cats {
             let catSkin = cat.value.valueForKey("skin") as! String
             catSpriteArray.append(SKPixelSpriteNode(textureName: catSkin))
+            print(catSkin)
         }
         currentCatSprite = catSpriteArray[0]
         
@@ -221,8 +226,20 @@ class NewWorld: SKNode {
         circleBackground.alpha = 0
         
         circleCropNode = SKCropNode()
+        circleCropNode.position = circleBackground.position
         circleCropNode.maskNode = SKPixelSpriteNode(textureName: "catselect_circle_mask")
+        circleCropNode.setScale(46/9)
+        circleCropNode.zPosition = 10003
         circleCropNode.alpha = 0
+        
+        
+        for cat in catSpriteArray {
+            print(cat)
+            cat.position = CGPoint(x: 0+(catSpriteArray.indexOf(cat)!*55), y: 0)
+            cat.alpha = 0
+            circleCropNode.addChild(cat)
+            cat.runAction(SKAction.fadeAlphaTo(1, duration: 1))
+        }
         
         background.runAction(SKAction.fadeAlphaTo(1, duration: 1))
         titleBar.runAction(SKAction.fadeAlphaTo(1, duration: 1))
@@ -236,6 +253,7 @@ class NewWorld: SKNode {
         self.addChild(title)
         self.addChild(description)
         self.addChild(circleBackground)
+        self.addChild(circleCropNode)
     }
 }
 
