@@ -112,52 +112,31 @@ import SpriteKit
 //    }
 //}
 
-class NewWorld: NSObject, NSCoding {
-    var name: String!
-    var parentScene: SKScene!
-    var node: SKNode!
+class NewWorld: SKNode {
+    var wallpaper: SKPixelSpriteNode!
     var cats: [NewCat]!
     
-    override var description: String { return "*** \(name) ***\ncats: \(cats)" }
+    
+    override var description: String { return "*** World ***\ncats: \(cats)" }
     
     required convenience init(coder decoder: NSCoder) {
         self.init()
-        self.name = decoder.decodeObjectForKey("name") as! String
-        self.parentScene = decoder.decodeObjectForKey("parentscene") as! SKScene
-        let catsArray: [NewCat]? = decoder.decodeObjectForKey("cats") as? [NewCat]
-        if catsArray != nil {
-            self.cats = catsArray
-        } else {
-            self.cats = []
-        }
+        self.wallpaper = decoder.decodeObjectForKey("wallpaper") as! SKPixelSpriteNode
+        self.cats = decoder.decodeObjectForKey("cats") as! [NewCat]
+        
+        layout()
     }
     
-    convenience init(name: String, parentScene: SKScene) {
+    convenience init(name: String) {
         self.init()
-        self.name = name
-        self.parentScene = parentScene
+        self.wallpaper = SKPixelSpriteNode(textureName: "wallpaper")
         self.cats = []
         
-//        if let catDictionary = PlistManager.sharedInstance.getValueForKey("Cats") as? NSDictionary {
-//            if catDictionary.count == 0 {
-//                print("***NO CATS YET***")
-//                GameScene.displayCatSelection(inScene: parentScene)
-//            } else {
-//                print("***LOADING CATS***")
-//                for cat in catDictionary as NSDictionary {
-//                    if let loadedCat = NSKeyedUnarchiver.unarchiveObjectWithData(cat.value as! NSData) as? NewCat {
-//                        cats.append(loadedCat)
-//                        print("Loaded and initialized "+loadedCat.name)
-//                        print(loadedCat.isKitten())
-//                    }
-//                }
-//            }
-//        }
+        layout()
     }
     
-    func encodeWithCoder(coder: NSCoder) {
-        if let name = name { coder.encodeObject(name, forKey: "name") }
-        if let parentScene = parentScene { coder.encodeObject(parentScene, forKey: "parentscene") }
+    override func encodeWithCoder(coder: NSCoder) {
+        if let wallpaper = wallpaper { coder.encodeObject(wallpaper, forKey: "wallpaper") }
         if let cats = cats { coder.encodeObject(cats, forKey: "cats") }
     }
     
@@ -166,10 +145,19 @@ class NewWorld: NSObject, NSCoding {
         PlistManager.sharedInstance.saveValue(worldData, forKey: "World")
     }
     
+    func layout() {
+        self.addChild(self.wallpaper)
+    }
+    
+    func displayCatSelection(world: NewWorld) {
+//        let catSelection = CatSelect(world: NewWorld)
+//        node.addChild(catSelection)
+    }
+    
     func addCat(name: String) {
         let testCat = NewCat(name: "Oscar", skin: "oscar", mood: "happy", birthday: NSDate(), world: self)
         cats.append(testCat)
-        testCat.save()
+        save()
     }
 }
 

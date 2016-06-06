@@ -12,30 +12,27 @@ class GameScene: SKScene {
     var world: NewWorld!
     
     override func didMoveToView(view: SKView) {
-        
+        self.name = "SCENEENEENENENEN" 
 //        world = World(inScene: self)
 //        
 //        self.addChild(world)
         let worldData = PlistManager.sharedInstance.getValueForKey("World") as? NSData
         
         if worldData?.length != 0 { // check if empty
-            if let loadedWorld = NSKeyedUnarchiver.unarchiveObjectWithData(worldData!) as? NewWorld {
-                world = loadedWorld
-            }
+            let loadedWorld = NSKeyedUnarchiver.unarchiveObjectWithData(worldData!) as? NewWorld
+            world = loadedWorld
         } else {
-            world = NewWorld(name: "Glorf", parentScene: self)
-            world.save()
+            world = NewWorld(name: "world")
         }
         
-        print(world)
+        world.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
+        self.addChild(world)
+        world.save()
         
         
     }
     
-    class func displayCatSelection(inScene scene: SKScene) {
-        let catSelection = CatSelect(inScene: scene)
-        scene.addChild(catSelection)
-    }
+    
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
       
