@@ -136,6 +136,7 @@ class NewWorld: NSObject, NSCoding {
         self.init()
         self.name = name
         self.parentScene = parentScene
+        self.cats = []
         
 //        if let catDictionary = PlistManager.sharedInstance.getValueForKey("Cats") as? NSDictionary {
 //            if catDictionary.count == 0 {
@@ -156,7 +157,7 @@ class NewWorld: NSObject, NSCoding {
     
     func encodeWithCoder(coder: NSCoder) {
         if let name = name { coder.encodeObject(name, forKey: "name") }
-        if let parentScene = parentScene { coder.encodeObject(parentScene, forKey: "parentScene") }
+        if let parentScene = parentScene { coder.encodeObject(parentScene, forKey: "parentscene") }
         if let cats = cats { coder.encodeObject(cats, forKey: "cats") }
     }
     
