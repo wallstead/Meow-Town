@@ -9,13 +9,27 @@
 import SpriteKit
 
 class GameScene: SKScene {
-    var world: World!
+    var world: NewWorld!
     
     override func didMoveToView(view: SKView) {
         
-        world = World(inScene: self)
+//        world = World(inScene: self)
+//        
+//        self.addChild(world)
+        let worldData = PlistManager.sharedInstance.getValueForKey("World") as? NSData
         
-        self.addChild(world)
+        if worldData?.length != 0 { // check if empty
+            if let loadedWorld = NSKeyedUnarchiver.unarchiveObjectWithData(worldData!) as? NewWorld {
+                world = loadedWorld
+            }
+        } else {
+            world = NewWorld(name: "Glorf", parentScene: self)
+            world.save()
+        }
+        
+        print(world)
+        
+        
     }
     
     class func displayCatSelection(inScene scene: SKScene) {
@@ -28,6 +42,6 @@ class GameScene: SKScene {
     }
    
     override func update(currentTime: CFTimeInterval) {
-        world.update()
+//        world.update()
     }
 }
