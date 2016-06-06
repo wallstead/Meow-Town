@@ -170,13 +170,60 @@ class NewWorld: SKNode {
     }
     
     func displayCatSelection() {
+        var isShiftingCats = false
+        var catSpriteArray: [SKPixelSpriteNode] = []
+        var currentCatSprite: SKPixelSpriteNode
+        let circleCropNode: SKCropNode
+//        let leftButton: SKPixelButtonNode
+//        let rightButton: SKPixelButtonNode
+
         let background = SKPixelSpriteNode(textureName: "catselect_bg")
         background.setScale(46/9)
         background.zPosition = 10000
         background.alpha = 0
-        self.addChild(background)
+        
+        let cats = PlistManager.sharedInstance.getValueForKey("Selectable Cats") as! NSDictionary
+        for cat in cats {
+            let catSkin = cat.value.valueForKey("skin") as! String
+            catSpriteArray.append(SKPixelSpriteNode(textureName: catSkin))
+        }
+        currentCatSprite = catSpriteArray[0]
+        
+        let titleBar = SKPixelSpriteNode(textureName: "catselect_titlebar")
+        titleBar.setScale(46/9)
+        titleBar.zPosition = 10001
+        titleBar.position = CGPoint(x: wallpaper.frame.midX, y: wallpaper.frame.maxY-titleBar.frame.height/2)
+        titleBar.alpha = 0
+        
+        let title = SKLabelNode(fontNamed: "Fipps-Regular")
+        title.zPosition = 10002
+        title.text = "FAT FELINE"
+        title.setScale(5/10)
+        title.fontSize = 80
+        title.position = titleBar.position
+        title.fontColor = SKColor(red: 50/255, green: 50/255, blue: 50/255, alpha: 1)
+        title.verticalAlignmentMode = .Center
+        title.alpha = 0
+        
+        let circleBackground = SKPixelSpriteNode(textureName: "catselect_circle")
+        circleBackground.setScale(46/9)
+        circleBackground.zPosition = 10002
+        circleBackground.alpha = 0
+        
+        circleCropNode = SKCropNode()
+        circleCropNode.maskNode = SKPixelSpriteNode(textureName: "catselect_circle_mask")
+        circleCropNode.alpha = 0
         
         background.runAction(SKAction.fadeAlphaTo(1, duration: 1))
+        titleBar.runAction(SKAction.fadeAlphaTo(1, duration: 1))
+        title.runAction(SKAction.fadeAlphaTo(1, duration: 1))
+        circleBackground.runAction(SKAction.fadeAlphaTo(1, duration: 1))
+        circleCropNode.runAction(SKAction.fadeAlphaTo(1, duration: 1))
+        
+        self.addChild(background)
+        self.addChild(titleBar)
+        self.addChild(title)
+        self.addChild(circleBackground)
     }
 }
 
