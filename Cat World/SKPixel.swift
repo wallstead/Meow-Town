@@ -11,7 +11,7 @@ import SpriteKit
 
 class SKPixelSpriteNode: SKSpriteNode {
     var textureName: String
-    internal var pressAction: (() -> Void)?
+    internal var action: (() -> Void)?
     
     init(textureName: String) {
         let texture = SKTexture(imageNamed: textureName)
@@ -32,8 +32,24 @@ class SKPixelSpriteNode: SKSpriteNode {
         super.encodeWithCoder(aCoder)
     }
     
+    func changeTextureTo(textureName: String) {
+        self.size = CGSizeZero
+        let newTexture = SKTexture(imageNamed: textureName)
+        newTexture.filteringMode = .Nearest
+
+        self.texture = newTexture
+        let oldXScale = xScale
+        let oldYScale = yScale
+        setScale(1)
+        size.height = newTexture.size().height
+        size.width = newTexture.size().width
+        xScale = oldXScale
+        yScale = oldYScale
+    }
+
+    
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        pressAction?()
+        action?()
     }
     
 }
