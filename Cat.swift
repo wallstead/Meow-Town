@@ -11,7 +11,7 @@ import SpriteKit
 
 public class Cat {
     
-    var name: (firstName: String?, lastName: String?)
+    var name: String
     let skin: String
     var mood: String
     var age: NSTimeInterval = 0
@@ -41,8 +41,7 @@ public class Cat {
         // 0.0006944444446 = 1 minute in real time
         // 0.0003472222223 = 30 seconds in real time
         let daysAlive = NSTimeInterval(0.04166666667)
-        self.name.firstName = name
-        self.name.lastName = "McTesterson"
+        self.name = name
         self.weight = 0.5
         self.skin = skin
         self.mood = "Happy"
@@ -128,7 +127,7 @@ public class Cat {
         let multiplier = pow(10.0, numberOfPlaces)
         
         print("-------- Cat Info -------")
-        print("name: \(name.firstName!)")
+        print("name: \(name)")
         print("skin: \(skin)")
         print("mood: \(mood)")
         print("age: \(round(age * multiplier) / multiplier) years")
@@ -404,24 +403,4 @@ public class Cat {
         
     }
     
-    func load() {
-        // check if the dictionary for this cat isn't empty
-        // if it is empty populate it with the initial data given in init
-        // if it isn't empty load the data and create a cat with that data
-        
-        
-        let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
-        let documentsDirectory = paths[0] as String
-        let path = documentsDirectory.stringByAppendingPathComponent("WorldData.plist")
-        let fileManager = NSFileManager.defaultManager()
-        
-        if fileManager.fileExistsAtPath(path) {
-            let worldData = NSMutableDictionary(contentsOfFile: path)! as NSMutableDictionary
-            let catArray = worldData["Cats"] as! Array<String>
-            if catArray.isEmpty {
-            }
-        }
-        
-
-    }
 }
