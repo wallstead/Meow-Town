@@ -114,14 +114,14 @@ import SpriteKit
 
 class NewWorld: SKNode {
     var wallpaper: SKPixelSpriteNode!
+    var floor: SKPixelSpriteNode!
     var cats: [NewCat]!
-    
-    
     override var description: String { return "*** World ***\ncats: \(cats)" }
     
     required convenience init(coder decoder: NSCoder) {
         self.init()
         self.wallpaper = decoder.decodeObjectForKey("wallpaper") as! SKPixelSpriteNode
+        self.floor = decoder.decodeObjectForKey("floor") as! SKPixelSpriteNode
         self.cats = decoder.decodeObjectForKey("cats") as! [NewCat]
         
         layout()
@@ -130,6 +130,7 @@ class NewWorld: SKNode {
     convenience init(name: String) {
         self.init()
         self.wallpaper = SKPixelSpriteNode(textureName: "wallpaper")
+        self.floor = SKPixelSpriteNode(textureName: "floor")
         self.cats = []
         
         layout()
@@ -137,6 +138,7 @@ class NewWorld: SKNode {
     
     override func encodeWithCoder(coder: NSCoder) {
         if let wallpaper = wallpaper { coder.encodeObject(wallpaper, forKey: "wallpaper") }
+        if let floor = floor { coder.encodeObject(floor, forKey: "floor") }
         if let cats = cats { coder.encodeObject(cats, forKey: "cats") }
     }
     
@@ -146,7 +148,15 @@ class NewWorld: SKNode {
     }
     
     func layout() {
+        wallpaper.setScale(46/9)
+        wallpaper.zPosition = 0
+        
+        floor.setScale(46/9)
+        floor.zPosition = 1
+        floor.position = CGPoint(x: wallpaper.frame.midX, y: wallpaper.frame.minY+(floor!.frame.height/2))
+        
         self.addChild(self.wallpaper)
+        self.addChild(self.floor)
     }
     
     func displayCatSelection(world: NewWorld) {
