@@ -60,7 +60,7 @@ public class Cat {
         self.world.addChild(self.sprite)
         
         self.todoQueue = PriorityQueue(ascending: true, startingValues: [])
-        self.world.cats.append(self)
+//        self.world.cats.append(self)
     
         sprite.runAction(SKAction.repeatActionForever(SKAction.sequence([SKAction.runBlock({
             self.doThings()
@@ -404,17 +404,18 @@ public class Cat {
     
 }
 
-class NewCat: NSObject, NSCoding {
+public class NewCat: NSObject, NSCoding {
     var name: String!
     var skin: String!
     var mood: String!
     var birthday: NSDate!
     
-    required convenience init(coder decoder: NSCoder) {
+    required convenience public init(coder decoder: NSCoder) {
         self.init()
         self.name = decoder.decodeObjectForKey("name") as! String
         self.skin = decoder.decodeObjectForKey("skin") as! String
     }
+    
     convenience init(name: String, skin: String, mood: String, birthday: NSDate) {
         self.init()
         self.name = name
@@ -422,7 +423,8 @@ class NewCat: NSObject, NSCoding {
         self.mood = mood
         self.birthday = birthday
     }
-    func encodeWithCoder(coder: NSCoder) {
+    
+    public func encodeWithCoder(coder: NSCoder) {
         if let name = name { coder.encodeObject(name, forKey: "name") }
         if let skin = skin { coder.encodeObject(skin, forKey: "skin") }
         if let mood = mood { coder.encodeObject(mood, forKey: "mood") }
@@ -430,7 +432,7 @@ class NewCat: NSObject, NSCoding {
     }
     
     func save() {
-        let catData = NSKeyedArchiver.archivedDataWithRootObject(self)
-        PlistManager.sharedInstance.saveValue(catData, forKey: "Cats")
+        let catDictionary = NSDictionary(object: NSKeyedArchiver.archivedDataWithRootObject(self), forKey: name)
+        PlistManager.sharedInstance.saveValue(catDictionary, forKey: "Cats")
     }
 }

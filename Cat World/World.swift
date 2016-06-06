@@ -19,7 +19,7 @@ class World: SKNode {
     let parentScene: SKScene
     var isDisplayingCatSelection = false
     
-    var cats: [Cat] = []
+    var cats: [NewCat] = []
     
     init(inScene scene: SKScene) {
 
@@ -36,15 +36,29 @@ class World: SKNode {
         wallpaper = SKPixelSpriteNode(textureName: PlistManager.sharedInstance.getValueForKey("Wallpaper") as! String, pressAction: {})
         floor = SKPixelSpriteNode(textureName: PlistManager.sharedInstance.getValueForKey("Floor") as! String, pressAction: {})
         
-        let cats = PlistManager.sharedInstance.getValueForKey("Cats") as! NSDictionary
-        if cats.count == 0 {
-            print("no cats currently")
-            GameScene.displayCatSelection(inScene: parentScene)
-        } else {
-            for cat in cats {
-                addCat(cat.key as! String, alreadySaved: true)
+       
+        if let catDictionary = PlistManager.sharedInstance.getValueForKey("Cats") as? NSDictionary {
+            if catDictionary.count == 0 {
+                print("***NO CATS YET***")
+                GameScene.displayCatSelection(inScene: parentScene)
+            } else {
+                print("***LOADING CATS***")
+                for cat in catDictionary as NSDictionary {
+                    if let loadedCat = NSKeyedUnarchiver.unarchiveObjectWithData(cat.value as! NSData) as? NewCat {
+                        print("Loaded and initialized "+loadedCat.name)
+                    }
+                }
             }
         }
+        
+//        if cats.count == 0 {
+//            print("no cats currently")
+//            GameScene.displayCatSelection(inScene: parentScene)
+//        } else {
+//            for cat in cats {
+//                addCat(cat.key as! String, alreadySaved: true)
+//            }
+//        }
         
         wallpaper!.setScale(46/9)
         wallpaper!.zPosition = 0
@@ -169,13 +183,14 @@ class World: SKNode {
 //        }
         
         let testCat = NewCat(name: "Oscar", skin: "oscar", mood: "happy", birthday: NSDate())
+        testCat.save()
     }
     
     func update() {
         // update all of the cats!
-        for cat in cats {
-            cat.update()
-        }
+//        for cat in cats {
+//            cat.update()
+//        }
     }
 }
 
