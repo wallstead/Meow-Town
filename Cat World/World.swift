@@ -162,7 +162,7 @@ class World: SKNode {
     }
     
     func addCat(name: String, alreadySaved: Bool) {
-        let newCat = Cat(name: name.capitalizedString, skin: name, mood: "happy", weight: 120, inWorld: self)
+        let newCat = Cat(name: name.capitalizedString, skin: name, inWorld: self)
         newCat.addActivity(newCat.flyTo(CGPoint(x: self.floor!.frame.midX, y: self.floor!.frame.midY)), priority: 1)
         if !alreadySaved {
 //            save(name, forKey: "Cats")

@@ -9,16 +9,28 @@
 import Foundation
 import SpriteKit
 
-public class Cat {
-    
+struct Being {
     var name: String
     let skin: String
     var mood: String
-    var age: NSTimeInterval = 0
-    var weight: Float
+    var age: NSTimeInterval
     let birthday: NSDate
     var deathday: NSDate
     let lifespan: NSTimeInterval
+    
+    init(name: String, skin: String, birthday: NSDate, lifespan: NSTimeInterval) {
+        self.name = name
+        self.skin = skin
+        self.mood = "happy"
+        self.age = 0
+        self.birthday = birthday
+        self.deathday = NSDate(timeInterval: lifespan*3600*24, sinceDate: birthday)
+        self.lifespan = lifespan
+    }
+}
+
+public class Cat {
+    var being: Being
     
     let world: World
     let sprite: SKPixelSpriteNode
@@ -30,31 +42,28 @@ public class Cat {
     var isFocusedOn = false
     var isKitten = true
     
-    init(name: String, skin: String, mood: String, weight: Float, inWorld: World) {
+    init(name: String, skin: String, inWorld: World) {
         self.world = inWorld;
-        
-        
         
         // 0.04166666667 = 1 hour in real time
         // 0.01041666667 = 15 minutes in real time
         // 0.003472222223 = 5 minutes in real time
         // 0.0006944444446 = 1 minute in real time
         // 0.0003472222223 = 30 seconds in real time
-        let daysAlive = NSTimeInterval(0.04166666667)
-        self.name = name
-        self.weight = 0.5
-        self.skin = skin
-        self.mood = "Happy"
+        let birthday = NSDate()
+        let lifespan = NSTimeInterval(0.04166666667)
+        
+        self.being = Being(name: name, skin: skin, birthday: birthday, lifespan: lifespan)
+        
         self.sprite = SKPixelSpriteNode(textureName: skin+"_kitten", pressAction: {})
         self.sprite.zPosition = 100
         self.sprite.position = CGPoint(x: self.world.frame.midX, y: self.world.frame.midY)
         self.sprite.userInteractionEnabled = true
         self.sprite.anchorPoint = CGPoint(x: 0.5, y: 0)
-        self.world.addChild(self.sprite)
-        self.birthday = NSDate()
-        self.deathday = NSDate(timeInterval: daysAlive*3600*24, sinceDate: birthday)
-        self.lifespan = daysAlive
         self.sprite.setScale(46/9)
+        
+        self.world.addChild(self.sprite)
+        
         self.todoQueue = PriorityQueue(ascending: true, startingValues: [])
         self.world.cats.append(self)
     
@@ -76,15 +85,15 @@ public class Cat {
     
     func trackAge() {
         if isAlive {
-            let secondsAged = NSDate().timeIntervalSinceDate(birthday)
-            age = secondsAged/86400
+            let secondsAged = NSDate().timeIntervalSinceDate(being.birthday)
+            being.age = secondsAged/86400
             
-            if (lifespan-age <= 0 && todoQueue.isEmpty && !isBusy) {
+            if (being.lifespan-being.age <= 0 && todoQueue.isEmpty && !isBusy) {
                 die()
             }
             
             // cats are kittens for 1 year out of their lives (about 1/15 of their lifetime)
-            if (isKitten && age >= lifespan/15 && todoQueue.isEmpty && !isBusy) {
+            if (isKitten && being.age >= being.lifespan/15 && todoQueue.isEmpty && !isBusy) {
                 pube()
             }
         }
@@ -99,7 +108,7 @@ public class Cat {
                         self.todoQueue.pop()
                         self.isBusy = false
                     })
-                } else { print("\(self.name) has things to do but cannot do them.") }
+                } else { print("\(being.name) has things to do but cannot do them.") }
             } else if todoQueue.isEmpty && !isBusy {
                 let randomNumber = randomPercent()
                 switch(randomNumber) {
@@ -119,26 +128,25 @@ public class Cat {
     }
     
     func printInfo() {
-        let simpleBirthDay: String = NSDateFormatter.localizedStringFromDate(birthday, dateStyle: .ShortStyle, timeStyle: .ShortStyle)
-        let simpleDeathDay: String = NSDateFormatter.localizedStringFromDate(deathday, dateStyle: .ShortStyle, timeStyle: .ShortStyle)
-        let lifeLeft = lifespan-age
+        let simpleBirthDay: String = NSDateFormatter.localizedStringFromDate(being.birthday, dateStyle: .ShortStyle, timeStyle: .ShortStyle)
+        let simpleDeathDay: String = NSDateFormatter.localizedStringFromDate(being.deathday, dateStyle: .ShortStyle, timeStyle: .ShortStyle)
+        let lifeLeft = being.lifespan-being.age
         
         let numberOfPlaces = 5.0
         let multiplier = pow(10.0, numberOfPlaces)
         
         print("-------- Cat Info -------")
-        print("name: \(name)")
-        print("skin: \(skin)")
-        print("mood: \(mood)")
-        print("age: \(round(age * multiplier) / multiplier) years")
-        print("life span: \(round(lifespan * multiplier) / multiplier) years")
+        print("name: \(being.name)")
+        print("skin: \(being.skin)")
+        print("mood: \(being.mood)")
+        print("age: \(round(being.age * multiplier) / multiplier) years")
+        print("life span: \(round(being.lifespan * multiplier) / multiplier) years")
         if isAlive {
             print("life remaining: \(round(lifeLeft * multiplier) / multiplier) years")
         } else {
             print("life remaining: 0")
 
         }
-        print("weight: \(weight) lbs")
         print("birthday: \(simpleBirthDay)")
         print("deathday: \(simpleDeathDay)")
         print("todo count: \(todoQueue.count)")
@@ -162,7 +170,7 @@ public class Cat {
         cropped2.alpha = 0
         
         let kittenCropNode = SKCropNode()
-        let kittenmask = SKPixelSpriteNode(textureName: self.skin+"_kitten", pressAction: {})
+        let kittenmask = SKPixelSpriteNode(textureName: being.skin+"_kitten", pressAction: {})
         kittenmask.anchorPoint = CGPoint(x: 0.5, y: 0)
         kittenCropNode.maskNode = kittenmask
         kittenCropNode.xScale = self.sprite.xScale
@@ -173,7 +181,7 @@ public class Cat {
         kittenCropNode.alpha = 1
         
         let grownCatCropNode = SKCropNode()
-        let grownCatmask = SKPixelSpriteNode(textureName: self.skin, pressAction: {})
+        let grownCatmask = SKPixelSpriteNode(textureName: being.skin, pressAction: {})
         grownCatmask.anchorPoint = CGPoint(x: 0.5, y: 0)
         grownCatCropNode.maskNode = grownCatmask
         grownCatCropNode.xScale = 0
@@ -223,7 +231,7 @@ public class Cat {
                 recurse(0)
             })
             cropped2.runAction(SKAction.fadeInWithDuration(0.57), completion: {
-                let newtexture = SKTexture(imageNamed: self.skin)
+                let newtexture = SKTexture(imageNamed: self.being.skin)
                 newtexture.filteringMode = SKTextureFilteringMode.Nearest
 
                 func presentCat(size: CGSize) {
@@ -275,7 +283,7 @@ public class Cat {
                 recurse(0)
             })
         })
-        print("\(name) pubed.")
+        print("\(being.name) pubed.")
     }
     
     func die() {
@@ -289,7 +297,7 @@ public class Cat {
 
         sprite.runAction(die)
         
-        print("\(name) died.")
+        print("\(being.name) died.")
     }
     
     func flyTo(point: CGPoint) -> SKAction {
@@ -342,9 +350,9 @@ public class Cat {
     
     func currentSkin() -> String {
         if isKitten {
-            return skin+"_kitten"
+            return being.skin+"_kitten"
         } else {
-            return skin
+            return being.skin
         }
     }
     
