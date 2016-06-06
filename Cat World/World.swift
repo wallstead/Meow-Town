@@ -241,12 +241,22 @@ class NewWorld: SKNode {
             cat.runAction(SKAction.fadeAlphaTo(1, duration: 1))
         }
         
+        let doneButton = SKPixelSpriteNode(textureName: "catselect_done")
+        doneButton.setScale(46/9)
+        doneButton.zPosition = 10010
+//        doneButton.position = CGPoint(x: wallpaper.frame.midX, y: wallpaper.frame.maxY-titleBar.frame.height/2)
+        doneButton.alpha = 0
+        doneButton.pressAction = {
+            print("whudup")
+        }
+        
         background.runAction(SKAction.fadeAlphaTo(1, duration: 1))
         titleBar.runAction(SKAction.fadeAlphaTo(1, duration: 1))
         title.runAction(SKAction.fadeAlphaTo(1, duration: 1))
         description.runAction(SKAction.fadeAlphaTo(1, duration: 1))
         circleBackground.runAction(SKAction.fadeAlphaTo(1, duration: 1))
         circleCropNode.runAction(SKAction.fadeAlphaTo(1, duration: 1))
+        doneButton.runAction(SKAction.fadeAlphaTo(1, duration: 1))
         
         self.addChild(background)
         self.addChild(titleBar)
@@ -254,6 +264,7 @@ class NewWorld: SKNode {
         self.addChild(description)
         self.addChild(circleBackground)
         self.addChild(circleCropNode)
+        self.addChild(doneButton)
     }
 }
 

@@ -11,22 +11,29 @@ import SpriteKit
 
 class SKPixelSpriteNode: SKSpriteNode {
     var textureName: String
+    internal var pressAction: (() -> Void)?
     
     init(textureName: String) {
         let texture = SKTexture(imageNamed: textureName)
         self.textureName = textureName
         texture.filteringMode = SKTextureFilteringMode.Nearest
         super.init(texture: texture, color: UIColor.clearColor(), size: texture.size())
+        self.userInteractionEnabled = true
     }
     
     required init?(coder aDecoder: NSCoder) {
         self.textureName = aDecoder.decodeObjectForKey("texturename") as! String
         super.init(coder: aDecoder)
+        self.userInteractionEnabled = true
     }
     
     override func encodeWithCoder(aCoder: NSCoder) {
         aCoder.encodeObject(self.textureName, forKey: "texturename")
         super.encodeWithCoder(aCoder)
+    }
+    
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        pressAction?()
     }
     
 }
