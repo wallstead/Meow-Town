@@ -142,16 +142,40 @@ class NewWorld: SKNode {
         }
         
         let leftButton = SKPixelButtonNode(textureName: "catselect_arrow")
+        let rightButton = SKPixelButtonNode(textureName: "catselect_arrow")
+        
+        func updateButtons() {
+            if catSpriteArray.indexOf(currentCatSprite) == 0 {
+                leftButton.runAction(SKAction.fadeAlphaTo(0.5, duration: 0.5))
+                rightButton.runAction(SKAction.fadeAlphaTo(1, duration: 0.5))
+                leftButton.userInteractionEnabled = false
+                rightButton.userInteractionEnabled = true
+            } else if catSpriteArray.indexOf(currentCatSprite) == catSpriteArray.count - 1 {
+                leftButton.runAction(SKAction.fadeAlphaTo(1, duration: 0.5))
+                rightButton.runAction(SKAction.fadeAlphaTo(0.5, duration: 0.5))
+                leftButton.userInteractionEnabled = true
+                rightButton.userInteractionEnabled = false
+            } else {
+                leftButton.runAction(SKAction.fadeAlphaTo(1, duration: 0.5))
+                rightButton.runAction(SKAction.fadeAlphaTo(1, duration: 0.5))
+                leftButton.userInteractionEnabled = true
+                rightButton.userInteractionEnabled = true
+            }
+        }
+        
+        
         leftButton.setScale(46/9)
         leftButton.zPosition = 10010
         leftButton.position = CGPoint(x: circleBackground.position.x-150, y: circleBackground.position.y)
         leftButton.alpha = 0
         leftButton.action = {
             if !isShiftingCats && catSpriteArray.indexOf(currentCatSprite) > 0  {
+                currentCatSprite = catSpriteArray[catSpriteArray.indexOf(currentCatSprite)!-1]
+                updateButtons()
                 for cat in catSpriteArray {
                     cat.runAction(shift(left: false), completion: {
                         if catSpriteArray.indexOf(cat) == catSpriteArray.count-1 {
-                            currentCatSprite = catSpriteArray[catSpriteArray.indexOf(currentCatSprite)!-1]
+                            
                             isShiftingCats = false
                         }
                     })
@@ -159,7 +183,7 @@ class NewWorld: SKNode {
             }
         }
         
-        let rightButton = SKPixelButtonNode(textureName: "catselect_arrow")
+        
         rightButton.setScale(46/9)
         rightButton.zPosition = 10010
         rightButton.position = CGPoint(x: circleBackground.position.x+150, y: circleBackground.position.y)
@@ -167,16 +191,20 @@ class NewWorld: SKNode {
         rightButton.xScale = -(46/9)
         rightButton.action = {
             if !isShiftingCats && catSpriteArray.indexOf(currentCatSprite) < catSpriteArray.count - 1  {
+                currentCatSprite = catSpriteArray[catSpriteArray.indexOf(currentCatSprite)!+1]
+                updateButtons()
                 for cat in catSpriteArray {
                     cat.runAction(shift(left: true), completion: {
                         if catSpriteArray.indexOf(cat) == catSpriteArray.count-1 {
-                            currentCatSprite = catSpriteArray[catSpriteArray.indexOf(currentCatSprite)!+1]
+                            
                             isShiftingCats = false
                         }
                     })
                 }
             }
         }
+        
+        
         
         let doneButton = SKPixelButtonNode(textureName: "catselect_done", text: "Mine!")
         doneButton.setScale(46/9)
@@ -206,6 +234,8 @@ class NewWorld: SKNode {
         self.addChild(doneButton)
         self.addChild(leftButton)
         self.addChild(rightButton)
+        
+        updateButtons()
     }
     
 //    func update() {
