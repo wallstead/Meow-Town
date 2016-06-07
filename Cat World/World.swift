@@ -240,7 +240,7 @@ class NewWorld: SKNode {
             cat.runAction(SKAction.fadeAlphaTo(1, duration: 1))
         }
         
-        let doneButton = SKPixelButtonNode(textureName: "catselect_done")
+        let doneButton = SKPixelButtonNode(textureName: "catselect_done", text: "Mine!")
         doneButton.setScale(46/9)
         doneButton.zPosition = 10010
         doneButton.position.y = circleBackground.position.y-190

@@ -36,7 +36,6 @@ class SKPixelSpriteNode: SKSpriteNode {
         self.size = CGSizeZero
         let newTexture = SKTexture(imageNamed: textureName)
         newTexture.filteringMode = .Nearest
-
         self.texture = newTexture
         let oldXScale = xScale
         let oldYScale = yScale
@@ -68,10 +67,18 @@ class SKPixelButtonNode: SKPixelSpriteNode {
         self.activeTexture = texturePressed
         self.downSound = SKAudioNode(fileNamed: "button_down.wav")
         self.upSound = SKAudioNode(fileNamed: "button_up.wav")
-        
         super.init(textureName: textureName)
+        if (text != nil) {
+            self.text = SKLabelNode(fontNamed: "Silkscreen")
+            self.text!.text = text
+            self.text!.setScale(1/10)
+            self.text!.fontSize = 80
+            self.text!.fontColor = SKColor.whiteColor()
+            self.text!.verticalAlignmentMode = .Center
+            self.text!.zPosition = 1
+            self.addChild(self.text!)
+        }
         self.textureName = textureName
-        
         self.userInteractionEnabled = true
     }
     
