@@ -215,6 +215,7 @@ class NewWorld: SKNode {
             description.runAction(SKAction.fadeAlphaTo(0, duration: 1))
             circleBackground.runAction(SKAction.fadeAlphaTo(0, duration: 1))
             circleCropNode.runAction(SKAction.fadeAlphaTo(0, duration: 1))
+            circleCropNode.children.first!.runAction(SKAction.fadeAlphaTo(0, duration: 1))
             doneButton.runAction(SKAction.fadeAlphaTo(0, duration: 1))
             leftButton.runAction(SKAction.fadeAlphaTo(0, duration: 1))
             rightButton.runAction(SKAction.fadeAlphaTo(0, duration: 1))
