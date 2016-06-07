@@ -15,6 +15,8 @@ class NewWorld: SKNode {
     var cats: [NewCat]!
     override var description: String { return "*** World ***\ncats: \(cats)" }
     
+    // MARK: Initialization
+    
     required convenience init(coder decoder: NSCoder) {
         self.init()
         self.wallpaper = decoder.decodeObjectForKey("wallpaper") as! SKPixelSpriteNode
@@ -45,10 +47,14 @@ class NewWorld: SKNode {
         if let cats = cats { coder.encodeObject(cats, forKey: "cats") }
     }
     
+    // MARK: Saving
+    
     func save() {
         let worldData = NSKeyedArchiver.archivedDataWithRootObject(self)
         PlistManager.sharedInstance.saveValue(worldData, forKey: "World")
     }
+    
+    // MARK: Layout
     
     func layout() {
         wallpaper.setScale(46/9)
@@ -59,12 +65,6 @@ class NewWorld: SKNode {
         
         self.addChild(self.wallpaper)
         self.addChild(self.floor)
-    }
-    
-    func addCat(name: String) {
-        let testCat = NewCat(name: "Oscar", skin: "oscar", mood: "happy", birthday: NSDate(), world: self)
-        cats.append(testCat)
-        save()
     }
     
     func displayCatSelection() {
@@ -174,7 +174,6 @@ class NewWorld: SKNode {
                 for cat in catSpriteArray {
                     cat.runAction(shift(left: false), completion: {
                         if catSpriteArray.indexOf(cat) == catSpriteArray.count-1 {
-                            
                             isShiftingCats = false
                         }
                     })
@@ -194,7 +193,6 @@ class NewWorld: SKNode {
                 for cat in catSpriteArray {
                     cat.runAction(shift(left: true), completion: {
                         if catSpriteArray.indexOf(cat) == catSpriteArray.count-1 {
-                            
                             isShiftingCats = false
                         }
                     })
@@ -243,6 +241,14 @@ class NewWorld: SKNode {
         self.addChild(rightButton)
         
         updateButtons()
+    }
+    
+    // MARK: Cat Stuff
+    
+    func addCat(name: String) {
+        let testCat = NewCat(name: "Oscar", skin: "oscar", mood: "happy", birthday: NSDate(), world: self)
+        cats.append(testCat)
+        save()
     }
     
     func update() {

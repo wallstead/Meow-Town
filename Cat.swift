@@ -459,7 +459,7 @@ class NewCat: NSObject, NSCoding {
     }
     
     func update() {
-        
+        print("test")
     }
 }
 

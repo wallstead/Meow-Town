@@ -26,11 +26,7 @@ class GameScene: SKScene {
         world.zPosition = 0
         self.addChild(world)
         world.save()
-        
-        
     }
-    
-    
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
       
