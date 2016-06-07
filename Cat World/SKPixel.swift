@@ -95,7 +95,40 @@ class SKPixelButtonNode: SKPixelSpriteNode {
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        action?()
+        self.texture = activeTexture
+        downSound.runAction(SKAction.play())
+        if (text != nil) {
+            text?.position.y = -1
+        }
+    }
+    
+    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        if let touch = touches.first {
+            let location: CGPoint = touch.locationInNode(self.parent!)
+            if self.containsPoint(location) {
+                self.texture = activeTexture
+                if (text != nil) {
+                    text?.position.y = -1
+                }
+            } else {
+                self.texture = defaultTexture
+                if (text != nil) {
+                    text?.position.y = 0
+                }
+            }
+        }
+
+    }
+
+    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        if self.texture == activeTexture {
+            action?()
+            upSound.runAction(SKAction.play())
+        }
+        if (text != nil) {
+            text?.position.y = 0
+        }
+        self.texture = defaultTexture
     }
 }
 

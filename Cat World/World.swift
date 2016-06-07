@@ -232,7 +232,6 @@ class NewWorld: SKNode {
         circleCropNode.zPosition = 10003
         circleCropNode.alpha = 0
         
-        
         for cat in catSpriteArray {
             print(cat)
             cat.position = CGPoint(x: 0+(catSpriteArray.indexOf(cat)!*55), y: 0)
@@ -241,13 +240,13 @@ class NewWorld: SKNode {
             cat.runAction(SKAction.fadeAlphaTo(1, duration: 1))
         }
         
-        let doneButton = SKPixelSpriteNode(textureName: "catselect_done")
+        let doneButton = SKPixelButtonNode(textureName: "catselect_done")
         doneButton.setScale(46/9)
         doneButton.zPosition = 10010
         doneButton.position.y = circleBackground.position.y-190
         doneButton.alpha = 0
         doneButton.action = {
-            print("whudup")
+            print(currentCatSprite.textureName)
         }
         
         background.runAction(SKAction.fadeAlphaTo(1, duration: 1))

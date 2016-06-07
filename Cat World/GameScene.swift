@@ -26,6 +26,7 @@ class GameScene: SKScene {
         }
         
         world.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
+        world.zPosition = 0
         self.addChild(world)
         world.save()
         
