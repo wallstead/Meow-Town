@@ -440,6 +440,11 @@ class NewCat: NSObject, NSCoding {
         if let world = world { coder.encodeObject(world, forKey: "world") }
     }
     
+    func save() {
+        let catDictionary = NSDictionary(object: NSKeyedArchiver.archivedDataWithRootObject(self), forKey: name)
+        PlistManager.sharedInstance.saveValue(catDictionary, forKey: "Cats")
+    }
+    
     func isKitten() -> Bool {
         print(age()/lifespan)
         if age()/lifespan < (1/15) {
@@ -453,9 +458,8 @@ class NewCat: NSObject, NSCoding {
         return NSDate().timeIntervalSinceDate(birthday)
     }
     
-    func save() {
-        let catDictionary = NSDictionary(object: NSKeyedArchiver.archivedDataWithRootObject(self), forKey: name)
-        PlistManager.sharedInstance.saveValue(catDictionary, forKey: "Cats")
+    func update() {
+        
     }
 }
 

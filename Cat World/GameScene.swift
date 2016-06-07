@@ -12,10 +12,7 @@ class GameScene: SKScene {
     var world: NewWorld!
     
     override func didMoveToView(view: SKView) {
-        self.name = "SCENEENEENENENEN" 
-//        world = World(inScene: self)
-//        
-//        self.addChild(world)
+        
         let worldData = PlistManager.sharedInstance.getValueForKey("World") as? NSData
         
         if worldData?.length != 0 { // check if empty
@@ -40,6 +37,6 @@ class GameScene: SKScene {
     }
    
     override func update(currentTime: CFTimeInterval) {
-//        world.update()
+        world.update()
     }
 }

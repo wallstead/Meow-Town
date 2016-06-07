@@ -245,10 +245,10 @@ class NewWorld: SKNode {
         updateButtons()
     }
     
-//    func update() {
-//        for cat in cats {
-//            cat.update()
-//        }
-//    }
+    func update() {
+        for cat in cats {
+            cat.update()
+        }
+    }
 }
 
