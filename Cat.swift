@@ -9,26 +9,6 @@
 import Foundation
 import SpriteKit
 
-struct Being {
-    var name: String
-    let skin: String
-    var mood: String
-    var age: NSTimeInterval
-    let birthday: NSDate
-    var deathday: NSDate
-    let lifespan: NSTimeInterval
-    
-    init(name: String, skin: String, birthday: NSDate, lifespan: NSTimeInterval) {
-        self.name = name
-        self.skin = skin
-        self.mood = "happy"
-        self.age = 0
-        self.birthday = birthday
-        self.deathday = NSDate(timeInterval: lifespan*3600*24, sinceDate: birthday)
-        self.lifespan = lifespan
-    }
-}
-
 //public class Cat {
 //    var being: Being
 //    
@@ -414,6 +394,8 @@ class NewCat: NSObject, NSCoding {
     
     override var description: String { return "*** \(name) ***\nskin: \(skin)\nmood: \(mood)\nb-day: \(birthday)" }
     
+    // MARK: Initialization
+    
     required convenience init(coder decoder: NSCoder) {
         self.init()
         self.name = decoder.decodeObjectForKey("name") as! String
@@ -440,10 +422,14 @@ class NewCat: NSObject, NSCoding {
         if let world = world { coder.encodeObject(world, forKey: "world") }
     }
     
+    // MARK: Saving
+    
     func save() {
         let catDictionary = NSDictionary(object: NSKeyedArchiver.archivedDataWithRootObject(self), forKey: name)
         PlistManager.sharedInstance.saveValue(catDictionary, forKey: "Cats")
     }
+    
+    // MARK: Calculatable Cat Data
     
     func isKitten() -> Bool {
         print(age()/lifespan)
@@ -457,6 +443,8 @@ class NewCat: NSObject, NSCoding {
     func age() -> NSTimeInterval {
         return NSDate().timeIntervalSinceDate(birthday)
     }
+    
+    // MARK: Update
     
     func update() {
         print("test")

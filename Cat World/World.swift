@@ -251,6 +251,8 @@ class NewWorld: SKNode {
         save()
     }
     
+    // MARK: Update
+    
     func update() {
         for cat in cats {
             cat.update()
