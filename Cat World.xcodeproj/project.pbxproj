@@ -29,6 +29,10 @@
 		43A3C6201D054DEB004BBFBA /* CoolTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A3C61F1D054DEB004BBFBA /* CoolTime.swift */; };
 		43D159751CC1579D001DB5BD /* CatSelect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D159741CC1579D001DB5BD /* CatSelect.swift */; };
 		43D852831CC8A260005BB46D /* SpriteKit-Spring.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D852821CC8A260005BB46D /* SpriteKit-Spring.swift */; };
+		43E1130A1D073C3D005ADA37 /* DynamicColor+Deriving.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E113061D073C3D005ADA37 /* DynamicColor+Deriving.swift */; };
+		43E1130B1D073C3D005ADA37 /* DynamicColor+RGBA.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E113071D073C3D005ADA37 /* DynamicColor+RGBA.swift */; };
+		43E1130C1D073C3D005ADA37 /* DynamicColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E113081D073C3D005ADA37 /* DynamicColor.swift */; };
+		43E1130D1D073C3D005ADA37 /* HSL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E113091D073C3D005ADA37 /* HSL.swift */; };
 		43F453071CC8A543009912D8 /* Fipps-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 43F453061CC8A543009912D8 /* Fipps-Regular.otf */; };
 		43F4530C1CC8AD3B009912D8 /* slkscr.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43F453081CC8AD3B009912D8 /* slkscr.ttf */; };
 		43F4530D1CC8AD3B009912D8 /* slkscrb.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43F453091CC8AD3B009912D8 /* slkscrb.ttf */; };
@@ -87,6 +91,10 @@
 		43A3C61F1D054DEB004BBFBA /* CoolTime.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoolTime.swift; sourceTree = "<group>"; };
 		43D159741CC1579D001DB5BD /* CatSelect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CatSelect.swift; sourceTree = "<group>"; };
 		43D852821CC8A260005BB46D /* SpriteKit-Spring.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SpriteKit-Spring.swift"; sourceTree = "<group>"; };
+		43E113061D073C3D005ADA37 /* DynamicColor+Deriving.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DynamicColor+Deriving.swift"; sourceTree = "<group>"; };
+		43E113071D073C3D005ADA37 /* DynamicColor+RGBA.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DynamicColor+RGBA.swift"; sourceTree = "<group>"; };
+		43E113081D073C3D005ADA37 /* DynamicColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DynamicColor.swift; sourceTree = "<group>"; };
+		43E113091D073C3D005ADA37 /* HSL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HSL.swift; sourceTree = "<group>"; };
 		43F453061CC8A543009912D8 /* Fipps-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Fipps-Regular.otf"; sourceTree = "<group>"; };
 		43F453081CC8AD3B009912D8 /* slkscr.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = slkscr.ttf; sourceTree = "<group>"; };
 		43F453091CC8AD3B009912D8 /* slkscrb.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = slkscrb.ttf; sourceTree = "<group>"; };
@@ -163,6 +171,7 @@
 				439AD6B31CB7737D00E1E018 /* Int+Extensions.swift */,
 				433DA5EE1CBDDE9F009F1B36 /* SwiftPriorityQueue.swift */,
 				43D852821CC8A260005BB46D /* SpriteKit-Spring.swift */,
+				43E113051D073C3D005ADA37 /* DynamicColor */,
 				438032081D04DFB4004D9D58 /* PlistManager.swift */,
 				439AD6831CB7681500E1E018 /* Main.storyboard */,
 				439AD6861CB7681500E1E018 /* Assets.xcassets */,
@@ -198,6 +207,17 @@
 				439AD6A11CB7681500E1E018 /* Info.plist */,
 			);
 			path = "Cat WorldUITests";
+			sourceTree = "<group>";
+		};
+		43E113051D073C3D005ADA37 /* DynamicColor */ = {
+			isa = PBXGroup;
+			children = (
+				43E113061D073C3D005ADA37 /* DynamicColor+Deriving.swift */,
+				43E113071D073C3D005ADA37 /* DynamicColor+RGBA.swift */,
+				43E113081D073C3D005ADA37 /* DynamicColor.swift */,
+				43E113091D073C3D005ADA37 /* HSL.swift */,
+			);
+			path = DynamicColor;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -345,14 +365,18 @@
 				438032091D04DFB4004D9D58 /* PlistManager.swift in Sources */,
 				4370837B1CEF8F1E009416EB /* Menu.swift in Sources */,
 				43D159751CC1579D001DB5BD /* CatSelect.swift in Sources */,
+				43E1130B1D073C3D005ADA37 /* DynamicColor+RGBA.swift in Sources */,
 				4345CD981CF77692003BA6D4 /* Activity.swift in Sources */,
 				433DA5EF1CBDDE9F009F1B36 /* SwiftPriorityQueue.swift in Sources */,
 				43A3C6201D054DEB004BBFBA /* CoolTime.swift in Sources */,
+				43E1130A1D073C3D005ADA37 /* DynamicColor+Deriving.swift in Sources */,
 				433DA5F11CBEAA12009F1B36 /* SKPixel.swift in Sources */,
 				4370837D1CEF94C8009416EB /* Items.swift in Sources */,
 				43D852831CC8A260005BB46D /* SpriteKit-Spring.swift in Sources */,
 				439AD6AE1CB7683700E1E018 /* Cat.swift in Sources */,
+				43E1130C1D073C3D005ADA37 /* DynamicColor.swift in Sources */,
 				439AD6801CB7681500E1E018 /* GameScene.swift in Sources */,
+				43E1130D1D073C3D005ADA37 /* HSL.swift in Sources */,
 				43FD71491CD41CAA0058DFBA /* World.swift in Sources */,
 				439AD6B41CB7737D00E1E018 /* Int+Extensions.swift in Sources */,
 				43FD714B1CD41E7A0058DFBA /* HUD.swift in Sources */,

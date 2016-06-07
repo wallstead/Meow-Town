@@ -135,7 +135,9 @@ class NewWorld: SKNode {
         func shift(left l: Bool) -> SKAction {
             isShiftingCats = true
             var multiplier: CGFloat = 1
-            if l { multiplier = -1 }
+            if l {
+                multiplier = -1
+            }
             return SKAction.moveByX(multiplier*55, y: 0, duration: 0.5, delay: 0, usingSpringWithDamping: 0.65, initialSpringVelocity: 0)
         }
         
@@ -145,7 +147,14 @@ class NewWorld: SKNode {
         leftButton.position = CGPoint(x: circleBackground.position.x-150, y: circleBackground.position.y)
         leftButton.alpha = 0
         leftButton.action = {
-            if !isShiftingCats { for cat in catSpriteArray { cat.runAction(shift(left: false), completion: { isShiftingCats = false }) }}
+            if !isShiftingCats && catSpriteArray.indexOf(currentCatSprite) > 0 {
+//                for cat in catSpriteArray {
+//                    cat.runAction(shift(left: false), completion: {
+//                        currentCatSprite = catSpriteArray[catSpriteArray.indexOf(currentCatSprite)!-1]
+//                        isShiftingCats = false
+//                    })
+//                }
+            }
         }
         
         let rightButton = SKPixelButtonNode(textureName: "catselect_arrow")
@@ -155,7 +164,14 @@ class NewWorld: SKNode {
         rightButton.alpha = 0
         rightButton.xScale = -(46/9)
         rightButton.action = {
-            if !isShiftingCats { for cat in catSpriteArray { cat.runAction(shift(left: true), completion: { isShiftingCats = false }) }}
+            if !isShiftingCats && catSpriteArray.indexOf(currentCatSprite) < catSpriteArray.count  {
+//                for cat in catSpriteArray {
+//                    cat.runAction(shift(left: true), completion: {
+//                        currentCatSprite = catSpriteArray[catSpriteArray.indexOf(currentCatSprite)!+1]
+//                        isShiftingCats = false
+//                    })
+//                }
+            }
         }
         
         let doneButton = SKPixelButtonNode(textureName: "catselect_done", text: "Mine!")
