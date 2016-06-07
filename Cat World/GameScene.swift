@@ -33,6 +33,6 @@ class GameScene: SKScene {
     }
    
     override func update(currentTime: CFTimeInterval) {
-        world.update()
+        world.update(currentTime)
     }
 }

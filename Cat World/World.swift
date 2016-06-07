@@ -253,9 +253,9 @@ class NewWorld: SKNode {
     
     // MARK: Update
     
-    func update() {
+    func update(currentTime: CFTimeInterval) {
         for cat in cats {
-            cat.update()
+            cat.update(currentTime)
         }
     }
 }

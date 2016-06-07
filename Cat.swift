@@ -466,8 +466,8 @@ class NewCat: NSObject, NSCoding {
     
     // MARK: Update
     
-    func update() {
-        print("test")
+    func update(currentTime: CFTimeInterval) {
+        
     }
 }
 
