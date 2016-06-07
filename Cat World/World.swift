@@ -163,7 +163,6 @@ class NewWorld: SKNode {
             }
         }
         
-        
         leftButton.setScale(46/9)
         leftButton.zPosition = 10010
         leftButton.position = CGPoint(x: circleBackground.position.x-150, y: circleBackground.position.y)
@@ -182,7 +181,6 @@ class NewWorld: SKNode {
                 }
             }
         }
-        
         
         rightButton.setScale(46/9)
         rightButton.zPosition = 10010
@@ -204,14 +202,22 @@ class NewWorld: SKNode {
             }
         }
         
-        
-        
         let doneButton = SKPixelButtonNode(textureName: "catselect_done", text: "Mine!")
         doneButton.setScale(46/9)
         doneButton.zPosition = 10010
         doneButton.position.y = circleBackground.position.y-190
         doneButton.alpha = 0
         doneButton.action = {
+            isShiftingCats = true
+            background.runAction(SKAction.fadeAlphaTo(0, duration: 1))
+            titleBar.runAction(SKAction.fadeAlphaTo(0, duration: 1))
+            title.runAction(SKAction.fadeAlphaTo(0, duration: 1))
+            description.runAction(SKAction.fadeAlphaTo(0, duration: 1))
+            circleBackground.runAction(SKAction.fadeAlphaTo(0, duration: 1))
+            circleCropNode.runAction(SKAction.fadeAlphaTo(0, duration: 1))
+            doneButton.runAction(SKAction.fadeAlphaTo(0, duration: 1))
+            leftButton.runAction(SKAction.fadeAlphaTo(0, duration: 1))
+            rightButton.runAction(SKAction.fadeAlphaTo(0, duration: 1))
             print(currentCatSprite.textureName)
         }
         
