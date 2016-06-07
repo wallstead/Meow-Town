@@ -207,6 +207,7 @@ class NewWorld: SKNode {
         doneButton.alpha = 0
         doneButton.action = {
             isShiftingCats = true
+            self.addCat(currentCatSprite.textureName)
             background.runAction(SKAction.fadeAlphaTo(0, duration: 1))
             titleBar.runAction(SKAction.fadeAlphaTo(0, duration: 1))
             title.runAction(SKAction.fadeAlphaTo(0, duration: 1))
@@ -217,7 +218,6 @@ class NewWorld: SKNode {
             doneButton.runAction(SKAction.fadeAlphaTo(0, duration: 1))
             leftButton.runAction(SKAction.fadeAlphaTo(0, duration: 1))
             rightButton.runAction(SKAction.fadeAlphaTo(0, duration: 1))
-            print(currentCatSprite.textureName)
         }
         
         background.runAction(SKAction.fadeAlphaTo(1, duration: 1))
@@ -246,7 +246,7 @@ class NewWorld: SKNode {
     // MARK: Cat Stuff
     
     func addCat(name: String) {
-        let testCat = NewCat(name: "Oscar", skin: "oscar", mood: "happy", birthday: NSDate(), world: self)
+        let testCat = NewCat(name: name.capitalizedString, skin: name, mood: "happy", birthday: NSDate(), world: self)
         cats.append(testCat)
         save()
     }

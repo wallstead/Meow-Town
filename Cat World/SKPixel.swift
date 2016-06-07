@@ -139,6 +139,8 @@ class SKPixelButtonNode: SKPixelSpriteNode {
     }
 }
 
+// TODO: Add a SKPixelSpriteNode subclass specifically for cat
+
 //class SKPixelButtonNode: SKPixelSpriteNode {
 //    var defaultTexture: SKTexture
 //    var activeTexture: SKTexture

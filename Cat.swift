@@ -403,6 +403,8 @@ class NewCat: NSObject, NSCoding {
         self.mood = decoder.decodeObjectForKey("mood") as! String
         self.birthday = decoder.decodeObjectForKey("birthday") as! NSDate
         self.world = decoder.decodeObjectForKey("world") as! NewWorld
+        
+        displayCat()
     }
     
     convenience init(name: String, skin: String, mood: String, birthday: NSDate, world: NewWorld) {
@@ -412,6 +414,8 @@ class NewCat: NSObject, NSCoding {
         self.mood = mood
         self.birthday = birthday
         self.world = world
+        
+        birth()
     }
     
     func encodeWithCoder(coder: NSCoder) {
@@ -420,6 +424,22 @@ class NewCat: NSObject, NSCoding {
         if let mood = mood { coder.encodeObject(mood, forKey: "mood") }
         if let birthday = birthday { coder.encodeObject(birthday, forKey: "birthday") }
         if let world = world { coder.encodeObject(world, forKey: "world") }
+    }
+    
+    func birth() {
+        /* Do any first-time things here */
+        print("\(name) has been born")
+        displayCat()
+    }
+    
+    func displayCat() {
+        /* Start cat off screen bottom left corner. */
+        let catSprite = SKPixelSpriteNode(textureName: self.skin)
+        catSprite.position.y = world.calculateAccumulatedFrame().minY
+        catSprite.zPosition = 100
+        world.addChild(catSprite)
+        
+        print("\(name) has been displayed")
     }
     
     // MARK: Saving
