@@ -147,13 +147,15 @@ class NewWorld: SKNode {
         leftButton.position = CGPoint(x: circleBackground.position.x-150, y: circleBackground.position.y)
         leftButton.alpha = 0
         leftButton.action = {
-            if !isShiftingCats && catSpriteArray.indexOf(currentCatSprite) > 0 {
-//                for cat in catSpriteArray {
-//                    cat.runAction(shift(left: false), completion: {
-//                        currentCatSprite = catSpriteArray[catSpriteArray.indexOf(currentCatSprite)!-1]
-//                        isShiftingCats = false
-//                    })
-//                }
+            if !isShiftingCats && catSpriteArray.indexOf(currentCatSprite) > 0  {
+                for cat in catSpriteArray {
+                    cat.runAction(shift(left: false), completion: {
+                        if catSpriteArray.indexOf(cat) == catSpriteArray.count-1 {
+                            currentCatSprite = catSpriteArray[catSpriteArray.indexOf(currentCatSprite)!-1]
+                            isShiftingCats = false
+                        }
+                    })
+                }
             }
         }
         
@@ -164,13 +166,15 @@ class NewWorld: SKNode {
         rightButton.alpha = 0
         rightButton.xScale = -(46/9)
         rightButton.action = {
-            if !isShiftingCats && catSpriteArray.indexOf(currentCatSprite) < catSpriteArray.count  {
-//                for cat in catSpriteArray {
-//                    cat.runAction(shift(left: true), completion: {
-//                        currentCatSprite = catSpriteArray[catSpriteArray.indexOf(currentCatSprite)!+1]
-//                        isShiftingCats = false
-//                    })
-//                }
+            if !isShiftingCats && catSpriteArray.indexOf(currentCatSprite) < catSpriteArray.count - 1  {
+                for cat in catSpriteArray {
+                    cat.runAction(shift(left: true), completion: {
+                        if catSpriteArray.indexOf(cat) == catSpriteArray.count-1 {
+                            currentCatSprite = catSpriteArray[catSpriteArray.indexOf(currentCatSprite)!+1]
+                            isShiftingCats = false
+                        }
+                    })
+                }
             }
         }
         
