@@ -57,9 +57,8 @@ class NewWorld: SKNode {
     // MARK: Layout
     
     func layout() {
-        wallpaper.setScale(46/9)
+        self.setScale(46/9)
         wallpaper.zPosition = 0
-        floor.setScale(46/9)
         floor.zPosition = 1
         floor.position = CGPoint(x: wallpaper.frame.midX, y: wallpaper.frame.minY+(floor!.frame.height/2))
         
@@ -73,7 +72,6 @@ class NewWorld: SKNode {
         var currentCatSprite: SKPixelSpriteNode
 
         let background = SKPixelSpriteNode(textureName: "catselect_bg")
-        background.setScale(46/9)
         background.zPosition = 10000
         background.alpha = 0
         
@@ -86,7 +84,6 @@ class NewWorld: SKNode {
         currentCatSprite = catSpriteArray[0]
         
         let titleBar = SKPixelSpriteNode(textureName: "catselect_titlebar")
-        titleBar.setScale(46/9)
         titleBar.zPosition = 10001
         titleBar.position = CGPoint(x: wallpaper.frame.midX, y: wallpaper.frame.maxY-titleBar.frame.height/2)
         titleBar.alpha = 0
@@ -94,7 +91,7 @@ class NewWorld: SKNode {
         let title = SKLabelNode(fontNamed: "Fipps-Regular")
         title.zPosition = 10002
         title.text = "FAT FELINE"
-        title.setScale(5/10)
+        title.setScale(1/10)
         title.fontSize = 80
         title.position = titleBar.position
         title.fontColor = SKColor(red: 50/255, green: 50/255, blue: 50/255, alpha: 1)
@@ -104,22 +101,20 @@ class NewWorld: SKNode {
         let description = SKLabelNode(fontNamed: "Silkscreen")
         description.zPosition = 10002
         description.text = "Pick A Cat"
-        description.setScale(5/10)
+        description.setScale(1/10)
         description.fontSize = 80
-        description.position.y = title.position.y-140
+        description.position.y = title.position.y-29
         description.fontColor = SKColor(red: 50/255, green: 50/255, blue: 50/255, alpha: 1)
         description.verticalAlignmentMode = .Center
         description.alpha = 0
         
         let circleBackground = SKPixelSpriteNode(textureName: "catselect_circle")
-        circleBackground.setScale(46/9)
         circleBackground.zPosition = 10002
         circleBackground.alpha = 0
         
         let circleCropNode = SKCropNode()
         circleCropNode.position = circleBackground.position
         circleCropNode.maskNode = SKPixelSpriteNode(textureName: "catselect_circle_mask")
-        circleCropNode.setScale(46/9)
         circleCropNode.zPosition = 10003
         circleCropNode.alpha = 0
         
@@ -163,9 +158,8 @@ class NewWorld: SKNode {
             }
         }
         
-        leftButton.setScale(46/9)
         leftButton.zPosition = 10010
-        leftButton.position = CGPoint(x: circleBackground.position.x-150, y: circleBackground.position.y)
+        leftButton.position = CGPoint(x: circleBackground.position.x-29, y: circleBackground.position.y)
         leftButton.alpha = 0
         leftButton.action = {
             if !isShiftingCats && catSpriteArray.indexOf(currentCatSprite) > 0  {
@@ -181,11 +175,10 @@ class NewWorld: SKNode {
             }
         }
         
-        rightButton.setScale(46/9)
         rightButton.zPosition = 10010
-        rightButton.position = CGPoint(x: circleBackground.position.x+150, y: circleBackground.position.y)
+        rightButton.position = CGPoint(x: circleBackground.position.x+29, y: circleBackground.position.y)
         rightButton.alpha = 0
-        rightButton.xScale = -(46/9)
+        rightButton.xScale = -1
         rightButton.action = {
             if !isShiftingCats && catSpriteArray.indexOf(currentCatSprite) < catSpriteArray.count - 1  {
                 currentCatSprite = catSpriteArray[catSpriteArray.indexOf(currentCatSprite)!+1]
@@ -201,9 +194,8 @@ class NewWorld: SKNode {
         }
         
         let doneButton = SKPixelButtonNode(textureName: "catselect_done", text: "Mine!")
-        doneButton.setScale(46/9)
         doneButton.zPosition = 10010
-        doneButton.position.y = circleBackground.position.y-190
+        doneButton.position.y = circleBackground.position.y-37
         doneButton.alpha = 0
         doneButton.action = {
             isShiftingCats = true
