@@ -384,21 +384,23 @@ import SpriteKit
 //    
 //}
 
-class NewCat: NSObject, NSCoding {
-    var name: String!
+class NewCat: SKNode {
+    var firstname: String!
     var skin: String!
     var mood: String!
     var birthday: NSDate!
     let lifespan: NSTimeInterval = 7.days
     var world: NewWorld!
+    let timer = Timer() // the timer calculates the time step value dt for every frame
+    let scheduler = Scheduler() // an event scheduler
     
-    override var description: String { return "*** \(name) ***\nskin: \(skin)\nmood: \(mood)\nb-day: \(birthday)" }
+    override var description: String { return "*** \(firstname) ***\nskin: \(skin)\nmood: \(mood)\nb-day: \(birthday)" }
     
     // MARK: Initialization
     
     required convenience init(coder decoder: NSCoder) {
         self.init()
-        self.name = decoder.decodeObjectForKey("name") as! String
+        self.firstname = decoder.decodeObjectForKey("firstname") as! String
         self.skin = decoder.decodeObjectForKey("skin") as! String
         self.mood = decoder.decodeObjectForKey("mood") as! String
         self.birthday = decoder.decodeObjectForKey("birthday") as! NSDate
@@ -409,7 +411,7 @@ class NewCat: NSObject, NSCoding {
     
     convenience init(name: String, skin: String, mood: String, birthday: NSDate, world: NewWorld) {
         self.init()
-        self.name = name
+        self.firstname = name
         self.skin = skin
         self.mood = mood
         self.birthday = birthday
@@ -418,8 +420,8 @@ class NewCat: NSObject, NSCoding {
         birth()
     }
     
-    func encodeWithCoder(coder: NSCoder) {
-        if let name = name { coder.encodeObject(name, forKey: "name") }
+    override func encodeWithCoder(coder: NSCoder) {
+        if let firstname = firstname { coder.encodeObject(firstname, forKey: "firstname") }
         if let skin = skin { coder.encodeObject(skin, forKey: "skin") }
         if let mood = mood { coder.encodeObject(mood, forKey: "mood") }
         if let birthday = birthday { coder.encodeObject(birthday, forKey: "birthday") }
@@ -439,20 +441,30 @@ class NewCat: NSObject, NSCoding {
         catSprite.zPosition = 100
         world.addChild(catSprite)
         
+        scheduler
+            .every(1.0) // every one second
+            .perform( self=>NewCat.test ) // update the elapsed time label
+            .end()
+        
+        scheduler.start()
+        
         print("\(name) has been displayed")
+    }
+    
+    func test() {
+        print("whudup")
     }
     
     // MARK: Saving
     
     func save() {
-        let catDictionary = NSDictionary(object: NSKeyedArchiver.archivedDataWithRootObject(self), forKey: name)
+        let catDictionary = NSDictionary(object: NSKeyedArchiver.archivedDataWithRootObject(self), forKey: firstname)
         PlistManager.sharedInstance.saveValue(catDictionary, forKey: "Cats")
     }
     
     // MARK: Calculatable Cat Data
     
     func isKitten() -> Bool {
-        print(age()/lifespan)
         if age()/lifespan < (1/15) {
             return true
         } else {
@@ -467,7 +479,20 @@ class NewCat: NSObject, NSCoding {
     // MARK: Update
     
     func update(currentTime: CFTimeInterval) {
-        
+        timer.advance()
+        scheduler.update(timer.dt)
+    }
+}
+
+extension NewCat {
+    func pause() {
+        self.paused = true
+        timer.advance(true)
+    }
+    
+    func unpause() {
+        self.paused = false
+        timer.advance(false)
     }
 }
 

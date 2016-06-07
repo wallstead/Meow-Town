@@ -33,6 +33,10 @@
 		43E1130B1D073C3D005ADA37 /* DynamicColor+RGBA.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E113071D073C3D005ADA37 /* DynamicColor+RGBA.swift */; };
 		43E1130C1D073C3D005ADA37 /* DynamicColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E113081D073C3D005ADA37 /* DynamicColor.swift */; };
 		43E1130D1D073C3D005ADA37 /* HSL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E113091D073C3D005ADA37 /* HSL.swift */; };
+		43E113131D0755EF005ADA37 /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E1130F1D0755EF005ADA37 /* Globals.swift */; };
+		43E113141D0755EF005ADA37 /* Scheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E113101D0755EF005ADA37 /* Scheduler.swift */; };
+		43E113151D0755EF005ADA37 /* TargetAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E113111D0755EF005ADA37 /* TargetAction.swift */; };
+		43E113161D0755EF005ADA37 /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E113121D0755EF005ADA37 /* Timer.swift */; };
 		43F453071CC8A543009912D8 /* Fipps-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 43F453061CC8A543009912D8 /* Fipps-Regular.otf */; };
 		43F4530C1CC8AD3B009912D8 /* slkscr.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43F453081CC8AD3B009912D8 /* slkscr.ttf */; };
 		43F4530D1CC8AD3B009912D8 /* slkscrb.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43F453091CC8AD3B009912D8 /* slkscrb.ttf */; };
@@ -95,6 +99,10 @@
 		43E113071D073C3D005ADA37 /* DynamicColor+RGBA.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DynamicColor+RGBA.swift"; sourceTree = "<group>"; };
 		43E113081D073C3D005ADA37 /* DynamicColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DynamicColor.swift; sourceTree = "<group>"; };
 		43E113091D073C3D005ADA37 /* HSL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HSL.swift; sourceTree = "<group>"; };
+		43E1130F1D0755EF005ADA37 /* Globals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Globals.swift; sourceTree = "<group>"; };
+		43E113101D0755EF005ADA37 /* Scheduler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scheduler.swift; sourceTree = "<group>"; };
+		43E113111D0755EF005ADA37 /* TargetAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TargetAction.swift; sourceTree = "<group>"; };
+		43E113121D0755EF005ADA37 /* Timer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Timer.swift; sourceTree = "<group>"; };
 		43F453061CC8A543009912D8 /* Fipps-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Fipps-Regular.otf"; sourceTree = "<group>"; };
 		43F453081CC8AD3B009912D8 /* slkscr.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = slkscr.ttf; sourceTree = "<group>"; };
 		43F453091CC8AD3B009912D8 /* slkscrb.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = slkscrb.ttf; sourceTree = "<group>"; };
@@ -155,6 +163,7 @@
 		439AD67A1CB7681500E1E018 /* Cat World */ = {
 			isa = PBXGroup;
 			children = (
+				43E1130E1D0755D2005ADA37 /* Timer */,
 				439AD67B1CB7681500E1E018 /* AppDelegate.swift */,
 				439AD67D1CB7681500E1E018 /* GameScene.sks */,
 				439AD67F1CB7681500E1E018 /* GameScene.swift */,
@@ -173,6 +182,7 @@
 				43D852821CC8A260005BB46D /* SpriteKit-Spring.swift */,
 				43E113051D073C3D005ADA37 /* DynamicColor */,
 				438032081D04DFB4004D9D58 /* PlistManager.swift */,
+				43E1130F1D0755EF005ADA37 /* Globals.swift */,
 				439AD6831CB7681500E1E018 /* Main.storyboard */,
 				439AD6861CB7681500E1E018 /* Assets.xcassets */,
 				439AD6881CB7681500E1E018 /* LaunchScreen.storyboard */,
@@ -218,6 +228,16 @@
 				43E113091D073C3D005ADA37 /* HSL.swift */,
 			);
 			path = DynamicColor;
+			sourceTree = "<group>";
+		};
+		43E1130E1D0755D2005ADA37 /* Timer */ = {
+			isa = PBXGroup;
+			children = (
+				43E113101D0755EF005ADA37 /* Scheduler.swift */,
+				43E113111D0755EF005ADA37 /* TargetAction.swift */,
+				43E113121D0755EF005ADA37 /* Timer.swift */,
+			);
+			name = Timer;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -367,13 +387,17 @@
 				43D159751CC1579D001DB5BD /* CatSelect.swift in Sources */,
 				43E1130B1D073C3D005ADA37 /* DynamicColor+RGBA.swift in Sources */,
 				4345CD981CF77692003BA6D4 /* Activity.swift in Sources */,
+				43E113131D0755EF005ADA37 /* Globals.swift in Sources */,
 				433DA5EF1CBDDE9F009F1B36 /* SwiftPriorityQueue.swift in Sources */,
 				43A3C6201D054DEB004BBFBA /* CoolTime.swift in Sources */,
 				43E1130A1D073C3D005ADA37 /* DynamicColor+Deriving.swift in Sources */,
+				43E113151D0755EF005ADA37 /* TargetAction.swift in Sources */,
 				433DA5F11CBEAA12009F1B36 /* SKPixel.swift in Sources */,
 				4370837D1CEF94C8009416EB /* Items.swift in Sources */,
+				43E113141D0755EF005ADA37 /* Scheduler.swift in Sources */,
 				43D852831CC8A260005BB46D /* SpriteKit-Spring.swift in Sources */,
 				439AD6AE1CB7683700E1E018 /* Cat.swift in Sources */,
+				43E113161D0755EF005ADA37 /* Timer.swift in Sources */,
 				43E1130C1D073C3D005ADA37 /* DynamicColor.swift in Sources */,
 				439AD6801CB7681500E1E018 /* GameScene.swift in Sources */,
 				43E1130D1D073C3D005ADA37 /* HSL.swift in Sources */,

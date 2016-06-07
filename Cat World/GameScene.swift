@@ -11,7 +11,26 @@ import SpriteKit
 class GameScene: SKScene {
     var world: NewWorld!
     
+    override init() {
+        let width = UIScreen.mainScreen().bounds.width
+        let height = UIScreen.mainScreen().bounds.height
+        
+        let h = min(width, height)
+        let w = max(width, height)
+        super.init(size: CGSizeMake(w, h))
+        
+        GameScene.current = self
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    static var current: GameScene! = nil
+    
     override func didMoveToView(view: SKView) {
+        
+        // set scheduled events
         
         let worldData = PlistManager.sharedInstance.getValueForKey("World") as? NSData
         
