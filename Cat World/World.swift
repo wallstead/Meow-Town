@@ -26,8 +26,6 @@ class NewWorld: SKNode {
         if self.cats.isEmpty {
             displayCatSelection()
         }
-        
-        
     }
     
     convenience init(name: String) {
@@ -55,7 +53,6 @@ class NewWorld: SKNode {
     func layout() {
         wallpaper.setScale(46/9)
         wallpaper.zPosition = 0
-        
         floor.setScale(46/9)
         floor.zPosition = 1
         floor.position = CGPoint(x: wallpaper.frame.midX, y: wallpaper.frame.minY+(floor!.frame.height/2))
@@ -135,18 +132,11 @@ class NewWorld: SKNode {
             cat.runAction(SKAction.fadeAlphaTo(1, duration: 1))
         }
         
-        func shiftCats(left l: Bool) {
+        func shift(left l: Bool) -> SKAction {
             isShiftingCats = true
             var multiplier: CGFloat = 1
-            if l {
-                multiplier = -1
-            }
-            let slide = SKAction.moveByX(multiplier*55, y: 0, duration: 0.5, delay: 0, usingSpringWithDamping: 0.65, initialSpringVelocity: 0)
-            for cat in catSpriteArray {
-                cat.runAction(slide, completion: {
-                    isShiftingCats = false
-                })
-            }
+            if l { multiplier = -1 }
+            return SKAction.moveByX(multiplier*55, y: 0, duration: 0.5, delay: 0, usingSpringWithDamping: 0.65, initialSpringVelocity: 0)
         }
         
         let leftButton = SKPixelButtonNode(textureName: "catselect_arrow")
@@ -154,14 +144,19 @@ class NewWorld: SKNode {
         leftButton.zPosition = 10010
         leftButton.position = CGPoint(x: circleBackground.position.x-150, y: circleBackground.position.y)
         leftButton.alpha = 0
-        leftButton.action = { if !isShiftingCats { shiftCats(left: false) }}
+        leftButton.action = {
+            if !isShiftingCats { for cat in catSpriteArray { cat.runAction(shift(left: false), completion: { isShiftingCats = false }) }}
+        }
+        
         let rightButton = SKPixelButtonNode(textureName: "catselect_arrow")
         rightButton.setScale(46/9)
         rightButton.zPosition = 10010
         rightButton.position = CGPoint(x: circleBackground.position.x+150, y: circleBackground.position.y)
         rightButton.alpha = 0
         rightButton.xScale = -(46/9)
-        rightButton.action = { if !isShiftingCats { shiftCats(left: true) }}
+        rightButton.action = {
+            if !isShiftingCats { for cat in catSpriteArray { cat.runAction(shift(left: true), completion: { isShiftingCats = false }) }}
+        }
         
         let doneButton = SKPixelButtonNode(textureName: "catselect_done", text: "Mine!")
         doneButton.setScale(46/9)
