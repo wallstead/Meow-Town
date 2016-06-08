@@ -9,174 +9,261 @@
 import Foundation
 import SpriteKit
 
-class World: SKNode {
-    var wallpaper: SKPixelSpriteNode?
-    var floor: SKPixelSpriteNode?
-    var cameraIsZooming = false
-    var cameraIsPanning = false
+class NewWorld: SKNode {
+    var wallpaper: SKPixelSpriteNode!
+    var floor: SKPixelSpriteNode!
+    var cats: [Cat]!
+    override var description: String { return "*** World ***\ncats: \(cats)" }
     
-    var camera: SKCameraNode
-    let parentScene: SKScene
-    var isDisplayingCatSelection = false
+    // MARK: Initialization
     
-    var cats: [Cat] = []
+    required convenience init(coder decoder: NSCoder) {
+        self.init()
+        self.wallpaper = decoder.decodeObjectForKey("wallpaper") as! SKPixelSpriteNode
+        self.floor = decoder.decodeObjectForKey("floor") as! SKPixelSpriteNode
+        self.cats = decoder.decodeObjectForKey("cats") as! [Cat]
+        
+        layout()
+        
+        if self.cats.isEmpty {
+            displayCatSelection()
+        }
+    }
     
-    init(inScene scene: SKScene) {
+    convenience init(name: String) {
+        self.init()
+        self.wallpaper = SKPixelSpriteNode(textureName: "wallpaper")
+        self.floor = SKPixelSpriteNode(textureName: "floor")
+        self.cats = []
+        
+        layout()
+        
+        displayCatSelection()
+    }
+    
+    override func encodeWithCoder(coder: NSCoder) {
+        if let wallpaper = wallpaper { coder.encodeObject(wallpaper, forKey: "wallpaper") }
+        if let floor = floor { coder.encodeObject(floor, forKey: "floor") }
+        if let cats = cats { coder.encodeObject(cats, forKey: "cats") }
+    }
+    
+    // MARK: Saving
+    
+    func save() {
+        let worldData = NSKeyedArchiver.archivedDataWithRootObject(self)
+        PlistManager.sharedInstance.saveValue(worldData, forKey: "World")
+    }
+    
+    // MARK: Layout
+    
+    func layout() {
+        self.setScale(46/9)
+        wallpaper.zPosition = 0
+        floor.zPosition = 2
+        floor.position = CGPoint(x: wallpaper.frame.midX, y: wallpaper.frame.minY+(floor!.frame.height/2))
+        for i in -1...1 {
+            if i != 0 {
+                let wallpaperCopy = SKPixelSpriteNode(textureName: wallpaper.textureName)
+                wallpaperCopy.position.x = 60*CGFloat(i)
+                wallpaperCopy.zPosition = 0
+                self.addChild(wallpaperCopy)
+            }
+            for j in 0...1 {
+                let floorCopy = SKPixelSpriteNode(textureName: floor.textureName)
+                floorCopy.position.y = floor.position.y-(CGFloat(j)*30)
+                floorCopy.position.x = 60*CGFloat(i)
+                floorCopy.zPosition = 2-CGFloat(j)
+                self.addChild(floorCopy)
+            }
+        }
+        
+        self.addChild(self.wallpaper)
+        self.addChild(self.floor)
+    }
+    
+    func displayCatSelection() {
+        var isShiftingCats = false
+        var catSpriteArray: [SKPixelSpriteNode] = []
+        var currentCatSprite: SKPixelSpriteNode
 
-        parentScene = scene
-        camera = SKCameraNode()
-        scene.camera = camera
-        camera.position = CGPoint(x: scene.frame.midX, y: scene.frame.midY)
-        camera.addChild(HUD(inCamera: camera))
+        let background = SKPixelSpriteNode(textureName: "catselect_bg")
+        background.zPosition = 10000
+        background.alpha = 0
         
-        super.init()
-        
-        let data = load()
-        
-        
-        wallpaper = SKPixelSpriteNode(textureName: data!.valueForKey("Wallpaper") as! String, pressAction: {})
-        floor = SKPixelSpriteNode(textureName: data!.valueForKey("Floor") as! String, pressAction: {})
-        
-        for cat in data!.valueForKey("Cats") as! Array<String> {
-            addCat(cat, alreadySaved: true)
-        }
-        
-        wallpaper!.setScale(46/9)
-        wallpaper!.zPosition = 0
-        wallpaper!.position = CGPoint(x: scene.frame.midX, y: scene.frame.midY)
-        
-        let leftWallPaper = SKPixelSpriteNode(textureName: "wallpaper", pressAction: {})
-        leftWallPaper.setScale(46/9)
-        leftWallPaper.zPosition = -2
-        leftWallPaper.position = CGPoint(x: wallpaper!.frame.minX-leftWallPaper.frame.width/2+107, y: scene.frame.midY)
-        
-        let rightWallPaper = SKPixelSpriteNode(textureName: "wallpaper", pressAction: {})
-        rightWallPaper.setScale(46/9)
-        rightWallPaper.zPosition = -2
-        rightWallPaper.position = CGPoint(x: wallpaper!.frame.maxX+rightWallPaper.frame.width/2-107, y: scene.frame.midY)
-        
-        floor!.setScale(46/9)
-        floor!.zPosition = 1
-        floor!.position = CGPoint(x: scene.frame.midX, y: scene.frame.minY+(floor!.frame.height/2))
-        
-        let leftFloor = SKPixelSpriteNode(textureName: "floor", pressAction: {})
-        leftFloor.setScale(46/9)
-        leftFloor.zPosition = -1
-        leftFloor.position = CGPoint(x: wallpaper!.frame.minX-leftWallPaper.frame.width/2+107, y: scene.frame.minY+(floor!.frame.height/2))
-        
-        let rightFloor = SKPixelSpriteNode(textureName: "floor", pressAction: {})
-        rightFloor.setScale(46/9)
-        rightFloor.zPosition = -1
-        rightFloor.position = CGPoint(x: wallpaper!.frame.maxX+rightWallPaper.frame.width/2-107, y: scene.frame.minY+(floor!.frame.height/2))
-        
-        let bottomFloor = SKSpriteNode(color: SKColor(red: 44/255, green: 57/255, blue: 78/255, alpha: 1), size: CGSize(width: 1000, height: 1000))
-        bottomFloor.zPosition = -3
-        bottomFloor.position = CGPoint(x: scene.frame.midX, y: scene.frame.minY)
-        
-        
-        
-        scene.addChild(camera)
-        scene.addChild(wallpaper!)
-        scene.addChild(leftWallPaper)
-        scene.addChild(rightWallPaper)
-        scene.addChild(floor!)
-        scene.addChild(leftFloor)
-        scene.addChild(rightFloor)
-        scene.addChild(bottomFloor)
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    func load() -> NSDictionary? {
-        // load existing properties or set up new properties
-        let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
-        let documentsDirectory = paths[0] as String
-        let path = documentsDirectory.stringByAppendingPathComponent("WorldData.plist")
-        let fileManager = NSFileManager.defaultManager()
-        
-        // check if file exists
-        if !fileManager.fileExistsAtPath(path) {
-            // create an empty file if it doesn't exist
-            print("No World Data")
-            
-            // TODO: make this display in a non-intrinsic way
-            GameScene.displayCatSelection(inScene: parentScene)
-            
-            if let bundle = NSBundle.mainBundle().pathForResource("DefaultWorldData", ofType: "plist") {
-                print("Copying New World Data From Default")
-                try! fileManager.copyItemAtPath(bundle, toPath: path)
-            }
-        } else if fileManager.fileExistsAtPath(path) && cats.isEmpty {
-            let worldData = NSMutableDictionary(contentsOfFile: path)! as NSMutableDictionary
-            let catArray = worldData["Cats"] as! Array<String>
-            if catArray.isEmpty {
-                GameScene.displayCatSelection(inScene: parentScene)
-            }
-        }
-        
-        let data = NSDictionary(contentsOfFile: path)
-        
-        if data != nil {
-            print(data!)
-            return data!
-        } else {
-            print("No data was loaded")
-            return nil
-        }
-    }
-    
-    func save(value: String, forKey key: String) {
-        print("Old Data:")
-        
-        let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
-        let documentsDirectory = paths[0] as String
-        let path = documentsDirectory.stringByAppendingPathComponent("WorldData.plist")
-        
-        let worldData = NSMutableDictionary(contentsOfFile: path)! as NSMutableDictionary
-        print(worldData)
-        print("New Data:")
-        
-        
-        if key == "Cats" {
-            var catArray = worldData["Cats"] as! Array<String>
-            let catName = value
-            catArray.append(catName)
-            worldData.setValue(catArray, forKey: "Cats")
-        } else {
-            worldData.setValue(value, forKey: key)
-        }
-        worldData.writeToFile(path, atomically: true)
-        
-        print(worldData)
-    }
-    
-    func pause() {
-        
-    }
-    
-    func addCat(name: String, alreadySaved: Bool) {
-        let newCat = Cat(name: name.capitalizedString, skin: name, mood: "happy", weight: 120, inWorld: self)
-        newCat.addActivity(newCat.flyTo(CGPoint(x: self.floor!.frame.midX, y: self.floor!.frame.midY)), priority: 1)
-        if !alreadySaved {
-            save(name, forKey: "Cats")
-        }
-    }
-    
-    func update() {
-        // update all of the cats!
+        let cats = PlistManager.sharedInstance.getValueForKey("Selectable Cats") as! NSDictionary
         for cat in cats {
-            cat.update()
+            let catSkin = cat.value.valueForKey("skin") as! String
+            catSpriteArray.append(SKPixelSpriteNode(textureName: catSkin))
+            print(catSkin)
+        }
+        currentCatSprite = catSpriteArray[0]
+        
+        let titleBar = SKPixelSpriteNode(textureName: "catselect_titlebar")
+        titleBar.zPosition = 10001
+        titleBar.position = CGPoint(x: wallpaper.frame.midX, y: wallpaper.frame.maxY-titleBar.frame.height/2)
+        titleBar.alpha = 0
+        
+        let title = SKLabelNode(fontNamed: "Fipps-Regular")
+        title.zPosition = 10002
+        title.text = "FAT FELINE"
+        title.setScale(1/10)
+        title.fontSize = 80
+        title.position = titleBar.position
+        title.fontColor = SKColor(red: 50/255, green: 50/255, blue: 50/255, alpha: 1)
+        title.verticalAlignmentMode = .Center
+        title.alpha = 0
+        
+        let description = SKLabelNode(fontNamed: "Silkscreen")
+        description.zPosition = 10002
+        description.text = "Pick A Cat"
+        description.setScale(1/10)
+        description.fontSize = 80
+        description.position.y = title.position.y-29
+        description.fontColor = SKColor(red: 50/255, green: 50/255, blue: 50/255, alpha: 1)
+        description.verticalAlignmentMode = .Center
+        description.alpha = 0
+        
+        let circleBackground = SKPixelSpriteNode(textureName: "catselect_circle")
+        circleBackground.zPosition = 10002
+        circleBackground.alpha = 0
+        
+        let circleCropNode = SKCropNode()
+        circleCropNode.position = circleBackground.position
+        circleCropNode.maskNode = SKPixelSpriteNode(textureName: "catselect_circle_mask")
+        circleCropNode.zPosition = 10003
+        circleCropNode.alpha = 0
+        
+        for cat in catSpriteArray {
+            print(cat)
+            print(catSpriteArray.indexOf(cat)!*55)
+            cat.alpha = 0
+            circleCropNode.addChild(cat)
+            cat.position = CGPoint(x: (catSpriteArray.indexOf(cat)!*55), y: 0)
+            cat.runAction(SKAction.fadeAlphaTo(1, duration: 1))
+        }
+        
+        func shift(left l: Bool) -> SKAction {
+            isShiftingCats = true
+            var multiplier: CGFloat = 1
+            if l {
+                multiplier = -1
+            }
+            return SKAction.moveByX(multiplier*55, y: 0, duration: 0.5, delay: 0, usingSpringWithDamping: 0.65, initialSpringVelocity: 0)
+        }
+        
+        let leftButton = SKPixelButtonNode(textureName: "catselect_arrow")
+        let rightButton = SKPixelButtonNode(textureName: "catselect_arrow")
+        
+        func updateButtons() {
+            if catSpriteArray.indexOf(currentCatSprite) == 0 {
+                leftButton.runAction(SKAction.fadeAlphaTo(0.5, duration: 0.5))
+                rightButton.runAction(SKAction.fadeAlphaTo(1, duration: 0.5))
+                leftButton.userInteractionEnabled = false
+                rightButton.userInteractionEnabled = true
+            } else if catSpriteArray.indexOf(currentCatSprite) == catSpriteArray.count - 1 {
+                leftButton.runAction(SKAction.fadeAlphaTo(1, duration: 0.5))
+                rightButton.runAction(SKAction.fadeAlphaTo(0.5, duration: 0.5))
+                leftButton.userInteractionEnabled = true
+                rightButton.userInteractionEnabled = false
+            } else {
+                leftButton.runAction(SKAction.fadeAlphaTo(1, duration: 0.5))
+                rightButton.runAction(SKAction.fadeAlphaTo(1, duration: 0.5))
+                leftButton.userInteractionEnabled = true
+                rightButton.userInteractionEnabled = true
+            }
+        }
+        
+        leftButton.zPosition = 10010
+        leftButton.position = CGPoint(x: circleBackground.position.x-29, y: circleBackground.position.y)
+        leftButton.alpha = 0
+        leftButton.action = {
+            if !isShiftingCats && catSpriteArray.indexOf(currentCatSprite) > 0  {
+                currentCatSprite = catSpriteArray[catSpriteArray.indexOf(currentCatSprite)!-1]
+                updateButtons()
+                for cat in catSpriteArray {
+                    cat.runAction(shift(left: false), completion: {
+                        if catSpriteArray.indexOf(cat) == catSpriteArray.count-1 {
+                            isShiftingCats = false
+                        }
+                    })
+                }
+            }
+        }
+        
+        rightButton.zPosition = 10010
+        rightButton.position = CGPoint(x: circleBackground.position.x+29, y: circleBackground.position.y)
+        rightButton.alpha = 0
+        rightButton.xScale = -1
+        rightButton.action = {
+            if !isShiftingCats && catSpriteArray.indexOf(currentCatSprite) < catSpriteArray.count - 1  {
+                currentCatSprite = catSpriteArray[catSpriteArray.indexOf(currentCatSprite)!+1]
+                updateButtons()
+                for cat in catSpriteArray {
+                    cat.runAction(shift(left: true), completion: {
+                        if catSpriteArray.indexOf(cat) == catSpriteArray.count-1 {
+                            isShiftingCats = false
+                        }
+                    })
+                }
+            }
+        }
+        
+        let doneButton = SKPixelButtonNode(textureName: "catselect_done", text: "Mine!")
+        doneButton.zPosition = 10010
+        doneButton.position.y = circleBackground.position.y-37
+        doneButton.alpha = 0
+        doneButton.action = {
+            isShiftingCats = true
+            self.addCat(currentCatSprite.textureName)
+            background.runAction(SKAction.fadeAlphaTo(0, duration: 1))
+            titleBar.runAction(SKAction.fadeAlphaTo(0, duration: 1))
+            title.runAction(SKAction.fadeAlphaTo(0, duration: 1))
+            description.runAction(SKAction.fadeAlphaTo(0, duration: 1))
+            circleBackground.runAction(SKAction.fadeAlphaTo(0, duration: 1))
+            circleCropNode.runAction(SKAction.fadeAlphaTo(0, duration: 1))
+            circleCropNode.children.first!.runAction(SKAction.fadeAlphaTo(0, duration: 1))
+            doneButton.runAction(SKAction.fadeAlphaTo(0, duration: 1))
+            leftButton.runAction(SKAction.fadeAlphaTo(0, duration: 1))
+            rightButton.runAction(SKAction.fadeAlphaTo(0, duration: 1))
+        }
+        
+        background.runAction(SKAction.fadeAlphaTo(1, duration: 1))
+        titleBar.runAction(SKAction.fadeAlphaTo(1, duration: 1))
+        title.runAction(SKAction.fadeAlphaTo(1, duration: 1))
+        description.runAction(SKAction.fadeAlphaTo(1, duration: 1))
+        circleBackground.runAction(SKAction.fadeAlphaTo(1, duration: 1))
+        circleCropNode.runAction(SKAction.fadeAlphaTo(1, duration: 1))
+        doneButton.runAction(SKAction.fadeAlphaTo(1, duration: 1))
+        leftButton.runAction(SKAction.fadeAlphaTo(1, duration: 1))
+        rightButton.runAction(SKAction.fadeAlphaTo(1, duration: 1))
+        
+        self.addChild(background)
+        self.addChild(titleBar)
+        self.addChild(title)
+        self.addChild(description)
+        self.addChild(circleBackground)
+        self.addChild(circleCropNode)
+        self.addChild(doneButton)
+        self.addChild(leftButton)
+        self.addChild(rightButton)
+        
+        updateButtons()
+    }
+    
+    // MARK: Cat Stuff
+    
+    func addCat(name: String) {
+        let testCat = Cat(name: name.capitalizedString, skin: name, mood: "happy", birthday: NSDate(), world: self)
+        cats.append(testCat)
+        save()
+    }
+    
+    // MARK: Update
+    
+    func update(currentTime: CFTimeInterval) {
+        for cat in cats {
+            cat.update(currentTime)
         }
     }
 }
 
-extension String {
-    func stringByAppendingPathComponent(path: String) -> String {
-        
-        let nsSt = self as NSString
-        
-        return nsSt.stringByAppendingPathComponent(path)
-    }
-}

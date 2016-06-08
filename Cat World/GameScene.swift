@@ -9,18 +9,48 @@
 import SpriteKit
 
 class GameScene: SKScene {
-    var world: World!
+    var world: NewWorld!
+    var catCam: CatCam!
+    
+    override init() {
+        let width = UIScreen.mainScreen().bounds.width
+        let height = UIScreen.mainScreen().bounds.height
+        
+        let h = min(width, height)
+        let w = max(width, height)
+        super.init(size: CGSizeMake(w, h))
+        
+        GameScene.current = self
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    static var current: GameScene! = nil
     
     override func didMoveToView(view: SKView) {
         
-        world = World(inScene: self)
+        catCam = CatCam(name: "catcam")
+        self.camera = catCam
+        catCam.position = self.frame.mid()
+        
+        let worldData = PlistManager.sharedInstance.getValueForKey("World") as? NSData
+        
+        if worldData?.length != 0 { // check if empty
+            let loadedWorld = NSKeyedUnarchiver.unarchiveObjectWithData(worldData!) as? NewWorld
+            world = loadedWorld
+        } else {
+            world = NewWorld(name: "world")
+        }
+        
+        world.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
+        world.zPosition = 0
         
         self.addChild(world)
-    }
-    
-    class func displayCatSelection(inScene scene: SKScene) {
-        let catSelection = CatSelect(inScene: scene)
-        scene.addChild(catSelection)
+        self.addChild(catCam)
+        
+        world.save()
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -28,6 +58,7 @@ class GameScene: SKScene {
     }
    
     override func update(currentTime: CFTimeInterval) {
-        world.update()
+        world.update(currentTime)
+        catCam.update(currentTime)
     }
 }
