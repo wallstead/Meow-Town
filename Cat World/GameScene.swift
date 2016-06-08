@@ -31,6 +31,10 @@ class GameScene: SKScene {
     
     override func didMoveToView(view: SKView) {
         
+        let catCam = CatCam(name: "catcam")
+        self.camera = catCam
+        catCam.position = self.frame.mid()
+        
         let worldData = PlistManager.sharedInstance.getValueForKey("World") as? NSData
         
         if worldData?.length != 0 { // check if empty
@@ -42,7 +46,10 @@ class GameScene: SKScene {
         
         world.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
         world.zPosition = 0
+        
         self.addChild(world)
+        self.addChild(catCam)
+        
         world.save()
     }
     

@@ -59,8 +59,23 @@ class NewWorld: SKNode {
     func layout() {
         self.setScale(46/9)
         wallpaper.zPosition = 0
-        floor.zPosition = 1
+        floor.zPosition = 2
         floor.position = CGPoint(x: wallpaper.frame.midX, y: wallpaper.frame.minY+(floor!.frame.height/2))
+        for i in -1...1 {
+            if i != 0 {
+                let wallpaperCopy = SKPixelSpriteNode(textureName: wallpaper.textureName)
+                wallpaperCopy.position.x = 60*CGFloat(i)
+                wallpaperCopy.zPosition = 0
+                self.addChild(wallpaperCopy)
+            }
+            for j in 0...1 {
+                let floorCopy = SKPixelSpriteNode(textureName: floor.textureName)
+                floorCopy.position.y = floor.position.y-(CGFloat(j)*30)
+                floorCopy.position.x = 60*CGFloat(i)
+                floorCopy.zPosition = 2-CGFloat(j)
+                self.addChild(floorCopy)
+            }
+        }
         
         self.addChild(self.wallpaper)
         self.addChild(self.floor)

@@ -11,6 +11,7 @@
 		433DA5F11CBEAA12009F1B36 /* SKPixel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433DA5F01CBEAA12009F1B36 /* SKPixel.swift */; };
 		4345CD981CF77692003BA6D4 /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4345CD971CF77692003BA6D4 /* Activity.swift */; };
 		4345CD9A1CF77F09003BA6D4 /* DefaultWorldData.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4345CD991CF77F09003BA6D4 /* DefaultWorldData.plist */; };
+		43470F2D1D07E9390069A8A4 /* CatCam.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43470F2C1D07E9390069A8A4 /* CatCam.swift */; };
 		4370837B1CEF8F1E009416EB /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4370837A1CEF8F1E009416EB /* Menu.swift */; };
 		4370837D1CEF94C8009416EB /* Items.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4370837C1CEF94C8009416EB /* Items.swift */; };
 		438032091D04DFB4004D9D58 /* PlistManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 438032081D04DFB4004D9D58 /* PlistManager.swift */; };
@@ -71,6 +72,7 @@
 		433DA5F01CBEAA12009F1B36 /* SKPixel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKPixel.swift; sourceTree = "<group>"; };
 		4345CD971CF77692003BA6D4 /* Activity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Activity.swift; sourceTree = "<group>"; };
 		4345CD991CF77F09003BA6D4 /* DefaultWorldData.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = DefaultWorldData.plist; path = ../DefaultWorldData.plist; sourceTree = "<group>"; };
+		43470F2C1D07E9390069A8A4 /* CatCam.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CatCam.swift; sourceTree = "<group>"; };
 		4370837A1CEF8F1E009416EB /* Menu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Menu.swift; sourceTree = "<group>"; };
 		4370837C1CEF94C8009416EB /* Items.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Items.swift; sourceTree = "<group>"; };
 		438032081D04DFB4004D9D58 /* PlistManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlistManager.swift; sourceTree = "<group>"; };
@@ -140,6 +142,44 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		43470F291D07E8530069A8A4 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				43F453061CC8A543009912D8 /* Fipps-Regular.otf */,
+				43F453081CC8AD3B009912D8 /* slkscr.ttf */,
+				43F453091CC8AD3B009912D8 /* slkscrb.ttf */,
+				43F4530A1CC8AD3B009912D8 /* slkscre.ttf */,
+				43F4530B1CC8AD3B009912D8 /* slkscreb.ttf */,
+			);
+			name = Fonts;
+			sourceTree = "<group>";
+		};
+		43470F2A1D07E85C0069A8A4 /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				4381308C1CD3F1D400BC0102 /* Intro_mixdown.mp3 */,
+				43FD713C1CD3F66B0058DFBA /* mathgrant_calm.mp3 */,
+				43FD71441CD3FAED0058DFBA /* button_down.wav */,
+				43FD71451CD3FAED0058DFBA /* button_up.wav */,
+			);
+			name = Sounds;
+			sourceTree = "<group>";
+		};
+		43470F2B1D07E8960069A8A4 /* Utilites */ = {
+			isa = PBXGroup;
+			children = (
+				4345CD971CF77692003BA6D4 /* Activity.swift */,
+				433DA5EE1CBDDE9F009F1B36 /* SwiftPriorityQueue.swift */,
+				43A3C61F1D054DEB004BBFBA /* CoolTime.swift */,
+				439AD6B31CB7737D00E1E018 /* Int+Extensions.swift */,
+				43D852821CC8A260005BB46D /* SpriteKit-Spring.swift */,
+				43E113051D073C3D005ADA37 /* DynamicColor */,
+				438032081D04DFB4004D9D58 /* PlistManager.swift */,
+				43E1130F1D0755EF005ADA37 /* Globals.swift */,
+			);
+			name = Utilites;
+			sourceTree = "<group>";
+		};
 		439AD66F1CB7681500E1E018 = {
 			isa = PBXGroup;
 			children = (
@@ -169,34 +209,21 @@
 				439AD67F1CB7681500E1E018 /* GameScene.swift */,
 				439AD6811CB7681500E1E018 /* GameViewController.swift */,
 				439AD6AD1CB7683700E1E018 /* Cat.swift */,
-				43A3C61F1D054DEB004BBFBA /* CoolTime.swift */,
-				4345CD971CF77692003BA6D4 /* Activity.swift */,
 				43FD71481CD41CAA0058DFBA /* World.swift */,
+				43470F2C1D07E9390069A8A4 /* CatCam.swift */,
 				43FD714A1CD41E7A0058DFBA /* HUD.swift */,
 				4370837A1CEF8F1E009416EB /* Menu.swift */,
 				4370837C1CEF94C8009416EB /* Items.swift */,
 				43D159741CC1579D001DB5BD /* CatSelect.swift */,
 				433DA5F01CBEAA12009F1B36 /* SKPixel.swift */,
-				439AD6B31CB7737D00E1E018 /* Int+Extensions.swift */,
-				433DA5EE1CBDDE9F009F1B36 /* SwiftPriorityQueue.swift */,
-				43D852821CC8A260005BB46D /* SpriteKit-Spring.swift */,
-				43E113051D073C3D005ADA37 /* DynamicColor */,
-				438032081D04DFB4004D9D58 /* PlistManager.swift */,
-				43E1130F1D0755EF005ADA37 /* Globals.swift */,
 				439AD6831CB7681500E1E018 /* Main.storyboard */,
 				439AD6861CB7681500E1E018 /* Assets.xcassets */,
 				439AD6881CB7681500E1E018 /* LaunchScreen.storyboard */,
-				439AD68B1CB7681500E1E018 /* Info.plist */,
-				43F453061CC8A543009912D8 /* Fipps-Regular.otf */,
-				43F453081CC8AD3B009912D8 /* slkscr.ttf */,
-				43F453091CC8AD3B009912D8 /* slkscrb.ttf */,
-				43F4530A1CC8AD3B009912D8 /* slkscre.ttf */,
-				43F4530B1CC8AD3B009912D8 /* slkscreb.ttf */,
-				4381308C1CD3F1D400BC0102 /* Intro_mixdown.mp3 */,
-				43FD713C1CD3F66B0058DFBA /* mathgrant_calm.mp3 */,
-				43FD71441CD3FAED0058DFBA /* button_down.wav */,
-				43FD71451CD3FAED0058DFBA /* button_up.wav */,
+				43470F2B1D07E8960069A8A4 /* Utilites */,
+				43470F291D07E8530069A8A4 /* Fonts */,
+				43470F2A1D07E85C0069A8A4 /* Sounds */,
 				4345CD991CF77F09003BA6D4 /* DefaultWorldData.plist */,
+				439AD68B1CB7681500E1E018 /* Info.plist */,
 			);
 			path = "Cat World";
 			sourceTree = "<group>";
@@ -386,6 +413,7 @@
 				4370837B1CEF8F1E009416EB /* Menu.swift in Sources */,
 				43D159751CC1579D001DB5BD /* CatSelect.swift in Sources */,
 				43E1130B1D073C3D005ADA37 /* DynamicColor+RGBA.swift in Sources */,
+				43470F2D1D07E9390069A8A4 /* CatCam.swift in Sources */,
 				4345CD981CF77692003BA6D4 /* Activity.swift in Sources */,
 				43E113131D0755EF005ADA37 /* Globals.swift in Sources */,
 				433DA5EF1CBDDE9F009F1B36 /* SwiftPriorityQueue.swift in Sources */,
