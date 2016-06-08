@@ -390,8 +390,8 @@ class Cat: SKNode {
     var sprite: SKPixelCatNode!
     var mood: String!
     var birthday: NSDate!
-    let lifespan: NSTimeInterval = 30.seconds
-    var world: NewWorld!
+    let lifespan: NSTimeInterval = 1.day
+    var world: World!
     let timer = Timer() // the timer calculates the time step value dt for every frame
     let scheduler = Scheduler() // an event scheduler
     
@@ -406,12 +406,12 @@ class Cat: SKNode {
         self.sprite = decoder.decodeObjectForKey("sprite") as! SKPixelCatNode
         self.mood = decoder.decodeObjectForKey("mood") as! String
         self.birthday = decoder.decodeObjectForKey("birthday") as! NSDate
-        self.world = decoder.decodeObjectForKey("world") as! NewWorld
+        self.world = decoder.decodeObjectForKey("world") as! World
         
         displayCat()
     }
     
-    convenience init(name: String, skin: String, mood: String, birthday: NSDate, world: NewWorld) {
+    convenience init(name: String, skin: String, mood: String, birthday: NSDate, world: World) {
         self.init()
         self.firstname = name
         self.skin = skin+"_kitten"
@@ -445,10 +445,11 @@ class Cat: SKNode {
         sprite.zPosition = 100
         sprite.anchorPoint = CGPoint(x: 0.5, y: 0)
         sprite.action = {
-            GameScene.current.catCam.addFocus(self) // attempt to focus on
+//            GameScene.current.catCam.addFocus(self) // attempt to focus on
+            self.prance()
         }
         world.addChild(sprite)
-        flyTo(CGPoint())
+        flyTo(self.world.floor.frame.mid())
         
         scheduler
             .every(1.0) // every one second
@@ -475,6 +476,11 @@ class Cat: SKNode {
         // if needs to eat, do that
         // if needs to blink, do that
         // if needs to fly around, do that
+        if !isBusy() {
+            prance()
+        } else {
+            print("is busy")
+        }
     }
     
     // MARK: Calculatable Cat Data
@@ -485,6 +491,10 @@ class Cat: SKNode {
         } else {
             return false
         }
+    }
+    
+    func isBusy() -> Bool {
+        return sprite.hasActions()
     }
     
     func age() -> NSTimeInterval {
@@ -513,9 +523,9 @@ class Cat: SKNode {
     func flyTo(point: CGPoint) {
         let velocity: Double
         if isKitten() {
-            velocity = 100
+            velocity = 65
         } else {
-            velocity = 75
+            velocity = 45
         }
         let xDist: Double = Double(point.x - sprite.position.x)
         let yDist: Double = Double(point.y - sprite.position.y)
@@ -527,9 +537,25 @@ class Cat: SKNode {
              sprite.xScale = 1
         }
         sprite.liftLegs()
-        sprite.runAction(SKAction.moveTo(self.world.floor.frame.mid(), duration: time), completion: {
+        sprite.runAction(SKAction.moveTo(point, duration: time), completion: {
             self.sprite.stand()
         })
+        
+    }
+    
+    func prance() {
+        let randomX: Int
+        let randomY: Int
+        if isKitten() {
+            randomX = Int.random(Int(CGRectGetMinX(world.floor.frame)+8)...Int(CGRectGetMaxX(world.floor.frame)-8))
+            randomY = Int.random(Int(CGRectGetMinY(world.floor.frame))...Int(CGRectGetMaxY(world.floor.frame)-5))
+        } else {
+            randomX = Int.random(Int(CGRectGetMinX(world.floor.frame)+8)...Int(CGRectGetMaxX(world.floor.frame)-8))
+            randomY = Int.random(Int(CGRectGetMinY(world.floor.frame))...Int(CGRectGetMaxY(world.floor.frame)-5))
+        }
+        
+        let randomPoint = CGPoint(x: randomX, y: randomY)
+        flyTo(randomPoint)
     }
     
     // MARK: Update
