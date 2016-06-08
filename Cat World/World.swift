@@ -12,7 +12,7 @@ import SpriteKit
 class NewWorld: SKNode {
     var wallpaper: SKPixelSpriteNode!
     var floor: SKPixelSpriteNode!
-    var cats: [NewCat]!
+    var cats: [Cat]!
     override var description: String { return "*** World ***\ncats: \(cats)" }
     
     // MARK: Initialization
@@ -21,7 +21,7 @@ class NewWorld: SKNode {
         self.init()
         self.wallpaper = decoder.decodeObjectForKey("wallpaper") as! SKPixelSpriteNode
         self.floor = decoder.decodeObjectForKey("floor") as! SKPixelSpriteNode
-        self.cats = decoder.decodeObjectForKey("cats") as! [NewCat]
+        self.cats = decoder.decodeObjectForKey("cats") as! [Cat]
         
         layout()
         
@@ -253,7 +253,7 @@ class NewWorld: SKNode {
     // MARK: Cat Stuff
     
     func addCat(name: String) {
-        let testCat = NewCat(name: name.capitalizedString, skin: name, mood: "happy", birthday: NSDate(), world: self)
+        let testCat = Cat(name: name.capitalizedString, skin: name, mood: "happy", birthday: NSDate(), world: self)
         cats.append(testCat)
         save()
     }

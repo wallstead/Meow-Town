@@ -10,22 +10,24 @@ import Foundation
 import SpriteKit
 
 class CatCam: SKCameraNode {
-    var currentFocus: NewCat?
+    var currentFocus: Cat?
     
     // MARK: Initialization
     
     required convenience init(coder decoder: NSCoder) {
         self.init()
-        self.currentFocus = decoder.decodeObjectForKey("currentFocus") as? NewCat
+        self.currentFocus = decoder.decodeObjectForKey("currentFocus") as? Cat
     }
     
     convenience init(name: String) {
         self.init()
-        self.runAction(SKAction.scaleTo(2, duration: 2))
-        print("Starting Cat Cam")
     }
     
     override func encodeWithCoder(coder: NSCoder) {
         if let currentFocus = currentFocus { coder.encodeObject(currentFocus, forKey: "currentFocus") }
+    }
+    
+    func addFocus(cat: Cat) {
+        
     }
 }

@@ -384,7 +384,7 @@ import SpriteKit
 //    
 //}
 
-class NewCat: SKNode {
+class Cat: SKNode {
     var firstname: String!
     var skin: String!
     var sprite: SKPixelCatNode!
@@ -452,7 +452,7 @@ class NewCat: SKNode {
         
         scheduler
             .every(1.0) // every one second
-            .perform( self=>NewCat.trackAge ) // update the elapsed time label
+            .perform( self=>Cat.trackAge ) // update the elapsed time label
             .end()
         
         scheduler.start()
@@ -529,7 +529,7 @@ class NewCat: SKNode {
     }
 }
 
-extension NewCat {
+extension Cat {
     func pause() {
         self.paused = true
         timer.advance(true)
