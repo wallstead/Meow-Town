@@ -430,7 +430,7 @@ class NewCat: SKNode {
     }
     
     func birth() {
-        /* Do any first-time things here */
+        /* Do any first-time things here (coreograph an interesting entrance?) */
         print("\(name) has been born")
         displayCat()
     }
@@ -438,9 +438,12 @@ class NewCat: SKNode {
     func displayCat() {
         /* Start cat off screen bottom left corner. */
         sprite = SKPixelSpriteNode(textureName: self.skin)
-        sprite.position.y = world.calculateAccumulatedFrame().minY
+        sprite.position.y = world.wallpaper.frame.minY
+        sprite.position.x = world.wallpaper.frame.minX-10
         sprite.zPosition = 100
+        sprite.anchorPoint = CGPoint(x: 0.5, y: 0)
         world.addChild(sprite)
+        flyTo(CGPoint())
         
         scheduler
             .every(1.0) // every one second
@@ -475,6 +478,8 @@ class NewCat: SKNode {
         return NSDate().timeIntervalSinceDate(birthday)
     }
     
+    // MARK: Cat Actions
+    
     func die() {
         let flip = SKAction.rotateByAngle(3.14, duration: 1)
         let dissapear = SKAction.fadeAlphaTo(0, duration: 0.5)
@@ -490,6 +495,28 @@ class NewCat: SKNode {
         })
 
         print("\(firstname) died.")
+    }
+    
+    func flyTo(point: CGPoint) {
+        let velocity: Double
+        if isKitten() {
+            velocity = 100
+        } else {
+            velocity = 75
+        }
+        let xDist: Double = Double(point.x - sprite.position.x)
+        let yDist: Double = Double(point.y - sprite.position.y)
+        let distance: Double = sqrt((xDist * xDist) + (yDist * yDist))
+        let time: NSTimeInterval = distance/velocity //so time is dependent on distance
+        if point.x > sprite.position.x {
+            sprite.xScale = -1
+        } else {
+             sprite.xScale = 1
+        }
+        sprite.changeTextureTo(self.skin+"_floating")
+        sprite.runAction(SKAction.moveTo(self.world.floor.frame.mid(), duration: time), completion: {
+            self.sprite.changeTextureTo(self.skin)
+        })
     }
     
     // MARK: Update
