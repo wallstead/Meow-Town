@@ -445,8 +445,7 @@ class Cat: SKNode {
         sprite.zPosition = 100
         sprite.anchorPoint = CGPoint(x: 0.5, y: 0)
         sprite.action = {
-//            GameScene.current.catCam.addFocus(self) // attempt to focus on
-            self.prance()
+            GameScene.current.catCam.addFocus(self) // attempt to focus on
         }
         world.addChild(sprite)
         flyTo(self.world.floor.frame.mid())
@@ -457,7 +456,7 @@ class Cat: SKNode {
             .end()
         
         scheduler
-            .every(0.1) // every tenth of a second
+            .every(2) // every tenth of a second
             .perform( self=>Cat.brain ) // think
             .end()
         
@@ -478,8 +477,6 @@ class Cat: SKNode {
         // if needs to fly around, do that
         if !isBusy() {
             prance()
-        } else {
-            print("is busy")
         }
     }
     
