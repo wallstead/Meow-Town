@@ -457,7 +457,7 @@ class Cat: SKNode {
             .end()
         
         scheduler
-            .every(0.1) // every tenth of a second
+            .every(2) // every tenth of a second
             .perform( self=>Cat.brain ) // think
             .end()
         
@@ -478,8 +478,6 @@ class Cat: SKNode {
         // if needs to fly around, do that
         if !isBusy() {
             prance()
-        } else {
-            print("is busy")
         }
     }
     
