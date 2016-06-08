@@ -9,7 +9,7 @@
 import Foundation
 import SpriteKit
 
-class NewWorld: SKNode {
+class World: SKNode {
     var wallpaper: SKPixelSpriteNode!
     var floor: SKPixelSpriteNode!
     var cats: [Cat]!

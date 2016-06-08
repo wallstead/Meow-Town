@@ -40,7 +40,6 @@ class CatCam: SKCameraNode {
     
     func update(currentTime: CFTimeInterval) {
         if currentFocus != nil {
-            print("test")
             self.position = currentFocus!.sprite.position
         }
     }

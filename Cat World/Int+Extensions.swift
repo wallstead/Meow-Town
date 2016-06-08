@@ -76,12 +76,8 @@ public extension Int {
     assert(min < max)
     return Int(arc4random_uniform(UInt32(max - min + 1))) + min
   }
+    
+    
 }
 
-func randomPercent() -> Double {
-    return Double(arc4random() % 1000) / 10.0;
-}
 
-func randomInRange(lo: Int, hi : Int) -> Int {
-    return lo + Int(arc4random_uniform(UInt32(hi - lo + 1)))
-}

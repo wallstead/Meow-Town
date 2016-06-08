@@ -9,7 +9,7 @@
 import SpriteKit
 
 class GameScene: SKScene {
-    var world: NewWorld!
+    var world: World!
     var catCam: CatCam!
     
     override init() {
@@ -38,10 +38,10 @@ class GameScene: SKScene {
         let worldData = PlistManager.sharedInstance.getValueForKey("World") as? NSData
         
         if worldData?.length != 0 { // check if empty
-            let loadedWorld = NSKeyedUnarchiver.unarchiveObjectWithData(worldData!) as? NewWorld
+            let loadedWorld = NSKeyedUnarchiver.unarchiveObjectWithData(worldData!) as? World
             world = loadedWorld
         } else {
-            world = NewWorld(name: "world")
+            world = World(name: "world")
         }
         
         world.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
