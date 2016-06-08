@@ -387,9 +387,10 @@ import SpriteKit
 class NewCat: SKNode {
     var firstname: String!
     var skin: String!
+    var sprite: SKPixelSpriteNode!
     var mood: String!
     var birthday: NSDate!
-    let lifespan: NSTimeInterval = 7.days
+    let lifespan: NSTimeInterval = 30.seconds
     var world: NewWorld!
     let timer = Timer() // the timer calculates the time step value dt for every frame
     let scheduler = Scheduler() // an event scheduler
@@ -412,7 +413,7 @@ class NewCat: SKNode {
     convenience init(name: String, skin: String, mood: String, birthday: NSDate, world: NewWorld) {
         self.init()
         self.firstname = name
-        self.skin = skin
+        self.skin = skin+"_kitten"
         self.mood = mood
         self.birthday = birthday
         self.world = world
@@ -436,14 +437,14 @@ class NewCat: SKNode {
     
     func displayCat() {
         /* Start cat off screen bottom left corner. */
-        let catSprite = SKPixelSpriteNode(textureName: self.skin)
-        catSprite.position.y = world.calculateAccumulatedFrame().minY
-        catSprite.zPosition = 100
-        world.addChild(catSprite)
+        sprite = SKPixelSpriteNode(textureName: self.skin)
+        sprite.position.y = world.calculateAccumulatedFrame().minY
+        sprite.zPosition = 100
+        world.addChild(sprite)
         
         scheduler
             .every(1.0) // every one second
-            .perform( self=>NewCat.test ) // update the elapsed time label
+            .perform( self=>NewCat.trackAge ) // update the elapsed time label
             .end()
         
         scheduler.start()
@@ -451,15 +452,13 @@ class NewCat: SKNode {
         print("\(name) has been displayed")
     }
     
-    func test() {
-        print("whudup")
-    }
-    
-    // MARK: Saving
-    
-    func save() {
-        let catDictionary = NSDictionary(object: NSKeyedArchiver.archivedDataWithRootObject(self), forKey: firstname)
-        PlistManager.sharedInstance.saveValue(catDictionary, forKey: "Cats")
+    func trackAge() {
+        if age() >= lifespan {
+            die()
+        } else {
+            print(floor(age()))
+            print(floor(lifespan))
+        }
     }
     
     // MARK: Calculatable Cat Data
@@ -474,6 +473,23 @@ class NewCat: SKNode {
     
     func age() -> NSTimeInterval {
         return NSDate().timeIntervalSinceDate(birthday)
+    }
+    
+    func die() {
+        let flip = SKAction.rotateByAngle(3.14, duration: 1)
+        let dissapear = SKAction.fadeAlphaTo(0, duration: 0.5)
+        let die = SKAction.sequence([flip, dissapear])
+        sprite.runAction(die,completion: {
+            self.sprite.removeFromParent()
+            self.world.cats.removeAtIndex(self.world.cats.indexOf(self)!)
+            self.world.save()
+            self.removeFromParent()
+            if self.world.cats.isEmpty {
+                self.world.displayCatSelection()
+            }
+        })
+
+        print("\(firstname) died.")
     }
     
     // MARK: Update

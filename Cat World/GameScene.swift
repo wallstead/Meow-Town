@@ -10,6 +10,7 @@ import SpriteKit
 
 class GameScene: SKScene {
     var world: NewWorld!
+    var cam: SKCameraNode?
     
     override init() {
         let width = UIScreen.mainScreen().bounds.width
@@ -29,8 +30,6 @@ class GameScene: SKScene {
     static var current: GameScene! = nil
     
     override func didMoveToView(view: SKView) {
-        
-        // set scheduled events
         
         let worldData = PlistManager.sharedInstance.getValueForKey("World") as? NSData
         
