@@ -31,16 +31,20 @@ class CatCam: SKCameraNode {
     }
     
     func addFocus(cat: Cat) {
-        print("attempting to focus on \(cat.firstname)")
         if !focusing {
             print("not focusing yet")
+            
             currentFocus = cat
         }
     }
     
     func update(currentTime: CFTimeInterval) {
         if currentFocus != nil {
-            self.position = currentFocus!.sprite.position
+//            let xPos = currentFocus!.sprite.position.x*(46/9)
+//            let yPos = currentFocus!.sprite.position.y*(46/9)
+//            self.position = convertPoint(CGPoint(x: xPos,y: yPos), toNode: currentFocus!.world)
+            
+//            self.position.y = currentFocus!.sprite.position.y*(46/9)
         }
     }
 }
