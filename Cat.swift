@@ -387,7 +387,7 @@ import SpriteKit
 class NewCat: SKNode {
     var firstname: String!
     var skin: String!
-    var sprite: SKPixelSpriteNode!
+    var sprite: SKPixelCatNode!
     var mood: String!
     var birthday: NSDate!
     let lifespan: NSTimeInterval = 30.seconds
@@ -403,6 +403,7 @@ class NewCat: SKNode {
         self.init()
         self.firstname = decoder.decodeObjectForKey("firstname") as! String
         self.skin = decoder.decodeObjectForKey("skin") as! String
+        self.sprite = decoder.decodeObjectForKey("sprite") as! SKPixelCatNode
         self.mood = decoder.decodeObjectForKey("mood") as! String
         self.birthday = decoder.decodeObjectForKey("birthday") as! NSDate
         self.world = decoder.decodeObjectForKey("world") as! NewWorld
@@ -424,6 +425,7 @@ class NewCat: SKNode {
     override func encodeWithCoder(coder: NSCoder) {
         if let firstname = firstname { coder.encodeObject(firstname, forKey: "firstname") }
         if let skin = skin { coder.encodeObject(skin, forKey: "skin") }
+        if let sprite = sprite { coder.encodeObject(sprite, forKey: "sprite") }
         if let mood = mood { coder.encodeObject(mood, forKey: "mood") }
         if let birthday = birthday { coder.encodeObject(birthday, forKey: "birthday") }
         if let world = world { coder.encodeObject(world, forKey: "world") }
@@ -437,11 +439,14 @@ class NewCat: SKNode {
     
     func displayCat() {
         /* Start cat off screen bottom left corner. */
-        sprite = SKPixelSpriteNode(textureName: self.skin)
+        sprite = SKPixelCatNode(catName: self.skin)
         sprite.position.y = world.wallpaper.frame.minY
         sprite.position.x = world.wallpaper.frame.minX-10
         sprite.zPosition = 100
         sprite.anchorPoint = CGPoint(x: 0.5, y: 0)
+        sprite.action = {
+            print("test")
+        }
         world.addChild(sprite)
         flyTo(CGPoint())
         
@@ -458,9 +463,6 @@ class NewCat: SKNode {
     func trackAge() {
         if age() >= lifespan {
             die()
-        } else {
-            print(floor(age()))
-            print(floor(lifespan))
         }
     }
     
@@ -518,6 +520,138 @@ class NewCat: SKNode {
             self.sprite.changeTextureTo(self.skin)
         })
     }
+    
+//    func pube() {
+//        /* cover non-ui parts with black */
+//        let tempBG = SKSpriteNode(color: SKColor.blackColor(), size: CGSize(width: world.wallpaper!.size.width*2, height: world.wallpaper!.size.height*2))
+//        tempBG.position = world.wallpaper!.position
+//        tempBG.zPosition = 800
+//        tempBG.alpha = 0
+//        sprite.zPosition = 801
+//
+//        world.addChild(tempBG)
+//
+//        let cropped1 = SKSpriteNode(color: SKColor.whiteColor(), size: self.world.wallpaper!.size)
+//        cropped1.alpha = 0
+//        let cropped2 = SKSpriteNode(color: SKColor.whiteColor(), size: self.world.wallpaper!.size)
+//        cropped2.alpha = 0
+//
+//        let kittenCropNode = SKCropNode()
+//        let kittenmask = SKPixelSpriteNode(textureName: being.skin+"_kitten", pressAction: {})
+//        kittenmask.anchorPoint = CGPoint(x: 0.5, y: 0)
+//        kittenCropNode.maskNode = kittenmask
+//        kittenCropNode.xScale = self.sprite.xScale
+//        kittenCropNode.yScale = self.sprite.yScale
+//        kittenCropNode.zPosition = 802
+//        kittenCropNode.addChild(cropped1)
+//        kittenCropNode.position = self.sprite.position
+//        kittenCropNode.alpha = 1
+//
+//        let grownCatCropNode = SKCropNode()
+//        let grownCatmask = SKPixelSpriteNode(textureName: being.skin, pressAction: {})
+//        grownCatmask.anchorPoint = CGPoint(x: 0.5, y: 0)
+//        grownCatCropNode.maskNode = grownCatmask
+//        grownCatCropNode.xScale = 0
+//        grownCatCropNode.yScale = 0
+//        grownCatCropNode.zPosition = 802
+//        grownCatCropNode.addChild(cropped2)
+//        grownCatCropNode.position = self.sprite.position
+//        grownCatCropNode.alpha = 1
+//
+//
+//        self.world.addChild(kittenCropNode)
+//        self.world.addChild(grownCatCropNode)
+//
+//        // focus if not already focused
+//        let previouslyFocused = isFocusedOn
+//        if !previouslyFocused {
+//            isFocusedOn = true
+//        }
+//
+//        // TODO: do all of this better
+//
+//        tempBG.runAction(SKAction.fadeInWithDuration(0.57), completion: {
+//            /* Add a white node the size of the floor which will be used as a crop of the others */
+//            cropped1.runAction(SKAction.fadeInWithDuration(0.57), completion: {
+//                self.sprite.zPosition = 100;
+//                func recurse(timeSpent: Int) {
+//                    if timeSpent < 13 {
+//                        let duration: NSTimeInterval = (14 - Double(timeSpent))/30
+//                        let shrink = SKAction.scaleTo(0, duration: duration)
+//                        shrink.timingMode = .EaseIn
+//                        let growX = SKAction.scaleXTo(self.sprite.xScale, duration: duration)
+//                        let growY = SKAction.scaleYTo(self.sprite.yScale, duration: duration)
+//                        let grow = SKAction.group([growX, growY])
+//                        grow.timingMode = .EaseOut
+//                        kittenCropNode.runAction(shrink, completion: {
+//                            if timeSpent < 12 {
+//                                kittenCropNode.runAction(grow, completion: {
+//                                    let newTimeSpent = timeSpent + 1
+//                                    recurse(newTimeSpent)
+//                                })
+//                            }
+//                        })
+//
+//                    }
+//                }
+//
+//                recurse(0)
+//            })
+//            cropped2.runAction(SKAction.fadeInWithDuration(0.57), completion: {
+//                let newtexture = SKTexture(imageNamed: self.being.skin)
+//                newtexture.filteringMode = SKTextureFilteringMode.Nearest
+//
+//                func presentCat(size: CGSize) {
+//                    self.sprite.zPosition = 801;
+//                    self.isKitten = false
+//                    self.sprite.changeTextureTo(self.currentSkin())
+//
+//                    cropped1.runAction(SKAction.fadeOutWithDuration(0.57))
+//                    cropped2.runAction(SKAction.fadeOutWithDuration(0.57), completion: {
+//                        tempBG.runAction(SKAction.fadeOutWithDuration(0.57), completion: {
+//                            self.sprite.zPosition = 100;
+//                            self.isBusy = false
+//                            self.addActivity(self.flyTo(CGPoint(x: self.world.floor!.frame.midX, y: self.world.floor!.frame.midY)), priority: 0)
+//                            if !previouslyFocused { // unfocus if unfocused prior to puberty
+//                                self.isFocusedOn = false
+//                            }
+//                        })
+//                    })
+//                }
+//
+//                func recurse(timeSpent: Int) {
+//                    if timeSpent < 13 {
+//                        let duration: NSTimeInterval = (14 - Double(timeSpent))/30
+//                        let shrink = SKAction.scaleTo(0, duration: duration)
+//                        shrink.timingMode = .EaseIn
+//                        let growX = SKAction.scaleXTo(self.sprite.xScale, duration: duration)
+//                        let growY = SKAction.scaleYTo(self.sprite.yScale, duration: duration)
+//                        let grow = SKAction.group([growX, growY])
+//                        grow.timingMode = .EaseOut
+//                        grownCatCropNode.runAction(grow, completion: {
+//                            if timeSpent < 12 {
+//                                grownCatCropNode.runAction(shrink, completion: {
+//                                    let newTimeSpent = timeSpent + 1
+//                                    recurse(newTimeSpent)
+//                                })
+//                            } else {
+//                                let growX2 = SKAction.scaleXTo(self.sprite.xScale, duration: 0.1)
+//                                let growY2 = SKAction.scaleYTo(self.sprite.yScale, duration: 0.1)
+//                                let grow2 = SKAction.group([growX2, growY2])
+//                                grownCatCropNode.runAction(grow2, completion: {
+//                                    presentCat(CGSize(width: grownCatCropNode.maskNode!.frame.width,
+//                                        height: grownCatCropNode.maskNode!.frame.height))
+//                                })
+//                            }
+//                        })
+//                    }
+//                }
+//                
+//                recurse(0)
+//            })
+//        })
+//        print("\(being.name) pubed.")
+//    }
     
     // MARK: Update
     
