@@ -169,4 +169,20 @@ class SKPixelCatNode: SKPixelSpriteNode {
             }
         }
     }
+    
+    func liftLegs() {
+        self.changeTextureTo(catName+"_floating")
+    }
+    
+    func stand() {
+        self.changeTextureTo(catName)
+    }
+    
+    func closeEyes() {
+        self.changeTextureTo(catName+"_blinking")
+    }
+    
+    func openEyes() {
+        stand()
+    }
 }

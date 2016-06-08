@@ -515,9 +515,9 @@ class NewCat: SKNode {
         } else {
              sprite.xScale = 1
         }
-        sprite.changeTextureTo(self.skin+"_floating")
+        sprite.liftLegs()
         sprite.runAction(SKAction.moveTo(self.world.floor.frame.mid(), duration: time), completion: {
-            self.sprite.changeTextureTo(self.skin)
+            self.sprite.stand()
         })
     }
     
