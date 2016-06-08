@@ -10,7 +10,7 @@ import SpriteKit
 
 class GameScene: SKScene {
     var world: NewWorld!
-    var cam: SKCameraNode?
+    var catCam: CatCam!
     
     override init() {
         let width = UIScreen.mainScreen().bounds.width
@@ -31,7 +31,7 @@ class GameScene: SKScene {
     
     override func didMoveToView(view: SKView) {
         
-        let catCam = CatCam(name: "catcam")
+        catCam = CatCam(name: "catcam")
         self.camera = catCam
         catCam.position = self.frame.mid()
         
@@ -59,5 +59,6 @@ class GameScene: SKScene {
    
     override func update(currentTime: CFTimeInterval) {
         world.update(currentTime)
+        catCam.update(currentTime)
     }
 }

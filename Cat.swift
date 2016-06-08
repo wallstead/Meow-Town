@@ -445,7 +445,7 @@ class Cat: SKNode {
         sprite.zPosition = 100
         sprite.anchorPoint = CGPoint(x: 0.5, y: 0)
         sprite.action = {
-            print("test")
+            GameScene.current.catCam.addFocus(self) // attempt to focus on
         }
         world.addChild(sprite)
         flyTo(CGPoint())
@@ -453,6 +453,11 @@ class Cat: SKNode {
         scheduler
             .every(1.0) // every one second
             .perform( self=>Cat.trackAge ) // update the elapsed time label
+            .end()
+        
+        scheduler
+            .every(0.1) // every tenth of a second
+            .perform( self=>Cat.brain ) // think
             .end()
         
         scheduler.start()
@@ -464,6 +469,12 @@ class Cat: SKNode {
         if age() >= lifespan {
             die()
         }
+    }
+    
+    func brain() {
+        // if needs to eat, do that
+        // if needs to blink, do that
+        // if needs to fly around, do that
     }
     
     // MARK: Calculatable Cat Data
