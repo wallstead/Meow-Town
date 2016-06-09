@@ -26,7 +26,7 @@ class World: SKNode {
         layout()
         
         if self.cats.isEmpty {
-            displayCatSelection()
+            GameScene.current.catCam.displayCatSelection()
         }
     }
     
@@ -38,7 +38,7 @@ class World: SKNode {
         
         layout()
         
-        displayCatSelection()
+        GameScene.current.catCam.displayCatSelection()
     }
     
     override func encodeWithCoder(coder: NSCoder) {
@@ -57,7 +57,8 @@ class World: SKNode {
     // MARK: Layout
     
     func layout() {
-        self.setScale(46/9)
+//        self.setScale(46/9)
+        self.setScale(GameScene.current.frame.width/wallpaper.frame.width)
         wallpaper.zPosition = 0
         floor.zPosition = 2
         floor.position = CGPoint(x: wallpaper.frame.midX, y: wallpaper.frame.minY+(floor!.frame.height/2))
@@ -81,174 +82,7 @@ class World: SKNode {
         self.addChild(self.floor)
     }
     
-    func displayCatSelection() {
-        var isShiftingCats = false
-        var catSpriteArray: [SKPixelSpriteNode] = []
-        var currentCatSprite: SKPixelSpriteNode
-
-        let background = SKPixelSpriteNode(textureName: "catselect_bg")
-        background.zPosition = 10000
-        background.alpha = 0
-        
-        let cats = PlistManager.sharedInstance.getValueForKey("Selectable Cats") as! NSDictionary
-        for cat in cats {
-            let catSkin = cat.value.valueForKey("skin") as! String
-            catSpriteArray.append(SKPixelSpriteNode(textureName: catSkin))
-            print(catSkin)
-        }
-        currentCatSprite = catSpriteArray[0]
-        
-        let titleBar = SKPixelSpriteNode(textureName: "catselect_titlebar")
-        titleBar.zPosition = 10001
-        titleBar.position = CGPoint(x: wallpaper.frame.midX, y: wallpaper.frame.maxY-titleBar.frame.height/2)
-        titleBar.alpha = 0
-        
-        let title = SKLabelNode(fontNamed: "Fipps-Regular")
-        title.zPosition = 10002
-        title.text = "FAT FELINE"
-        title.setScale(1/10)
-        title.fontSize = 80
-        title.position = titleBar.position
-        title.fontColor = SKColor(red: 50/255, green: 50/255, blue: 50/255, alpha: 1)
-        title.verticalAlignmentMode = .Center
-        title.alpha = 0
-        
-        let description = SKLabelNode(fontNamed: "Silkscreen")
-        description.zPosition = 10002
-        description.text = "Pick A Cat"
-        description.setScale(1/10)
-        description.fontSize = 80
-        description.position.y = title.position.y-29
-        description.fontColor = SKColor(red: 50/255, green: 50/255, blue: 50/255, alpha: 1)
-        description.verticalAlignmentMode = .Center
-        description.alpha = 0
-        
-        let circleBackground = SKPixelSpriteNode(textureName: "catselect_circle")
-        circleBackground.zPosition = 10002
-        circleBackground.alpha = 0
-        
-        let circleCropNode = SKCropNode()
-        circleCropNode.position = circleBackground.position
-        circleCropNode.maskNode = SKPixelSpriteNode(textureName: "catselect_circle_mask")
-        circleCropNode.zPosition = 10003
-        circleCropNode.alpha = 0
-        
-        for cat in catSpriteArray {
-            print(cat)
-            print(catSpriteArray.indexOf(cat)!*55)
-            cat.alpha = 0
-            circleCropNode.addChild(cat)
-            cat.position = CGPoint(x: (catSpriteArray.indexOf(cat)!*55), y: 0)
-            cat.runAction(SKAction.fadeAlphaTo(1, duration: 1))
-        }
-        
-        func shift(left l: Bool) -> SKAction {
-            isShiftingCats = true
-            var multiplier: CGFloat = 1
-            if l {
-                multiplier = -1
-            }
-            return SKAction.moveByX(multiplier*55, y: 0, duration: 0.5, delay: 0, usingSpringWithDamping: 0.65, initialSpringVelocity: 0)
-        }
-        
-        let leftButton = SKPixelButtonNode(textureName: "catselect_arrow")
-        let rightButton = SKPixelButtonNode(textureName: "catselect_arrow")
-        
-        func updateButtons() {
-            if catSpriteArray.indexOf(currentCatSprite) == 0 {
-                leftButton.runAction(SKAction.fadeAlphaTo(0.5, duration: 0.5))
-                rightButton.runAction(SKAction.fadeAlphaTo(1, duration: 0.5))
-                leftButton.userInteractionEnabled = false
-                rightButton.userInteractionEnabled = true
-            } else if catSpriteArray.indexOf(currentCatSprite) == catSpriteArray.count - 1 {
-                leftButton.runAction(SKAction.fadeAlphaTo(1, duration: 0.5))
-                rightButton.runAction(SKAction.fadeAlphaTo(0.5, duration: 0.5))
-                leftButton.userInteractionEnabled = true
-                rightButton.userInteractionEnabled = false
-            } else {
-                leftButton.runAction(SKAction.fadeAlphaTo(1, duration: 0.5))
-                rightButton.runAction(SKAction.fadeAlphaTo(1, duration: 0.5))
-                leftButton.userInteractionEnabled = true
-                rightButton.userInteractionEnabled = true
-            }
-        }
-        
-        leftButton.zPosition = 10010
-        leftButton.position = CGPoint(x: circleBackground.position.x-29, y: circleBackground.position.y)
-        leftButton.alpha = 0
-        leftButton.action = {
-            if !isShiftingCats && catSpriteArray.indexOf(currentCatSprite) > 0  {
-                currentCatSprite = catSpriteArray[catSpriteArray.indexOf(currentCatSprite)!-1]
-                updateButtons()
-                for cat in catSpriteArray {
-                    cat.runAction(shift(left: false), completion: {
-                        if catSpriteArray.indexOf(cat) == catSpriteArray.count-1 {
-                            isShiftingCats = false
-                        }
-                    })
-                }
-            }
-        }
-        
-        rightButton.zPosition = 10010
-        rightButton.position = CGPoint(x: circleBackground.position.x+29, y: circleBackground.position.y)
-        rightButton.alpha = 0
-        rightButton.xScale = -1
-        rightButton.action = {
-            if !isShiftingCats && catSpriteArray.indexOf(currentCatSprite) < catSpriteArray.count - 1  {
-                currentCatSprite = catSpriteArray[catSpriteArray.indexOf(currentCatSprite)!+1]
-                updateButtons()
-                for cat in catSpriteArray {
-                    cat.runAction(shift(left: true), completion: {
-                        if catSpriteArray.indexOf(cat) == catSpriteArray.count-1 {
-                            isShiftingCats = false
-                        }
-                    })
-                }
-            }
-        }
-        
-        let doneButton = SKPixelButtonNode(textureName: "catselect_done", text: "Mine!")
-        doneButton.zPosition = 10010
-        doneButton.position.y = circleBackground.position.y-37
-        doneButton.alpha = 0
-        doneButton.action = {
-            isShiftingCats = true
-            self.addCat(currentCatSprite.textureName)
-            background.runAction(SKAction.fadeAlphaTo(0, duration: 1))
-            titleBar.runAction(SKAction.fadeAlphaTo(0, duration: 1))
-            title.runAction(SKAction.fadeAlphaTo(0, duration: 1))
-            description.runAction(SKAction.fadeAlphaTo(0, duration: 1))
-            circleBackground.runAction(SKAction.fadeAlphaTo(0, duration: 1))
-            circleCropNode.runAction(SKAction.fadeAlphaTo(0, duration: 1))
-            circleCropNode.children.first!.runAction(SKAction.fadeAlphaTo(0, duration: 1))
-            doneButton.runAction(SKAction.fadeAlphaTo(0, duration: 1))
-            leftButton.runAction(SKAction.fadeAlphaTo(0, duration: 1))
-            rightButton.runAction(SKAction.fadeAlphaTo(0, duration: 1))
-        }
-        
-        background.runAction(SKAction.fadeAlphaTo(1, duration: 1))
-        titleBar.runAction(SKAction.fadeAlphaTo(1, duration: 1))
-        title.runAction(SKAction.fadeAlphaTo(1, duration: 1))
-        description.runAction(SKAction.fadeAlphaTo(1, duration: 1))
-        circleBackground.runAction(SKAction.fadeAlphaTo(1, duration: 1))
-        circleCropNode.runAction(SKAction.fadeAlphaTo(1, duration: 1))
-        doneButton.runAction(SKAction.fadeAlphaTo(1, duration: 1))
-        leftButton.runAction(SKAction.fadeAlphaTo(1, duration: 1))
-        rightButton.runAction(SKAction.fadeAlphaTo(1, duration: 1))
-        
-        self.addChild(background)
-        self.addChild(titleBar)
-        self.addChild(title)
-        self.addChild(description)
-        self.addChild(circleBackground)
-        self.addChild(circleCropNode)
-        self.addChild(doneButton)
-        self.addChild(leftButton)
-        self.addChild(rightButton)
-        
-        updateButtons()
-    }
+    
     
     // MARK: Cat Stuff
     

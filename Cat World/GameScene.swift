@@ -16,6 +16,8 @@ class GameScene: SKScene {
         let width = UIScreen.mainScreen().bounds.width
         let height = UIScreen.mainScreen().bounds.height
         
+        print("width: \(width), height: \(height)")
+        
         let h = min(width, height)
         let w = max(width, height)
         super.init(size: CGSizeMake(w, h))
@@ -31,7 +33,12 @@ class GameScene: SKScene {
     
     override func didMoveToView(view: SKView) {
         
+        catCam = CatCam(name: "catcam")
+        self.camera = catCam
+        catCam.position = self.frame.mid()
+        catCam.zPosition = 9999999
         
+        self.addChild(catCam)
         
         let worldData = PlistManager.sharedInstance.getValueForKey("World") as? NSData
         
@@ -49,12 +56,7 @@ class GameScene: SKScene {
         
         world.save()
         
-        catCam = CatCam(name: "catcam")
-        self.camera = catCam
-        catCam.position = self.frame.mid()
-        catCam.zPosition = 999999999999
         
-        self.addChild(catCam)
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {

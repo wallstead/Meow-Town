@@ -508,6 +508,9 @@ class Cat: SKNode {
     // MARK: Cat Actions
     
     func die() {
+        if GameScene.current.catCam.currentFocus == self {
+            GameScene.current.catCam.toggleFocus(self)
+        }
         let flip = SKAction.rotateByAngle(3.14, duration: 1)
         let dissapear = SKAction.fadeAlphaTo(0, duration: 0.5)
         let die = SKAction.sequence([flip, dissapear])
@@ -517,10 +520,10 @@ class Cat: SKNode {
             self.world.save()
             self.removeFromParent()
             if self.world.cats.isEmpty {
-                self.world.displayCatSelection()
+                GameScene.current.catCam.displayCatSelection()
             }
         })
-
+        
         print("\(firstname) died.")
     }
     
