@@ -390,10 +390,11 @@ class Cat: SKNode {
     var sprite: SKPixelCatNode!
     var mood: String!
     var birthday: NSDate!
-    let lifespan: NSTimeInterval = 1.day
+    let lifespan: NSTimeInterval = 1.minute
     var world: World!
     let timer = Timer() // the timer calculates the time step value dt for every frame
     let scheduler = Scheduler() // an event scheduler
+    var hasPubed: Bool!
     
     override var description: String { return "*** \(firstname) ***\nskin: \(skin)\nmood: \(mood)\nb-day: \(birthday)" }
     
@@ -407,6 +408,7 @@ class Cat: SKNode {
         self.mood = decoder.decodeObjectForKey("mood") as! String
         self.birthday = decoder.decodeObjectForKey("birthday") as! NSDate
         self.world = decoder.decodeObjectForKey("world") as! World
+        self.hasPubed = decoder.decodeObjectForKey("hasPubed") as! Bool
         
         displayCat()
     }
@@ -418,6 +420,7 @@ class Cat: SKNode {
         self.mood = mood
         self.birthday = birthday
         self.world = world
+        self.hasPubed = false
         
         birth()
     }
@@ -429,6 +432,7 @@ class Cat: SKNode {
         if let mood = mood { coder.encodeObject(mood, forKey: "mood") }
         if let birthday = birthday { coder.encodeObject(birthday, forKey: "birthday") }
         if let world = world { coder.encodeObject(world, forKey: "world") }
+        if let hasPubed = hasPubed { coder.encodeObject(hasPubed, forKey: "hasPubed") }
     }
     
     func birth() {
@@ -468,6 +472,9 @@ class Cat: SKNode {
     func trackAge() {
         if age() >= lifespan {
             die()
+        } else if !isKitten() && !hasPubed && !isBusy()  {
+            hasPubed = true
+            pube()
         }
     }
     
@@ -555,11 +562,28 @@ class Cat: SKNode {
         flyTo(randomPoint)
     }
     
+    func pube() {
+        
+        print("\(firstname) pubed.")
+        // maybe overlay rainbow overkitten and grow the size of the kitten texture to 
+        // size of cat texture with it being a crop node, then fade in overlayed rainbow cat while fading out
+        // kitten then fade the rainbow overlay?
+    }
+    
     // MARK: Update
     
     func update(currentTime: CFTimeInterval) {
         timer.advance()
         scheduler.update(timer.dt)
+        changeZPosition() 
+    }
+    
+    func changeZPosition() {
+        // TODO: Do z-positioning in a more efficient way
+        let catPosCoeff = self.sprite.position.y-world.floor.frame.minY
+        let divisorCoeff = world.floor.frame.maxY-world.floor.frame.minY
+        let percentageYPos = (1-(catPosCoeff/divisorCoeff))*100
+        self.sprite.zPosition = 100 + percentageYPos
     }
 }
 
