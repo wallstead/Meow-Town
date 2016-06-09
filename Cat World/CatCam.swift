@@ -30,21 +30,43 @@ class CatCam: SKCameraNode {
         if let currentFocus = currentFocus { coder.encodeObject(currentFocus, forKey: "currentFocus") }
     }
     
-    func addFocus(cat: Cat) {
-        if !focusing {
-            print("not focusing yet")
-            
-            currentFocus = cat
+    func toggleFocus(cat: Cat) {
+        if currentFocus == cat { // unfocus
+            if !focusing {
+                currentFocus = nil
+                unfocus()
+            }
+        } else { // focus
+            if !focusing {
+                let zoom = SKAction.scaleTo(0.75, duration: 0.5)
+                zoom.timingMode = .EaseOut
+                self.runAction(zoom)
+                currentFocus = cat
+            }
         }
+        
+    }
+    
+    func unfocus() {
+        self.removeAllActions()
+        let resetPosition = SKAction.moveTo(GameScene.current.frame.mid(), duration: 0.5)
+        resetPosition.timingMode = .EaseOut
+        self.runAction(resetPosition)
+        let zoom = SKAction.scaleTo(1, duration: 0.5)
+        zoom.timingMode = .EaseOut
+        self.runAction(zoom)
     }
     
     func update(currentTime: CFTimeInterval) {
         if currentFocus != nil {
-            let xPos = currentFocus!.sprite.position.x*(46/9)
-            let yPos = currentFocus!.sprite.position.y*(46/9)
-            self.position = convertPoint(CGPoint(x: xPos,y: yPos), toNode: currentFocus!.world)
-            
-            self.position.y = currentFocus!.sprite.position.y*(46/9)
+            var point = currentFocus!.sprite.positionInScene
+            if currentFocus!.isKitten() {
+                point.y += 40
+            } else {
+                point.y += 70
+            }
+            let action = SKAction.moveTo(point, duration: 0.25)
+            self.runAction(action)
         }
     }
 }

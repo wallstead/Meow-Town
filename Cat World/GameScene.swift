@@ -31,9 +31,7 @@ class GameScene: SKScene {
     
     override func didMoveToView(view: SKView) {
         
-        catCam = CatCam(name: "catcam")
-        self.camera = catCam
-        catCam.position = self.frame.mid()
+        
         
         let worldData = PlistManager.sharedInstance.getValueForKey("World") as? NSData
         
@@ -48,9 +46,15 @@ class GameScene: SKScene {
         world.zPosition = 0
         
         self.addChild(world)
-        self.addChild(catCam)
         
         world.save()
+        
+        catCam = CatCam(name: "catcam")
+        self.camera = catCam
+        catCam.position = self.frame.mid()
+        catCam.zPosition = 999999999999
+        
+        self.addChild(catCam)
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -60,5 +64,33 @@ class GameScene: SKScene {
     override func update(currentTime: CFTimeInterval) {
         world.update(currentTime)
         catCam.update(currentTime)
+    }
+}
+
+
+extension SKNode {
+    
+    var frameInScene:CGRect {
+        get {
+            if let scene = self.scene {
+                if let parent = self.parent {
+                    let rectOriginInScene = scene.convertPoint(self.frame.origin, fromNode: parent)
+                    return CGRect(origin: rectOriginInScene, size: self.frame.size)
+                }
+            }
+            return frame
+        }
+    }
+    
+    var positionInScene:CGPoint {
+        get {
+            if let scene = self.scene {
+                if let parent = self.parent {
+                    return scene.convertPoint(self.position, fromNode: parent)
+                }
+            }
+            
+            return position
+        }
     }
 }

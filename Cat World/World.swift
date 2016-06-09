@@ -68,7 +68,7 @@ class World: SKNode {
                 wallpaperCopy.zPosition = 0
                 self.addChild(wallpaperCopy)
             }
-            for j in 0...1 {
+            for j in 0...2 {
                 let floorCopy = SKPixelSpriteNode(textureName: floor.textureName)
                 floorCopy.position.y = floor.position.y-(CGFloat(j)*30)
                 floorCopy.position.x = 60*CGFloat(i)

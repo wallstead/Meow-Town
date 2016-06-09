@@ -445,8 +445,7 @@ class Cat: SKNode {
         sprite.zPosition = 100
         sprite.anchorPoint = CGPoint(x: 0.5, y: 0)
         sprite.action = {
-            GameScene.current.catCam.addFocus(self) // attempt to focus on
-//            self.prance()
+            GameScene.current.catCam.toggleFocus(self)
         }
         world.addChild(sprite)
         flyTo(self.world.floor.frame.mid())
