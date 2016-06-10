@@ -26,6 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         for cat in GameScene.current.world.cats {
             cat.pause()
         }
+        GameScene.current.world.save()
     }
     
     func applicationDidEnterBackground(application: UIApplication) {
@@ -34,6 +35,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         for cat in GameScene.current.world.cats {
             cat.pause()
         }
+        GameScene.current.world.save()
     }
     
     func applicationWillEnterForeground(application: UIApplication) {
@@ -52,6 +54,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        for cat in GameScene.current.world.cats {
 //            cat.save()
 //        }
+        GameScene.current.world.save()
     }
 }
 

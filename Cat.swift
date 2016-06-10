@@ -409,7 +409,8 @@ class Cat: SKNode {
         self.birthday = decoder.decodeObjectForKey("birthday") as! NSDate
         self.world = decoder.decodeObjectForKey("world") as! World
         self.hasPubed = decoder.decodeObjectForKey("hasPubed") as! Bool
-        
+        print(self.skin)
+        print(self.hasPubed)
         displayCat()
     }
     
@@ -509,6 +510,8 @@ class Cat: SKNode {
     // MARK: Cat Actions
     
     func die() {
+        timer.pause()
+        scheduler.pause()
         if GameScene.current.catCam.currentFocus == self {
             GameScene.current.catCam.toggleFocus(self)
         }
@@ -573,6 +576,7 @@ class Cat: SKNode {
         }
         sprite.pube()
         self.skin = firstname.lowercaseString
+        world.save()
     }
     
     // MARK: Update
@@ -580,7 +584,8 @@ class Cat: SKNode {
     func update(currentTime: CFTimeInterval) {
         timer.advance()
         scheduler.update(timer.dt)
-        changeZPosition() 
+        changeZPosition()
+        print(age())
     }
     
     func changeZPosition() {
