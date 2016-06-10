@@ -390,7 +390,7 @@ class Cat: SKNode {
     var sprite: SKPixelCatNode!
     var mood: String!
     var birthday: NSDate!
-    let lifespan: NSTimeInterval = 1.minute
+    let lifespan: NSTimeInterval = 30.seconds
     var world: World!
     let timer = Timer() // the timer calculates the time step value dt for every frame
     let scheduler = Scheduler() // an event scheduler
@@ -483,7 +483,7 @@ class Cat: SKNode {
         // if needs to blink, do that
         // if needs to fly around, do that
         if !isBusy() {
-            prance()
+//            prance()
         }
     }
     
@@ -567,7 +567,10 @@ class Cat: SKNode {
     
     func pube() {
         
-        print("\(firstname) pubed.")
+        if GameScene.current.catCam.currentFocus != self {
+            GameScene.current.catCam.toggleFocus(self)
+        }
+        sprite.pube()
         // maybe overlay rainbow overkitten and grow the size of the kitten texture to 
         // size of cat texture with it being a crop node, then fade in overlayed rainbow cat while fading out
         // kitten then fade the rainbow overlay?

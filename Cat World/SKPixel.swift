@@ -185,4 +185,44 @@ class SKPixelCatNode: SKPixelSpriteNode {
     func openEyes() {
         stand()
     }
+    
+    func pube() {
+        let catCropNode = SKCropNode()
+        self.addChild(catCropNode)
+        catCropNode.zPosition = 1
+        let catNode = SKPixelSpriteNode(textureName: catName)
+        catNode.anchorPoint = CGPoint(x: 0.5, y: 0)
+        catCropNode.maskNode = catNode
+        catCropNode.alpha = 0
+        catCropNode.runAction(SKAction.fadeAlphaTo(1, duration: 5))
+        
+        let speed: NSTimeInterval = 1
+        
+        for i in 0...1 {
+            let rainbow = SKPixelSpriteNode(textureName: "rainbow")
+            rainbow.position.x = 42*CGFloat(i)
+            catCropNode.addChild(rainbow)
+            rainbow.runAction(SKAction.moveByX(-42, y: 0, duration: speed), completion: {
+                rainbow.position.x = 42*CGFloat(i)
+                rainbow.runAction(SKAction.moveByX(-42, y: 0, duration: speed), completion: {
+                    rainbow.position.x = 42*CGFloat(i)
+                    rainbow.runAction(SKAction.moveByX(-42, y: 0, duration: speed), completion: {
+                        rainbow.position.x = 42*CGFloat(i)
+                        rainbow.runAction(SKAction.moveByX(-42, y: 0, duration: speed), completion: {
+                            rainbow.position.x = 42*CGFloat(i)
+                            rainbow.runAction(SKAction.moveByX(-42, y: 0, duration: speed), completion: {
+                                rainbow.position.x = 42*CGFloat(i)
+                                rainbow.runAction(SKAction.moveByX(-42, y: 0, duration: speed), completion: {
+                                    rainbow.position.x = 42*CGFloat(i)
+                                })
+                            })
+                        })
+                    })
+                })
+            })
+        }
+        
+        
+        print("pubed")
+    }
 }
