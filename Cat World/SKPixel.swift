@@ -140,22 +140,22 @@ class SKPixelButtonNode: SKPixelSpriteNode {
 }
 
 class SKPixelCatNode: SKPixelSpriteNode {
-    var catName: String
+    var skinName: String
     
     init(catName: String) {
-        self.catName = catName
-        super.init(textureName: self.catName)
+        self.skinName = catName
+        super.init(textureName: self.skinName)
         self.userInteractionEnabled = true
     }
     
     required init?(coder aDecoder: NSCoder) {
-        self.catName = aDecoder.decodeObjectForKey("catname") as! String
+        self.skinName = aDecoder.decodeObjectForKey("catname") as! String
         super.init(coder: aDecoder)
         self.userInteractionEnabled = true
     }
     
     override func encodeWithCoder(aCoder: NSCoder) {
-        aCoder.encodeObject(self.catName, forKey: "catname")
+        aCoder.encodeObject(self.skinName, forKey: "catname")
         super.encodeWithCoder(aCoder)
     }
     
@@ -171,15 +171,15 @@ class SKPixelCatNode: SKPixelSpriteNode {
     }
     
     func liftLegs() {
-        self.changeTextureTo(catName+"_floating")
+        self.changeTextureTo(skinName+"_floating")
     }
     
     func stand() {
-        self.changeTextureTo(catName)
+        self.changeTextureTo(skinName)
     }
     
     func closeEyes() {
-        self.changeTextureTo(catName+"_blinking")
+        self.changeTextureTo(skinName+"_blinking")
     }
     
     func openEyes() {
@@ -187,42 +187,9 @@ class SKPixelCatNode: SKPixelSpriteNode {
     }
     
     func pube() {
-        let catCropNode = SKCropNode()
-        self.addChild(catCropNode)
-        catCropNode.zPosition = 1
-        let catNode = SKPixelSpriteNode(textureName: catName)
-        catNode.anchorPoint = CGPoint(x: 0.5, y: 0)
-        catCropNode.maskNode = catNode
-        catCropNode.alpha = 0
-        catCropNode.runAction(SKAction.fadeAlphaTo(1, duration: 5))
-        
-        let speed: NSTimeInterval = 1
-        
-        for i in 0...1 {
-            let rainbow = SKPixelSpriteNode(textureName: "rainbow")
-            rainbow.position.x = 42*CGFloat(i)
-            catCropNode.addChild(rainbow)
-            rainbow.runAction(SKAction.moveByX(-42, y: 0, duration: speed), completion: {
-                rainbow.position.x = 42*CGFloat(i)
-                rainbow.runAction(SKAction.moveByX(-42, y: 0, duration: speed), completion: {
-                    rainbow.position.x = 42*CGFloat(i)
-                    rainbow.runAction(SKAction.moveByX(-42, y: 0, duration: speed), completion: {
-                        rainbow.position.x = 42*CGFloat(i)
-                        rainbow.runAction(SKAction.moveByX(-42, y: 0, duration: speed), completion: {
-                            rainbow.position.x = 42*CGFloat(i)
-                            rainbow.runAction(SKAction.moveByX(-42, y: 0, duration: speed), completion: {
-                                rainbow.position.x = 42*CGFloat(i)
-                                rainbow.runAction(SKAction.moveByX(-42, y: 0, duration: speed), completion: {
-                                    rainbow.position.x = 42*CGFloat(i)
-                                })
-                            })
-                        })
-                    })
-                })
-            })
-        }
-        
-        
+        let grownCatName = textureName.stringByReplacingOccurrencesOfString("_kitten", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
+        self.skinName = grownCatName
+        stand()
         print("pubed")
     }
 }

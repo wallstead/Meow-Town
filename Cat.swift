@@ -443,6 +443,7 @@ class Cat: SKNode {
     
     func displayCat() {
         /* Start cat off screen bottom left corner. */
+        
         sprite = SKPixelCatNode(catName: self.skin)
         sprite.position.y = world.wallpaper.frame.minY
         sprite.position.x = world.wallpaper.frame.minX-10
@@ -483,7 +484,7 @@ class Cat: SKNode {
         // if needs to blink, do that
         // if needs to fly around, do that
         if !isBusy() {
-//            prance()
+            prance()
         }
     }
     
@@ -557,7 +558,7 @@ class Cat: SKNode {
             randomX = Int.random(Int(CGRectGetMinX(world.floor.frame)+8)...Int(CGRectGetMaxX(world.floor.frame)-8))
             randomY = Int.random(Int(CGRectGetMinY(world.floor.frame))...Int(CGRectGetMaxY(world.floor.frame)-5))
         } else {
-            randomX = Int.random(Int(CGRectGetMinX(world.floor.frame)+8)...Int(CGRectGetMaxX(world.floor.frame)-8))
+            randomX = Int.random(Int(CGRectGetMinX(world.floor.frame)+18)...Int(CGRectGetMaxX(world.floor.frame)-18))
             randomY = Int.random(Int(CGRectGetMinY(world.floor.frame))...Int(CGRectGetMaxY(world.floor.frame)-5))
         }
         
@@ -571,9 +572,7 @@ class Cat: SKNode {
             GameScene.current.catCam.toggleFocus(self)
         }
         sprite.pube()
-        // maybe overlay rainbow overkitten and grow the size of the kitten texture to 
-        // size of cat texture with it being a crop node, then fade in overlayed rainbow cat while fading out
-        // kitten then fade the rainbow overlay?
+        self.skin = firstname.lowercaseString
     }
     
     // MARK: Update
