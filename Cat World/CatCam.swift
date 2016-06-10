@@ -108,10 +108,12 @@ class CatCam: SKCameraNode {
         let circleBackground = SKPixelSpriteNode(textureName: "catselect_circle")
         background.addChild(circleBackground)
         circleBackground.zPosition = 10
+        circleBackground.position.y -= 5
         
         let circleCropNode = SKCropNode()
         background.addChild(circleCropNode)
         circleCropNode.zPosition = 11
+        circleCropNode.position = circleBackground.position
         circleCropNode.maskNode = SKPixelSpriteNode(textureName: "catselect_circle_mask")
         
         let description = SKLabelNode(fontNamed: "Silkscreen")
@@ -194,40 +196,20 @@ class CatCam: SKCameraNode {
                 }
             }
         }
-//
-//        let doneButton = SKPixelButtonNode(textureName: "catselect_done", text: "Mine!")
-//        doneButton.zPosition = 10010
-//        doneButton.position.y = circleBackground.position.y-37
-//        doneButton.alpha = 0
-//        doneButton.action = {
-//            isShiftingCats = true
-//            GameScene.current.world.addCat(currentCatSprite.textureName)
-//            background.runAction(SKAction.fadeAlphaTo(0, duration: 1))
-//            titleBar.runAction(SKAction.fadeAlphaTo(0, duration: 1))
-//            title.runAction(SKAction.fadeAlphaTo(0, duration: 1))
-//            description.runAction(SKAction.fadeAlphaTo(0, duration: 1))
-//            circleBackground.runAction(SKAction.fadeAlphaTo(0, duration: 1))
-//            circleCropNode.runAction(SKAction.fadeAlphaTo(0, duration: 1))
-//            circleCropNode.children.first!.runAction(SKAction.fadeAlphaTo(0, duration: 1))
-//            doneButton.runAction(SKAction.fadeAlphaTo(0, duration: 1))
-//            leftButton.runAction(SKAction.fadeAlphaTo(0, duration: 1))
-//            rightButton.runAction(SKAction.fadeAlphaTo(0, duration: 1))
-//        }
-        
-        
-        
-        
-        
+
+        let doneButton = SKPixelButtonNode(textureName: "catselect_done", text: "Mine!")
+        background.addChild(doneButton)
+        doneButton.zPosition = 12
+        doneButton.position.y = circleBackground.frame.minY-11
+        doneButton.action = {
+            isShiftingCats = true
+            GameScene.current.world.addCat(currentCatSprite.textureName)
+            background.runAction(SKAction.fadeAlphaTo(0, duration: 0.5), completion: {
+                background.removeFromParent()
+            })
+        }
         
         background.runAction(SKAction.fadeAlphaTo(1, duration: 1))
-        
-//        background.addChild(title)
-//        background.addChild(description)
-//        background.addChild(circleBackground)
-//        background.addChild(circleCropNode)
-//        background.addChild(doneButton)
-//        background.addChild(leftButton)
-//        background.addChild(rightButton)
         
         updateButtons()
     }
