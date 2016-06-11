@@ -52,8 +52,8 @@ class CatCam: SKCameraNode {
     
     func showHUD() {
         let topBar = SKPixelSpriteNode(textureName: "topbar_center")
-        let menuButton = SKPixelSpriteNode(textureName: "topbar_menubutton")
-        let itemsButton = SKPixelSpriteNode(textureName: "topbar_itemsbutton")
+        let menuButton = SKPixelToggleButtonNode(textureName: "topbar_menubutton")
+        let itemsButton = SKPixelToggleButtonNode(textureName: "topbar_itemsbutton")
         
         topBar.setScale(GameScene.current.frame.width/(topBar.frame.width+menuButton.frame.width+itemsButton.frame.width))
         topBar.zPosition = 10

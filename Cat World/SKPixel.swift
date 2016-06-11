@@ -139,6 +139,79 @@ class SKPixelButtonNode: SKPixelSpriteNode {
     }
 }
 
+class SKPixelToggleButtonNode: SKPixelButtonNode {
+    var enabled: Bool!
+    
+    override init(textureName: String, text: String? = nil) {
+        let texture = SKTexture(imageNamed: textureName)
+        texture.filteringMode = SKTextureFilteringMode.Nearest
+        let texturePressed = SKTexture(imageNamed: textureName+"_pressed")
+        texturePressed.filteringMode = SKTextureFilteringMode.Nearest
+        super.init(textureName: textureName, text: text)
+        self.enabled = false
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        self.enabled = aDecoder.decodeObjectForKey("enabled") as! Bool
+        super.init(coder: aDecoder)
+        self.userInteractionEnabled = true
+    }
+    
+    override func encodeWithCoder(aCoder: NSCoder) {
+        aCoder.encodeObject(self.enabled, forKey: "enabled")
+        super.encodeWithCoder(aCoder)
+    }
+    
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        self.texture = activeTexture
+        downSound.runAction(SKAction.play())
+        if (text != nil) {
+            text?.position.y = -1
+        }
+    }
+    
+    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        if let touch = touches.first {
+            let location: CGPoint = touch.locationInNode(self.parent!)
+            if self.containsPoint(location) {
+                self.texture = activeTexture
+                if (text != nil) {
+                    text?.position.y = -1
+                }
+            } else {
+                self.texture = defaultTexture
+                if (text != nil) {
+                    text?.position.y = 0
+                }
+            }
+        }
+        
+    }
+    
+    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        if !enabled { // enable
+            if self.texture == activeTexture {
+                action?()
+                upSound.runAction(SKAction.play())
+                if (text != nil) {
+                    text?.position.y = -1
+                }
+                enabled = true
+            }
+        } else { // disable
+            if self.texture == activeTexture {
+                upSound.runAction(SKAction.play())
+                if (text != nil) {
+                    text?.position.y = 0
+                }
+                self.texture = defaultTexture
+                enabled = false
+            }
+        }
+        
+    }
+}
+
 class SKPixelCatNode: SKPixelSpriteNode {
     var skinName: String
     
