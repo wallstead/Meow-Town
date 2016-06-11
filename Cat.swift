@@ -210,7 +210,6 @@ class Cat: SKNode {
         timer.advance()
         scheduler.update(timer.dt)
         changeZPosition()
-        print(age())
     }
     
     func changeZPosition() {

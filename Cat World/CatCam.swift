@@ -19,11 +19,14 @@ class CatCam: SKCameraNode {
         self.init()
         self.currentFocus = decoder.decodeObjectForKey("currentFocus") as? Cat
         self.focusing = false
+        showHUD()
     }
     
     convenience init(name: String) {
         self.init()
+        
         self.focusing = false
+        showHUD()
     }
     
     override func encodeWithCoder(coder: NSCoder) {
@@ -45,6 +48,33 @@ class CatCam: SKCameraNode {
             }
         }
         
+    }
+    
+    func showHUD() {
+        let topBar = SKPixelSpriteNode(textureName: "topbar_center")
+        let menuButton = SKPixelSpriteNode(textureName: "topbar_menubutton")
+        let itemsButton = SKPixelSpriteNode(textureName: "topbar_itemsbutton")
+        
+        topBar.setScale(GameScene.current.frame.width/(topBar.frame.width+menuButton.frame.width+itemsButton.frame.width))
+        topBar.zPosition = 1000
+        // TODO: Look for better ways of doing this positioning of the topBar
+        let height = GameScene.current.frame.height
+        topBar.position = convertPoint(CGPoint(x: 0, y:height/2), fromNode: self)
+        topBar.position.y -= topBar.frame.height/2
+        self.addChild(topBar)
+        menuButton.zPosition = 1000
+        itemsButton.zPosition = 1000
+        topBar.addChild(menuButton)
+        topBar.addChild(itemsButton)
+        
+        menuButton.x = -80
+        itemsButton.x = 80
+        
+        
+        
+        
+        let menu = Menu(name: "Menu")
+        self.addChild(menu)
     }
     
     func unfocus() {
