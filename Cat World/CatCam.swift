@@ -56,19 +56,19 @@ class CatCam: SKCameraNode {
         let itemsButton = SKPixelSpriteNode(textureName: "topbar_itemsbutton")
         
         topBar.setScale(GameScene.current.frame.width/(topBar.frame.width+menuButton.frame.width+itemsButton.frame.width))
-        topBar.zPosition = 1000
+        topBar.zPosition = 10
         // TODO: Look for better ways of doing this positioning of the topBar
         let height = GameScene.current.frame.height
         topBar.position = convertPoint(CGPoint(x: 0, y:height/2), fromNode: self)
         topBar.position.y -= topBar.frame.height/2
         self.addChild(topBar)
-        menuButton.zPosition = 1000
-        itemsButton.zPosition = 1000
+        menuButton.zPosition = 10
+        itemsButton.zPosition = 10
         topBar.addChild(menuButton)
         topBar.addChild(itemsButton)
         
-        menuButton.x = -80
-        itemsButton.x = 80
+        menuButton.x = -72.5
+        itemsButton.x = 72.5
         
         
         
@@ -109,6 +109,7 @@ class CatCam: SKCameraNode {
         
         let background = SKPixelSpriteNode(textureName: "catselect_bg")
         background.setScale(GameScene.current.frame.width/background.frame.width)
+        background.zPosition = 100
         background.alpha = 0
         self.addChild(background)
         
