@@ -12,25 +12,15 @@ import SpriteKit
 class CatCam: SKCameraNode {
     var currentFocus: Cat?
     var focusing: Bool!
+    var camFrame: CGRect!
     
     // MARK: Initialization
     
-    required convenience init(coder decoder: NSCoder) {
+    convenience init(withFrame frame: CGRect) {
         self.init()
-        self.currentFocus = decoder.decodeObjectForKey("currentFocus") as? Cat
+        self.camFrame = frame
         self.focusing = false
         showHUD()
-    }
-    
-    convenience init(name: String) {
-        self.init()
-        
-        self.focusing = false
-        showHUD()
-    }
-    
-    override func encodeWithCoder(coder: NSCoder) {
-        if let currentFocus = currentFocus { coder.encodeObject(currentFocus, forKey: "currentFocus") }
     }
     
     func toggleFocus(cat: Cat) {
@@ -55,26 +45,30 @@ class CatCam: SKCameraNode {
         let menuButton = SKPixelToggleButtonNode(textureName: "topbar_menubutton")
         let itemsButton = SKPixelToggleButtonNode(textureName: "topbar_itemsbutton")
         
-        topBar.setScale(GameScene.current.frame.width/(topBar.frame.width+menuButton.frame.width+itemsButton.frame.width))
-        topBar.zPosition = 10
-        // TODO: Look for better ways of doing this positioning of the topBar
-        let height = GameScene.current.frame.height
-        topBar.position = convertPoint(CGPoint(x: 0, y:height/2), fromNode: self)
-        topBar.position.y -= topBar.frame.height/2
+        let scale = GameScene.current.frame.width/(topBar.frame.width+menuButton.frame.width+itemsButton.frame.width)
+    
+        topBar.zPosition = 200
+        menuButton.zPosition = 200
+        itemsButton.zPosition = 200
+        
+        topBar.setScale(scale)
+        topBar.position.y = camFrame.maxY-topBar.frame.height/2
+        menuButton.setScale(scale)
+        menuButton.position.x = camFrame.minX+menuButton.frame.width/2
+        menuButton.position.y = topBar.position.y
+        itemsButton.setScale(scale)
+        itemsButton.position.x = camFrame.maxX-itemsButton.frame.width/2
+        itemsButton.position.y = topBar.position.y
+        
         self.addChild(topBar)
-        menuButton.zPosition = 10
-        itemsButton.zPosition = 10
-        topBar.addChild(menuButton)
-        topBar.addChild(itemsButton)
-        
-        menuButton.x = -72.5
-        itemsButton.x = 72.5
+        self.addChild(menuButton)
+        self.addChild(itemsButton)
         
         
-        
-        
-        let menu = Menu(name: "Menu")
-        self.addChild(menu)
+//        let menu = Menu(topBar: topBar)
+//        menu.zPosition = 100
+//        menu.setScale(scale)
+//        self.addChild(menu)
     }
     
     func unfocus() {
@@ -109,7 +103,7 @@ class CatCam: SKCameraNode {
         
         let background = SKPixelSpriteNode(textureName: "catselect_bg")
         background.setScale(GameScene.current.frame.width/background.frame.width)
-        background.zPosition = 100
+        background.zPosition = 1000
         background.alpha = 0
         self.addChild(background)
         

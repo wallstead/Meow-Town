@@ -11,26 +11,28 @@ import SpriteKit
 
 class Menu: SKNode {
     var panelDepth: Int!
+    var topBar: SKPixelSpriteNode!
     
     // MARK: Initialization
     
-    required convenience init(coder decoder: NSCoder) {
-        self.init()
-        self.panelDepth = decoder.decodeObjectForKey("panelDepth") as! Int
-        layout()
-    }
-    
-    convenience init(name: String) {
+    convenience init(topBar: SKPixelSpriteNode) {
         self.init()
         self.panelDepth = 0
+        self.topBar = topBar
         layout()
-    }
-    
-    override func encodeWithCoder(coder: NSCoder) {
-        if let panelDepth = panelDepth { coder.encodeObject(panelDepth, forKey: "panelDepth") }
     }
     
     func layout() {
+        let mainBG = SKPixelSpriteNode(textureName: "topbar_menupanel")
+        mainBG.position.y = 280
+        print(topBar.frame.minY)
+        print(mainBG.position.y )
+        self.addChild(mainBG)
         print("test from menu")
+        open()
+    }
+    
+    func open() {
+        self.runAction(SKAction.moveToY(-100, duration: 3))
     }
 }
