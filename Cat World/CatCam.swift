@@ -65,10 +65,13 @@ class CatCam: SKCameraNode {
         self.addChild(itemsButton)
         
         
-//        let menu = Menu(topBar: topBar)
-//        menu.zPosition = 100
-//        menu.setScale(scale)
-//        self.addChild(menu)
+        let menu = Menu(camFrame: self.camFrame, topBar: topBar)
+        menu.zPosition = 100
+        self.addChild(menu)
+        
+        menuButton.action = {
+            menu.toggle()
+        }
     }
     
     func unfocus() {

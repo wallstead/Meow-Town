@@ -200,6 +200,7 @@ class SKPixelToggleButtonNode: SKPixelButtonNode {
             }
         } else { // disable
             if self.texture == activeTexture {
+                action?()
                 upSound.runAction(SKAction.play())
                 if (text != nil) {
                     text?.position.y = 0
