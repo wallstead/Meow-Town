@@ -25,18 +25,35 @@ class Menu: SKNode {
         self.topBar = topBar
         self.isOpen = false
         layout()
+        
+        
     }
     
     func layout() {
         bgpanel = SKPixelSpriteNode(textureName: "topbar_menupanel")
-        bgpanel.position.y = camFrame.maxY-self.topBar.frame.height
-        bgpanel.anchorPoint = CGPoint(x: 0.5, y: 0)
-        bgpanel.setScale(camFrame.width/bgpanel.width)
         bgpanel.zPosition = 0
         self.addChild(bgpanel)
         
-        print("test from menu")
-//        open()
+        let settingsButton = SKPixelToggleButtonNode(textureName: "topbar_menupanel_settingsbutton")
+        settingsButton.zPosition = 1
+        settingsButton.position.x = -bgpanel.width/2+settingsButton.frame.width/2
+        settingsButton.position.y = bgpanel.height/2-settingsButton.frame.height/2
+        bgpanel.addChild(settingsButton)
+        
+        let infoButton = SKPixelToggleButtonNode(textureName: "topbar_menupanel_infobutton")
+        infoButton.zPosition = 1
+        infoButton.position.x = 0
+        infoButton.position.y = bgpanel.height/2-infoButton.frame.height/2
+        bgpanel.addChild(infoButton)
+        
+        let IAPButton = SKPixelToggleButtonNode(textureName: "topbar_menupanel_iapbutton")
+        IAPButton.zPosition = 1
+        IAPButton.position.x = bgpanel.width/2-IAPButton.frame.width/2
+        IAPButton.position.y = bgpanel.height/2-IAPButton.frame.height/2
+        bgpanel.addChild(IAPButton)
+        
+        bgpanel.setScale(camFrame.width/bgpanel.width)
+        bgpanel.position.y = camFrame.maxY-self.topBar.frame.height+bgpanel.height/2
     }
     
     func isAnimating() -> Bool {
@@ -65,16 +82,12 @@ class Menu: SKNode {
     
     func open() {
         self.isOpen = true
-        bgpanel.runAction(dropPanelToY(camFrame.minY, duration: 1), completion: {
-            
-        })
+        bgpanel.runAction(dropPanelToY(camFrame.minY+bgpanel.height/2, duration: 0.75))
     }
     
     func close() {
         self.isOpen = false
-        bgpanel.runAction(dropPanelToY(camFrame.maxY-self.topBar.frame.height, duration: 1), completion: {
-            
-        })
+        bgpanel.runAction(dropPanelToY(camFrame.maxY-self.topBar.frame.height+bgpanel.height/2, duration: 0.75))
     }
 
 }
