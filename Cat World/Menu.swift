@@ -54,6 +54,14 @@ class Menu: SKNode {
         
         bgpanel.setScale(camFrame.width/bgpanel.width)
         bgpanel.position.y = camFrame.maxY-self.topBar.frame.height+bgpanel.height/2
+        
+        for i in 0...6 {
+            let categoryButton = SKPixelToggleButtonNode(textureName: "topbar_menupanel_itemcategory")
+            categoryButton.zPosition = 1
+            categoryButton.position.x = 0
+            categoryButton.position.y = infoButton.position.y - 33 - 34*CGFloat(i)
+            bgpanel.addChild(categoryButton)
+        }
     }
     
     func isAnimating() -> Bool {
