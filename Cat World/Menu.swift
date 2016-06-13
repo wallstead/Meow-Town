@@ -15,6 +15,10 @@ class Menu: SKNode {
     var camFrame: CGRect!
     var topBar: SKPixelSpriteNode!
     var bgpanel: SKPixelSpriteNode!
+    var settingsButton: SKPixelToggleButtonNode!
+    var infoButton: SKPixelToggleButtonNode!
+    var IAPButton: SKPixelToggleButtonNode!
+    var topbuttonPanelBG: SKPixelSpriteNode!
     
     // MARK: Initialization
     
@@ -25,43 +29,92 @@ class Menu: SKNode {
         self.topBar = topBar
         self.isOpen = false
         layout()
-        
-        
     }
     
     func layout() {
         bgpanel = SKPixelSpriteNode(textureName: "topbar_menupanel")
+        bgpanel.color = DynamicColor(red: 212/255, green: 29/255, blue: 32/255, alpha: 1)
+        bgpanel.colorBlendFactor = 1
         bgpanel.zPosition = 0
+        bgpanel.setScale(camFrame.width/bgpanel.width)
+        bgpanel.position.y = camFrame.maxY+bgpanel.height/2-topBar.height/2
         self.addChild(bgpanel)
         
-        let settingsButton = SKPixelToggleButtonNode(textureName: "topbar_menupanel_settingsbutton")
-        settingsButton.zPosition = 1
-        settingsButton.position.x = -bgpanel.width/2+settingsButton.frame.width/2
-        settingsButton.position.y = bgpanel.height/2-settingsButton.frame.height/2
+        
+        settingsButton = SKPixelToggleButtonNode(textureName: "topbar_menupanel_settingsbutton")
+        settingsButton.zPosition = 2
+        settingsButton.position.x = -bgpanel.currentWidth/2+settingsButton.width/2
+        settingsButton.position.y = bgpanel.currentHeight/2-settingsButton.height/2
+        settingsButton.action = {
+            self.toggleTopButton(self.settingsButton)
+        }
         bgpanel.addChild(settingsButton)
         
-        let infoButton = SKPixelToggleButtonNode(textureName: "topbar_menupanel_infobutton")
-        infoButton.zPosition = 1
+        infoButton = SKPixelToggleButtonNode(textureName: "topbar_menupanel_infobutton")
+        infoButton.zPosition = 2
         infoButton.position.x = 0
-        infoButton.position.y = bgpanel.height/2-infoButton.frame.height/2
+        infoButton.position.y = bgpanel.currentHeight/2-infoButton.height/2
+        infoButton.action = {
+            self.toggleTopButton(self.infoButton)
+        }
         bgpanel.addChild(infoButton)
         
-        let IAPButton = SKPixelToggleButtonNode(textureName: "topbar_menupanel_iapbutton")
-        IAPButton.zPosition = 1
-        IAPButton.position.x = bgpanel.width/2-IAPButton.frame.width/2
-        IAPButton.position.y = bgpanel.height/2-IAPButton.frame.height/2
+        IAPButton = SKPixelToggleButtonNode(textureName: "topbar_menupanel_iapbutton")
+        IAPButton.zPosition = 2
+        IAPButton.position.x = bgpanel.currentWidth/2-IAPButton.width/2
+        IAPButton.position.y = bgpanel.currentHeight/2-IAPButton.height/2
+        IAPButton.action = {
+            self.toggleTopButton(self.IAPButton)
+        }
         bgpanel.addChild(IAPButton)
         
-        bgpanel.setScale(camFrame.width/bgpanel.width)
-        bgpanel.position.y = camFrame.maxY-self.topBar.frame.height+bgpanel.height/2
+        topbuttonPanelBG = SKPixelSpriteNode(textureName: "topbar_menupanel")
+        topbuttonPanelBG.color = DynamicColor(red: 0/255, green: 187/255, blue: 125/255, alpha: 1)
+        topbuttonPanelBG.colorBlendFactor = 1
+        topbuttonPanelBG.zPosition = 1
+        topbuttonPanelBG.position.y = bgpanel.currentHeight-infoButton.height
+        bgpanel.addChild(topbuttonPanelBG)
         
-        for i in 0...6 {
-            let categoryButton = SKPixelToggleButtonNode(textureName: "topbar_menupanel_itemcategory")
-            categoryButton.zPosition = 1
-            categoryButton.position.x = 0
-            categoryButton.position.y = infoButton.position.y - 33 - 34*CGFloat(i)
-            bgpanel.addChild(categoryButton)
+//        for i in 0...6 {
+//            let categoryButton = SKPixelToggleButtonNode(textureName: "topbar_menupanel_itemcategory")
+//            categoryButton.zPosition = 1
+//            categoryButton.position.x = 0
+//            categoryButton.position.y = infoButton.position.y - 33 - 34*CGFloat(i)
+//            bgpanel.addChild(categoryButton)
+//        }
+    }
+    
+    func toggleTopButton(toToggle: SKPixelToggleButtonNode!) {
+        let topButtons = [settingsButton, infoButton, IAPButton]
+        for button in topButtons {
+            if button.enabled && button != toToggle {
+                button.disable()
+            }
         }
+        if toToggle.enabled == false { // enabling currently
+            openTopButtonBackground()
+        } else { // disabling currently
+            print("hide")
+            closeTopButtonBackground()
+        }
+    }
+    
+    func openTopButtonBackground() {
+        topbuttonPanelBG.removeAllActions()
+        if topbuttonPanelBG.position.y != 0 {
+            let display = SKAction.moveToY(0, duration: 0.25)
+            topbuttonPanelBG.runAction(display)
+        }
+        
+    }
+    
+    func closeTopButtonBackground() {
+        topbuttonPanelBG.removeAllActions()
+        if topbuttonPanelBG.position.y != bgpanel.currentHeight-infoButton.height {
+            let hide = SKAction.moveToY(bgpanel.currentHeight-infoButton.height, duration: 0.25)
+            topbuttonPanelBG.runAction(hide)
+        }
+        
     }
     
     func isAnimating() -> Bool {
@@ -97,5 +150,4 @@ class Menu: SKNode {
         self.isOpen = false
         bgpanel.runAction(dropPanelToY(camFrame.maxY-self.topBar.frame.height+bgpanel.height/2, duration: 0.75))
     }
-
 }

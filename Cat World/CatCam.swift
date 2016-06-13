@@ -241,3 +241,18 @@ class CatCam: SKCameraNode {
         updateButtons()
     }
 }
+
+extension SKNode {
+    
+    var currentWidth:CGFloat {
+        get {
+            return frame.width/xScale
+        }
+    }
+    
+    var currentHeight:CGFloat {
+        get {
+            return frame.height/yScale
+        }
+    }
+}

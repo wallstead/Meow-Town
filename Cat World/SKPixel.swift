@@ -190,26 +190,34 @@ class SKPixelToggleButtonNode: SKPixelButtonNode {
     
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
         if !enabled { // enable
-            if self.texture == activeTexture {
-                action?()
-                upSound.runAction(SKAction.play())
-                if (text != nil) {
-                    text?.position.y = -1
-                }
-                enabled = true
-            }
+            enable()
         } else { // disable
-            if self.texture == activeTexture {
-                action?()
-                upSound.runAction(SKAction.play())
-                if (text != nil) {
-                    text?.position.y = 0
-                }
-                self.texture = defaultTexture
-                enabled = false
-            }
+            disable()
         }
         
+    }
+    
+    func disable() {
+        if self.texture == activeTexture {
+            action?()
+            upSound.runAction(SKAction.play())
+            if (text != nil) {
+                text?.position.y = 0
+            }
+            self.texture = defaultTexture
+            enabled = false
+        }
+    }
+    
+    func enable() {
+        if self.texture == activeTexture {
+            action?()
+            upSound.runAction(SKAction.play())
+            if (text != nil) {
+                text?.position.y = -1
+            }
+            enabled = true
+        }
     }
 }
 
