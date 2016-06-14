@@ -48,7 +48,7 @@ class Menu: SKNode {
         bgpanel.addChild(menuCropper)
         
         settingsButton = SKPixelToggleButtonNode(textureName: "topbar_menupanel_settingsbutton")
-        settingsButton.zPosition = 2
+        settingsButton.zPosition = 10
         settingsButton.position.x = -bgpanel.currentWidth/2+settingsButton.width/2
         settingsButton.position.y = bgpanel.currentHeight/2-settingsButton.height/2
         settingsButton.action = {
@@ -57,7 +57,7 @@ class Menu: SKNode {
         menuCropper.addChild(settingsButton)
         
         infoButton = SKPixelToggleButtonNode(textureName: "topbar_menupanel_infobutton")
-        infoButton.zPosition = 2
+        infoButton.zPosition = 10
         infoButton.position.x = 0
         infoButton.position.y = bgpanel.currentHeight/2-infoButton.height/2
         infoButton.action = {
@@ -66,7 +66,7 @@ class Menu: SKNode {
         menuCropper.addChild(infoButton)
         
         IAPButton = SKPixelToggleButtonNode(textureName: "topbar_menupanel_iapbutton")
-        IAPButton.zPosition = 2
+        IAPButton.zPosition = 10
         IAPButton.position.x = bgpanel.currentWidth/2-IAPButton.width/2
         IAPButton.position.y = bgpanel.currentHeight/2-IAPButton.height/2
         IAPButton.action = {
@@ -81,7 +81,7 @@ class Menu: SKNode {
         topbuttonPanelBG.position.y = bgpanel.currentHeight-infoButton.height
         menuCropper.addChild(topbuttonPanelBG)
         
-        storeContainer = SKSpriteNode(color: SKColor.orangeColor(), size: CGSize(width: bgpanel.currentWidth, height: bgpanel.currentHeight-settingsButton.height))
+        storeContainer = SKSpriteNode(color: SKColor.clearColor(), size: CGSize(width: bgpanel.currentWidth, height: bgpanel.currentHeight-settingsButton.height))
         storeContainer.zPosition = 1
         storeContainer.position.y = -infoButton.height/2
         menuCropper.addChild(storeContainer)
@@ -91,7 +91,7 @@ class Menu: SKNode {
         title.text = "STORE"
         title.setScale(2/10)
         title.fontSize = 80
-        title.fontColor = SKColor.whiteColor()
+        title.fontColor = DynamicColor(colorLiteralRed: 245/255, green: 245/255, blue: 245/255, alpha: 1)
         title.verticalAlignmentMode = .Center
         title.position.y = storeContainer.currentHeight/2 - 10
         storeContainer.addChild(title)
@@ -99,7 +99,7 @@ class Menu: SKNode {
         
     }
     
-    func toggleTopButton(toToggle: SKPixelToggleButtonNode!) {
+    func toggleTopButton(toToggle: SKPixelToggleButtonNode) {
         let topButtons = [settingsButton, infoButton, IAPButton]
         for button in topButtons {
             if button.enabled && button != toToggle {
@@ -108,30 +108,82 @@ class Menu: SKNode {
         }
         if toToggle.enabled == false { // enabling currently
             openTopButtonBackground()
+            displayContentForTopButton(toToggle)
         } else { // disabling currently
-            print("hide")
             closeTopButtonBackground()
         }
     }
     
     func openTopButtonBackground() {
         topbuttonPanelBG.removeAllActions()
+        storeContainer.removeAllActions()
         if topbuttonPanelBG.position.y != 0 {
-            let display = SKAction.moveByX(0, y: -bgpanel.currentHeight, duration: 0.25)
-            topbuttonPanelBG.runAction(display)
-            storeContainer.runAction(display)
+            let displayPanel = SKAction.moveToY(0, duration: 0.3)
+            topbuttonPanelBG.runAction(displayPanel)
+            let displayContainer = SKAction.moveToY(-bgpanel.currentHeight+infoButton.currentHeight/2, duration: 0.3)
+            storeContainer.runAction(displayContainer)
         }
-        
     }
     
     func closeTopButtonBackground() {
         topbuttonPanelBG.removeAllActions()
+        storeContainer.removeAllActions()
         if topbuttonPanelBG.position.y != bgpanel.currentHeight-infoButton.height {
-            let hide = SKAction.moveByX(0, y: bgpanel.currentHeight, duration: 0.25)
-            topbuttonPanelBG.runAction(hide)
-            storeContainer.runAction(hide)
+            let hidePanel = SKAction.moveToY(bgpanel.currentHeight-infoButton.height, duration: 0.3)
+            topbuttonPanelBG.runAction(hidePanel)
+            let hideContainer = SKAction.moveToY(-infoButton.height/2, duration: 0.3)
+            storeContainer.runAction(hideContainer)
+        }
+    }
+    
+    func displayContentForTopButton(button: SKPixelToggleButtonNode) {
+        let contentDisplayed: String?
+        switch button.textureName {
+            case "topbar_menupanel_settingsbutton":
+                contentDisplayed = "settings"
+            case "topbar_menupanel_infobutton":
+                contentDisplayed = "info"
+            case "topbar_menupanel_iapbutton":
+                contentDisplayed = "iap"
+            default:
+                contentDisplayed = nil
         }
         
+        if topbuttonPanelBG.name != contentDisplayed { // content not already shown
+            topbuttonPanelBG.name = contentDisplayed
+            /* Remove old content */
+            for child in topbuttonPanelBG.children {
+                child.removeAllActions()
+                child.runAction(SKAction.fadeAlphaTo(0, duration: 0.25), completion: {
+                    child.removeFromParent()
+                })
+            }
+            
+            let content = SKNode()
+            content.zPosition = 1
+            content.alpha = 0
+            content.runAction(SKAction.fadeAlphaTo(1, duration: 0.25))
+            
+            topbuttonPanelBG.addChild(content)
+            
+            /* Add new content */
+            if contentDisplayed == "settings" {
+                let testNode = SKPixelSpriteNode(textureName: "oscar")
+                testNode.zPosition = 1
+                content.addChild(testNode)
+            } else if contentDisplayed == "info" {
+                let testNode = SKPixelSpriteNode(textureName: "delphi")
+                testNode.zPosition = 1
+                content.addChild(testNode)
+            } else {
+                let testNode = SKPixelSpriteNode(textureName: "oscar_kitten")
+                testNode.zPosition = 1
+                content.addChild(testNode)
+            }
+            
+        } else {
+            
+        }
     }
     
     func isAnimating() -> Bool {
