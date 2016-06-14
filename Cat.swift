@@ -198,6 +198,11 @@ class Cat: SKNode {
         
         if GameScene.current.catCam.currentFocus != self {
             GameScene.current.catCam.toggleFocus(self)
+            sprite.runAction(SKAction.waitForDuration(2), completion: {
+                if GameScene.current.catCam.currentFocus == self {
+                    GameScene.current.catCam.toggleFocus(self)
+                }
+            })
         }
         sprite.pube()
         self.skin = firstname.lowercaseString
