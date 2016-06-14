@@ -14,11 +14,13 @@ class Menu: SKNode {
     var panelDepth: Int!
     var camFrame: CGRect!
     var topBar: SKPixelSpriteNode!
+    var menuCropper: SKCropNode!
     var bgpanel: SKPixelSpriteNode!
     var settingsButton: SKPixelToggleButtonNode!
     var infoButton: SKPixelToggleButtonNode!
     var IAPButton: SKPixelToggleButtonNode!
     var topbuttonPanelBG: SKPixelSpriteNode!
+    var storeContainer: SKSpriteNode!
     
     // MARK: Initialization
     
@@ -40,6 +42,10 @@ class Menu: SKNode {
         bgpanel.position.y = camFrame.maxY+bgpanel.height/2-topBar.height/2
         self.addChild(bgpanel)
         
+        menuCropper = SKCropNode()
+        menuCropper.maskNode = SKPixelSpriteNode(textureName: "topbar_menupanel")
+        menuCropper.zPosition = 1
+        bgpanel.addChild(menuCropper)
         
         settingsButton = SKPixelToggleButtonNode(textureName: "topbar_menupanel_settingsbutton")
         settingsButton.zPosition = 2
@@ -48,7 +54,7 @@ class Menu: SKNode {
         settingsButton.action = {
             self.toggleTopButton(self.settingsButton)
         }
-        bgpanel.addChild(settingsButton)
+        menuCropper.addChild(settingsButton)
         
         infoButton = SKPixelToggleButtonNode(textureName: "topbar_menupanel_infobutton")
         infoButton.zPosition = 2
@@ -57,7 +63,7 @@ class Menu: SKNode {
         infoButton.action = {
             self.toggleTopButton(self.infoButton)
         }
-        bgpanel.addChild(infoButton)
+        menuCropper.addChild(infoButton)
         
         IAPButton = SKPixelToggleButtonNode(textureName: "topbar_menupanel_iapbutton")
         IAPButton.zPosition = 2
@@ -66,22 +72,31 @@ class Menu: SKNode {
         IAPButton.action = {
             self.toggleTopButton(self.IAPButton)
         }
-        bgpanel.addChild(IAPButton)
+        menuCropper.addChild(IAPButton)
         
         topbuttonPanelBG = SKPixelSpriteNode(textureName: "topbar_menupanel")
         topbuttonPanelBG.color = DynamicColor(red: 0/255, green: 187/255, blue: 125/255, alpha: 1)
         topbuttonPanelBG.colorBlendFactor = 1
         topbuttonPanelBG.zPosition = 1
         topbuttonPanelBG.position.y = bgpanel.currentHeight-infoButton.height
-        bgpanel.addChild(topbuttonPanelBG)
+        menuCropper.addChild(topbuttonPanelBG)
         
-//        for i in 0...6 {
-//            let categoryButton = SKPixelToggleButtonNode(textureName: "topbar_menupanel_itemcategory")
-//            categoryButton.zPosition = 1
-//            categoryButton.position.x = 0
-//            categoryButton.position.y = infoButton.position.y - 33 - 34*CGFloat(i)
-//            bgpanel.addChild(categoryButton)
-//        }
+        storeContainer = SKSpriteNode(color: SKColor.orangeColor(), size: CGSize(width: bgpanel.currentWidth, height: bgpanel.currentHeight-settingsButton.height))
+        storeContainer.zPosition = 1
+        storeContainer.position.y = -infoButton.height/2
+        menuCropper.addChild(storeContainer)
+        
+        let title = SKLabelNode(fontNamed: "Silkscreen")
+        title.zPosition = 1
+        title.text = "STORE"
+        title.setScale(2/10)
+        title.fontSize = 80
+        title.fontColor = SKColor.whiteColor()
+        title.verticalAlignmentMode = .Center
+        title.position.y = storeContainer.currentHeight/2 - 10
+        storeContainer.addChild(title)
+
+        
     }
     
     func toggleTopButton(toToggle: SKPixelToggleButtonNode!) {
@@ -102,8 +117,9 @@ class Menu: SKNode {
     func openTopButtonBackground() {
         topbuttonPanelBG.removeAllActions()
         if topbuttonPanelBG.position.y != 0 {
-            let display = SKAction.moveToY(0, duration: 0.25)
+            let display = SKAction.moveByX(0, y: -bgpanel.currentHeight, duration: 0.25)
             topbuttonPanelBG.runAction(display)
+            storeContainer.runAction(display)
         }
         
     }
@@ -111,8 +127,9 @@ class Menu: SKNode {
     func closeTopButtonBackground() {
         topbuttonPanelBG.removeAllActions()
         if topbuttonPanelBG.position.y != bgpanel.currentHeight-infoButton.height {
-            let hide = SKAction.moveToY(bgpanel.currentHeight-infoButton.height, duration: 0.25)
+            let hide = SKAction.moveByX(0, y: bgpanel.currentHeight, duration: 0.25)
             topbuttonPanelBG.runAction(hide)
+            storeContainer.runAction(hide)
         }
         
     }
