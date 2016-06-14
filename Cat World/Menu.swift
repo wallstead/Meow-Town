@@ -168,17 +168,46 @@ class Menu: SKNode {
             
             /* Add new content */
             if contentDisplayed == "settings" {
-                let testNode = SKPixelSpriteNode(textureName: "oscar")
-                testNode.zPosition = 1
-                content.addChild(testNode)
+                let toggleVolume = SKLabelNode(fontNamed: "Silkscreen")
+                toggleVolume.zPosition = 1
+                toggleVolume.text = "Toggle Volume"
+                toggleVolume.setScale(1/10)
+                toggleVolume.fontSize = 80
+                toggleVolume.fontColor = DynamicColor(colorLiteralRed: 245/255, green: 245/255, blue: 245/255, alpha: 1)
+                toggleVolume.verticalAlignmentMode = .Center
+                
+                content.addChild(toggleVolume)
             } else if contentDisplayed == "info" {
-                let testNode = SKPixelSpriteNode(textureName: "delphi")
-                testNode.zPosition = 1
-                content.addChild(testNode)
+                let title = SKLabelNode(fontNamed: "Fipps-Regular")
+                title.zPosition = 1
+                title.text = "FAT FELINE"
+                title.setScale(2/10)
+                title.fontSize = 80
+                title.fontColor = DynamicColor(colorLiteralRed: 245/255, green: 245/255, blue: 245/255, alpha: 1)
+                title.verticalAlignmentMode = .Center
+                title.position.y = topbuttonPanelBG.currentHeight/2 - infoButton.currentHeight - 20
+                
+                let version = SKLabelNode(fontNamed: "Silkscreen")
+                version.zPosition = 1
+                version.text = "v2.0"
+                version.setScale(1/10)
+                version.fontSize = 80
+                version.fontColor = DynamicColor(colorLiteralRed: 245/255, green: 245/255, blue: 245/255, alpha: 1)
+                version.verticalAlignmentMode = .Center
+                version.position.y = topbuttonPanelBG.currentHeight/2 - infoButton.currentHeight - title.frame.height - 15
+                
+                content.addChild(title)
+                content.addChild(version)
             } else {
-                let testNode = SKPixelSpriteNode(textureName: "oscar_kitten")
-                testNode.zPosition = 1
-                content.addChild(testNode)
+                let removeAds = SKLabelNode(fontNamed: "Silkscreen")
+                removeAds.zPosition = 1
+                removeAds.text = "Remove Ads"
+                removeAds.setScale(1/10)
+                removeAds.fontSize = 80
+                removeAds.fontColor = DynamicColor(colorLiteralRed: 245/255, green: 245/255, blue: 245/255, alpha: 1)
+                removeAds.verticalAlignmentMode = .Center
+                
+                content.addChild(removeAds)
             }
             
         } else {
