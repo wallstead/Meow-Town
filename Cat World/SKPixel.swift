@@ -178,14 +178,8 @@ class SKPixelToggleButtonNode: SKPixelButtonNode {
                 if (text != nil) {
                     text?.position.y = -1
                 }
-            } else {
-                self.texture = defaultTexture
-                if (text != nil) {
-                    text?.position.y = 0
-                }
             }
         }
-        
     }
     
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -194,7 +188,6 @@ class SKPixelToggleButtonNode: SKPixelButtonNode {
         } else { // disable
             disable()
         }
-        
     }
     
     func disable() {
