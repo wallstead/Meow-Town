@@ -13,6 +13,9 @@ class CatCam: SKCameraNode {
     var currentFocus: Cat?
     var focusing: Bool!
     var camFrame: CGRect!
+    var menu: Menu!
+    var menuButton: SKPixelToggleButtonNode!
+    var itemsButton: SKPixelToggleButtonNode!
     
     // MARK: Initialization
     
@@ -42,8 +45,8 @@ class CatCam: SKCameraNode {
     
     func showHUD() {
         let topBar = SKPixelSpriteNode(textureName: "topbar_center")
-        let menuButton = SKPixelToggleButtonNode(textureName: "topbar_menubutton")
-        let itemsButton = SKPixelToggleButtonNode(textureName: "topbar_itemsbutton")
+        menuButton = SKPixelToggleButtonNode(textureName: "topbar_menubutton")
+        itemsButton = SKPixelToggleButtonNode(textureName: "topbar_itemsbutton")
         
         let scale = GameScene.current.frame.width/(topBar.frame.width+menuButton.frame.width+itemsButton.frame.width)
     
@@ -64,12 +67,12 @@ class CatCam: SKCameraNode {
         self.addChild(menuButton)
         self.addChild(itemsButton)
         
-        let menu = Menu(camFrame: self.camFrame, topBar: topBar)
+        menu = Menu(camFrame: self.camFrame, topBar: topBar)
         menu.zPosition = 100
         self.addChild(menu)
         
         menuButton.action = {
-            menu.toggle()
+            self.menu.toggle()
         }
     }
     
@@ -97,7 +100,10 @@ class CatCam: SKCameraNode {
     }
     
     func displayCatSelection() {
-        print(self.frame.height)
+        if menu.isOpen == true {
+            menuButton.disable()
+            menu.close()
+        }
         
         var isShiftingCats = false
         var catSpriteArray: [SKPixelSpriteNode] = []

@@ -88,15 +88,13 @@ class Menu: SKNode {
         
         let title = SKLabelNode(fontNamed: "Silkscreen")
         title.zPosition = 1
-        title.text = "STORE"
+        title.text = "-STORE-"
         title.setScale(2/10)
         title.fontSize = 80
         title.fontColor = DynamicColor(colorLiteralRed: 245/255, green: 245/255, blue: 245/255, alpha: 1)
         title.verticalAlignmentMode = .Center
         title.position.y = storeContainer.currentHeight/2 - 10
         storeContainer.addChild(title)
-
-        
     }
     
     func toggleTopButton(toToggle: SKPixelToggleButtonNode) {
@@ -209,9 +207,6 @@ class Menu: SKNode {
                 
                 content.addChild(removeAds)
             }
-            
-        } else {
-            
         }
     }
     
