@@ -13,6 +13,8 @@
 		4345CD9A1CF77F09003BA6D4 /* DefaultWorldData.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4345CD991CF77F09003BA6D4 /* DefaultWorldData.plist */; };
 		43470F2D1D07E9390069A8A4 /* CatCam.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43470F2C1D07E9390069A8A4 /* CatCam.swift */; };
 		437C2EC51D0BADBB00F05AEF /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437C2EC41D0BADBB00F05AEF /* Menu.swift */; };
+		437C2EC71D10DC5200F05AEF /* CatSelection.wav in Resources */ = {isa = PBXBuildFile; fileRef = 437C2EC61D10DC5200F05AEF /* CatSelection.wav */; };
+		437C2EC91D10DD9B00F05AEF /* pixeladventures.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 437C2EC81D10DD9B00F05AEF /* pixeladventures.mp3 */; };
 		438032091D04DFB4004D9D58 /* PlistManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 438032081D04DFB4004D9D58 /* PlistManager.swift */; };
 		4381308D1CD3F1D400BC0102 /* Intro_mixdown.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4381308C1CD3F1D400BC0102 /* Intro_mixdown.mp3 */; };
 		439AD67C1CB7681500E1E018 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439AD67B1CB7681500E1E018 /* AppDelegate.swift */; };
@@ -71,6 +73,8 @@
 		4345CD991CF77F09003BA6D4 /* DefaultWorldData.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = DefaultWorldData.plist; path = ../DefaultWorldData.plist; sourceTree = "<group>"; };
 		43470F2C1D07E9390069A8A4 /* CatCam.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CatCam.swift; sourceTree = "<group>"; };
 		437C2EC41D0BADBB00F05AEF /* Menu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Menu.swift; sourceTree = "<group>"; };
+		437C2EC61D10DC5200F05AEF /* CatSelection.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = CatSelection.wav; sourceTree = "<group>"; };
+		437C2EC81D10DD9B00F05AEF /* pixeladventures.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = pixeladventures.mp3; sourceTree = "<group>"; };
 		438032081D04DFB4004D9D58 /* PlistManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlistManager.swift; sourceTree = "<group>"; };
 		4381308C1CD3F1D400BC0102 /* Intro_mixdown.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Intro_mixdown.mp3; sourceTree = "<group>"; };
 		439AD6781CB7681500E1E018 /* Cat World.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Cat World.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -151,6 +155,8 @@
 		43470F2A1D07E85C0069A8A4 /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
+				437C2EC81D10DD9B00F05AEF /* pixeladventures.mp3 */,
+				437C2EC61D10DC5200F05AEF /* CatSelection.wav */,
 				4381308C1CD3F1D400BC0102 /* Intro_mixdown.mp3 */,
 				43FD713C1CD3F66B0058DFBA /* mathgrant_calm.mp3 */,
 				43FD71441CD3FAED0058DFBA /* button_down.wav */,
@@ -367,9 +373,11 @@
 				43F453071CC8A543009912D8 /* Fipps-Regular.otf in Resources */,
 				43F4530D1CC8AD3B009912D8 /* slkscrb.ttf in Resources */,
 				439AD6871CB7681500E1E018 /* Assets.xcassets in Resources */,
+				437C2EC91D10DD9B00F05AEF /* pixeladventures.mp3 in Resources */,
 				43F4530F1CC8AD3B009912D8 /* slkscreb.ttf in Resources */,
 				43FD713D1CD3F66B0058DFBA /* mathgrant_calm.mp3 in Resources */,
 				43FD71471CD3FAED0058DFBA /* button_up.wav in Resources */,
+				437C2EC71D10DC5200F05AEF /* CatSelection.wav in Resources */,
 				43F4530C1CC8AD3B009912D8 /* slkscr.ttf in Resources */,
 				43F4530E1CC8AD3B009912D8 /* slkscre.ttf in Resources */,
 				4381308D1CD3F1D400BC0102 /* Intro_mixdown.mp3 in Resources */,
