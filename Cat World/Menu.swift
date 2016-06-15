@@ -170,15 +170,12 @@ class Menu: SKNode {
             
             /* Add new content */
             if contentDisplayed == "settings" {
-                let toggleVolume = SKLabelNode(fontNamed: "Silkscreen")
-                toggleVolume.zPosition = 1
-                toggleVolume.text = "Toggle Volume"
-                toggleVolume.setScale(1/10)
-                toggleVolume.fontSize = 80
-                toggleVolume.fontColor = DynamicColor(colorLiteralRed: 245/255, green: 245/255, blue: 245/255, alpha: 1)
-                toggleVolume.verticalAlignmentMode = .Center
-                
-                content.addChild(toggleVolume)
+                let addCat = SKPixelButtonNode(textureName: "catselect_done", text: "+CAT")
+                addCat.zPosition = 1
+                addCat.action = {
+                    GameScene.current.world.addCat("oscar")
+                }
+                content.addChild(addCat)
             } else if contentDisplayed == "info" {
                 let title = SKLabelNode(fontNamed: "Fipps-Regular")
                 title.zPosition = 1
@@ -232,9 +229,7 @@ class Menu: SKNode {
     func displayCollection() {
         let storeDict = PlistManager.sharedInstance.getValueForKey("Store") as! NSDictionary
         let categoriesDict = storeDict.valueForKey("Categories") as! NSDictionary
-        
-        
-        
+
         var yPosCounter: CGFloat = 0
         let categories = SKNode()
         for category in categoriesDict {
@@ -253,8 +248,6 @@ class Menu: SKNode {
         collectionBG.anchorPoint = CGPoint(x: 0.5, y: 1)
         collectionBG.position.y = storeContainer.currentHeight/2 - 20
         storeContainer.addChild(collectionBG)
-        
-        
     }
     
     func toggle() {

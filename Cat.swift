@@ -15,7 +15,7 @@ class Cat: SKNode {
     var sprite: SKPixelCatNode!
     var mood: String!
     var birthday: NSDate!
-    let lifespan: NSTimeInterval = 1.hour
+    let lifespan: NSTimeInterval = 20.seconds
     var world: World!
     let timer = Timer() // the timer calculates the time step value dt for every frame
     let scheduler = Scheduler() // an event scheduler
@@ -135,14 +135,15 @@ class Cat: SKNode {
     // MARK: Cat Actions
     
     func die() {
+        sprite.removeAllActions()
         timer.pause()
         scheduler.pause()
         if GameScene.current.catCam.currentFocus == self {
             GameScene.current.catCam.toggleFocus(self)
         }
-        let flip = SKAction.rotateByAngle(3.14, duration: 1)
+        let rise = SKAction.moveByX(0, y: 50, duration: 1)
         let dissapear = SKAction.fadeAlphaTo(0, duration: 0.5)
-        let die = SKAction.sequence([flip, dissapear])
+        let die = SKAction.group([rise, dissapear])
         sprite.runAction(die,completion: {
             self.sprite.removeFromParent()
             self.world.cats.removeAtIndex(self.world.cats.indexOf(self)!)
