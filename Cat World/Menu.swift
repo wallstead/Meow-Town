@@ -45,6 +45,7 @@ class Menu: SKNode {
         menuCropper = SKCropNode()
         menuCropper.maskNode = SKPixelSpriteNode(textureName: "topbar_menupanel")
         menuCropper.zPosition = 1
+        menuCropper.userInteractionEnabled = false
         bgpanel.addChild(menuCropper)
         
         settingsButton = SKPixelToggleButtonNode(textureName: "topbar_menupanel_settingsbutton")
@@ -81,8 +82,9 @@ class Menu: SKNode {
         topbuttonPanelBG.position.y = bgpanel.currentHeight-infoButton.height
         menuCropper.addChild(topbuttonPanelBG)
         
-        storeContainer = SKSpriteNode(color: SKColor.clearColor(), size: CGSize(width: bgpanel.currentWidth, height: bgpanel.currentHeight-settingsButton.height))
+        storeContainer = SKSpriteNode(color: SKColor.orangeColor(), size: CGSize(width: bgpanel.currentWidth, height: bgpanel.currentHeight-settingsButton.height))
         storeContainer.zPosition = 1
+        storeContainer.userInteractionEnabled = false
         storeContainer.position.y = -infoButton.height/2
         menuCropper.addChild(storeContainer)
         
@@ -242,5 +244,14 @@ class Menu: SKNode {
     func close() {
         self.isOpen = false
         bgpanel.runAction(dropPanelToY(camFrame.maxY-self.topBar.frame.height+bgpanel.height/2, duration: 0.75))
+        
+        /* TODO: Make it only close when it is actually open */
+        closeTopButtonBackground()
+        let topButtons = [settingsButton, infoButton, IAPButton]
+        for button in topButtons {
+            if button.enabled == true {
+                button.disable()
+            }
+        }
     }
 }
