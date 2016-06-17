@@ -41,10 +41,11 @@ class World: SKNode {
         GameScene.current.catCam.displayCatSelection()
     }
     
-    func encodeWithCoder(coder: NSCoder) {
-        if let wallpaper = wallpaper { coder.encode(wallpaper, forKey: "wallpaper") }
-        if let floor = floor { coder.encode(floor, forKey: "floor") }
-        if let cats = cats { coder.encode(cats, forKey: "cats") }
+    override func encode(with aCoder: NSCoder) {
+        print("+++++++++++++++encoding world+++++++++++++++")
+        if let wallpaper = wallpaper { aCoder.encode(wallpaper, forKey: "wallpaper") }
+        if let floor = floor { aCoder.encode(floor, forKey: "floor") }
+        if let cats = cats { aCoder.encode(cats, forKey: "cats") }
     }
     
     // MARK: Saving
@@ -57,7 +58,6 @@ class World: SKNode {
     // MARK: Layout
     
     func layout() {
-//        self.setScale(46/9)
         self.setScale(GameScene.current.frame.width/wallpaper.frame.width)
         wallpaper.zPosition = 0
         floor.zPosition = 2

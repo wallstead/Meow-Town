@@ -16,8 +16,6 @@ class GameScene: SKScene {
         let width = UIScreen.main().bounds.width
         let height = UIScreen.main().bounds.height
         
-        print("width: \(width), height: \(height)")
-        
         let h = min(width, height)
         let w = max(width, height)
         super.init(size: CGSize(width: w, height: h))
@@ -40,10 +38,11 @@ class GameScene: SKScene {
         
         self.addChild(catCam)
         
-        let worldData = PlistManager.sharedInstance.getValueForKey(key: "World") as? NSData
+        let worldData = PlistManager.sharedInstance.getValueForKey(key: "World") as! Data
         
-        if worldData?.length != 0 { // check if empty
-            let loadedWorld = NSKeyedUnarchiver.unarchiveObject(with: worldData as! Data) as? World
+        if worldData.count != 0 { // check if empty
+            let loadedWorld = NSKeyedUnarchiver.unarchiveObject(with: worldData) as! World
+            print(loadedWorld)
             world = loadedWorld
         } else {
             world = World(name: "world")

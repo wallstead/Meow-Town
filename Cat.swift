@@ -34,8 +34,6 @@ class Cat: SKNode {
         self.birthday = decoder.decodeObject(forKey: "birthday") as! NSDate
         self.world = decoder.decodeObject(forKey: "world") as! World
         self.hasPubed = decoder.decodeObject(forKey: "hasPubed") as! Bool
-        print(self.skin)
-        print(self.hasPubed)
         displayCat()
     }
     
@@ -51,14 +49,15 @@ class Cat: SKNode {
         birth()
     }
     
-    func encodeWithCoder(coder: NSCoder) {
-        if let firstname = firstname { coder.encode(firstname, forKey: "firstname") }
-        if let skin = skin { coder.encode(skin, forKey: "skin") }
-        if let sprite = sprite { coder.encode(sprite, forKey: "sprite") }
-        if let mood = mood { coder.encode(mood, forKey: "mood") }
-        if let birthday = birthday { coder.encode(birthday, forKey: "birthday") }
-        if let world = world { coder.encode(world, forKey: "world") }
-        if let hasPubed = hasPubed { coder.encode(hasPubed, forKey: "hasPubed") }
+    override func encode(with aCoder: NSCoder) {
+        print("+++++++++++++++encoding cat+++++++++++++++")
+        if let firstname = firstname { aCoder.encode(firstname, forKey: "firstname") }
+        if let skin = skin { aCoder.encode(skin, forKey: "skin") }
+        if let sprite = sprite { aCoder.encode(sprite, forKey: "sprite") }
+        if let mood = mood { aCoder.encode(mood, forKey: "mood") }
+        if let birthday = birthday { aCoder.encode(birthday, forKey: "birthday") }
+        if let world = world { aCoder.encode(world, forKey: "world") }
+        if let hasPubed = hasPubed { aCoder.encode(hasPubed, forKey: "hasPubed") }
     }
     
     func birth() {
