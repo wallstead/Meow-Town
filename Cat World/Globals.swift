@@ -14,10 +14,10 @@ func unitRandom() -> CGFloat {
 
 extension CGRect {
     func mid() -> CGPoint {
-        return CGPointMake(midX, midY)
+        return CGPoint(x: midX, y: midY)
     }
     
     func randomPoint() -> CGPoint {
-        return CGPointMake(unitRandom()*maxX, unitRandom()*maxY)
+        return CGPoint(x: unitRandom()*maxX, y: unitRandom()*maxY)
     }
 }

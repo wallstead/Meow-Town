@@ -13,14 +13,14 @@ class GameScene: SKScene {
     var catCam: CatCam!
     
     override init() {
-        let width = UIScreen.mainScreen().bounds.width
-        let height = UIScreen.mainScreen().bounds.height
+        let width = UIScreen.main().bounds.width
+        let height = UIScreen.main().bounds.height
         
         print("width: \(width), height: \(height)")
         
         let h = min(width, height)
         let w = max(width, height)
-        super.init(size: CGSizeMake(w, h))
+        super.init(size: CGSize(width: w, height: h))
         
         GameScene.current = self
     }
@@ -31,7 +31,7 @@ class GameScene: SKScene {
     
     static var current: GameScene! = nil
     
-    override func didMoveToView(view: SKView) {
+    override func didMove(to view: SKView) {
         
         catCam = CatCam(withFrame: CGRect(x: -self.frame.width/2, y: -self.frame.height/2, width: self.frame.width, height: self.frame.height)) // This frame to offset the camera being centered 
         self.camera = catCam
@@ -40,10 +40,10 @@ class GameScene: SKScene {
         
         self.addChild(catCam)
         
-        let worldData = PlistManager.sharedInstance.getValueForKey("World") as? NSData
+        let worldData = PlistManager.sharedInstance.getValueForKey(key: "World") as? NSData
         
         if worldData?.length != 0 { // check if empty
-            let loadedWorld = NSKeyedUnarchiver.unarchiveObjectWithData(worldData!) as? World
+            let loadedWorld = NSKeyedUnarchiver.unarchiveObject(with: worldData as! Data) as? World
             world = loadedWorld
         } else {
             world = World(name: "world")
@@ -58,14 +58,10 @@ class GameScene: SKScene {
         
         
     }
-    
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-      
-    }
    
-    override func update(currentTime: CFTimeInterval) {
-        world.update(currentTime)
-        catCam.update(currentTime)
+    override func update(_ currentTime: CFTimeInterval) {
+        world.update(currentTime: currentTime)
+        catCam.update(currentTime: currentTime)
     }
 }
 
@@ -76,7 +72,7 @@ extension SKNode {
         get {
             if let scene = self.scene {
                 if let parent = self.parent {
-                    let rectOriginInScene = scene.convertPoint(self.frame.origin, fromNode: parent)
+                    let rectOriginInScene = scene.convert(self.frame.origin, from: parent)
                     return CGRect(origin: rectOriginInScene, size: self.frame.size)
                 }
             }
@@ -88,7 +84,7 @@ extension SKNode {
         get {
             if let scene = self.scene {
                 if let parent = self.parent {
-                    return scene.convertPoint(self.position, fromNode: parent)
+                    return scene.convert(self.position, from: parent)
                 }
             }
             

@@ -69,7 +69,7 @@ final class Scheduler {
                 // then add it back
                 if event!.recurring || event!.numberOfTimes > 1 {
                     event!.numberOfTimes -= 1
-                    events.add( event!.updateNextTrigger() )
+                    events.add( event: event!.updateNextTrigger() )
                 }
                 
                 
@@ -85,7 +85,7 @@ final class Scheduler {
     
     /// add a scheduler event
     func add(event:SchedulerEvent){
-        events.add(event)
+        events.add(event: event)
     }
     
     
@@ -116,12 +116,12 @@ final class Scheduler {
     }
     
     func delay(by:Double) -> Scheduler {
-        currentEvent?.delay(by)
+        currentEvent?.delay(by: by)
         return self
     }
     
     func `repeat`(times:Int) -> Scheduler {
-        currentEvent?.`repeat`(times)
+        currentEvent?.`repeat`(times: times)
         return self
     }
     
@@ -138,28 +138,28 @@ final class Scheduler {
     
     func endDefinition() {
         if currentEvent != nil {
-            self.add(currentEvent!)
+            self.add(event: currentEvent!)
             currentEvent = nil
         }
     }
     
     func perform(action:TargetAction) -> Scheduler {
-        currentEvent?.perform(action)
+        currentEvent?.perform(action: action)
         return self
     }
     
     func withChance(chance:Double) -> Scheduler {
-        currentEvent?.setChance(chance)
+        currentEvent?.setChance(chance: chance)
         return self
     }
     
     
     func now() -> Scheduler {
-        return at(self.elapsed)
+        return at(time: self.elapsed)
     }
     
     func after(time:Double) -> Scheduler {
-        return at(self.elapsed + time)
+        return at(time: self.elapsed + time)
     }
     
     /// creates an event will fire at a specified time
@@ -308,7 +308,7 @@ final class SchedulerEventQueue {
             }
             
             if insertIndex < q.count {
-                q.insert(event, atIndex: insertIndex)
+                q.insert(event, at: insertIndex)
             } else {
                 q.append(event)
             }
@@ -317,7 +317,7 @@ final class SchedulerEventQueue {
     
     func pop() -> SchedulerEvent? {
         if q.count == 0 { return nil }
-        return q.removeAtIndex(0)
+        return q.remove(at: 0)
     }
     
     func top() -> SchedulerEvent? {

@@ -34,9 +34,9 @@ class CatCam: SKCameraNode {
             }
         } else { // focus
             if !focusing {
-                let zoom = SKAction.scaleTo(0.75, duration: 0.5)
-                zoom.timingMode = .EaseOut
-                self.runAction(zoom)
+                let zoom = SKAction.scale(to: 0.75, duration: 0.5)
+                zoom.timingMode = .easeOut
+                self.run(zoom)
                 currentFocus = cat
             }
         }
@@ -78,12 +78,12 @@ class CatCam: SKCameraNode {
     
     func unfocus() {
         self.removeAllActions()
-        let resetPosition = SKAction.moveTo(GameScene.current.frame.mid(), duration: 0.5)
-        resetPosition.timingMode = .EaseOut
-        self.runAction(resetPosition)
-        let zoom = SKAction.scaleTo(1, duration: 0.5)
-        zoom.timingMode = .EaseOut
-        self.runAction(zoom)
+        let resetPosition = SKAction.move(to: GameScene.current.frame.mid(), duration: 0.5)
+        resetPosition.timingMode = .easeOut
+        self.run(resetPosition)
+        let zoom = SKAction.scale(to: 1, duration: 0.5)
+        zoom.timingMode = .easeOut
+        self.run(zoom)
     }
     
     func update(currentTime: CFTimeInterval) {
@@ -94,8 +94,8 @@ class CatCam: SKCameraNode {
             } else {
                 point.y += 70
             }
-            let action = SKAction.moveTo(point, duration: 0.25)
-            self.runAction(action)
+            let action = SKAction.move(to: point, duration: 0.25)
+            self.run(action)
         }
     }
     
@@ -104,6 +104,7 @@ class CatCam: SKCameraNode {
             menuButton.disable()
             menu.close()
         }
+        unfocus()
         
         var isShiftingCats = false
         var catSpriteArray: [SKPixelSpriteNode] = []
@@ -115,18 +116,19 @@ class CatCam: SKCameraNode {
         background.alpha = 0
         self.addChild(background)
         
-        let cats = PlistManager.sharedInstance.getValueForKey("Selectable Cats") as! NSDictionary
+        let cats = PlistManager.sharedInstance.getValueForKey(key: "Selectable Cats") as! NSDictionary
         for cat in cats {
-            let catSkin = cat.value.valueForKey("skin") as! String
-            catSpriteArray.append(SKPixelSpriteNode(textureName: catSkin))
-            print(catSkin)
+            if let catSkin = cat.value.value(forKey: "skin") as? String {
+                catSpriteArray.append(SKPixelSpriteNode(textureName: catSkin))
+                print(catSkin)
+            }
         }
         currentCatSprite = catSpriteArray[0]
         
         let titleBar = SKPixelSpriteNode(textureName: "catselect_titlebar")
         background.addChild(titleBar)
         titleBar.zPosition = 10
-        titleBar.position = titleBar.convertPoint(CGPoint(x: 0, y:self.frame.maxY), fromNode: self)
+        titleBar.position = titleBar.convert(CGPoint(x: 0, y:self.frame.maxY), from: self)
         titleBar.position.y -= titleBar.frame.height/2
 
         let title = SKLabelNode(fontNamed: "Fipps-Regular")
@@ -136,7 +138,7 @@ class CatCam: SKCameraNode {
         title.setScale(1/10)
         title.fontSize = 80
         title.fontColor = SKColor(red: 50/255, green: 50/255, blue: 50/255, alpha: 1)
-        title.verticalAlignmentMode = .Center
+        title.verticalAlignmentMode = .center
 
         let circleBackground = SKPixelSpriteNode(textureName: "catselect_circle")
         background.addChild(circleBackground)
@@ -157,11 +159,11 @@ class CatCam: SKCameraNode {
         description.fontSize = 80
         description.position.y = circleBackground.frame.maxY+7
         description.fontColor = SKColor(red: 50/255, green: 50/255, blue: 50/255, alpha: 1)
-        description.verticalAlignmentMode = .Center
+        description.verticalAlignmentMode = .center
         
         for cat in catSpriteArray {
             circleCropNode.addChild(cat)
-            cat.position = CGPoint(x: (catSpriteArray.indexOf(cat)!*55), y: 0)
+            cat.position = CGPoint(x: (catSpriteArray.index(of: cat)!*55), y: 0)
         }
 
         func shift(left l: Bool) -> SKAction {
@@ -170,28 +172,28 @@ class CatCam: SKCameraNode {
             if l {
                 multiplier = -1
             }
-            return SKAction.moveByX(multiplier*55, y: 0, duration: 0.5, delay: 0, usingSpringWithDamping: 0.65, initialSpringVelocity: 0)
+            return SKAction.moveBy(x: multiplier*55, y: 0, duration: 0.5) // TODO: Find a springy way of doing this again
         }
         
         let leftButton = SKPixelButtonNode(textureName: "catselect_arrow")
         let rightButton = SKPixelButtonNode(textureName: "catselect_arrow")
 
         func updateButtons() {
-            if catSpriteArray.indexOf(currentCatSprite) == 0 {
-                leftButton.runAction(SKAction.fadeAlphaTo(0.5, duration: 0.5))
-                rightButton.runAction(SKAction.fadeAlphaTo(1, duration: 0.5))
-                leftButton.userInteractionEnabled = false
-                rightButton.userInteractionEnabled = true
-            } else if catSpriteArray.indexOf(currentCatSprite) == catSpriteArray.count - 1 {
-                leftButton.runAction(SKAction.fadeAlphaTo(1, duration: 0.5))
-                rightButton.runAction(SKAction.fadeAlphaTo(0.5, duration: 0.5))
-                leftButton.userInteractionEnabled = true
-                rightButton.userInteractionEnabled = false
+            if catSpriteArray.index(of: currentCatSprite) == 0 {
+                leftButton.run(SKAction.fadeAlpha(to: 0.5, duration: 0.5))
+                rightButton.run(SKAction.fadeAlpha(to: 1, duration: 0.5))
+                leftButton.isUserInteractionEnabled = false
+                rightButton.isUserInteractionEnabled = true
+            } else if catSpriteArray.index(of: currentCatSprite) == catSpriteArray.count - 1 {
+                leftButton.run(SKAction.fadeAlpha(to: 1, duration: 0.5))
+                rightButton.run(SKAction.fadeAlpha(to: 0.5, duration: 0.5))
+                leftButton.isUserInteractionEnabled = true
+                rightButton.isUserInteractionEnabled = false
             } else {
-                leftButton.runAction(SKAction.fadeAlphaTo(1, duration: 0.5))
-                rightButton.runAction(SKAction.fadeAlphaTo(1, duration: 0.5))
-                leftButton.userInteractionEnabled = true
-                rightButton.userInteractionEnabled = true
+                leftButton.run(SKAction.fadeAlpha(to: 1, duration: 0.5))
+                rightButton.run(SKAction.fadeAlpha(to: 1, duration: 0.5))
+                leftButton.isUserInteractionEnabled = true
+                rightButton.isUserInteractionEnabled = true
             }
         }
         
@@ -199,12 +201,12 @@ class CatCam: SKCameraNode {
         leftButton.zPosition = 12
         leftButton.position.x = circleBackground.frame.minX-7
         leftButton.action = {
-            if !isShiftingCats && catSpriteArray.indexOf(currentCatSprite) > 0  {
-                currentCatSprite = catSpriteArray[catSpriteArray.indexOf(currentCatSprite)!-1]
+            if !isShiftingCats && catSpriteArray.index(of: currentCatSprite) > 0  {
+                currentCatSprite = catSpriteArray[catSpriteArray.index(of: currentCatSprite)!-1]
                 updateButtons()
                 for cat in catSpriteArray {
-                    cat.runAction(shift(left: false), completion: {
-                        if catSpriteArray.indexOf(cat) == catSpriteArray.count-1 {
+                    cat.run(shift(left: false), completion: {
+                        if catSpriteArray.index(of: cat) == catSpriteArray.count-1 {
                             isShiftingCats = false
                         }
                     })
@@ -217,12 +219,12 @@ class CatCam: SKCameraNode {
         rightButton.position.x = circleBackground.frame.maxX+7
         rightButton.xScale = -1
         rightButton.action = {
-            if !isShiftingCats && catSpriteArray.indexOf(currentCatSprite) < catSpriteArray.count - 1  {
-                currentCatSprite = catSpriteArray[catSpriteArray.indexOf(currentCatSprite)!+1]
+            if !isShiftingCats && catSpriteArray.index(of: currentCatSprite) < catSpriteArray.count - 1  {
+                currentCatSprite = catSpriteArray[catSpriteArray.index(of: currentCatSprite)!+1]
                 updateButtons()
                 for cat in catSpriteArray {
-                    cat.runAction(shift(left: true), completion: {
-                        if catSpriteArray.indexOf(cat) == catSpriteArray.count-1 {
+                    cat.run(shift(left: true), completion: {
+                        if catSpriteArray.index(of: cat) == catSpriteArray.count-1 {
                             isShiftingCats = false
                         }
                     })
@@ -236,13 +238,13 @@ class CatCam: SKCameraNode {
         doneButton.position.y = circleBackground.frame.minY-11
         doneButton.action = {
             isShiftingCats = true
-            GameScene.current.world.addCat(currentCatSprite.textureName)
-            background.runAction(SKAction.fadeAlphaTo(0, duration: 0.5), completion: {
+            GameScene.current.world.addCat(name: currentCatSprite.textureName)
+            background.run(SKAction.fadeAlpha(to: 0, duration: 0.5), completion: {
                 background.removeFromParent()
             })
         }
         
-        background.runAction(SKAction.fadeAlphaTo(1, duration: 1))
+        background.run(SKAction.fadeAlpha(to: 1, duration: 1))
         
         updateButtons()
     }

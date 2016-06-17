@@ -35,57 +35,57 @@ class Menu: SKNode {
     
     func layout() {
         bgpanel = SKPixelSpriteNode(textureName: "topbar_menupanel")
-        bgpanel.color = DynamicColor(red: 212/255, green: 29/255, blue: 32/255, alpha: 1)
+        bgpanel.color = SKColor(red: 212/255, green: 29/255, blue: 32/255, alpha: 1)
         bgpanel.colorBlendFactor = 1
         bgpanel.zPosition = 0
-        bgpanel.setScale(camFrame.width/bgpanel.width)
-        bgpanel.position.y = camFrame.maxY+bgpanel.height/2-topBar.height/2
+        bgpanel.setScale(camFrame.width/bgpanel.frame.width)
+        bgpanel.position.y = camFrame.maxY+bgpanel.frame.height/2-topBar.frame.height/2
         self.addChild(bgpanel)
         
         menuCropper = SKCropNode()
         menuCropper.maskNode = SKPixelSpriteNode(textureName: "topbar_menupanel")
         menuCropper.zPosition = 1
-        menuCropper.userInteractionEnabled = false
+        menuCropper.isUserInteractionEnabled = false
         bgpanel.addChild(menuCropper)
         
         settingsButton = SKPixelToggleButtonNode(textureName: "topbar_menupanel_settingsbutton")
         settingsButton.zPosition = 10
-        settingsButton.position.x = -bgpanel.currentWidth/2+settingsButton.width/2
-        settingsButton.position.y = bgpanel.currentHeight/2-settingsButton.height/2
+        settingsButton.position.x = -bgpanel.currentWidth/2+settingsButton.frame.width/2
+        settingsButton.position.y = bgpanel.currentHeight/2-settingsButton.frame.height/2
         settingsButton.action = {
-            self.toggleTopButton(self.settingsButton)
+            self.toggleTopButton(toToggle: self.settingsButton)
         }
         menuCropper.addChild(settingsButton)
         
         infoButton = SKPixelToggleButtonNode(textureName: "topbar_menupanel_infobutton")
         infoButton.zPosition = 10
         infoButton.position.x = 0
-        infoButton.position.y = bgpanel.currentHeight/2-infoButton.height/2
+        infoButton.position.y = bgpanel.currentHeight/2-infoButton.frame.height/2
         infoButton.action = {
-            self.toggleTopButton(self.infoButton)
+            self.toggleTopButton(toToggle: self.infoButton)
         }
         menuCropper.addChild(infoButton)
         
         IAPButton = SKPixelToggleButtonNode(textureName: "topbar_menupanel_iapbutton")
         IAPButton.zPosition = 10
-        IAPButton.position.x = bgpanel.currentWidth/2-IAPButton.width/2
-        IAPButton.position.y = bgpanel.currentHeight/2-IAPButton.height/2
+        IAPButton.position.x = bgpanel.currentWidth/2-IAPButton.frame.width/2
+        IAPButton.position.y = bgpanel.currentHeight/2-IAPButton.frame.height/2
         IAPButton.action = {
-            self.toggleTopButton(self.IAPButton)
+            self.toggleTopButton(toToggle: self.IAPButton)
         }
         menuCropper.addChild(IAPButton)
         
         topbuttonPanelBG = SKPixelSpriteNode(textureName: "topbar_menupanel")
-        topbuttonPanelBG.color = DynamicColor(red: 0/255, green: 187/255, blue: 125/255, alpha: 1)
+        topbuttonPanelBG.color = SKColor(red: 0/255, green: 187/255, blue: 125/255, alpha: 1)
         topbuttonPanelBG.colorBlendFactor = 1
         topbuttonPanelBG.zPosition = 1
-        topbuttonPanelBG.position.y = bgpanel.currentHeight-infoButton.height
+        topbuttonPanelBG.position.y = bgpanel.currentHeight-infoButton.frame.height
         menuCropper.addChild(topbuttonPanelBG)
         
-        storeContainer = SKSpriteNode(color: SKColor.clearColor(), size: CGSize(width: bgpanel.currentWidth, height: bgpanel.currentHeight-settingsButton.height))
+        storeContainer = SKSpriteNode(color: SKColor.clear(), size: CGSize(width: bgpanel.currentWidth, height: bgpanel.currentHeight-settingsButton.frame.height))
         storeContainer.zPosition = 1
-        storeContainer.userInteractionEnabled = false
-        storeContainer.position.y = -infoButton.height/2
+        storeContainer.isUserInteractionEnabled = false
+        storeContainer.position.y = -infoButton.frame.height/2
         menuCropper.addChild(storeContainer)
         
         let title = SKLabelNode(fontNamed: "Silkscreen")
@@ -93,8 +93,8 @@ class Menu: SKNode {
         title.text = "-STORE-"
         title.setScale(2/10)
         title.fontSize = 80
-        title.fontColor = DynamicColor(colorLiteralRed: 245/255, green: 245/255, blue: 245/255, alpha: 1)
-        title.verticalAlignmentMode = .Center
+        title.fontColor = SKColor(colorLiteralRed: 245/255, green: 245/255, blue: 245/255, alpha: 1)
+        title.verticalAlignmentMode = .center
         title.position.y = storeContainer.currentHeight/2 - 10
         storeContainer.addChild(title)
         
@@ -104,13 +104,13 @@ class Menu: SKNode {
     func toggleTopButton(toToggle: SKPixelToggleButtonNode) {
         let topButtons = [settingsButton, infoButton, IAPButton]
         for button in topButtons {
-            if button.enabled && button != toToggle {
-                button.disable()
+            if button?.enabled == true && button != toToggle {
+                button?.disable()
             }
         }
         if toToggle.enabled == false { // enabling currently
             openTopButtonBackground()
-            displayContentForTopButton(toToggle)
+            displayContentForTopButton(button: toToggle)
         } else { // disabling currently
             closeTopButtonBackground()
         }
@@ -120,21 +120,21 @@ class Menu: SKNode {
         topbuttonPanelBG.removeAllActions()
         storeContainer.removeAllActions()
         if topbuttonPanelBG.position.y != 0 {
-            let displayPanel = SKAction.moveToY(0, duration: 0.3)
-            topbuttonPanelBG.runAction(displayPanel)
-            let displayContainer = SKAction.moveToY(-bgpanel.currentHeight+infoButton.currentHeight/2, duration: 0.3)
-            storeContainer.runAction(displayContainer)
+            let displayPanel = SKAction.moveTo(y: 0, duration: 0.3)
+            topbuttonPanelBG.run(displayPanel)
+            let displayContainer = SKAction.moveTo(y: -bgpanel.currentHeight+infoButton.currentHeight/2, duration: 0.3)
+            storeContainer.run(displayContainer)
         }
     }
     
     func closeTopButtonBackground() {
         topbuttonPanelBG.removeAllActions()
         storeContainer.removeAllActions()
-        if topbuttonPanelBG.position.y != bgpanel.currentHeight-infoButton.height {
-            let hidePanel = SKAction.moveToY(bgpanel.currentHeight-infoButton.height, duration: 0.3)
-            topbuttonPanelBG.runAction(hidePanel)
-            let hideContainer = SKAction.moveToY(-infoButton.height/2, duration: 0.3)
-            storeContainer.runAction(hideContainer)
+        if topbuttonPanelBG.position.y != bgpanel.currentHeight-infoButton.frame.height {
+            let hidePanel = SKAction.moveTo(y: bgpanel.currentHeight-infoButton.frame.height, duration: 0.3)
+            topbuttonPanelBG.run(hidePanel)
+            let hideContainer = SKAction.moveTo(y: -infoButton.frame.height/2, duration: 0.3)
+            storeContainer.run(hideContainer)
         }
     }
     
@@ -156,7 +156,7 @@ class Menu: SKNode {
             /* Remove old content */
             for child in topbuttonPanelBG.children {
                 child.removeAllActions()
-                child.runAction(SKAction.fadeAlphaTo(0, duration: 0.25), completion: {
+                child.run(SKAction.fadeAlpha(to: 0, duration: 0.25), completion: {
                     child.removeFromParent()
                 })
             }
@@ -164,7 +164,7 @@ class Menu: SKNode {
             let content = SKNode()
             content.zPosition = 1
             content.alpha = 0
-            content.runAction(SKAction.fadeAlphaTo(1, duration: 0.25))
+            content.run(SKAction.fadeAlpha(to: 1, duration: 0.25))
             
             topbuttonPanelBG.addChild(content)
             
@@ -173,7 +173,7 @@ class Menu: SKNode {
                 let addCat = SKPixelButtonNode(textureName: "catselect_done", text: "+CAT")
                 addCat.zPosition = 1
                 addCat.action = {
-                    GameScene.current.world.addCat("oscar")
+                    GameScene.current.world.addCat(name: "oscar")
                 }
                 content.addChild(addCat)
             } else if contentDisplayed == "info" {
@@ -182,8 +182,8 @@ class Menu: SKNode {
                 title.text = "FAT FELINE"
                 title.setScale(2/10)
                 title.fontSize = 80
-                title.fontColor = DynamicColor(colorLiteralRed: 245/255, green: 245/255, blue: 245/255, alpha: 1)
-                title.verticalAlignmentMode = .Center
+                title.fontColor = SKColor(colorLiteralRed: 245/255, green: 245/255, blue: 245/255, alpha: 1)
+                title.verticalAlignmentMode = .center
                 title.position.y = topbuttonPanelBG.currentHeight/2 - infoButton.currentHeight - 20
                 
                 let version = SKLabelNode(fontNamed: "Silkscreen")
@@ -191,8 +191,8 @@ class Menu: SKNode {
                 version.text = "v2.0"
                 version.setScale(1/10)
                 version.fontSize = 80
-                version.fontColor = DynamicColor(colorLiteralRed: 245/255, green: 245/255, blue: 245/255, alpha: 1)
-                version.verticalAlignmentMode = .Center
+                version.fontColor = SKColor(colorLiteralRed: 245/255, green: 245/255, blue: 245/255, alpha: 1)
+                version.verticalAlignmentMode = .center
                 version.position.y = topbuttonPanelBG.currentHeight/2 - infoButton.currentHeight - title.frame.height - 15
                 
                 content.addChild(title)
@@ -203,8 +203,8 @@ class Menu: SKNode {
                 removeAds.text = "Coming Soon"
                 removeAds.setScale(1/10)
                 removeAds.fontSize = 80
-                removeAds.fontColor = DynamicColor(colorLiteralRed: 245/255, green: 245/255, blue: 245/255, alpha: 1)
-                removeAds.verticalAlignmentMode = .Center
+                removeAds.fontColor = SKColor(colorLiteralRed: 245/255, green: 245/255, blue: 245/255, alpha: 1)
+                removeAds.verticalAlignmentMode = .center
                 
                 content.addChild(removeAds)
             }
@@ -215,20 +215,20 @@ class Menu: SKNode {
         return self.hasActions()
     }
     
-    func dropPanelToY(y: CGFloat, duration: NSTimeInterval) -> SKAction {
-        let down1 = SKAction.moveToY(y, duration: duration/2) // 1/2
-        down1.timingMode = .EaseIn
-        let up1 = SKAction.moveToY(y+30, duration: duration/6) // 3/4
-        up1.timingMode = .EaseOut
-        let down2 = SKAction.moveToY(y, duration: duration/8) // 7/8
-        down2.timingMode = .EaseIn
+    func dropPanelToY(y: CGFloat, duration: TimeInterval) -> SKAction {
+        let down1 = SKAction.moveTo(y: y, duration: duration/2) // 1/2
+        down1.timingMode = .easeIn
+        let up1 = SKAction.moveTo(y: y+30, duration: duration/6) // 3/4
+        up1.timingMode = .easeOut
+        let down2 = SKAction.moveTo(y: y, duration: duration/8) // 7/8
+        down2.timingMode = .easeIn
         
         return SKAction.sequence([down1, up1, down2])
     }
     
     func displayCollection() {
-        let storeDict = PlistManager.sharedInstance.getValueForKey("Store") as! NSDictionary
-        let categoriesDict = storeDict.valueForKey("Categories") as! NSDictionary
+        let storeDict = PlistManager.sharedInstance.getValueForKey(key: "Store") as! NSDictionary
+        let categoriesDict = storeDict.value(forKey: "Categories") as! NSDictionary
 
         var yPosCounter: CGFloat = 0
         let categories = SKNode()
@@ -243,7 +243,7 @@ class Menu: SKNode {
         
         let collectionBG = SKSpriteNode()
         collectionBG.color = SKColor(colorLiteralRed: 182/255, green: 24/255, blue: 25/255, alpha: 1)
-        collectionBG.size = CGSize(width: storeContainer.width, height: categories.calculateAccumulatedFrame().height+10)
+        collectionBG.size = CGSize(width: storeContainer.frame.width, height: categories.calculateAccumulatedFrame().height+10)
         collectionBG.zPosition = 2
         collectionBG.anchorPoint = CGPoint(x: 0.5, y: 1)
         collectionBG.position.y = storeContainer.currentHeight/2 - 20
@@ -261,19 +261,19 @@ class Menu: SKNode {
     
     func open() {
         self.isOpen = true
-        bgpanel.runAction(dropPanelToY(camFrame.minY+bgpanel.height/2, duration: 0.75))
+        bgpanel.run(dropPanelToY(y: camFrame.minY+bgpanel.frame.height/2, duration: 0.75))
     }
     
     func close() {
         self.isOpen = false
-        bgpanel.runAction(dropPanelToY(camFrame.maxY-self.topBar.frame.height+bgpanel.height/2, duration: 0.75))
+        bgpanel.run(dropPanelToY(y: camFrame.maxY-self.topBar.frame.height+bgpanel.frame.height/2, duration: 0.75))
         
         /* TODO: Make it only close when it is actually open */
         closeTopButtonBackground()
         let topButtons = [settingsButton, infoButton, IAPButton]
         for button in topButtons {
-            if button.enabled == true {
-                button.disable()
+            if button?.enabled == true {
+                button?.disable()
             }
         }
     }

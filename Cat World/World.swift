@@ -19,9 +19,9 @@ class World: SKNode {
     
     required convenience init(coder decoder: NSCoder) {
         self.init()
-        self.wallpaper = decoder.decodeObjectForKey("wallpaper") as! SKPixelSpriteNode
-        self.floor = decoder.decodeObjectForKey("floor") as! SKPixelSpriteNode
-        self.cats = decoder.decodeObjectForKey("cats") as! [Cat]
+        self.wallpaper = decoder.decodeObject(forKey: "wallpaper") as! SKPixelSpriteNode
+        self.floor = decoder.decodeObject(forKey: "floor") as! SKPixelSpriteNode
+        self.cats = decoder.decodeObject(forKey: "cats") as! [Cat]
         
         layout()
         
@@ -41,17 +41,17 @@ class World: SKNode {
         GameScene.current.catCam.displayCatSelection()
     }
     
-    override func encodeWithCoder(coder: NSCoder) {
-        if let wallpaper = wallpaper { coder.encodeObject(wallpaper, forKey: "wallpaper") }
-        if let floor = floor { coder.encodeObject(floor, forKey: "floor") }
-        if let cats = cats { coder.encodeObject(cats, forKey: "cats") }
+    func encodeWithCoder(coder: NSCoder) {
+        if let wallpaper = wallpaper { coder.encode(wallpaper, forKey: "wallpaper") }
+        if let floor = floor { coder.encode(floor, forKey: "floor") }
+        if let cats = cats { coder.encode(cats, forKey: "cats") }
     }
     
     // MARK: Saving
     
     func save() {
-        let worldData = NSKeyedArchiver.archivedDataWithRootObject(self)
-        PlistManager.sharedInstance.saveValue(worldData, forKey: "World")
+        let worldData = NSKeyedArchiver.archivedData(withRootObject: self)
+        PlistManager.sharedInstance.saveValue(value: worldData, forKey: "World")
     }
     
     // MARK: Layout
@@ -87,7 +87,7 @@ class World: SKNode {
     // MARK: Cat Stuff
     
     func addCat(name: String) {
-        let testCat = Cat(name: name.capitalizedString, skin: name, mood: "happy", birthday: NSDate(), world: self)
+        let testCat = Cat(name: name.capitalized, skin: name, mood: "happy", birthday: NSDate(), world: self)
         cats.append(testCat)
         save()
     }
@@ -96,7 +96,7 @@ class World: SKNode {
     
     func update(currentTime: CFTimeInterval) {
         for cat in cats {
-            cat.update(currentTime)
+            cat.update(currentTime: currentTime)
         }
     }
 }

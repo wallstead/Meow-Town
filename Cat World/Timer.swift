@@ -20,7 +20,7 @@ final public class Timer {
 
     /// pause the timer
     public func pause() {
-        advance(CFAbsoluteTimeGetCurrent(), paused:true)
+        advance(currentTime: CFAbsoluteTimeGetCurrent(), paused:true)
     }
     
     /// unpause the timer
@@ -28,13 +28,13 @@ final public class Timer {
     /// the timer's ability to calculate elapsed time
     /// properly
     public func unpause() {
-        advance(CFAbsoluteTimeGetCurrent(), paused:false)
+        advance(currentTime: CFAbsoluteTimeGetCurrent(), paused:false)
     }
     
     /// advance the timer's elapsed time by the timestep
     /// of the game loop
     public func advance(paused:Bool = false) {
-        advance(CFAbsoluteTimeGetCurrent(), paused: paused)
+        advance(currentTime: CFAbsoluteTimeGetCurrent(), paused: paused)
     }
     
     private func advance(currentTime:CFTimeInterval, paused:Bool) {

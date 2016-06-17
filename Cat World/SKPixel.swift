@@ -16,26 +16,26 @@ class SKPixelSpriteNode: SKSpriteNode {
     init(textureName: String) {
         let texture = SKTexture(imageNamed: textureName)
         self.textureName = textureName
-        texture.filteringMode = SKTextureFilteringMode.Nearest
-        super.init(texture: texture, color: UIColor.clearColor(), size: texture.size())
-        self.userInteractionEnabled = true
+        texture.filteringMode = SKTextureFilteringMode.nearest
+        super.init(texture: texture, color: UIColor.clear(), size: texture.size())
+        self.isUserInteractionEnabled = true
     }
     
     required init?(coder aDecoder: NSCoder) {
-        self.textureName = aDecoder.decodeObjectForKey("texturename") as! String
+        self.textureName = aDecoder.decodeObject(forKey: "texturename") as! String
         super.init(coder: aDecoder)
-        self.userInteractionEnabled = true
+        self.isUserInteractionEnabled = true
     }
     
-    override func encodeWithCoder(aCoder: NSCoder) {
-        aCoder.encodeObject(self.textureName, forKey: "texturename")
-        super.encodeWithCoder(aCoder)
+    override func encode(with aCoder: NSCoder) {
+        aCoder.encode(self.textureName, forKey: "texturename")
+        super.encode(with: aCoder)
     }
     
     func changeTextureTo(textureName: String) {
-        self.size = CGSizeZero
+        self.size = CGSize(width: 0, height: 0)
         let newTexture = SKTexture(imageNamed: textureName)
-        newTexture.filteringMode = .Nearest
+        newTexture.filteringMode = .nearest
         self.texture = newTexture
         let oldXScale = xScale
         let oldYScale = yScale
@@ -46,7 +46,7 @@ class SKPixelSpriteNode: SKSpriteNode {
         yScale = oldYScale
     }
 
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         action?()
     }
 }
@@ -60,9 +60,9 @@ class SKPixelButtonNode: SKPixelSpriteNode {
     
     init(textureName: String, text: String? = nil) {
         let texture = SKTexture(imageNamed: textureName)
-        texture.filteringMode = SKTextureFilteringMode.Nearest
+        texture.filteringMode = SKTextureFilteringMode.nearest
         let texturePressed = SKTexture(imageNamed: textureName+"_pressed")
-        texturePressed.filteringMode = SKTextureFilteringMode.Nearest
+        texturePressed.filteringMode = SKTextureFilteringMode.nearest
         self.defaultTexture = texture
         self.activeTexture = texturePressed
         self.downSound = SKAudioNode(fileNamed: "button_down.wav")
@@ -73,46 +73,46 @@ class SKPixelButtonNode: SKPixelSpriteNode {
             self.text!.text = text
             self.text!.setScale(1/10)
             self.text!.fontSize = 80
-            self.text!.fontColor = SKColor.whiteColor()
-            self.text!.verticalAlignmentMode = .Center
+            self.text!.fontColor = SKColor.white()
+            self.text!.verticalAlignmentMode = .center
             self.text!.zPosition = 1
             self.addChild(self.text!)
         }
         self.textureName = textureName
-        self.userInteractionEnabled = true
+        self.isUserInteractionEnabled = true
     }
     
     required init?(coder aDecoder: NSCoder) {
-        self.defaultTexture = aDecoder.decodeObjectForKey("defaulttexture") as! SKTexture
-        self.activeTexture = aDecoder.decodeObjectForKey("activeTexture") as! SKTexture
-        self.downSound = aDecoder.decodeObjectForKey("downSound") as! SKAudioNode
-        self.upSound = aDecoder.decodeObjectForKey("upSound") as! SKAudioNode
-        self.text = aDecoder.decodeObjectForKey("text") as? SKLabelNode
+        self.defaultTexture = aDecoder.decodeObject(forKey: "defaulttexture") as! SKTexture
+        self.activeTexture = aDecoder.decodeObject(forKey: "activeTexture") as! SKTexture
+        self.downSound = aDecoder.decodeObject(forKey: "downSound") as! SKAudioNode
+        self.upSound = aDecoder.decodeObject(forKey: "upSound") as! SKAudioNode
+        self.text = aDecoder.decodeObject(forKey: "text") as? SKLabelNode
         super.init(coder: aDecoder)
-        self.userInteractionEnabled = true
+        self.isUserInteractionEnabled = true
     }
     
-    override func encodeWithCoder(aCoder: NSCoder) {
-        aCoder.encodeObject(self.defaultTexture, forKey: "defaultTexture")
-        aCoder.encodeObject(self.activeTexture, forKey: "activeTexture")
-        aCoder.encodeObject(self.downSound, forKey: "downSound")
-        aCoder.encodeObject(self.upSound, forKey: "upSound")
-        aCoder.encodeObject(self.text, forKey: "text")
-        super.encodeWithCoder(aCoder)
+    override func encode(with aCoder: NSCoder) {
+        aCoder.encode(self.defaultTexture, forKey: "defaultTexture")
+        aCoder.encode(self.activeTexture, forKey: "activeTexture")
+        aCoder.encode(self.downSound, forKey: "downSound")
+        aCoder.encode(self.upSound, forKey: "upSound")
+        aCoder.encode(self.text, forKey: "text")
+        super.encode(with: aCoder)
     }
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.texture = activeTexture
-        downSound.runAction(SKAction.play())
+        downSound.run(SKAction.play())
         if (text != nil) {
             text?.position.y = -1
         }
     }
     
-    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let touch = touches.first {
-            let location: CGPoint = touch.locationInNode(self.parent!)
-            if self.containsPoint(location) {
+            let location: CGPoint = touch.location(in: self.parent!)
+            if self.contains(location) {
                 self.texture = activeTexture
                 if (text != nil) {
                     text?.position.y = -1
@@ -127,10 +127,10 @@ class SKPixelButtonNode: SKPixelSpriteNode {
 
     }
 
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         if self.texture == activeTexture {
             action?()
-            upSound.runAction(SKAction.play())
+            upSound.run(SKAction.play())
         }
         if (text != nil) {
             text?.position.y = 0
@@ -144,36 +144,36 @@ class SKPixelToggleButtonNode: SKPixelButtonNode {
     
     override init(textureName: String, text: String? = nil) {
         let texture = SKTexture(imageNamed: textureName)
-        texture.filteringMode = SKTextureFilteringMode.Nearest
+        texture.filteringMode = SKTextureFilteringMode.nearest
         let texturePressed = SKTexture(imageNamed: textureName+"_pressed")
-        texturePressed.filteringMode = SKTextureFilteringMode.Nearest
+        texturePressed.filteringMode = SKTextureFilteringMode.nearest
         super.init(textureName: textureName, text: text)
         self.enabled = false
     }
     
     required init?(coder aDecoder: NSCoder) {
-        self.enabled = aDecoder.decodeObjectForKey("enabled") as! Bool
+        self.enabled = aDecoder.decodeObject(forKey: "enabled") as! Bool
         super.init(coder: aDecoder)
-        self.userInteractionEnabled = true
+        self.isUserInteractionEnabled = true
     }
     
-    override func encodeWithCoder(aCoder: NSCoder) {
-        aCoder.encodeObject(self.enabled, forKey: "enabled")
-        super.encodeWithCoder(aCoder)
+    override func encode(with aCoder: NSCoder) {
+        aCoder.encode(self.enabled, forKey: "enabled")
+        super.encode(with: aCoder)
     }
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.texture = activeTexture
-        downSound.runAction(SKAction.play())
+        downSound.run(SKAction.play())
         if (text != nil) {
             text?.position.y = -1
         }
     }
     
-    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let touch = touches.first {
-            let location: CGPoint = touch.locationInNode(self.parent!)
-            if self.containsPoint(location) {
+            let location: CGPoint = touch.location(in: self.parent!)
+            if self.contains(location) {
                 self.texture = activeTexture
                 if (text != nil) {
                     text?.position.y = -1
@@ -182,7 +182,7 @@ class SKPixelToggleButtonNode: SKPixelButtonNode {
         }
     }
     
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         if !enabled { // enable
             enable()
         } else { // disable
@@ -193,7 +193,7 @@ class SKPixelToggleButtonNode: SKPixelButtonNode {
     func disable() {
         if self.texture == activeTexture {
             action?()
-            upSound.runAction(SKAction.play())
+            upSound.run(SKAction.play())
             if (text != nil) {
                 text?.position.y = 0
             }
@@ -205,7 +205,7 @@ class SKPixelToggleButtonNode: SKPixelButtonNode {
     func enable() {
         if self.texture == activeTexture {
             action?()
-            upSound.runAction(SKAction.play())
+            upSound.run(SKAction.play())
             if (text != nil) {
                 text?.position.y = -1
             }
@@ -220,41 +220,41 @@ class SKPixelCatNode: SKPixelSpriteNode {
     init(catName: String) {
         self.skinName = catName
         super.init(textureName: self.skinName)
-        self.userInteractionEnabled = true
+        self.isUserInteractionEnabled = true
     }
     
     required init?(coder aDecoder: NSCoder) {
-        self.skinName = aDecoder.decodeObjectForKey("catname") as! String
+        self.skinName = aDecoder.decodeObject(forKey: "catname") as! String
         super.init(coder: aDecoder)
-        self.userInteractionEnabled = true
+        self.isUserInteractionEnabled = true
     }
     
-    override func encodeWithCoder(aCoder: NSCoder) {
-        aCoder.encodeObject(self.skinName, forKey: "catname")
-        super.encodeWithCoder(aCoder)
+    override func encode(with aCoder: NSCoder) {
+        aCoder.encode(self.skinName, forKey: "catname")
+        super.encode(with: aCoder)
     }
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {}
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {}
     
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let touch = touches.first {
-            let location: CGPoint = touch.locationInNode(self.parent!)
-            if self.containsPoint(location) {
+            let location: CGPoint = touch.location(in: self.parent!)
+            if self.contains(location) {
                 action?()
             }
         }
     }
     
     func liftLegs() {
-        self.changeTextureTo(skinName+"_floating")
+        self.changeTextureTo(textureName: skinName+"_floating")
     }
     
     func stand() {
-        self.changeTextureTo(skinName)
+        self.changeTextureTo(textureName: skinName)
     }
     
     func closeEyes() {
-        self.changeTextureTo(skinName+"_blinking")
+        self.changeTextureTo(textureName: skinName+"_blinking")
     }
     
     func openEyes() {
@@ -262,7 +262,7 @@ class SKPixelCatNode: SKPixelSpriteNode {
     }
     
     func pube() {
-        let grownCatName = textureName.stringByReplacingOccurrencesOfString("_kitten", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
+        let grownCatName = textureName.replacingOccurrences(of: "_kitten", with: "")
         self.skinName = grownCatName
         stand()
         print("pubed")
