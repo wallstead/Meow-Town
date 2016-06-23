@@ -21,7 +21,8 @@ class World: SKNode {
         self.init()
         self.wallpaper = decoder.decodeObject(forKey: "wallpaper") as! SKPixelSpriteNode
         self.floor = decoder.decodeObject(forKey: "floor") as! SKPixelSpriteNode
-        self.cats = decoder.decodeObject(forKey: "cats") as! [Cat]
+        self.cats = decoder.decodeObject(forKey: "cats") as? [Cat] // This is the one that crashes the game
+//        print("cats that should be loaded: \(decoder.decodeObject(forKey: "cats") as! [Cat])")
         
         layout()
         
@@ -42,10 +43,14 @@ class World: SKNode {
     }
     
     override func encode(with aCoder: NSCoder) {
-        print("+++++++++++++++encoding world+++++++++++++++")
+        print("+++++++++++++++ encoding world +++++++++++++++")
         if let wallpaper = wallpaper { aCoder.encode(wallpaper, forKey: "wallpaper") }
         if let floor = floor { aCoder.encode(floor, forKey: "floor") }
-        if let cats = cats { aCoder.encode(cats, forKey: "cats") }
+        if let cats = cats {
+            aCoder.encode(cats, forKey: "cats")
+            print("saving this to cats: \(cats)")
+        }
+        
     }
     
     // MARK: Saving

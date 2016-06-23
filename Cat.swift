@@ -33,7 +33,7 @@ class Cat: SKNode {
         self.mood = decoder.decodeObject(forKey: "mood") as! String
         self.birthday = decoder.decodeObject(forKey: "birthday") as! NSDate
         self.world = decoder.decodeObject(forKey: "world") as! World
-        self.hasPubed = decoder.decodeObject(forKey: "hasPubed") as! Bool
+        self.hasPubed = decoder.decodeBool(forKey: "haspubed") // TODO: Understand why this has to be decodeBool rather than just decodeObject
         displayCat()
     }
     
@@ -57,7 +57,7 @@ class Cat: SKNode {
         if let mood = mood { aCoder.encode(mood, forKey: "mood") }
         if let birthday = birthday { aCoder.encode(birthday, forKey: "birthday") }
         if let world = world { aCoder.encode(world, forKey: "world") }
-        if let hasPubed = hasPubed { aCoder.encode(hasPubed, forKey: "hasPubed") }
+        if let hasPubed = hasPubed { aCoder.encode(hasPubed, forKey: "haspubed") }
     }
     
     func birth() {
