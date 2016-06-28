@@ -251,7 +251,7 @@ class Menu: SKNode {
     }
     
     func toggle() {
-        self.removeAllActions()
+        removeAllActions()
         if isOpen! {
             close()
         } else {

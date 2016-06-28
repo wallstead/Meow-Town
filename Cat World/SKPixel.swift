@@ -16,7 +16,7 @@ class SKPixelSpriteNode: SKSpriteNode {
     init(textureName: String) {
         let texture = SKTexture(imageNamed: textureName)
         self.textureName = textureName
-        texture.filteringMode = SKTextureFilteringMode.nearest
+        texture.filteringMode = .nearest
         super.init(texture: texture, color: UIColor.clear(), size: texture.size())
         self.isUserInteractionEnabled = true
     }
@@ -54,19 +54,15 @@ class SKPixelSpriteNode: SKSpriteNode {
 class SKPixelButtonNode: SKPixelSpriteNode {
     var defaultTexture: SKTexture
     var activeTexture: SKTexture
-    var downSound: SKAudioNode
-    var upSound: SKAudioNode
     var text: SKLabelNode?
     
     init(textureName: String, text: String? = nil) {
         let texture = SKTexture(imageNamed: textureName)
-        texture.filteringMode = SKTextureFilteringMode.nearest
+        texture.filteringMode = .nearest
         let texturePressed = SKTexture(imageNamed: textureName+"_pressed")
-        texturePressed.filteringMode = SKTextureFilteringMode.nearest
+        texturePressed.filteringMode = .nearest
         self.defaultTexture = texture
         self.activeTexture = texturePressed
-        self.downSound = SKAudioNode(fileNamed: "button_down.wav")
-        self.upSound = SKAudioNode(fileNamed: "button_up.wav")
         super.init(textureName: textureName)
         if (text != nil) {
             self.text = SKLabelNode(fontNamed: "Silkscreen")
@@ -85,8 +81,6 @@ class SKPixelButtonNode: SKPixelSpriteNode {
     required init?(coder aDecoder: NSCoder) {
         self.defaultTexture = aDecoder.decodeObject(forKey: "defaulttexture") as! SKTexture
         self.activeTexture = aDecoder.decodeObject(forKey: "activeTexture") as! SKTexture
-        self.downSound = aDecoder.decodeObject(forKey: "downSound") as! SKAudioNode
-        self.upSound = aDecoder.decodeObject(forKey: "upSound") as! SKAudioNode
         self.text = aDecoder.decodeObject(forKey: "text") as? SKLabelNode
         super.init(coder: aDecoder)
         self.isUserInteractionEnabled = true
@@ -95,15 +89,12 @@ class SKPixelButtonNode: SKPixelSpriteNode {
     override func encode(with aCoder: NSCoder) {
         aCoder.encode(self.defaultTexture, forKey: "defaultTexture")
         aCoder.encode(self.activeTexture, forKey: "activeTexture")
-        aCoder.encode(self.downSound, forKey: "downSound")
-        aCoder.encode(self.upSound, forKey: "upSound")
         aCoder.encode(self.text, forKey: "text")
         super.encode(with: aCoder)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.texture = activeTexture
-        downSound.run(SKAction.play())
         if (text != nil) {
             text?.position.y = -1
         }
@@ -130,7 +121,6 @@ class SKPixelButtonNode: SKPixelSpriteNode {
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         if self.texture == activeTexture {
             action?()
-            upSound.run(SKAction.play())
         }
         if (text != nil) {
             text?.position.y = 0
@@ -144,9 +134,9 @@ class SKPixelToggleButtonNode: SKPixelButtonNode {
     
     override init(textureName: String, text: String? = nil) {
         let texture = SKTexture(imageNamed: textureName)
-        texture.filteringMode = SKTextureFilteringMode.nearest
+        texture.filteringMode = .nearest
         let texturePressed = SKTexture(imageNamed: textureName+"_pressed")
-        texturePressed.filteringMode = SKTextureFilteringMode.nearest
+        texturePressed.filteringMode = .nearest
         super.init(textureName: textureName, text: text)
         self.enabled = false
     }
@@ -164,7 +154,6 @@ class SKPixelToggleButtonNode: SKPixelButtonNode {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.texture = activeTexture
-        downSound.run(SKAction.play())
         if (text != nil) {
             text?.position.y = -1
         }
@@ -193,7 +182,6 @@ class SKPixelToggleButtonNode: SKPixelButtonNode {
     func disable() {
         if self.texture == activeTexture {
             action?()
-            upSound.run(SKAction.play())
             if (text != nil) {
                 text?.position.y = 0
             }
@@ -205,7 +193,6 @@ class SKPixelToggleButtonNode: SKPixelButtonNode {
     func enable() {
         if self.texture == activeTexture {
             action?()
-            upSound.run(SKAction.play())
             if (text != nil) {
                 text?.position.y = -1
             }

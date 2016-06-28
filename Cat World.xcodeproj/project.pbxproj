@@ -32,6 +32,7 @@
 		43E113141D0755EF005ADA37 /* Scheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E113101D0755EF005ADA37 /* Scheduler.swift */; };
 		43E113151D0755EF005ADA37 /* TargetAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E113111D0755EF005ADA37 /* TargetAction.swift */; };
 		43E113161D0755EF005ADA37 /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E113121D0755EF005ADA37 /* Timer.swift */; };
+		43E4D1781D22E47C00E266EA /* SpriteKit-Spring.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E4D1771D22E47C00E266EA /* SpriteKit-Spring.swift */; };
 		43F453071CC8A543009912D8 /* Fipps-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 43F453061CC8A543009912D8 /* Fipps-Regular.otf */; };
 		43F4530C1CC8AD3B009912D8 /* slkscr.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43F453081CC8AD3B009912D8 /* slkscr.ttf */; };
 		43F4530D1CC8AD3B009912D8 /* slkscrb.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43F453091CC8AD3B009912D8 /* slkscrb.ttf */; };
@@ -92,6 +93,7 @@
 		43E113101D0755EF005ADA37 /* Scheduler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scheduler.swift; sourceTree = "<group>"; };
 		43E113111D0755EF005ADA37 /* TargetAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TargetAction.swift; sourceTree = "<group>"; };
 		43E113121D0755EF005ADA37 /* Timer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Timer.swift; sourceTree = "<group>"; };
+		43E4D1771D22E47C00E266EA /* SpriteKit-Spring.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SpriteKit-Spring.swift"; sourceTree = "<group>"; };
 		43F453061CC8A543009912D8 /* Fipps-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Fipps-Regular.otf"; sourceTree = "<group>"; };
 		43F453081CC8AD3B009912D8 /* slkscr.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = slkscr.ttf; sourceTree = "<group>"; };
 		43F453091CC8AD3B009912D8 /* slkscrb.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = slkscrb.ttf; sourceTree = "<group>"; };
@@ -196,6 +198,7 @@
 				439AD6AD1CB7683700E1E018 /* Cat.swift */,
 				43FD71481CD41CAA0058DFBA /* World.swift */,
 				43470F2C1D07E9390069A8A4 /* CatCam.swift */,
+				43E4D1771D22E47C00E266EA /* SpriteKit-Spring.swift */,
 				437C2EC41D0BADBB00F05AEF /* Menu.swift */,
 				433DA5F01CBEAA12009F1B36 /* SKPixel.swift */,
 				439AD6831CB7681500E1E018 /* Main.storyboard */,
@@ -396,6 +399,7 @@
 				433DA5F11CBEAA12009F1B36 /* SKPixel.swift in Sources */,
 				43E113141D0755EF005ADA37 /* Scheduler.swift in Sources */,
 				439AD6AE1CB7683700E1E018 /* Cat.swift in Sources */,
+				43E4D1781D22E47C00E266EA /* SpriteKit-Spring.swift in Sources */,
 				43E113161D0755EF005ADA37 /* Timer.swift in Sources */,
 				439AD6801CB7681500E1E018 /* GameScene.swift in Sources */,
 				437C2EC51D0BADBB00F05AEF /* Menu.swift in Sources */,

@@ -72,6 +72,7 @@ class CatCam: SKCameraNode {
         self.addChild(menu)
         
         menuButton.action = {
+            print("test")
             self.menu.toggle()
         }
     }
@@ -172,7 +173,8 @@ class CatCam: SKCameraNode {
             if l {
                 multiplier = -1
             }
-            return SKAction.moveBy(x: multiplier*55, y: 0, duration: 0.5) // TODO: Find a springy way of doing this again
+            //return SKAction.moveBy(x: multiplier*55, y: 0, duration: 0.5) // TODO: Find a springy way of doing this again
+            return SKAction.moveByX(deltaX: multiplier*55, y: 0, duration: 0.5, delay: 0, usingSpringWithDamping: 0.65, initialSpringVelocity: 0)
         }
         
         let leftButton = SKPixelButtonNode(textureName: "catselect_arrow")
