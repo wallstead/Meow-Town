@@ -201,7 +201,8 @@ class CatCam: SKCameraNode {
         
         background.addChild(leftButton)
         leftButton.zPosition = 12
-        leftButton.position.x = circleBackground.frame.minX-7
+        leftButton.position.x = circleBackground.frame.minX-6
+        leftButton.position.y = circleBackground.position.y
         leftButton.action = {
             if !isShiftingCats && catSpriteArray.index(of: currentCatSprite) > 0  {
                 currentCatSprite = catSpriteArray[catSpriteArray.index(of: currentCatSprite)!-1]
@@ -218,7 +219,8 @@ class CatCam: SKCameraNode {
 
         background.addChild(rightButton)
         rightButton.zPosition = 12
-        rightButton.position.x = circleBackground.frame.maxX+7
+        rightButton.position.x = circleBackground.frame.maxX+6
+        rightButton.position.y = circleBackground.position.y
         rightButton.xScale = -1
         rightButton.action = {
             if !isShiftingCats && catSpriteArray.index(of: currentCatSprite) < catSpriteArray.count - 1  {
