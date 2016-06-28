@@ -70,15 +70,15 @@ class Cat: SKNode {
         /* Start cat off screen bottom left corner. */
         
         sprite = SKPixelCatNode(catName: self.skin)
-        sprite.position.y = world.wallpaper.frame.minY
-        sprite.position.x = world.wallpaper.frame.minX-10
+        sprite.position.y = world.wallpaper.frame.minY-10
+        sprite.position.x = CGFloat(Int.random(min: Int(world.floor.frame.minX-10), max: Int(world.floor.frame.maxX+10)))
         sprite.zPosition = 100
         sprite.anchorPoint = CGPoint(x: 0.5, y: 0)
         sprite.action = {
             GameScene.current.catCam.toggleFocus(cat: self)
         }
         world.addChild(sprite)
-        flyTo(point: self.world.floor.frame.mid())
+        prance()
         
         scheduler
             .every(time: 1.0) // every one second
