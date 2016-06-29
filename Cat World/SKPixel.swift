@@ -201,6 +201,17 @@ class SKPixelToggleButtonNode: SKPixelButtonNode {
     }
 }
 
+class SKPixelToggleCollectionButtonNode: SKPixelToggleButtonNode {
+    
+    init(type: String, icon: String, text: String) {
+        super.init(textureName: "topbar_menupanel_itemcategory", text: text)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
 class SKPixelCatNode: SKPixelSpriteNode {
     var skinName: String
     
