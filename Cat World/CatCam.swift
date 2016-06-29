@@ -72,7 +72,6 @@ class CatCam: SKCameraNode {
         self.addChild(menu)
         
         menuButton.action = {
-            print("test")
             self.menu.toggle()
         }
     }

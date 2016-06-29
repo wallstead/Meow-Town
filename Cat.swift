@@ -68,8 +68,8 @@ class Cat: SKNode {
     
     func displayCat() {
         /* Start cat off screen bottom left corner. */
-        
-        sprite = SKPixelCatNode(catName: self.skin)
+    
+        sprite = SKPixelCatNode(catName: skin)
         sprite.position.y = world.wallpaper.frame.minY-10
         sprite.position.x = CGFloat(Int.random(min: Int(world.floor.frame.minX-10), max: Int(world.floor.frame.maxX+10)))
         sprite.zPosition = 100
@@ -79,20 +79,20 @@ class Cat: SKNode {
         }
         world.addChild(sprite)
         prance()
-        
-        scheduler
-            .every(time: 1.0) // every one second
-            .perform( action: self=>Cat.trackAge ) // update the elapsed time label
-            .end()
-        
-        scheduler
-            .every(time: 2) // every tenth of a second
-            .perform( action: self=>Cat.brain ) // think
-            .end()
-        
-        scheduler.start()
-        
-        print("\(name) has been displayed")
+    
+        DispatchQueue.main.async {
+            self.scheduler
+                .every(time: 1.0) // every one second
+                .perform( action: self=>Cat.trackAge ) // update the elapsed time label
+                .end()
+            
+            self.scheduler
+                .every(time: 1.0) // every tenth of a second
+                .perform( action: self=>Cat.brain ) // think
+                .end()
+            
+            self.scheduler.start()
+        }
     }
     
     func trackAge() {
@@ -109,7 +109,17 @@ class Cat: SKNode {
         // if needs to blink, do that
         // if needs to fly around, do that
         if !isBusy() {
-            prance()
+            let randInt = Int.random(range: 0..<100) // 0 -> 99
+            switch randInt {
+            case 0..<10:
+                blink()
+            case 10..<60:
+                prance()
+            case 60..<100:
+                relax()
+            default:
+                print("default")
+            }
         }
     }
     
@@ -176,7 +186,6 @@ class Cat: SKNode {
         sprite.run(SKAction.move(to: point, duration: time), completion: {
             self.sprite.stand()
         })
-        
     }
     
     func prance() {
@@ -207,6 +216,17 @@ class Cat: SKNode {
         sprite.pube()
         self.skin = firstname.lowercased()
         world.save()
+    }
+    
+    func blink() {
+        sprite.closeEyes()
+        sprite.run(SKAction.wait(forDuration: 0.2), completion: {
+            self.sprite.openEyes()
+        })
+    }
+    
+    func relax() {
+        sprite.run(SKAction.wait(forDuration: TimeInterval(Int.random(range: 1..<3))))
     }
     
     // MARK: Update
