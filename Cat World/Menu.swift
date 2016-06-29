@@ -30,7 +30,10 @@ class Menu: SKNode {
         self.camFrame = camFrame
         self.topBar = topBar
         self.isOpen = false
-        layout()
+        
+        DispatchQueue.main.async {
+            self.layout()
+        }
     }
     
     func layout() {

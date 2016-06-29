@@ -67,9 +67,11 @@ class CatCam: SKCameraNode {
         self.addChild(menuButton)
         self.addChild(itemsButton)
         
-        menu = Menu(camFrame: self.camFrame, topBar: topBar)
+        
+        menu = Menu(camFrame: camFrame, topBar: topBar)
         menu.zPosition = 100
         self.addChild(menu)
+        
         
         menuButton.action = {
             self.menu.toggle()

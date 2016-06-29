@@ -34,6 +34,7 @@ class Cat: SKNode {
         self.birthday = decoder.decodeObject(forKey: "birthday") as! NSDate
         self.world = decoder.decodeObject(forKey: "world") as! World
         self.hasPubed = decoder.decodeBool(forKey: "haspubed") // TODO: Understand why this has to be decodeBool rather than just decodeObject
+        
         displayCat()
     }
     
@@ -62,7 +63,8 @@ class Cat: SKNode {
     
     func birth() {
         /* Do any first-time things here (coreograph an interesting entrance?) */
-        print("\(name) has been born")
+        print("\(firstname) has been born")
+        
         displayCat()
     }
     
@@ -79,20 +81,19 @@ class Cat: SKNode {
         }
         world.addChild(sprite)
         prance()
-    
-        DispatchQueue.main.async {
-            self.scheduler
-                .every(time: 1.0) // every one second
-                .perform( action: self=>Cat.trackAge ) // update the elapsed time label
-                .end()
-            
-            self.scheduler
-                .every(time: 1.0) // every tenth of a second
-                .perform( action: self=>Cat.brain ) // think
-                .end()
-            
-            self.scheduler.start()
-        }
+        
+        scheduler
+            .every(time: 1.0) // every one second
+            .perform( action: self=>Cat.trackAge ) // update the elapsed time label
+            .end()
+        
+        scheduler
+            .every(time: 1.0) // every tenth of a second
+            .perform( action: self=>Cat.brain ) // think
+            .end()
+        
+        scheduler.start()
+        
     }
     
     func trackAge() {
@@ -105,9 +106,6 @@ class Cat: SKNode {
     }
     
     func brain() {
-        // if needs to eat, do that
-        // if needs to blink, do that
-        // if needs to fly around, do that
         if !isBusy() {
             let randInt = Int.random(range: 0..<100) // 0 -> 99
             switch randInt {
