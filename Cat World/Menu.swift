@@ -21,6 +21,8 @@ class Menu: SKNode {
     var IAPButton: SKPixelToggleButtonNode!
     var topbuttonPanelBG: SKPixelSpriteNode!
     var storeContainer: SKSpriteNode!
+    var collectionBG: SKSpriteNode!
+    var currentButtons: [SKPixelToggleButtonNode]!
     
     // MARK: Initialization
     
@@ -30,6 +32,7 @@ class Menu: SKNode {
         self.camFrame = camFrame
         self.topBar = topBar
         self.isOpen = false
+        self.currentButtons = []
         
         DispatchQueue.main.async {
             self.layout()
@@ -91,6 +94,8 @@ class Menu: SKNode {
         storeContainer.position.y = -infoButton.frame.height/2
         menuCropper.addChild(storeContainer)
         
+        collectionBG = SKSpriteNode()
+        
         let title = SKLabelNode(fontNamed: "Silkscreen")
         title.zPosition = 1
         title.text = "-STORE-"
@@ -101,7 +106,7 @@ class Menu: SKNode {
         title.position.y = storeContainer.currentHeight/2 - 10
         storeContainer.addChild(title)
         
-        displayCollection()
+        displayStore()
     }
     
     func toggleTopButton(toToggle: SKPixelToggleButtonNode) {
@@ -229,7 +234,7 @@ class Menu: SKNode {
         return SKAction.sequence([down1, up1, down2])
     }
     
-    func displayCollection() {
+    func displayStore() {
         let storeDict = PlistManager.sharedInstance.getValueForKey(key: "Store") as! NSDictionary
         let categoriesDict = storeDict.value(forKey: "Categories") as! NSDictionary
 
@@ -239,18 +244,44 @@ class Menu: SKNode {
             let categoryButton = SKPixelToggleCollectionButtonNode(type: "collection", icon: "nag", text: category.key as! String)
             categoryButton.zPosition = 3
             categoryButton.position.y = storeContainer.currentHeight/2 - 40 - 35*yPosCounter
+            categoryButton.action = {
+                self.toggleContentForButton(toToggle: categoryButton)
+//                print(categoryButton.enabled)
+            }
             categories.addChild(categoryButton)
+            currentButtons?.append(categoryButton)
             yPosCounter += 1
         }
         storeContainer.addChild(categories)
         
-        let collectionBG = SKSpriteNode()
         collectionBG.color = SKColor(colorLiteralRed: 182/255, green: 24/255, blue: 25/255, alpha: 1)
         collectionBG.size = CGSize(width: storeContainer.frame.width, height: categories.calculateAccumulatedFrame().height+10)
         collectionBG.zPosition = 2
         collectionBG.anchorPoint = CGPoint(x: 0.5, y: 1)
         collectionBG.position.y = storeContainer.currentHeight/2 - 20
         storeContainer.addChild(collectionBG)
+    }
+    
+    func toggleContentForButton(toToggle: SKPixelToggleButtonNode) {
+        print("toggling: \(toToggle.text?.text)")
+        let shiftTime = 0.2
+        let timeMode: SKActionTimingMode = .easeOut
+        /* move this button to the top */
+        for button in currentButtons! {
+            if button == toToggle {
+                let move = SKAction.moveTo(y: collectionBG.position.y-button.currentHeight/2, duration: shiftTime)
+                move.timingMode = timeMode
+                button.run(move)
+            } else {
+                /* calculate difference in index */
+                let thisIndex = currentButtons!.index(of: button)
+                let baseIndex = currentButtons!.index(of: toToggle)
+                let offset = -1*(baseIndex!-thisIndex!)
+                let move = SKAction.moveTo(y: collectionBG.position.y-button.currentHeight/2-(35*CGFloat(offset)), duration: shiftTime)
+                move.timingMode = timeMode
+                button.run(move)
+            }
+        }
     }
     
     func toggle() {
