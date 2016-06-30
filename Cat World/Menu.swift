@@ -41,9 +41,9 @@ class Menu: SKNode {
     
     func layout() {
         bgpanel = SKPixelSpriteNode(textureName: "topbar_menupanel")
-        bgpanel.color = SKColor(red: 212/255, green: 29/255, blue: 32/255, alpha: 1)
-        bgpanel.colorBlendFactor = 1
-        bgpanel.zPosition = 0
+        bgpanel.background.color = SKColor(red: 212/255, green: 29/255, blue: 32/255, alpha: 1)
+        bgpanel.background.colorBlendFactor = 1
+        bgpanel.zPosition = 1
         bgpanel.setScale(camFrame.width/bgpanel.frame.width)
         bgpanel.position.y = camFrame.maxY+bgpanel.frame.height/2-topBar.frame.height/2
         self.addChild(bgpanel)
@@ -96,8 +96,9 @@ class Menu: SKNode {
         
         collectionBG = SKSpriteNode()
         
+        
         let title = SKLabelNode(fontNamed: "Silkscreen")
-        title.zPosition = 1
+        title.zPosition = 11
         title.text = "-STORE-"
         title.setScale(2/10)
         title.fontSize = 80
@@ -105,6 +106,11 @@ class Menu: SKNode {
         title.verticalAlignmentMode = .center
         title.position.y = storeContainer.currentHeight/2 - 10
         storeContainer.addChild(title)
+        
+        let titleBG = SKSpriteNode(color: SKColor.orange(), size: CGSize(width: bgpanel.currentWidth, height: 20))
+        titleBG.zPosition = 10
+        titleBG.position.y = title.position.y
+        storeContainer.addChild(titleBG)
         
         displayStore()
     }
@@ -259,6 +265,8 @@ class Menu: SKNode {
         collectionBG.zPosition = 2
         collectionBG.anchorPoint = CGPoint(x: 0.5, y: 1)
         collectionBG.position.y = storeContainer.currentHeight/2 - 20
+        
+        
         storeContainer.addChild(collectionBG)
     }
     
