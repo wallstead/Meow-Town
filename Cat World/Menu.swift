@@ -236,7 +236,7 @@ class Menu: SKNode {
         var yPosCounter: CGFloat = 0
         let categories = SKNode()
         for category in categoriesDict {
-            let categoryButton = SKPixelToggleCollectionButtonNode(type: "nah", icon: "nag", text: category.key as! String)
+            let categoryButton = SKPixelToggleCollectionButtonNode(type: "collection", icon: "nag", text: category.key as! String)
             categoryButton.zPosition = 3
             categoryButton.position.y = storeContainer.currentHeight/2 - 40 - 35*yPosCounter
             categories.addChild(categoryButton)
