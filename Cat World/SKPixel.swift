@@ -246,18 +246,23 @@ class SKPixelToggleCollectionButtonNode: SKPixelToggleButtonNode {
         if !enabled {
             enable()
         } else {
-            disable()
+            disable(withAction: true)
         }
     }
     
-    override func disable() {
-        if self.background.texture == activeTexture {
+    func disable(withAction: Bool) {
+        if withAction {
             action?()
-            text?.position.y = 0
-            overlay?.position.y = 0
-            self.background.texture = defaultTexture
-            enabled = false
         }
+        text?.position.y = 0
+        overlay?.position.y = 0
+        overlay?.run(SKAction.fadeOut(withDuration: 0.1), completion: {
+            self.overlay?.changeTextureTo(textureName: "topbar_menupanel_itemcategory_ui")
+            self.overlay?.run(SKAction.fadeIn(withDuration: 0.1))
+        })
+        self.background.run(SKAction.scaleX(to: 1, duration: 0.2))
+        self.background.texture = defaultTexture
+        enabled = false
     }
     
     override func enable() {

@@ -22,7 +22,7 @@ class Menu: SKNode {
     var topbuttonPanelBG: SKPixelSpriteNode!
     var storeContainer: SKSpriteNode!
     var collectionBG: SKSpriteNode!
-    var currentButtons: [SKPixelToggleButtonNode]!
+    var currentButtons: [SKPixelToggleCollectionButtonNode]!
     
     // MARK: Initialization
     
@@ -270,26 +270,44 @@ class Menu: SKNode {
         storeContainer.addChild(collectionBG)
     }
     
-    func toggleContentForButton(toToggle: SKPixelToggleButtonNode) {
+    func toggleContentForButton(toToggle: SKPixelToggleCollectionButtonNode) {
         print("toggling: \(toToggle.text?.text)")
         let shiftTime = 0.2
         let timeMode: SKActionTimingMode = .easeOut
         /* move this button to the top */
-        for button in currentButtons! {
-            if button == toToggle {
-                let move = SKAction.moveTo(y: collectionBG.position.y-button.currentHeight/2, duration: shiftTime)
+        if toToggle.enabled == true {
+            var yPosCounter: CGFloat = 0
+            
+            for button in currentButtons {
+                let move = SKAction.moveTo(y: storeContainer.currentHeight/2 - 40 - 35*yPosCounter, duration: shiftTime)
                 move.timingMode = timeMode
                 button.run(move)
-            } else {
-                /* calculate difference in index */
-                let thisIndex = currentButtons!.index(of: button)
-                let baseIndex = currentButtons!.index(of: toToggle)
-                let offset = -1*(baseIndex!-thisIndex!)
-                let move = SKAction.moveTo(y: collectionBG.position.y-button.currentHeight/2-(35*CGFloat(offset)), duration: shiftTime)
-                move.timingMode = timeMode
-                button.run(move)
+                yPosCounter += 1
+            }
+
+        } else {
+            
+            for button in currentButtons! {
+                
+                if button == toToggle {
+                    let move = SKAction.moveTo(y: collectionBG.position.y-button.currentHeight/2, duration: shiftTime)
+                    move.timingMode = timeMode
+                    button.run(move)
+                } else {
+                    /* calculate difference in index */
+                    let thisIndex = currentButtons!.index(of: button)
+                    let baseIndex = currentButtons!.index(of: toToggle)
+                    let offset = -1*(baseIndex!-thisIndex!)
+                    let move = SKAction.moveTo(y: collectionBG.position.y-button.currentHeight/2-(35*CGFloat(offset)), duration: shiftTime)
+                    move.timingMode = timeMode
+                    button.run(move)
+                    if button.enabled == true {
+                        button.disable(withAction: false)
+                    }
+                }
             }
         }
+        
     }
     
     func toggle() {
