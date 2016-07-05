@@ -284,15 +284,18 @@ class SKPixelToggleCollectionButtonNode: SKPixelToggleButtonNode {
 
 class SKPixelCatNode: SKPixelSpriteNode {
     var skinName: String
+    var colors: UIImageColors
     
     init(catName: String) {
         self.skinName = catName
+        self.colors = UIImage(named: self.skinName)!.getColors()
         super.init(textureName: self.skinName)
         self.isUserInteractionEnabled = true
     }
     
     required init?(coder aDecoder: NSCoder) {
         self.skinName = aDecoder.decodeObject(forKey: "catname") as! String
+        self.colors = UIImage(named: self.skinName)!.getColors()
         super.init(coder: aDecoder)
         self.isUserInteractionEnabled = true
     }
@@ -311,10 +314,6 @@ class SKPixelCatNode: SKPixelSpriteNode {
                 action?()
             }
         }
-    }
-    
-    func colors() -> UIImageColors {
-        return UIImage(named: self.skinName)!.getColors()
     }
     
     func liftLegs() {

@@ -122,7 +122,7 @@ class CatCam: SKCameraNode {
         func display() {
             let quickinfobg = SKPixelSpriteNode(textureName: "catfocus_quickinfobg")
             quickinfobg.alpha = 0
-            if let catColor = currentFocus?.sprite.colors().primaryColor {
+            if let catColor = currentFocus?.sprite.colors.primaryColor {
                 quickinfobg.background.color = catColor
             } else {
                 quickinfobg.background.color = SKColor.gray()
