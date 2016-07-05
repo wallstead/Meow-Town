@@ -93,7 +93,6 @@ class Cat: SKNode {
             .end()
         
         scheduler.start()
-        
     }
     
     func trackAge() {
@@ -209,7 +208,6 @@ class Cat: SKNode {
     }
     
     func pube() {
-        
         if GameScene.current.catCam.currentFocus != self {
             GameScene.current.catCam.toggleFocus(cat: self)
             sprite.run(SKAction.wait(forDuration: 2), completion: {

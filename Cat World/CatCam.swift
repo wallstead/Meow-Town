@@ -13,9 +13,11 @@ class CatCam: SKCameraNode {
     var currentFocus: Cat?
     var focusing: Bool!
     var camFrame: CGRect!
+    var catInfo: SKNode!
     var menu: Menu!
     var menuButton: SKPixelToggleButtonNode!
     var itemsButton: SKPixelToggleButtonNode!
+    var topBar: SKPixelSpriteNode!
     
     // MARK: Initialization
     
@@ -23,6 +25,8 @@ class CatCam: SKCameraNode {
         self.init()
         self.camFrame = frame
         self.focusing = false
+        self.catInfo = SKNode()
+        self.addChild(self.catInfo)
         showHUD()
     }
     
@@ -40,11 +44,13 @@ class CatCam: SKCameraNode {
                 currentFocus = cat
             }
         }
-        
+        DispatchQueue.main.async {
+            self.toggleCatFocusInfo()
+        }
     }
     
     func showHUD() {
-        let topBar = SKPixelSpriteNode(textureName: "topbar_center")
+        topBar = SKPixelSpriteNode(textureName: "topbar_center")
         menuButton = SKPixelToggleButtonNode(textureName: "topbar_menubutton")
         itemsButton = SKPixelToggleButtonNode(textureName: "topbar_itemsbutton")
         
@@ -96,8 +102,65 @@ class CatCam: SKCameraNode {
             } else {
                 point.y += 70
             }
-            let action = SKAction.move(to: point, duration: 0.25)
+            let action = SKAction.move(to: point, duration: 0.15)
             self.run(action)
+        }
+    }
+    
+    func toggleCatFocusInfo() {
+        func hide() {
+            let pushOut = SKAction.group([SKAction.moveTo(y: camFrame.midY+5, duration: 0.35),
+                                          SKAction.fadeOut(withDuration: 0.35)])
+            pushOut.timingMode = .easeIn
+            for child in self.catInfo.children {
+                child.run(pushOut, completion: {
+                    child.removeFromParent()
+                })
+            }
+        }
+        
+        func display() {
+            let quickinfobg = SKPixelSpriteNode(textureName: "catfocus_quickinfobg")
+            quickinfobg.alpha = 0
+            if let catColor = currentFocus?.sprite.colors().primaryColor {
+                quickinfobg.background.color = catColor
+            } else {
+                quickinfobg.background.color = SKColor.gray()
+            }
+            
+            quickinfobg.background.colorBlendFactor = 1
+            quickinfobg.setScale(topBar.xScale)
+            quickinfobg.position.y = camFrame.midY-(quickinfobg.frame.height*5)
+            quickinfobg.zPosition = 100
+            let moveIn = SKAction.moveTo(y: camFrame.midY-(quickinfobg.frame.height*1.5), duration: 0.35)
+            moveIn.timingMode = .easeOut
+            let pushIn = SKAction.group([moveIn, SKAction.fadeIn(withDuration: 0.35)])
+            quickinfobg.run(pushIn, completion: {
+                
+            })
+    
+            let catName = SKLabelNode(fontNamed: "Silkscreen")
+            catName.zPosition = 1
+            catName.text = currentFocus?.firstname
+            catName.setScale(1/10)
+            catName.fontSize = 80
+            catName.fontColor = SKColor(colorLiteralRed: 245/255, green: 245/255, blue: 245/255, alpha: 1)
+            catName.verticalAlignmentMode = .center
+//            catName.position.y = 
+            quickinfobg.addChild(catName)
+            
+            self.catInfo.addChild(quickinfobg)
+        }
+        
+        if currentFocus != nil { // DISPLAY
+            if self.catInfo.children.isEmpty {
+               display()
+            } else {
+                hide()
+                display()
+            }
+        } else { // HIDE
+            hide()
         }
     }
     

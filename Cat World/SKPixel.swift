@@ -47,8 +47,9 @@ class SKPixelSpriteNode: SKSpriteNode {
         setScale(1)
         size.height = newTexture.size().height
         size.width = newTexture.size().width
-        xScale = oldXScale
-        yScale = oldYScale
+        background.xScale = oldXScale
+        background.yScale = oldYScale
+        
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -310,6 +311,10 @@ class SKPixelCatNode: SKPixelSpriteNode {
                 action?()
             }
         }
+    }
+    
+    func colors() -> UIImageColors {
+        return UIImage(named: self.skinName)!.getColors()
     }
     
     func liftLegs() {
