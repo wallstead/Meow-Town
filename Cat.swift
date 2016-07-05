@@ -75,7 +75,7 @@ class Cat: SKNode {
         sprite.position.y = world.wallpaper.frame.minY-10
         sprite.position.x = CGFloat(Int.random(min: Int(world.floor.frame.minX-10), max: Int(world.floor.frame.maxX+10)))
         sprite.zPosition = 100
-        sprite.anchorPoint = CGPoint(x: 0.5, y: 0)
+        sprite.background.anchorPoint = CGPoint(x: 0.5, y: 0)
         sprite.action = {
             GameScene.current.catCam.toggleFocus(cat: self)
         }
@@ -181,9 +181,16 @@ class Cat: SKNode {
              sprite.xScale = 1
         }
         sprite.liftLegs()
-        sprite.run(SKAction.move(to: point, duration: time), completion: {
-            self.sprite.stand()
+        sprite.run(SKAction.moveBy(x: 0, y: 1, duration: 0.1), completion: {
+            let fly = SKAction.move(to: point, duration: time)
+            fly.timingMode = .easeIn
+            self.sprite.run(fly, completion: {
+                self.sprite.run(SKAction.moveBy(x: 0, y: -1, duration: 0.1), completion: {
+                    self.sprite.stand()
+                })
+            })
         })
+        
     }
     
     func prance() {
