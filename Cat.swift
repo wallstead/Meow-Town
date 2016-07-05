@@ -175,9 +175,9 @@ class Cat: SKNode {
         let distance: Double = sqrt((xDist * xDist) + (yDist * yDist))
         let time: TimeInterval = distance/velocity //so time is dependent on distance
         if point.x > sprite.position.x {
-            sprite.xScale = -1
+            sprite.background.xScale = -1
         } else {
-             sprite.xScale = 1
+             sprite.background.xScale = 1
         }
         sprite.liftLegs()
         sprite.run(SKAction.moveBy(x: 0, y: 1, duration: 0.1), completion: {

@@ -131,7 +131,7 @@ class CatCam: SKCameraNode {
             quickinfobg.background.colorBlendFactor = 1
             quickinfobg.setScale(topBar.xScale)
             quickinfobg.position.y = camFrame.midY-(quickinfobg.frame.height*5)
-            quickinfobg.zPosition = 100
+            quickinfobg.zPosition = 50
             let moveIn = SKAction.moveTo(y: camFrame.midY-(quickinfobg.frame.height*1.5), duration: 0.35)
             moveIn.timingMode = .easeOut
             let pushIn = SKAction.group([moveIn, SKAction.fadeIn(withDuration: 0.35)])

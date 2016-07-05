@@ -47,8 +47,8 @@ class SKPixelSpriteNode: SKSpriteNode {
         setScale(1)
         size.height = newTexture.size().height
         size.width = newTexture.size().width
-        background.xScale = oldXScale
-        background.yScale = oldYScale
+//        background.xScale = oldXScale
+//        background.yScale = oldYScale
         
     }
 
