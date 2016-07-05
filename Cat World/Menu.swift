@@ -55,7 +55,7 @@ class Menu: SKNode {
         bgpanel.addChild(menuCropper)
         
         settingsButton = SKPixelToggleButtonNode(textureName: "topbar_menupanel_settingsbutton")
-        settingsButton.zPosition = 10
+        settingsButton.zPosition = 15
         settingsButton.position.x = -bgpanel.currentWidth/2+settingsButton.frame.width/2
         settingsButton.position.y = bgpanel.currentHeight/2-settingsButton.frame.height/2
         settingsButton.action = {
@@ -64,7 +64,7 @@ class Menu: SKNode {
         menuCropper.addChild(settingsButton)
         
         infoButton = SKPixelToggleButtonNode(textureName: "topbar_menupanel_infobutton")
-        infoButton.zPosition = 10
+        infoButton.zPosition = 15
         infoButton.position.x = 0
         infoButton.position.y = bgpanel.currentHeight/2-infoButton.frame.height/2
         infoButton.action = {
@@ -73,7 +73,7 @@ class Menu: SKNode {
         menuCropper.addChild(infoButton)
         
         IAPButton = SKPixelToggleButtonNode(textureName: "topbar_menupanel_iapbutton")
-        IAPButton.zPosition = 10
+        IAPButton.zPosition = 15
         IAPButton.position.x = bgpanel.currentWidth/2-IAPButton.frame.width/2
         IAPButton.position.y = bgpanel.currentHeight/2-IAPButton.frame.height/2
         IAPButton.action = {
@@ -84,7 +84,7 @@ class Menu: SKNode {
         topbuttonPanelBG = SKPixelSpriteNode(textureName: "topbar_menupanel")
         topbuttonPanelBG.color = SKColor(red: 0/255, green: 187/255, blue: 125/255, alpha: 1)
         topbuttonPanelBG.colorBlendFactor = 1
-        topbuttonPanelBG.zPosition = 1
+        topbuttonPanelBG.zPosition = 9
         topbuttonPanelBG.position.y = bgpanel.currentHeight-infoButton.frame.height
         menuCropper.addChild(topbuttonPanelBG)
         
