@@ -94,19 +94,6 @@ class CatCam: SKCameraNode {
         self.run(zoom)
     }
     
-    func update(currentTime: CFTimeInterval) {
-        if currentFocus != nil {
-            var point = currentFocus!.sprite.positionInScene
-            if currentFocus!.isKitten() {
-                point.y += 40
-            } else {
-                point.y += 70
-            }
-            let action = SKAction.move(to: point, duration: 0.15)
-            self.run(action)
-        }
-    }
-    
     func toggleCatFocusInfo() {
         func hide() {
             let pushOut = SKAction.group([SKAction.moveTo(y: camFrame.midY+5, duration: 0.35),
@@ -315,6 +302,21 @@ class CatCam: SKCameraNode {
         background.run(SKAction.fadeAlpha(to: 1, duration: 1))
         
         updateButtons()
+    }
+    
+    func update(currentTime: CFTimeInterval) {
+        if currentFocus != nil {
+            var point = currentFocus!.sprite.positionInScene
+            if currentFocus!.isKitten() {
+                point.y += 40
+            } else {
+                point.y += 70
+            }
+            let action = SKAction.move(to: point, duration: 0.15)
+            self.run(action)
+        }
+        
+        menu.update(currentTime: currentTime)
     }
 }
 

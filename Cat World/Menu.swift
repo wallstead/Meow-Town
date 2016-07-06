@@ -21,8 +21,9 @@ class Menu: SKNode {
     var IAPButton: SKPixelToggleButtonNode!
     var topbuttonPanelBG: SKPixelSpriteNode!
     var storeContainer: SKSpriteNode!
+    
     var collectionBG: SKSpriteNode!
-    var currentButtons: [SKPixelToggleCollectionButtonNode]!
+    var currentButtons: [[SKPixelToggleCollectionButtonNode]]! // 2D: rows->each depth of menu | cols-> each button in that depth
     
     // MARK: Initialization
     
@@ -95,7 +96,12 @@ class Menu: SKNode {
         menuCropper.addChild(storeContainer)
         
         collectionBG = SKSpriteNode()
-        
+        collectionBG.color = SKColor(colorLiteralRed: 182/255, green: 24/255, blue: 25/255, alpha: 1)
+        collectionBG.zPosition = 2
+        collectionBG.anchorPoint = CGPoint(x: 0.5, y: 1)
+        collectionBG.position.y = storeContainer.currentHeight/2 - 20
+
+        storeContainer.addChild(collectionBG)
         
         let title = SKLabelNode(fontNamed: "Silkscreen")
         title.zPosition = 11
@@ -107,12 +113,12 @@ class Menu: SKNode {
         title.position.y = storeContainer.currentHeight/2 - 10
         storeContainer.addChild(title)
         
-        let titleBG = SKSpriteNode(color: SKColor.orange(), size: CGSize(width: bgpanel.currentWidth, height: 20))
+        let titleBG = SKSpriteNode(color: SKColor(red: 212/255, green: 29/255, blue: 32/255, alpha: 1), size: CGSize(width: bgpanel.currentWidth, height: 20))
         titleBG.zPosition = 10
         titleBG.position.y = title.position.y
         storeContainer.addChild(titleBG)
         
-        displayStore()
+        displayCollection()
     }
     
     func toggleTopButton(toToggle: SKPixelToggleButtonNode) {
@@ -240,34 +246,72 @@ class Menu: SKNode {
         return SKAction.sequence([down1, up1, down2])
     }
     
-    func displayStore() {
+    func displayCollection(forButton toDisplay: SKPixelToggleCollectionButtonNode? = nil) {
+        
+        currentButtons.append([])//
+        print(currentButtons.count)
+        let shiftTime = 0.2
+        let timeMode: SKActionTimingMode = .easeOut
+        
         let storeDict = PlistManager.sharedInstance.getValueForKey(key: "Store") as! NSDictionary
         let categoriesDict = storeDict.value(forKey: "Categories") as! NSDictionary
+        
+        /* First move any buttons not already hidden out while resizing the collectionBG */
+        
+        if panelDepth != 0 {
+            print("poop")
+            for button in currentButtons[panelDepth] {
+                print("got here")
+                let thisIndex = currentButtons[panelDepth].index(of: button)
+                let baseIndex = currentButtons[panelDepth].index(of: toDisplay!)
+                let offset = -1*(baseIndex!-thisIndex!)
+                
+                if offset > 0 {
+                    let move = SKAction.moveTo(y: -100, duration: shiftTime)
+                    move.timingMode = timeMode
+                    button.run(move)
+                }
+            }
+        }
 
         var yPosCounter: CGFloat = 0
         let categories = SKNode()
         for category in categoriesDict {
             let categoryButton = SKPixelToggleCollectionButtonNode(type: "collection", icon: "nag", text: category.key as! String)
             categoryButton.zPosition = 3
-            categoryButton.position.y = storeContainer.currentHeight/2 - 40 - 35*yPosCounter
+            if panelDepth == 0 {
+                categoryButton.position.y = storeContainer.currentHeight/2 - 40 - 35*yPosCounter
+            } else {
+                categoryButton.position.y = storeContainer.currentHeight - 35*yPosCounter // push in for every collection except first
+                let move = SKAction.moveTo(y: storeContainer.currentHeight/2 - 70 - 35*yPosCounter, duration: 0.5)
+                move.timingMode = .easeOut
+                categoryButton.run(move)
+            }
+            
+            
+            
             categoryButton.action = {
                 self.toggleContentForButton(toToggle: categoryButton)
-//                print(categoryButton.enabled)
             }
             categories.addChild(categoryButton)
-            currentButtons?.append(categoryButton)
+            currentButtons[panelDepth].append(categoryButton)
             yPosCounter += 1
+            
         }
+        
+        
         storeContainer.addChild(categories)
         
-        collectionBG.color = SKColor(colorLiteralRed: 182/255, green: 24/255, blue: 25/255, alpha: 1)
-        collectionBG.size = CGSize(width: storeContainer.frame.width, height: categories.calculateAccumulatedFrame().height+10)
-        collectionBG.zPosition = 2
-        collectionBG.anchorPoint = CGPoint(x: 0.5, y: 1)
-        collectionBG.position.y = storeContainer.currentHeight/2 - 20
+        if panelDepth == 0 {
+            collectionBG.size = CGSize(width: storeContainer.frame.width, height: categories.calculateAccumulatedFrame().height+10)
+        } else {
+            let reHeight = SKAction.resize(toHeight: categories.calculateAccumulatedFrame().height+40, duration: shiftTime)
+            reHeight.timingMode = timeMode
+            
+            collectionBG.run(reHeight)
+        }
         
-        
-        storeContainer.addChild(collectionBG)
+        panelDepth = panelDepth + 1 // TODO: Why can't I use the += operator?
     }
     
     func toggleContentForButton(toToggle: SKPixelToggleCollectionButtonNode) {
@@ -278,25 +322,23 @@ class Menu: SKNode {
         if toToggle.enabled == true {
             var yPosCounter: CGFloat = 0
             
-            for button in currentButtons {
+            for button in currentButtons[panelDepth-1] {
                 let move = SKAction.moveTo(y: storeContainer.currentHeight/2 - 40 - 35*yPosCounter, duration: shiftTime)
                 move.timingMode = timeMode
                 button.run(move)
                 yPosCounter += 1
             }
-
         } else {
             
-            for button in currentButtons! {
-                
+            for button in currentButtons[panelDepth-1] {
                 if button == toToggle {
                     let move = SKAction.moveTo(y: collectionBG.position.y-button.currentHeight/2, duration: shiftTime)
                     move.timingMode = timeMode
                     button.run(move)
                 } else {
                     /* calculate difference in index */
-                    let thisIndex = currentButtons!.index(of: button)
-                    let baseIndex = currentButtons!.index(of: toToggle)
+                    let thisIndex = currentButtons[panelDepth-1].index(of: button)
+                    let baseIndex = currentButtons[panelDepth-1].index(of: toToggle)
                     let offset = -1*(baseIndex!-thisIndex!)
                     let move = SKAction.moveTo(y: collectionBG.position.y-button.currentHeight/2-(35*CGFloat(offset)), duration: shiftTime)
                     move.timingMode = timeMode
@@ -306,8 +348,14 @@ class Menu: SKNode {
                     }
                 }
             }
+            
+            let reHeight = SKAction.resize(toHeight: 30, duration: shiftTime)
+            reHeight.timingMode = timeMode
+            
+            collectionBG.run(reHeight)
+            
+            displayCollection(forButton: toToggle)
         }
-        
     }
     
     func toggle() {
@@ -336,5 +384,9 @@ class Menu: SKNode {
                 button?.disable()
             }
         }
+    }
+    
+    func update(currentTime: CFTimeInterval) {
+        
     }
 }
