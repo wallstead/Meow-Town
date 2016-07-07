@@ -316,7 +316,7 @@ class CatCam: SKCameraNode {
             self.run(action)
         }
         
-        menu.update(currentTime: currentTime)
+        
     }
 }
 
