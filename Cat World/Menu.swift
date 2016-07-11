@@ -302,37 +302,37 @@ class Menu: SKNode {
                             print("got here")
                             let move = SKAction.moveTo(y: (-35*yPosCounterReplace)-5-itemButton.currentHeight/2, duration: shiftTime)
                             move.timingMode = timeMode
-                            button.run(move)
-                            if button == itemButtons.last {
-                                yPosCounter = 0
-                                belowCounter = 0
-                            }
+                            button.run(move, completion: {
+                                if button == itemButtons.last {
+                                    yPosCounter = 0
+                                    belowCounter = 0
+                                    itemButton.zPosition = 1
+                                    self.panelDepth -= 1
+                                    itemButtonsBelow.removeAll()
+                                }
+                            })
+                            
                             yPosCounterReplace += 1
-                            itemButtonsBelow.removeAll()
+                            
                         }
-                        itemButton.zPosition = 1
-                        self.panelDepth -= 1
                     }
                     if itemButtonsBelow.isEmpty == false {
                         print(itemButtonsBelow.count)
                         for itemButtonBelow in itemButtonsBelow {
                             let move = SKAction.moveTo(y: (-35*belowCounter)-itemButton.currentHeight/2, duration: shiftTime)
                             move.timingMode = timeMode
-                            itemButtonBelow.run(move, completion: {
-                                if itemButtonsBelow.index(of: itemButtonBelow) == itemButtonsBelow.count-1 {
-                                    moveButtonsBack()
-                                }
-                            })
+                            itemButtonBelow.run(move)
                             belowCounter += 1
                         }
                     } else {
-                        moveButtonsBack()
+                        
                     }
                     
                     let moveChildCollection = SKAction.moveTo(y: childCollectionBG.size.height-childCollectionBG.parent!.frame.height/2, duration: shiftTime)
                     moveChildCollection.timingMode = timeMode
                     childCollectionBG.run(moveChildCollection, completion: {
                         childCollectionBG.removeFromParent()
+                        moveButtonsBack()
                     })
                 } else { // OPEN
                     
