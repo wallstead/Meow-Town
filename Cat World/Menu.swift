@@ -246,7 +246,7 @@ class Menu: SKNode {
     }
     
     func displayCollection(parent: SKSpriteNode, heightDiff: CGFloat, withData data: NSDictionary? = nil) {
-        let shiftTime = 0.2
+        let shiftTime = 2.5
         let timeMode: SKActionTimingMode = .easeOut
         
         /* Figure out what data needs to be displayed */
@@ -265,6 +265,8 @@ class Menu: SKNode {
         collectionBG.name = "collectionBG"
         if data == nil {
             collectionBG.zPosition = -7
+        } else {
+            collectionBG.zPosition = -7
         }
         collectionBG.anchorPoint = CGPoint(x: 0.5, y: 1)
         collectionBG.position.y = collectionBG.size.height-parent.currentHeight/2
@@ -281,7 +283,7 @@ class Menu: SKNode {
         for item in collectionData {
             let itemButton = SKPixelToggleCollectionButtonNode(type: "collection", icon: "nag", text: item.key as! String)
             itemButtons.append(itemButton)
-            itemButton.zPosition = 3
+            itemButton.zPosition = 1
             itemButton.position.y = (-35*yPosCounter)-5-itemButton.currentHeight/2
             collection.addChild(itemButton)
             yPosCounter += 1
@@ -308,6 +310,8 @@ class Menu: SKNode {
                             yPosCounterReplace += 1
                             itemButtonsBelow.removeAll()
                         }
+                        
+                        self.panelDepth -= 1
                     }
                     if itemButtonsBelow.isEmpty == false {
                         print(itemButtonsBelow.count)
@@ -351,6 +355,7 @@ class Menu: SKNode {
                                     itemButtonBelow.run(move)
                                     belowCounter += 1
                                 }
+                                itemButton.zPosition = 10
                             }
                         })
                         if offset != 0 && button.enabled == true  { // Make sure only the selected button is enabled
@@ -366,7 +371,7 @@ class Menu: SKNode {
         }
         collectionBG.addChild(collection)
     }
-        
+    
     func toggle() {
         removeAllActions()
         if isOpen! {
