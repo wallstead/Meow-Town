@@ -246,7 +246,7 @@ class Menu: SKNode {
     }
     
     func displayCollection(parent: SKSpriteNode, heightDiff: CGFloat, withData data: NSDictionary? = nil) {
-        let shiftTime = 2.5
+        let shiftTime = 0.3
         let timeMode: SKActionTimingMode = .easeOut
         
         /* Figure out what data needs to be displayed */
@@ -310,7 +310,7 @@ class Menu: SKNode {
                             yPosCounterReplace += 1
                             itemButtonsBelow.removeAll()
                         }
-                        
+                        itemButton.zPosition = 1
                         self.panelDepth -= 1
                     }
                     if itemButtonsBelow.isEmpty == false {
