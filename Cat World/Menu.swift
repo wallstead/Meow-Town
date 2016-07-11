@@ -261,8 +261,7 @@ class Menu: SKNode {
         /* Add background */
         let collectionBG = SKSpriteNode()
         collectionBG.size = CGSize(width: storeContainer.frame.width, height: bgpanel.currentHeight-infoButton.currentHeight-heightDiff)
-//        collectionBG.color = SKColor(colorLiteralRed: 182/255, green: 24/255, blue: 25/255, alpha: 1).darkerColor(percent: 0.125*Double(panelDepth))
-        collectionBG.color = SKColor.randomColor()
+        collectionBG.color = SKColor(colorLiteralRed: 182/255, green: 24/255, blue: 25/255, alpha: 1).darkerColor(percent: 0.125*Double(panelDepth))
         collectionBG.name = "collectionBG"
         if data == nil {
             collectionBG.zPosition = -7
@@ -271,7 +270,7 @@ class Menu: SKNode {
         collectionBG.position.y = collectionBG.size.height-parent.currentHeight/2
         parent.addChild(collectionBG)
         
-        let showCollection = SKAction.moveTo(y: -parent.currentHeight/2, duration: 5)
+        let showCollection = SKAction.moveTo(y: -parent.currentHeight/2, duration: shiftTime)
         showCollection.timingMode = timeMode
         collectionBG.run(showCollection)
         
@@ -293,27 +292,43 @@ class Menu: SKNode {
                     let childCollectionBG = itemButton.childNode(withName: "collectionBG") as! SKSpriteNode // TODO: make this if-let
                     var belowCounter: CGFloat = 1
                     collectionBG.run(showCollection)
-                    for itemButtonBelow in itemButtonsBelow {
-                        let move = SKAction.moveTo(y: (-35*belowCounter)-itemButton.currentHeight/2, duration: 5)
-                        move.timingMode = timeMode
-                        itemButtonBelow.run(move, completion: {
-                            for button in itemButtons {
-                                let thisIndex = itemButtons.index(of: button)
-                                let baseIndex = itemButtons.index(of: itemButton)
-                                let offset = -1*(baseIndex!-thisIndex!)
-                                
-                                let move = SKAction.moveTo(y: -35*CGFloat(offset)-button.currentHeight/2-5, duration: 5)
-                                move.timingMode = timeMode
-                                button.run(move)
-                                
+                    
+                    func moveButtonsBack() {
+                        print("moving buttons back")
+                        var yPosCounterReplace: CGFloat = 0
+                        for button in itemButtons {
+                            print("got here")
+                            let move = SKAction.moveTo(y: (-35*yPosCounterReplace)-5-itemButton.currentHeight/2, duration: shiftTime)
+                            move.timingMode = timeMode
+                            button.run(move)
+                            if button == itemButtons.last {
+                                yPosCounter = 0
+                                belowCounter = 0
                             }
-                        })
-                        belowCounter += 1
+                            yPosCounterReplace += 1
+                            itemButtonsBelow.removeAll()
+                        }
                     }
-                    childCollectionBG.run(SKAction.moveTo(y: childCollectionBG.size.height+collectionBG.parent!.currentHeight/2+5, duration: 5), completion: {
+                    if itemButtonsBelow.isEmpty == false {
+                        print(itemButtonsBelow.count)
+                        for itemButtonBelow in itemButtonsBelow {
+                            let move = SKAction.moveTo(y: (-35*belowCounter)-itemButton.currentHeight/2, duration: shiftTime)
+                            move.timingMode = timeMode
+                            itemButtonBelow.run(move, completion: {
+                                if itemButtonsBelow.index(of: itemButtonBelow) == itemButtonsBelow.count-1 {
+                                    moveButtonsBack()
+                                }
+                            })
+                            belowCounter += 1
+                        }
+                    } else {
+                        moveButtonsBack()
+                    }
+                    
+                    let moveChildCollection = SKAction.moveTo(y: childCollectionBG.size.height-childCollectionBG.parent!.frame.height/2, duration: shiftTime)
+                    moveChildCollection.timingMode = timeMode
+                    childCollectionBG.run(moveChildCollection, completion: {
                         childCollectionBG.removeFromParent()
-                        
-                        
                     })
                 } else { // OPEN
                     
@@ -331,7 +346,7 @@ class Menu: SKNode {
                                 self.displayCollection(parent: itemButton, heightDiff: 50, withData: collectionData.value(forKey: item.key as! String) as? NSDictionary)
                                 var belowCounter: CGFloat = 0
                                 for itemButtonBelow in itemButtonsBelow {
-                                    let move = SKAction.moveTo(y: -collectionBG.currentHeight-(35*belowCounter)-5-itemButton.currentHeight/2, duration: 5)
+                                    let move = SKAction.moveTo(y: -collectionBG.currentHeight-(35*belowCounter)-5-itemButton.currentHeight/2, duration: shiftTime)
                                     move.timingMode = timeMode
                                     itemButtonBelow.run(move)
                                     belowCounter += 1
@@ -351,212 +366,7 @@ class Menu: SKNode {
         }
         collectionBG.addChild(collection)
     }
-    
-//    func displayCollection(withData data: NSDictionary? = nil, parentButtons: [SKPixelToggleCollectionButtonNode]? = nil, parentBG: SKSpriteNode? = nil) {
-//        let shiftTime = 0.2
-//        let timeMode: SKActionTimingMode = .easeOut
-//        
-//        /* Add background */
-//        let collectionBG = SKSpriteNode()
-////        collectionBG.color = SKColor(colorLiteralRed: 182/255, green: 24/255, blue: 25/255, alpha: 1)
-//        
-//        
-//        collectionBG.zPosition = 2
-//        collectionBG.anchorPoint = CGPoint(x: 0.5, y: 1)
-//        collectionBG.position.y = storeContainer.currentHeight/2 - 20
-//        if data == nil {
-//            collectionBG.size = CGSize(width: storeContainer.frame.width, height: bgpanel.currentHeight-infoButton.currentHeight-20)
-//            collectionBG.color = SKColor.orange()
-//            collectionBG.position.y = storeContainer.currentHeight/2 - 20
-//        } else {
-//            collectionBG.size = CGSize(width: storeContainer.frame.width, height: bgpanel.currentHeight-infoButton.currentHeight-50)
-//            collectionBG.color = SKColor.green()
-//            collectionBG.position.y = storeContainer.currentHeight/2 - 50 + collectionBG.size.height
-//            let move = SKAction.moveTo(y: storeContainer.currentHeight/2 - 50, duration: shiftTime*2)
-//            move.timingMode = timeMode
-//            collectionBG.run(move)
-//        }
-//        
-//        storeContainer.addChild(collectionBG)
-//        
-//        /* Iterate over dictionary and add buttons */
-//        let collectionData: NSDictionary
-//        if data != nil {
-//            collectionData = data!
-//        } else {
-//            let storeDict = PlistManager.sharedInstance.getValueForKey(key: "Store") as! NSDictionary
-//            collectionData = storeDict.value(forKey: "Categories") as! NSDictionary
-//        }
-//        
-//        var yPosCounter: CGFloat = 0
-//        let collection = SKNode()
-//        var itemButtons: [SKPixelToggleCollectionButtonNode] = []
-//        for item in collectionData {
-//            let itemButton = SKPixelToggleCollectionButtonNode(type: "collection", icon: "nag", text: item.key as! String)
-//            itemButtons.append(itemButton)
-//            itemButton.zPosition = 3
-//            itemButton.position.y = collectionBG.position.y-itemButton.currentHeight/2-(35*yPosCounter)-5
-//            collection.addChild(itemButton)
-//            yPosCounter += 1
-//            itemButton.action = {
-//                if itemButton.enabled == true { // CLOSE
-//                    
-//                } else { // OPEN
-//                    var itemButtonsBelow: [SKPixelToggleCollectionButtonNode] = [] // All buttons below the selected one
-//                    /* Move all buttons up, centering the selected button at the top */
-//                    for button in itemButtons {
-//                        /* calculate difference in index */
-//                        let thisIndex = itemButtons.index(of: button)
-//                        let baseIndex = itemButtons.index(of: itemButton)
-//                        let offset = -1*(baseIndex!-thisIndex!)
-//                        let move = SKAction.moveTo(y: collectionBG.position.y-button.currentHeight/2-(35*CGFloat(offset)), duration: shiftTime*2)
-//                        move.timingMode = timeMode
-//                        button.run(move)
-//                        if offset != 0 && button.enabled == true  { // Make sure only the selected button is enabled
-//                            button.disable(withAction: false)
-//                        }
-//                        if offset > 0 {
-//                            itemButtonsBelow.append(button)
-//                        }
-//                    }
-//                    self.displayCollection(withData: collectionData.value(forKey: item.key as! String) as? NSDictionary,
-//                                           parentButtons: itemButtonsBelow,
-//                                           parentBG: collectionBG)
-//                }
-//            }
-//        }
-////        if data != nil {
-////            let move = SKAction.moveTo(y: storeContainer.currentHeight/2 - 50, duration: shiftTime)
-////            move.timingMode = timeMode
-////            collectionBG.run(move)
-////        }
-//        storeContainer.addChild(collection)
-//        
-//    
-//        /* Resize the parent collectionBG and parent buttons below */
-//        if parentButtons != nil {
-//            var yPosCounter: CGFloat = 0
-//            for buttonBelow in parentButtons! {
-//                let move = SKAction.moveTo(y: parentBG!.frame.minY-yPosCounter*35-25, duration: shiftTime*2)
-//                move.timingMode = timeMode
-//                buttonBelow.run(move)
-//                yPosCounter += 1
-//            }
-//        }
-//    }
-    
-//    func displayCollection(forButton toDisplay: SKPixelToggleCollectionButtonNode? = nil) {
-//        
-//        currentButtons.append([])//
-//        print(currentButtons.count)
-//        let shiftTime = 0.2
-//        let timeMode: SKActionTimingMode = .easeOut
-//        
-//        let storeDict = PlistManager.sharedInstance.getValueForKey(key: "Store") as! NSDictionary
-//        let categoriesDict = storeDict.value(forKey: "Categories") as! NSDictionary
-//        
-//        /* First move any buttons not already hidden out while resizing the collectionBG */
-//        
-//        if panelDepth != 0 {
-//            print("poop")
-//            for button in currentButtons[panelDepth] {
-//                print("got here")
-//                let thisIndex = currentButtons[panelDepth].index(of: button)
-//                let baseIndex = currentButtons[panelDepth].index(of: toDisplay!)
-//                let offset = -1*(baseIndex!-thisIndex!)
-//                
-//                if offset > 0 {
-//                    let move = SKAction.moveTo(y: -100, duration: shiftTime)
-//                    move.timingMode = timeMode
-//                    button.run(move)
-//                }
-//            }
-//        }
-//
-//        var yPosCounter: CGFloat = 0
-//        let categories = SKNode()
-//        for category in categoriesDict {
-//            let categoryButton = SKPixelToggleCollectionButtonNode(type: "collection", icon: "nag", text: category.key as! String)
-//            categoryButton.zPosition = 3
-//            if panelDepth == 0 {
-//                categoryButton.position.y = storeContainer.currentHeight/2 - 40 - 35*yPosCounter
-//            } else {
-//                categoryButton.position.y = storeContainer.currentHeight - 35*yPosCounter // push in for every collection except first
-//                let move = SKAction.moveTo(y: storeContainer.currentHeight/2 - 70 - 35*yPosCounter, duration: 0.5)
-//                move.timingMode = .easeOut
-//                categoryButton.run(move)
-//            }
-//            
-//            
-//            
-//            categoryButton.action = {
-//                self.toggleContentForButton(toToggle: categoryButton)
-//            }
-//            categories.addChild(categoryButton)
-//            currentButtons[panelDepth].append(categoryButton)
-//            yPosCounter += 1
-//            
-//        }
-//        
-//        
-//        storeContainer.addChild(categories)
-//        
-//        if panelDepth == 0 {
-//            collectionBG.size = CGSize(width: storeContainer.frame.width, height: categories.calculateAccumulatedFrame().height+10)
-//        } else {
-//            let reHeight = SKAction.resize(toHeight: categories.calculateAccumulatedFrame().height+40, duration: shiftTime)
-//            reHeight.timingMode = timeMode
-//            
-//            collectionBG.run(reHeight)
-//        }
-//        
-//        panelDepth = panelDepth + 1 // TODO: Why can't I use the += operator?
-//    }
-//    
-//    func toggleContentForButton(toToggle: SKPixelToggleCollectionButtonNode) {
-//        print("toggling: \(toToggle.text?.text)")
-//        let shiftTime = 0.2
-//        let timeMode: SKActionTimingMode = .easeOut
-//        /* move this button to the top */
-//        if toToggle.enabled == true {
-//            var yPosCounter: CGFloat = 0
-//            
-//            for button in currentButtons[panelDepth-1] {
-//                let move = SKAction.moveTo(y: storeContainer.currentHeight/2 - 40 - 35*yPosCounter, duration: shiftTime)
-//                move.timingMode = timeMode
-//                button.run(move)
-//                yPosCounter += 1
-//            }
-//        } else {
-//            
-//            for button in currentButtons[panelDepth-1] {
-//                if button == toToggle {
-//                    let move = SKAction.moveTo(y: collectionBG.position.y-button.currentHeight/2, duration: shiftTime)
-//                    move.timingMode = timeMode
-//                    button.run(move)
-//                } else {
-//                    /* calculate difference in index */
-//                    let thisIndex = currentButtons[panelDepth-1].index(of: button)
-//                    let baseIndex = currentButtons[panelDepth-1].index(of: toToggle)
-//                    let offset = -1*(baseIndex!-thisIndex!)
-//                    let move = SKAction.moveTo(y: collectionBG.position.y-button.currentHeight/2-(35*CGFloat(offset)), duration: shiftTime)
-//                    move.timingMode = timeMode
-//                    button.run(move)
-//                    if button.enabled == true {
-//                        button.disable(withAction: false)
-//                    }
-//                }
-//            }
-//            
-//            let reHeight = SKAction.resize(toHeight: 30, duration: shiftTime)
-//            reHeight.timingMode = timeMode
-//            
-//            collectionBG.run(reHeight)
-//            
-//            displayCollection(forButton: toToggle)
-//        }
-//    }
-    
+        
     func toggle() {
         removeAllActions()
         if isOpen! {
