@@ -408,6 +408,26 @@ class Menu: SKNode {
             }
             collectionBG.addChild(collection)
 
+        } else if type == "item" {
+            let itemName = SKLabelNode(fontNamed: "Silkscreen")
+            itemName.zPosition = 1
+            itemName.text = collectionData.value(forKey: "name") as! String
+            itemName.setScale(1/10)
+            itemName.fontSize = 80
+            itemName.fontColor = SKColor(colorLiteralRed: 245/255, green: 245/255, blue: 245/255, alpha: 1)
+            itemName.verticalAlignmentMode = .center
+            itemName.position.y = -50
+            collectionBG.addChild(itemName)
+            
+            let itemDescription = SKLabelNode(fontNamed: "Silkscreen")
+            itemDescription.zPosition = 1
+            itemDescription.text = collectionData.value(forKey: "description") as! String
+            itemDescription.setScale(1/10)
+            itemDescription.fontSize = 80
+            itemDescription.fontColor = SKColor(colorLiteralRed: 245/255, green: 245/255, blue: 245/255, alpha: 1)
+            itemDescription.verticalAlignmentMode = .center
+            itemDescription.position.y = -60
+            collectionBG.addChild(itemDescription)
         }
     }
     
