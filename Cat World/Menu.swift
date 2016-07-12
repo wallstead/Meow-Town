@@ -55,7 +55,7 @@ class Menu: SKNode {
         bgpanel.addChild(menuCropper)
         
         settingsButton = SKPixelToggleButtonNode(textureName: "topbar_menupanel_settingsbutton")
-        settingsButton.zPosition = 15
+        settingsButton.zPosition = 25
         settingsButton.position.x = -bgpanel.currentWidth/2+settingsButton.frame.width/2
         settingsButton.position.y = bgpanel.currentHeight/2-settingsButton.frame.height/2
         settingsButton.action = {
@@ -64,7 +64,7 @@ class Menu: SKNode {
         menuCropper.addChild(settingsButton)
         
         infoButton = SKPixelToggleButtonNode(textureName: "topbar_menupanel_infobutton")
-        infoButton.zPosition = 15
+        infoButton.zPosition = 25
         infoButton.position.x = 0
         infoButton.position.y = bgpanel.currentHeight/2-infoButton.frame.height/2
         infoButton.action = {
@@ -73,7 +73,7 @@ class Menu: SKNode {
         menuCropper.addChild(infoButton)
         
         IAPButton = SKPixelToggleButtonNode(textureName: "topbar_menupanel_iapbutton")
-        IAPButton.zPosition = 15
+        IAPButton.zPosition = 25
         IAPButton.position.x = bgpanel.currentWidth/2-IAPButton.frame.width/2
         IAPButton.position.y = bgpanel.currentHeight/2-IAPButton.frame.height/2
         IAPButton.action = {
@@ -84,7 +84,7 @@ class Menu: SKNode {
         topbuttonPanelBG = SKPixelSpriteNode(textureName: "topbar_menupanel")
         topbuttonPanelBG.color = SKColor(red: 0/255, green: 187/255, blue: 125/255, alpha: 1)
         topbuttonPanelBG.colorBlendFactor = 1
-        topbuttonPanelBG.zPosition = 9
+        topbuttonPanelBG.zPosition = 20
         topbuttonPanelBG.position.y = bgpanel.currentHeight-infoButton.frame.height
         menuCropper.addChild(topbuttonPanelBG)
         
@@ -103,7 +103,7 @@ class Menu: SKNode {
 //        storeContainer.addChild(collectionBG)
         
         let title = SKLabelNode(fontNamed: "Silkscreen")
-        title.zPosition = 11
+        title.zPosition = 51
         title.text = "-STORE-"
         title.setScale(2/10)
         title.fontSize = 80
@@ -113,11 +113,17 @@ class Menu: SKNode {
         storeContainer.addChild(title)
         
         let titleBG = SKSpriteNode(color: SKColor(red: 212/255, green: 29/255, blue: 32/255, alpha: 1), size: CGSize(width: bgpanel.currentWidth, height: 20))
-        titleBG.zPosition = 10
+        titleBG.zPosition = 50
         titleBG.position.y = title.position.y
         storeContainer.addChild(titleBG)
         
-        displayCollection(parent: titleBG, heightDiff: 20)
+        let collectionBase = SKSpriteNode()
+        collectionBase.size = titleBG.size
+        collectionBase.zPosition = 10
+        collectionBase.position.y = titleBG.position.y
+        storeContainer.addChild(collectionBase)
+        
+        displayCollection(parent: collectionBase, heightDiff: 20)
     }
     
     func toggleTopButton(toToggle: SKPixelToggleButtonNode) {
@@ -248,14 +254,32 @@ class Menu: SKNode {
     func displayCollection(parent: SKSpriteNode, heightDiff: CGFloat, withData data: NSDictionary? = nil) {
         let shiftTime = 0.3
         let timeMode: SKActionTimingMode = .easeOut
+        var type: String
         
         /* Figure out what data needs to be displayed */
         let collectionData: NSDictionary
         if data != nil {
             collectionData = data!
+            print(collectionData)
+            if collectionData.count != 0 {
+                if collectionData.value(forKey: "id") == nil {
+                    type = "collection"
+                } else {
+                    type = "item"
+                }
+            } else {
+                type = "unknown"
+            }
         } else {
             let storeDict = PlistManager.sharedInstance.getValueForKey(key: "Store") as! NSDictionary
             collectionData = storeDict.value(forKey: "Categories") as! NSDictionary
+            type = "collection"
+        }
+        
+        if panelDepth > 1 {
+            let move = SKAction.moveTo(y: 15, duration: shiftTime)
+            move.timingMode = timeMode
+            parent.parent?.parent?.parent?.run(move)
         }
 
         /* Add background */
@@ -300,7 +324,7 @@ class Menu: SKNode {
                         var yPosCounterReplace: CGFloat = 0
                         for button in itemButtons {
                             print("got here")
-                            let move = SKAction.moveTo(y: (-35*yPosCounterReplace)-5-itemButton.currentHeight/2, duration: shiftTime)
+                            let move = SKAction.moveTo(y: (-35*yPosCounterReplace)-5-itemButton.currentHeight/2, duration: shiftTime/2)
                             move.timingMode = timeMode
                             button.run(move, completion: {
                                 if button == itemButtons.last {
@@ -311,10 +335,13 @@ class Menu: SKNode {
                                     itemButtonsBelow.removeAll()
                                 }
                             })
-                            
                             yPosCounterReplace += 1
-                            
                         }
+                    }
+                    if self.panelDepth > 1 {
+                        let move = SKAction.moveTo(y: -15, duration: shiftTime)
+                        move.timingMode = timeMode
+                        parent.run(move)
                     }
                     if itemButtonsBelow.isEmpty == false {
                         print(itemButtonsBelow.count)
@@ -324,10 +351,15 @@ class Menu: SKNode {
                             itemButtonBelow.run(move)
                             belowCounter += 1
                         }
-                    } else {
-                        
                     }
+                    /* front page blurb:
+                     
+                       NOW AVAILABLE:
+                        We now offer an online consulting service
+                     
                     
+ 
+                    */
                     let moveChildCollection = SKAction.moveTo(y: childCollectionBG.size.height-childCollectionBG.parent!.frame.height/2, duration: shiftTime)
                     moveChildCollection.timingMode = timeMode
                     childCollectionBG.run(moveChildCollection, completion: {
@@ -342,7 +374,7 @@ class Menu: SKNode {
                         let thisIndex = itemButtons.index(of: button)
                         let baseIndex = itemButtons.index(of: itemButton)
                         let offset = -1*(baseIndex!-thisIndex!)
-                        let move = SKAction.moveTo(y: -button.currentHeight/2-(35*CGFloat(offset)), duration: shiftTime)
+                        let move = SKAction.moveTo(y: -button.currentHeight/2-(35*CGFloat(offset)), duration: shiftTime/2)
                         move.timingMode = timeMode
                         button.run(move, completion: {
                             if offset == 0 {
@@ -355,7 +387,7 @@ class Menu: SKNode {
                                     itemButtonBelow.run(move)
                                     belowCounter += 1
                                 }
-                                itemButton.zPosition = 10
+                                itemButton.zPosition = 9
                             }
                         })
                         if offset != 0 && button.enabled == true  { // Make sure only the selected button is enabled
