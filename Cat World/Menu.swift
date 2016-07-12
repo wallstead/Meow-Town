@@ -409,9 +409,10 @@ class Menu: SKNode {
             collectionBG.addChild(collection)
 
         } else if type == "item" {
+            
             let itemName = SKLabelNode(fontNamed: "Silkscreen")
             itemName.zPosition = 1
-            itemName.text = collectionData.value(forKey: "name") as! String
+            itemName.text = collectionData.value(forKey: "name") as? String
             itemName.setScale(1/10)
             itemName.fontSize = 80
             itemName.fontColor = SKColor(colorLiteralRed: 245/255, green: 245/255, blue: 245/255, alpha: 1)
@@ -419,14 +420,20 @@ class Menu: SKNode {
             itemName.position.y = -50
             collectionBG.addChild(itemName)
             
+            let itemImage = SKPixelSpriteNode(textureName: collectionData.value(forKey: "image name") as! String)
+            itemImage.zPosition = 2
+            itemImage.setScale(2)
+            itemImage.position.y = itemName.position.y-20
+            collectionBG.addChild(itemImage)
+            
             let itemDescription = SKLabelNode(fontNamed: "Silkscreen")
             itemDescription.zPosition = 1
-            itemDescription.text = collectionData.value(forKey: "description") as! String
+            itemDescription.text = collectionData.value(forKey: "description") as? String
             itemDescription.setScale(1/10)
             itemDescription.fontSize = 80
             itemDescription.fontColor = SKColor(colorLiteralRed: 245/255, green: 245/255, blue: 245/255, alpha: 1)
             itemDescription.verticalAlignmentMode = .center
-            itemDescription.position.y = -60
+            itemDescription.position.y = itemImage.position.y-20
             collectionBG.addChild(itemDescription)
         }
     }
