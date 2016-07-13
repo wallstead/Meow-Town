@@ -11,6 +11,7 @@ import SpriteKit
 
 class Menu: SKNode {
     var isOpen: Bool!
+    var menuIsAnimating: Bool!
     var panelDepth: Int = 0
     var camFrame: CGRect!
     var topBar: SKPixelSpriteNode!
@@ -32,6 +33,7 @@ class Menu: SKNode {
         self.camFrame = camFrame
         self.topBar = topBar
         self.isOpen = false
+        self.menuIsAnimating = false
 //        self.currentButtons = []
         
         DispatchQueue.main.async {
@@ -102,10 +104,10 @@ class Menu: SKNode {
 //
 //        storeContainer.addChild(collectionBG)
         
-        let title = SKLabelNode(fontNamed: "Silkscreen")
+        let title = SKLabelNode(fontNamed: "Fipps-Regular")
         title.zPosition = 51
-        title.text = "-STORE-"
-        title.setScale(2/10)
+        title.text = "store"
+        title.setScale(1/10)
         title.fontSize = 80
         title.fontColor = SKColor(colorLiteralRed: 245/255, green: 245/255, blue: 245/255, alpha: 1)
         title.verticalAlignmentMode = .center
@@ -260,7 +262,6 @@ class Menu: SKNode {
         let collectionData: NSDictionary
         if data != nil {
             collectionData = data!
-            print(collectionData)
             if collectionData.count != 0 {
                 if collectionData.value(forKey: "id") == nil {
                     type = "collection"
@@ -314,17 +315,24 @@ class Menu: SKNode {
                 yPosCounter += 1
                 var itemButtonsBelow: [SKPixelToggleCollectionButtonNode] = [] // All buttons below the selected one
                 itemButton.action = {
-                    
-                    if itemButton.enabled == true { // CLOSE
-                        /* close the button's child bg */
+                    if self.menuIsAnimating == false {
+                        print("menu is not animating")
+                        for itemButton in itemButtons {
+                            itemButton.isUserInteractionEnabled = false
+                        }
                         
-                        if itemButton.hasActions() == false {
+                        self.menuIsAnimating = true
+                        
+                        print("menu is animating")
+                        if itemButton.enabled == true { // CLOSE
+                            /* close the button's child bg */
+                        
+                        
                             let childCollectionBG = itemButton.childNode(withName: "collectionBG") as! SKSpriteNode // TODO: make this if-let
                             var belowCounter: CGFloat = 1
                             collectionBG.run(showCollection)
                             
                             func moveButtonsBack() {
-                                print("moving buttons back")
                                 var yPosCounterReplace: CGFloat = 0
                                 for button in itemButtons {
                                     print("got here")
@@ -337,6 +345,11 @@ class Menu: SKNode {
                                             itemButton.zPosition = 1
                                             self.panelDepth -= 1
                                             itemButtonsBelow.removeAll()
+                                            self.menuIsAnimating = false
+                                            for itemButton in itemButtons {
+                                                itemButton.isUserInteractionEnabled = true
+                                            }
+                                            print("menu is done animating")
                                         }
                                     })
                                     yPosCounterReplace += 1
@@ -370,9 +383,8 @@ class Menu: SKNode {
                                 childCollectionBG.removeFromParent()
                                 moveButtonsBack()
                             })
-                        }
-                    } else { // OPEN
-                        if itemButton.hasActions() == false {
+                
+                        } else { // OPEN
                             /* Move all buttons up, centering the selected button at the top */
                             for button in itemButtons {
                                 /* calculate difference in index */
@@ -393,6 +405,11 @@ class Menu: SKNode {
                                             belowCounter += 1
                                         }
                                         itemButton.zPosition = 9
+                                        self.menuIsAnimating = false
+                                        for itemButton in itemButtons {
+                                            itemButton.isUserInteractionEnabled = true
+                                        }
+                                        print("menu is done animating")
                                     }
                                 })
                                 if offset != 0 && button.enabled == true  { // Make sure only the selected button is enabled
@@ -403,6 +420,8 @@ class Menu: SKNode {
                                 }
                             }
                         }
+                    } else {
+                        print("already animating")
                     }
                 }
             }
@@ -410,30 +429,27 @@ class Menu: SKNode {
 
         } else if type == "item" {
             
-            let itemName = SKLabelNode(fontNamed: "Silkscreen")
-            itemName.zPosition = 1
-            itemName.text = collectionData.value(forKey: "name") as? String
-            itemName.setScale(1/10)
-            itemName.fontSize = 80
-            itemName.fontColor = SKColor(colorLiteralRed: 245/255, green: 245/255, blue: 245/255, alpha: 1)
-            itemName.verticalAlignmentMode = .center
-            itemName.position.y = -50
-            collectionBG.addChild(itemName)
+            let itemImageContainter = SKPixelSpriteNode(textureName: "topbar_menupanel_itemimagecontainer")
+            itemImageContainter.background.color = collectionBG.color.darkerColor(percent: 0.1)
+            itemImageContainter.background.colorBlendFactor = 1
+            itemImageContainter.zPosition = 1
+            itemImageContainter.position.y = -40
+            collectionBG.addChild(itemImageContainter)
             
             let itemImage = SKPixelSpriteNode(textureName: collectionData.value(forKey: "image name") as! String)
-            itemImage.zPosition = 2
+            itemImage.zPosition = 1
+            itemImage.position.y = 10
             itemImage.setScale(2)
-            itemImage.position.y = itemName.position.y-20
-            collectionBG.addChild(itemImage)
-            
+            itemImageContainter.addChild(itemImage)
+
             let itemDescription = SKLabelNode(fontNamed: "Silkscreen")
-            itemDescription.zPosition = 1
+            itemDescription.zPosition = 2
             itemDescription.text = collectionData.value(forKey: "description") as? String
             itemDescription.setScale(1/10)
             itemDescription.fontSize = 80
             itemDescription.fontColor = SKColor(colorLiteralRed: 245/255, green: 245/255, blue: 245/255, alpha: 1)
             itemDescription.verticalAlignmentMode = .center
-            itemDescription.position.y = itemImage.position.y-20
+            itemDescription.position.y = itemImageContainter.frame.minY+10
             collectionBG.addChild(itemDescription)
         }
     }
@@ -446,6 +462,7 @@ class Menu: SKNode {
             open()
         }
     }
+    
     
     func open() {
         self.isOpen = true
@@ -464,6 +481,10 @@ class Menu: SKNode {
                 button?.disable()
             }
         }
+    }
+    
+    func update(currentTime: CFTimeInterval) {
+        print(menuIsAnimating)
     }
 }
 

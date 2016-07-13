@@ -315,7 +315,7 @@ class CatCam: SKCameraNode {
             let action = SKAction.move(to: point, duration: 0.15)
             self.run(action)
         }
-        
+        menu.update(currentTime: currentTime)
         
     }
 }

@@ -251,6 +251,8 @@ class SKPixelToggleCollectionButtonNode: SKPixelToggleButtonNode {
         }
     }
     
+    
+    
     func disable(withAction: Bool) {
         if withAction {
             action?()
