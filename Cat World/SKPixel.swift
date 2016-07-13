@@ -201,16 +201,16 @@ class SKPixelToggleButtonNode: SKPixelButtonNode {
 
 class SKPixelToggleCollectionButtonNode: SKPixelToggleButtonNode {
     let overlay: SKPixelSpriteNode?
+    let icon: SKPixelSpriteNode?
     
-    
-    init(type: String, icon: String, text: String) {
-        if type == "collection" {
+    init(type: String, iconName: String, text: String) {
+        if type == "collection" || type == "item" {
             overlay = SKPixelSpriteNode(textureName: "topbar_menupanel_itemcategory_ui")
-        } else if type == "item" {
-            overlay = SKPixelSpriteNode(textureName: "topbar_menupanel_itemcategory_ui")
+            icon = SKPixelSpriteNode(textureName: iconName)
         } else {
             print("unrecognized type of button")
             overlay = nil
+            icon = nil
         }
         
         super.init(textureName: "topbar_menupanel_itemcategory", text: text)
@@ -219,6 +219,15 @@ class SKPixelToggleCollectionButtonNode: SKPixelToggleButtonNode {
             overlay!.zPosition = 2
             overlay!.isUserInteractionEnabled = false
             self.addChild(overlay!)
+        }
+        if icon != nil {
+            icon!.zPosition = 3
+            icon!.isUserInteractionEnabled = false
+            icon!.position.x = -46.5
+            icon!.position.y = 0.5
+            
+            
+            self.addChild(icon!)
         }
     }
     
@@ -230,6 +239,7 @@ class SKPixelToggleCollectionButtonNode: SKPixelToggleButtonNode {
         self.background.texture = activeTexture
         text?.position.y = -1
         overlay?.position.y = -1
+        icon?.position.y = -0.5
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -239,6 +249,7 @@ class SKPixelToggleCollectionButtonNode: SKPixelToggleButtonNode {
                 self.background.texture = activeTexture
                 text?.position.y = -1
                 overlay?.position.y = -1
+                icon?.position.y = -0.5
             }
         }
     }
@@ -263,6 +274,8 @@ class SKPixelToggleCollectionButtonNode: SKPixelToggleButtonNode {
             self.overlay?.changeTextureTo(textureName: "topbar_menupanel_itemcategory_ui")
             self.overlay?.run(SKAction.fadeIn(withDuration: 0.1))
         })
+        icon?.position.y = 0.5
+        icon?.run(SKAction.fadeIn(withDuration: 0.1))
         self.background.run(SKAction.scaleX(to: 1, duration: 0.2))
         self.background.texture = defaultTexture
         enabled = false
@@ -273,10 +286,13 @@ class SKPixelToggleCollectionButtonNode: SKPixelToggleButtonNode {
             action?()
             text?.position.y = 0
             overlay?.position.y = 0
+            icon?.position.y = 0.5
+            icon?.run(SKAction.fadeOut(withDuration: 0.1))
             overlay?.run(SKAction.fadeOut(withDuration: 0.1), completion: {
                 self.overlay?.changeTextureTo(textureName: "topbar_menupanel_itemcategory_ui2")
                 self.overlay?.run(SKAction.fadeIn(withDuration: 0.1))
             })
+            
             self.background.run(SKAction.scaleX(to: 1.4, duration: 0.2))
             self.background.texture = defaultTexture
             enabled = true

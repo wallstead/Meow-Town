@@ -215,7 +215,7 @@ class Menu: SKNode {
                 
                 let version = SKLabelNode(fontNamed: "Silkscreen")
                 version.zPosition = 1
-                version.text = "v2.0"
+                version.text = Bundle.main().objectForInfoDictionaryKey("CFBundleShortVersionString") as! String
                 version.setScale(1/10)
                 version.fontSize = 80
                 version.fontColor = SKColor(colorLiteralRed: 245/255, green: 245/255, blue: 245/255, alpha: 1)
@@ -307,7 +307,14 @@ class Menu: SKNode {
             let collection = SKNode()
             var itemButtons: [SKPixelToggleCollectionButtonNode] = []
             for item in collectionData {
-                let itemButton = SKPixelToggleCollectionButtonNode(type: "collection", icon: "nag", text: item.key as! String)
+                print(item.value)
+                var itemImageName = (item.value as! NSDictionary).value(forKey: "image name") as? String
+                let itemButton: SKPixelToggleCollectionButtonNode
+                if itemImageName != nil {
+                    itemButton = SKPixelToggleCollectionButtonNode(type: "collection", iconName: itemImageName!, text: item.key as! String)
+                }else {
+                    itemButton = SKPixelToggleCollectionButtonNode(type: "collection", iconName: "burger", text: item.key as! String)
+                }
                 itemButtons.append(itemButton)
                 itemButton.zPosition = 1
                 itemButton.position.y = (-35*yPosCounter)-5-itemButton.currentHeight/2
@@ -484,7 +491,7 @@ class Menu: SKNode {
     }
     
     func update(currentTime: CFTimeInterval) {
-        print(menuIsAnimating)
+//        print(menuIsAnimating)
     }
 }
 
