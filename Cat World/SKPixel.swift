@@ -38,17 +38,17 @@ class SKPixelSpriteNode: SKSpriteNode {
     }
     
     func changeTextureTo(textureName: String) {
-        self.size = CGSize(width: 0, height: 0)
+        self.background.size = CGSize(width: 0, height: 0)
         let newTexture = SKTexture(imageNamed: textureName)
         newTexture.filteringMode = .nearest
         self.background.texture = newTexture
         let oldXScale = xScale
         let oldYScale = yScale
         setScale(1)
-        size.height = newTexture.size().height
-        size.width = newTexture.size().width
-//        background.xScale = oldXScale
-//        background.yScale = oldYScale
+        self.background.size.height = newTexture.size().height
+        self.background.size.width = newTexture.size().width
+        self.background.xScale = oldXScale
+        self.background.yScale = oldYScale
         
     }
 
