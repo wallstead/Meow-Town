@@ -307,7 +307,6 @@ class Menu: SKNode {
             let collection = SKNode()
             var itemButtons: [SKPixelToggleCollectionButtonNode] = []
             for item in collectionData {
-                print(item.value)
                 var itemImageName = (item.value as! NSDictionary).value(forKey: "image name") as? String
                 let itemButton: SKPixelToggleCollectionButtonNode
                 if itemImageName != nil {
@@ -323,14 +322,12 @@ class Menu: SKNode {
                 var itemButtonsBelow: [SKPixelToggleCollectionButtonNode] = [] // All buttons below the selected one
                 itemButton.action = {
                     if self.menuIsAnimating == false {
-                        print("menu is not animating")
                         for itemButton in itemButtons {
                             itemButton.isUserInteractionEnabled = false
                         }
                         
                         self.menuIsAnimating = true
                         
-                        print("menu is animating")
                         if itemButton.enabled == true { // CLOSE
                             /* close the button's child bg */
                         
@@ -342,7 +339,6 @@ class Menu: SKNode {
                             func moveButtonsBack() {
                                 var yPosCounterReplace: CGFloat = 0
                                 for button in itemButtons {
-                                    print("got here")
                                     let move = SKAction.moveTo(y: (-35*yPosCounterReplace)-5-itemButton.currentHeight/2, duration: shiftTime/2)
                                     move.timingMode = timeMode
                                     button.run(move, completion: {
@@ -356,7 +352,6 @@ class Menu: SKNode {
                                             for itemButton in itemButtons {
                                                 itemButton.isUserInteractionEnabled = true
                                             }
-                                            print("menu is done animating")
                                         }
                                     })
                                     yPosCounterReplace += 1
@@ -416,7 +411,6 @@ class Menu: SKNode {
                                         for itemButton in itemButtons {
                                             itemButton.isUserInteractionEnabled = true
                                         }
-                                        print("menu is done animating")
                                     }
                                 })
                                 if offset != 0 && button.enabled == true  { // Make sure only the selected button is enabled
@@ -428,7 +422,6 @@ class Menu: SKNode {
                             }
                         }
                     } else {
-                        print("already animating")
                     }
                 }
             }
@@ -445,7 +438,7 @@ class Menu: SKNode {
             
             let itemImage = SKPixelSpriteNode(textureName: collectionData.value(forKey: "image name") as! String)
             itemImage.zPosition = 1
-            itemImage.position.y = 10
+            itemImage.position.y = 6
             itemImage.setScale(2)
             itemImageContainter.addChild(itemImage)
 
