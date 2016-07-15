@@ -433,7 +433,7 @@ class Menu: SKNode {
             itemImageContainter.background.color = collectionBG.color.darkerColor(percent: 0.1)
             itemImageContainter.background.colorBlendFactor = 1
             itemImageContainter.zPosition = 1
-            itemImageContainter.position.y = -40
+            itemImageContainter.position.y = -35
             collectionBG.addChild(itemImageContainter)
             
             let itemImage = SKPixelSpriteNode(textureName: collectionData.value(forKey: "image name") as! String)
@@ -451,6 +451,50 @@ class Menu: SKNode {
             itemDescription.verticalAlignmentMode = .center
             itemDescription.position.y = itemImageContainter.frame.minY+10
             collectionBG.addChild(itemDescription)
+            
+            let infoTable = SKNode()
+            let infoDict = collectionData.value(forKey: "info") as! NSDictionary
+            var infoCounter = 0
+            for infoItem in infoDict {
+                // create left side and right side bg
+                let leftSide = SKSpriteNode(color: collectionBG.color.darkerColor(percent: 0.1), size: CGSize(width: itemImageContainter.frame.width/2, height: 15))
+                leftSide.position.x = -leftSide.frame.width/2
+                leftSide.position.y = -(CGFloat(infoCounter)*17)
+                infoTable.addChild(leftSide)
+                
+                let leftInfoText = SKLabelNode(fontNamed: "Silkscreen")
+                leftInfoText.zPosition = 2
+                leftInfoText.text = infoItem.key as? String
+                leftInfoText.setScale(1/10)
+                leftInfoText.fontSize = 80
+                leftInfoText.fontColor = SKColor(colorLiteralRed: 245/255, green: 245/255, blue: 245/255, alpha: 1)
+                leftInfoText.verticalAlignmentMode = .center
+                leftInfoText.horizontalAlignmentMode = .right
+                leftInfoText.position.x = leftSide.frame.width/2-6
+                
+                leftSide.addChild(leftInfoText)
+                
+                let rightSide = SKSpriteNode(color: collectionBG.color.darkerColor(percent: 0.2), size: CGSize(width: itemImageContainter.frame.width/2, height: 20))
+                rightSide.position.x = rightSide.frame.width/2
+                rightSide.position.y = -(CGFloat(infoCounter)*17)
+                infoTable.addChild(rightSide)
+                
+                let rightInfoText = SKLabelNode(fontNamed: "Silkscreen")
+                rightInfoText.zPosition = 2
+                rightInfoText.text = "\(infoItem.value)"
+                rightInfoText.setScale(1/10)
+                rightInfoText.fontSize = 80
+                rightInfoText.fontColor = SKColor(colorLiteralRed: 245/255, green: 245/255, blue: 245/255, alpha: 1)
+                rightInfoText.verticalAlignmentMode = .center
+                rightInfoText.horizontalAlignmentMode = .left
+                rightInfoText.position.x = -rightSide.frame.width/2+6
+                
+                rightSide.addChild(rightInfoText)
+                
+                infoCounter += 1
+            }
+            collectionBG.addChild(infoTable)
+            infoTable.position.y = itemImageContainter.frame.minY-12
         }
     }
     

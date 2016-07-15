@@ -63,6 +63,7 @@ final class Scheduler {
                 
                 // pop and fire
                 events.pop()
+                
                 event!.fire()
                 
                 // is the event repeating?
@@ -219,13 +220,13 @@ final class Scheduler {
 
 final class SchedulerEvent {
     
-    var trigger:Double = 0.0
-    var initialTrigger:Double = 0.0
-    var range:Double = 0.0
-    var callback:TargetAction? = nil
+    var trigger: Double = 0.0
+    var initialTrigger: Double = 0.0
+    var range: Double = 0.0
+    var callback: TargetAction? = nil
     var recurring = false
-    var probability:Double = 1.0
-    var name:String=""
+    var probability: Double = 1.0
+    var name: String = ""
     
     // special handling
     var forceTriggerOnSchedulerStop = false
@@ -295,7 +296,7 @@ final class SchedulerEventQueue {
         return q.count
     }
     
-    func add(event:SchedulerEvent){
+    func add(event:SchedulerEvent) {
         // empty queue
         if q.count == 0 {
             q.append(event)
@@ -317,7 +318,8 @@ final class SchedulerEventQueue {
     
     func pop() -> SchedulerEvent? {
         if q.count == 0 { return nil }
-        return q.remove(at: 0)
+        let removed = q.remove(at: 0)
+        return removed
     }
     
     func top() -> SchedulerEvent? {

@@ -143,7 +143,7 @@ class Cat: SKNode {
     func die() {
         sprite.removeAllActions()
         timer.pause()
-        scheduler.pause()
+        scheduler.stop()
         if GameScene.current.catCam.currentFocus == self {
             GameScene.current.catCam.toggleFocus(cat: self)
         }

@@ -295,6 +295,7 @@ class CatCam: SKCameraNode {
             isShiftingCats = true
             GameScene.current.world.addCat(name: currentCatSprite.textureName)
             background.run(SKAction.fadeAlpha(to: 0, duration: 0.5), completion: {
+                background.removeAllChildren()
                 background.removeFromParent()
             })
         }

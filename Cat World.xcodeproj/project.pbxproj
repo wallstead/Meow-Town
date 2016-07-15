@@ -23,8 +23,6 @@
 		439AD6851CB7681500E1E018 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 439AD6831CB7681500E1E018 /* Main.storyboard */; };
 		439AD6871CB7681500E1E018 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 439AD6861CB7681500E1E018 /* Assets.xcassets */; };
 		439AD68A1CB7681500E1E018 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 439AD6881CB7681500E1E018 /* LaunchScreen.storyboard */; };
-		439AD6951CB7681500E1E018 /* Cat_WorldTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439AD6941CB7681500E1E018 /* Cat_WorldTests.swift */; };
-		439AD6A01CB7681500E1E018 /* Cat_WorldUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439AD69F1CB7681500E1E018 /* Cat_WorldUITests.swift */; };
 		439AD6AE1CB7683700E1E018 /* Cat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439AD6AD1CB7683700E1E018 /* Cat.swift */; };
 		439AD6B41CB7737D00E1E018 /* Int+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439AD6B31CB7737D00E1E018 /* Int+Extensions.swift */; };
 		43A3C6201D054DEB004BBFBA /* CoolTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A3C61F1D054DEB004BBFBA /* CoolTime.swift */; };
@@ -82,11 +80,7 @@
 		439AD6891CB7681500E1E018 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		439AD68B1CB7681500E1E018 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		439AD6901CB7681500E1E018 /* Cat WorldTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Cat WorldTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		439AD6941CB7681500E1E018 /* Cat_WorldTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cat_WorldTests.swift; sourceTree = "<group>"; };
-		439AD6961CB7681500E1E018 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		439AD69B1CB7681500E1E018 /* Cat WorldUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Cat WorldUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		439AD69F1CB7681500E1E018 /* Cat_WorldUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cat_WorldUITests.swift; sourceTree = "<group>"; };
-		439AD6A11CB7681500E1E018 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		439AD6AD1CB7683700E1E018 /* Cat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Cat.swift; path = ../Cat.swift; sourceTree = "<group>"; };
 		439AD6B31CB7737D00E1E018 /* Int+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Int+Extensions.swift"; sourceTree = "<group>"; };
 		43A3C61F1D054DEB004BBFBA /* CoolTime.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoolTime.swift; sourceTree = "<group>"; };
@@ -174,8 +168,6 @@
 			isa = PBXGroup;
 			children = (
 				439AD67A1CB7681500E1E018 /* Cat World */,
-				439AD6931CB7681500E1E018 /* Cat WorldTests */,
-				439AD69E1CB7681500E1E018 /* Cat WorldUITests */,
 				439AD6791CB7681500E1E018 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -214,24 +206,6 @@
 				439AD68B1CB7681500E1E018 /* Info.plist */,
 			);
 			path = "Cat World";
-			sourceTree = "<group>";
-		};
-		439AD6931CB7681500E1E018 /* Cat WorldTests */ = {
-			isa = PBXGroup;
-			children = (
-				439AD6941CB7681500E1E018 /* Cat_WorldTests.swift */,
-				439AD6961CB7681500E1E018 /* Info.plist */,
-			);
-			path = "Cat WorldTests";
-			sourceTree = "<group>";
-		};
-		439AD69E1CB7681500E1E018 /* Cat WorldUITests */ = {
-			isa = PBXGroup;
-			children = (
-				439AD69F1CB7681500E1E018 /* Cat_WorldUITests.swift */,
-				439AD6A11CB7681500E1E018 /* Info.plist */,
-			);
-			path = "Cat WorldUITests";
 			sourceTree = "<group>";
 		};
 		43E1130E1D0755D2005ADA37 /* Timer */ = {
@@ -418,7 +392,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				439AD6951CB7681500E1E018 /* Cat_WorldTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -426,7 +399,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				439AD6A01CB7681500E1E018 /* Cat_WorldUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

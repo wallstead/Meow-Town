@@ -41,12 +41,15 @@
 					<string>Fries are yummy.</string>
 					<key>image name</key>
 					<string>fries</string>
-					<key>price</key>
-					<integer>110</integer>
-					<key>catories</key>
-					<integer>17</integer>
-					<key>regen</key>
-					<integer>15</integer>
+					<key>info</key>
+					<dict>
+						<key>price</key>
+						<integer>10</integer>
+						<key>calories</key>
+						<integer>10</integer>
+						<key>regen</key>
+						<integer>15</integer>
+					</dict>
 					<key>owned</key>
 					<false/>
 				</dict>
@@ -60,12 +63,15 @@
 					<string>MMMMMM burgers.</string>
 					<key>image name</key>
 					<string>burger</string>
-					<key>price</key>
-					<integer>10</integer>
-					<key>catories</key>
-					<integer>10</integer>
-					<key>regen</key>
-					<integer>15</integer>
+					<key>info</key>
+					<dict>
+						<key>price</key>
+						<integer>10</integer>
+						<key>calories</key>
+						<integer>10</integer>
+						<key>regen</key>
+						<integer>15</integer>
+					</dict>
 					<key>owned</key>
 					<false/>
 				</dict>
@@ -79,12 +85,15 @@
 					<string>Hot Diggity Dog.</string>
 					<key>image name</key>
 					<string>hotdog</string>
-					<key>price</key>
-					<integer>10</integer>
-					<key>catories</key>
-					<integer>10</integer>
-					<key>regen</key>
-					<integer>15</integer>
+					<key>info</key>
+					<dict>
+						<key>price</key>
+						<integer>10</integer>
+						<key>calories</key>
+						<integer>10</integer>
+						<key>regen</key>
+						<integer>15</integer>
+					</dict>
 					<key>owned</key>
 					<false/>
 				</dict>
