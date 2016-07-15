@@ -37,6 +37,7 @@
 		43F4530D1CC8AD3B009912D8 /* slkscrb.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43F453091CC8AD3B009912D8 /* slkscrb.ttf */; };
 		43F4530E1CC8AD3B009912D8 /* slkscre.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43F4530A1CC8AD3B009912D8 /* slkscre.ttf */; };
 		43F4530F1CC8AD3B009912D8 /* slkscreb.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43F4530B1CC8AD3B009912D8 /* slkscreb.ttf */; };
+		43F71A781D396852008FF8D9 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F71A771D396852008FF8D9 /* Item.swift */; };
 		43FD713D1CD3F66B0058DFBA /* mathgrant_calm.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 43FD713C1CD3F66B0058DFBA /* mathgrant_calm.mp3 */; };
 		43FD71461CD3FAED0058DFBA /* button_down.wav in Resources */ = {isa = PBXBuildFile; fileRef = 43FD71441CD3FAED0058DFBA /* button_down.wav */; };
 		43FD71471CD3FAED0058DFBA /* button_up.wav in Resources */ = {isa = PBXBuildFile; fileRef = 43FD71451CD3FAED0058DFBA /* button_up.wav */; };
@@ -95,6 +96,7 @@
 		43F453091CC8AD3B009912D8 /* slkscrb.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = slkscrb.ttf; sourceTree = "<group>"; };
 		43F4530A1CC8AD3B009912D8 /* slkscre.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = slkscre.ttf; sourceTree = "<group>"; };
 		43F4530B1CC8AD3B009912D8 /* slkscreb.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = slkscreb.ttf; sourceTree = "<group>"; };
+		43F71A771D396852008FF8D9 /* Item.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		43FD713C1CD3F66B0058DFBA /* mathgrant_calm.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = mathgrant_calm.mp3; sourceTree = "<group>"; };
 		43FD71441CD3FAED0058DFBA /* button_down.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = button_down.wav; sourceTree = "<group>"; };
 		43FD71451CD3FAED0058DFBA /* button_up.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = button_up.wav; sourceTree = "<group>"; };
@@ -191,6 +193,7 @@
 				439AD67F1CB7681500E1E018 /* GameScene.swift */,
 				439AD6811CB7681500E1E018 /* GameViewController.swift */,
 				439AD6AD1CB7683700E1E018 /* Cat.swift */,
+				43F71A771D396852008FF8D9 /* Item.swift */,
 				43FD71481CD41CAA0058DFBA /* World.swift */,
 				43470F2C1D07E9390069A8A4 /* CatCam.swift */,
 				43E4D1771D22E47C00E266EA /* SpriteKit-Spring.swift */,
@@ -381,6 +384,7 @@
 				43E113161D0755EF005ADA37 /* Timer.swift in Sources */,
 				439AD6801CB7681500E1E018 /* GameScene.swift in Sources */,
 				437C2EC51D0BADBB00F05AEF /* Menu.swift in Sources */,
+				43F71A781D396852008FF8D9 /* Item.swift in Sources */,
 				43FD71491CD41CAA0058DFBA /* World.swift in Sources */,
 				439AD6B41CB7737D00E1E018 /* Int+Extensions.swift in Sources */,
 				439AD6821CB7681500E1E018 /* GameViewController.swift in Sources */,

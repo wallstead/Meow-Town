@@ -15,6 +15,9 @@ class World: SKNode {
     var cats: [Cat]!
     var score: Int!
     
+    let floorCategory: UInt32 = 0x1 << 0
+    let itemCategory: UInt32 = 0x1 << 1
+    
     override var description: String { return "*** World ***\ncats: \(cats)" }
     
     // MARK: Initialization
@@ -24,7 +27,7 @@ class World: SKNode {
         self.wallpaper = decoder.decodeObject(forKey: "wallpaper") as! SKPixelSpriteNode
         self.floor = decoder.decodeObject(forKey: "floor") as! SKPixelSpriteNode
         self.cats = decoder.decodeObject(forKey: "cats") as? [Cat]
-        self.score = decoder.decodeObject(forKey: "score") as! Int
+        self.score = decoder.decodeInteger(forKey: "score")
         
         layout()
         
@@ -41,6 +44,7 @@ class World: SKNode {
         self.score = 0
         
         layout()
+        
         
         GameScene.current.catCam.displayCatSelection()
     }
@@ -88,8 +92,20 @@ class World: SKNode {
             }
         }
         
+        let floorCollisionBox = SKSpriteNode(color: SKColor.clear(), size: CGSize(width: floor.currentWidth, height: 5))
+        floorCollisionBox.physicsBody = SKPhysicsBody(rectangleOf: floorCollisionBox.size)
+        floorCollisionBox.physicsBody!.isDynamic = false
+        floorCollisionBox.physicsBody!.categoryBitMask = floorCategory
+//        floorCollisionBox.physicsBody!.contactTestBitMask = itemCategory
+//        floorCollisionBox.physicsBody!.collisionBitMask = itemCategory
+        floorCollisionBox.position.y = floor.position.y-20
+        floorCollisionBox.zPosition = 3
+        
         self.addChild(self.wallpaper)
         self.addChild(self.floor)
+        self.addChild(floorCollisionBox)
+        
+        spawn(item: "burger")
     }
     
     
@@ -100,6 +116,16 @@ class World: SKNode {
         let testCat = Cat(name: name.capitalized, skin: name, mood: "happy", birthday: NSDate(), world: self)
         cats.append(testCat)
         save()
+    }
+    
+    func spawn(item: String) {
+        print("spawning \(item)")
+        let item = Item(textureName: item, world: self)
+        item.physicsBody!.categoryBitMask = itemCategory
+//        item.physicsBody!.contactTestBitMask = floorCategory
+        item.physicsBody!.collisionBitMask = floorCategory
+
+        
     }
     
     // MARK: Update
