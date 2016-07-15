@@ -69,9 +69,21 @@ class CatCam: SKCameraNode {
         itemsButton.position.x = camFrame.maxX-itemsButton.frame.width/2
         itemsButton.position.y = topBar.position.y
         
+        let calorieCount = SKLabelNode(fontNamed: "Silkscreen")
+        calorieCount.zPosition = 1
+        calorieCount.text = "Calories:"
+        calorieCount.setScale(1/10)
+        calorieCount.fontSize = 80
+        calorieCount.fontColor = SKColor(colorLiteralRed: 245/255, green: 245/255, blue: 245/255, alpha: 1)
+        calorieCount.verticalAlignmentMode = .center
+        calorieCount.name = "scoreCount"
+        //            catName.position.y =
+        topBar.addChild(calorieCount)
+        
         self.addChild(topBar)
         self.addChild(menuButton)
         self.addChild(itemsButton)
+        
         
         
         menu = Menu(camFrame: camFrame, topBar: topBar)
@@ -317,6 +329,13 @@ class CatCam: SKCameraNode {
             self.run(action)
         }
         menu.update(currentTime: currentTime)
+        
+    }
+    
+    func updateScore(score: Int) {
+        if let scoreLabel = topBar.childNode(withName: "scoreCount") as? SKLabelNode {
+            scoreLabel.text = "Calories: \(score)"
+        }
         
     }
 }

@@ -433,7 +433,7 @@ class Menu: SKNode {
             itemImageContainter.background.color = collectionBG.color.darkerColor(percent: 0.1)
             itemImageContainter.background.colorBlendFactor = 1
             itemImageContainter.zPosition = 1
-            itemImageContainter.position.y = -35
+            itemImageContainter.position.y = -34
             collectionBG.addChild(itemImageContainter)
             
             let itemImage = SKPixelSpriteNode(textureName: collectionData.value(forKey: "image name") as! String)
@@ -459,7 +459,7 @@ class Menu: SKNode {
                 // create left side and right side bg
                 let leftSide = SKSpriteNode(color: collectionBG.color.darkerColor(percent: 0.1), size: CGSize(width: itemImageContainter.frame.width/2, height: 15))
                 leftSide.position.x = -leftSide.frame.width/2
-                leftSide.position.y = -(CGFloat(infoCounter)*17)
+                leftSide.position.y = -(CGFloat(infoCounter)*16)
                 infoTable.addChild(leftSide)
                 
                 let leftInfoText = SKLabelNode(fontNamed: "Silkscreen")
@@ -474,9 +474,9 @@ class Menu: SKNode {
                 
                 leftSide.addChild(leftInfoText)
                 
-                let rightSide = SKSpriteNode(color: collectionBG.color.darkerColor(percent: 0.2), size: CGSize(width: itemImageContainter.frame.width/2, height: 20))
+                let rightSide = SKSpriteNode(color: collectionBG.color.darkerColor(percent: 0.2), size: CGSize(width: itemImageContainter.frame.width/2, height: 15))
                 rightSide.position.x = rightSide.frame.width/2
-                rightSide.position.y = -(CGFloat(infoCounter)*17)
+                rightSide.position.y = -(CGFloat(infoCounter)*16)
                 infoTable.addChild(rightSide)
                 
                 let rightInfoText = SKLabelNode(fontNamed: "Silkscreen")
@@ -494,7 +494,7 @@ class Menu: SKNode {
                 infoCounter += 1
             }
             collectionBG.addChild(infoTable)
-            infoTable.position.y = itemImageContainter.frame.minY-12
+            infoTable.position.y = itemImageContainter.frame.minY-8.5
         }
     }
     

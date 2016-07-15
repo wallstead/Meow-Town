@@ -13,6 +13,8 @@ class World: SKNode {
     var wallpaper: SKPixelSpriteNode!
     var floor: SKPixelSpriteNode!
     var cats: [Cat]!
+    var score: Int!
+    
     override var description: String { return "*** World ***\ncats: \(cats)" }
     
     // MARK: Initialization
@@ -22,6 +24,7 @@ class World: SKNode {
         self.wallpaper = decoder.decodeObject(forKey: "wallpaper") as! SKPixelSpriteNode
         self.floor = decoder.decodeObject(forKey: "floor") as! SKPixelSpriteNode
         self.cats = decoder.decodeObject(forKey: "cats") as? [Cat]
+        self.score = decoder.decodeObject(forKey: "score") as! Int
         
         layout()
         
@@ -35,6 +38,7 @@ class World: SKNode {
         self.wallpaper = SKPixelSpriteNode(textureName: "wallpaper")
         self.floor = SKPixelSpriteNode(textureName: "floor")
         self.cats = []
+        self.score = 0
         
         layout()
         
@@ -49,6 +53,7 @@ class World: SKNode {
             aCoder.encode(cats, forKey: "cats")
             print("saving this to cats: \(cats)")
         }
+        if let score = score { aCoder.encode(score, forKey: "score") }
     }
     
     // MARK: Saving
@@ -61,6 +66,8 @@ class World: SKNode {
     // MARK: Layout
     
     func layout() {
+        GameScene.current.catCam.updateScore(score: score)
+        
         self.setScale(GameScene.current.frame.width/wallpaper.frame.width)
         wallpaper.zPosition = 0
         floor.zPosition = 2
