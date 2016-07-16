@@ -122,8 +122,9 @@ class World: SKNode {
         print("spawning \(item)")
         let item = Item(textureName: item, world: self)
         item.physicsBody!.categoryBitMask = itemCategory
+        item.zPosition = 200
 //        item.physicsBody!.contactTestBitMask = floorCategory
-        item.physicsBody!.collisionBitMask = floorCategory
+        item.physicsBody!.collisionBitMask = floorCategory | itemCategory
 
         
     }

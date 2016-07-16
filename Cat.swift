@@ -118,6 +118,7 @@ class Cat: SKNode {
                 print("default")
             }
         }
+        GameScene.current.world.spawn(item: "hotdog")
     }
     
     // MARK: Calculatable Cat Data
