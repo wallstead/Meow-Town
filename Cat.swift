@@ -15,7 +15,7 @@ class Cat: SKNode {
     var sprite: SKPixelCatNode!
     var mood: String!
     var birthday: NSDate!
-    let lifespan: TimeInterval = 1.minute
+    let lifespan: TimeInterval = 30.minutes
     var world: World!
     let timer = Timer() // the timer calculates the time step value dt for every frame
     let scheduler = Scheduler() // an event scheduler
@@ -118,7 +118,7 @@ class Cat: SKNode {
                 print("default")
             }
         }
-        GameScene.current.world.spawn(item: "hotdog")
+        GameScene.current.world.spawn(itemName: "fries")
     }
     
     // MARK: Calculatable Cat Data

@@ -9,14 +9,18 @@
 import Foundation
 import SpriteKit
 
-class World: SKNode {
+struct PhysicsCategory {
+    static let None       : UInt32 = 0
+    static let All        : UInt32 = UInt32.max
+    static let Floor      : UInt32 = 0b1       // 1
+    static let Item       : UInt32 = 0b10      // 2
+}
+
+class World: SKNode, SKPhysicsContactDelegate {
     var wallpaper: SKPixelSpriteNode!
     var floor: SKPixelSpriteNode!
     var cats: [Cat]!
     var score: Int!
-    
-    let floorCategory: UInt32 = 0x1 << 0
-    let itemCategory: UInt32 = 0x1 << 1
     
     override var description: String { return "*** World ***\ncats: \(cats)" }
     
@@ -70,6 +74,10 @@ class World: SKNode {
     // MARK: Layout
     
     func layout() {
+        GameScene.current.physicsWorld.gravity = CGVector(dx: 0.0, dy: -5.0)
+        GameScene.current.physicsWorld.contactDelegate = self
+        GameScene.current.physicsWorld.speed = 1
+        
         GameScene.current.catCam.updateScore(score: score)
         
         self.setScale(GameScene.current.frame.width/wallpaper.frame.width)
@@ -92,12 +100,13 @@ class World: SKNode {
             }
         }
         
-        let floorCollisionBox = SKSpriteNode(color: SKColor.clear(), size: CGSize(width: floor.currentWidth, height: 5))
+        let floorCollisionBox = SKSpriteNode(color: SKColor.clear(), size: CGSize(width: floor.currentWidth*3, height: 5))
         floorCollisionBox.physicsBody = SKPhysicsBody(rectangleOf: floorCollisionBox.size)
-        floorCollisionBox.physicsBody!.isDynamic = false
-        floorCollisionBox.physicsBody!.categoryBitMask = floorCategory
-//        floorCollisionBox.physicsBody!.contactTestBitMask = itemCategory
-//        floorCollisionBox.physicsBody!.collisionBitMask = itemCategory
+        floorCollisionBox.physicsBody?.affectedByGravity = false
+        floorCollisionBox.physicsBody?.isDynamic = false
+        floorCollisionBox.physicsBody?.categoryBitMask = PhysicsCategory.Floor // 3
+//        floorCollisionBox.physicsBody?.contactTestBitMask = PhysicsCategory.Item // 4
+        floorCollisionBox.physicsBody?.collisionBitMask = PhysicsCategory.None // 5
         floorCollisionBox.position.y = floor.position.y-20
         floorCollisionBox.zPosition = 3
         
@@ -105,7 +114,7 @@ class World: SKNode {
         self.addChild(self.floor)
         self.addChild(floorCollisionBox)
         
-        spawn(item: "burger")
+//        spawn(itemName: "burger")
     }
     
     
@@ -118,15 +127,34 @@ class World: SKNode {
         save()
     }
     
-    func spawn(item: String) {
-        print("spawning \(item)")
-        let item = Item(textureName: item, world: self)
-        item.physicsBody!.categoryBitMask = itemCategory
+    func spawn(itemName: String) {
+        let item = Item(textureName: itemName, world: self)
         item.zPosition = 200
-//        item.physicsBody!.contactTestBitMask = floorCategory
-        item.physicsBody!.collisionBitMask = floorCategory | itemCategory
-
         
+        item.physicsBody?.categoryBitMask = PhysicsCategory.Item
+        item.physicsBody?.contactTestBitMask = PhysicsCategory.Floor
+        item.physicsBody?.collisionBitMask = PhysicsCategory.All
+    }
+    
+    func didBegin(_ contact: SKPhysicsContact) {
+        var firstBody: SKPhysicsBody
+        var secondBody: SKPhysicsBody
+        
+        if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask {
+            firstBody = contact.bodyA
+            secondBody = contact.bodyB
+        } else {
+            firstBody = contact.bodyB
+            secondBody = contact.bodyA
+        }
+        
+        if firstBody.categoryBitMask == PhysicsCategory.Floor && secondBody.categoryBitMask == PhysicsCategory.Item {
+            print("yo")
+            let item = secondBody.node as! Item
+            print(item.nearlyAtRest())
+        } else {
+            print("no")
+        }
     }
     
     // MARK: Update
@@ -136,5 +164,7 @@ class World: SKNode {
             cat.update(currentTime: currentTime)
         }
     }
+    
+    
 }
 

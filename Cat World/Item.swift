@@ -9,7 +9,7 @@
 import Foundation
 import SpriteKit
 
-class Item: SKNode {
+class Item: SKNode, SKPhysicsContactDelegate {
     var world: World!
     
     required convenience init(coder decoder: NSCoder) {
@@ -21,10 +21,12 @@ class Item: SKNode {
         self.init()
         let sprite = SKPixelSpriteNode(textureName: textureName)
         sprite.zPosition = 3
-        self.addChild(sprite)
-        
         self.physicsBody = SKPhysicsBody(rectangleOf: sprite.size)
+        self.physicsBody?.friction = 0.2
+        self.physicsBody?.restitution = 0.2
+        self.physicsBody?.mass = 0.1134
         self.physicsBody?.isDynamic = true
+        self.addChild(sprite)
         
         self.world = world
         world.addChild(self)
@@ -34,8 +36,8 @@ class Item: SKNode {
         if let world = world { aCoder.encode(world, forKey: "world") }
     }
     
-    func didBeginContact(contact: SKPhysicsContact) {
-        print("contact")
+    // This is a more reliable test for a physicsBody at "rest"
+    func nearlyAtRest() -> Bool {
+        return (self.physicsBody?.velocity.dx < 0.1) && (self.physicsBody?.velocity.dy < 0.1)
     }
-
 }

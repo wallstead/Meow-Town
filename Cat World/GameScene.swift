@@ -31,6 +31,8 @@ class GameScene: SKScene {
     
     override func didMove(to view: SKView) {
         
+       
+        
         catCam = CatCam(withFrame: CGRect(x: -self.frame.width/2, y: -self.frame.height/2, width: self.frame.width, height: self.frame.height)) // This frame to offset the camera being centered 
         self.camera = catCam
         catCam.position = self.frame.mid()
