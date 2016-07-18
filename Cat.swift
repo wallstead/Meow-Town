@@ -113,7 +113,7 @@ class Cat: SKNode {
             case 10..<60:
                 prance()
             case 60..<100:
-                relax()
+                attemptToEat()
             default:
                 print("default")
             }
@@ -233,6 +233,15 @@ class Cat: SKNode {
         sprite.run(SKAction.wait(forDuration: TimeInterval(Int.random(range: 1..<3))))
     }
     
+    func attemptToEat() {
+        if world.food?.isEmpty == false {
+            let closestItem: Item?
+            for item in world.food! {
+                print(item.position.distanceFromCGPoint(point: sprite.position))
+            }
+        }
+    }
+    
     // MARK: Update
     
     func update(currentTime: CFTimeInterval) {
@@ -259,6 +268,12 @@ extension Cat {
     func unpause() {
         self.isPaused = false
         timer.advance(paused: false)
+    }
+}
+
+extension CGPoint {
+    func distanceFromCGPoint(point:CGPoint)->CGFloat{
+        return sqrt(pow(self.x - point.x,2) + pow(self.y - point.y,2))
     }
 }
 

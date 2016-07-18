@@ -36,8 +36,5 @@ class Item: SKNode, SKPhysicsContactDelegate {
         if let world = world { aCoder.encode(world, forKey: "world") }
     }
     
-    // This is a more reliable test for a physicsBody at "rest"
-    func nearlyAtRest() -> Bool {
-        return (self.physicsBody?.velocity.dx < 0.1) && (self.physicsBody?.velocity.dy < 0.1)
-    }
+  
 }

@@ -19,7 +19,9 @@ struct PhysicsCategory {
 class World: SKNode, SKPhysicsContactDelegate {
     var wallpaper: SKPixelSpriteNode!
     var floor: SKPixelSpriteNode!
+    var floorCollisionBox: SKSpriteNode?
     var cats: [Cat]!
+    var food: [Item]?
     var score: Int!
     
     override var description: String { return "*** World ***\ncats: \(cats)" }
@@ -100,19 +102,20 @@ class World: SKNode, SKPhysicsContactDelegate {
             }
         }
         
-        let floorCollisionBox = SKSpriteNode(color: SKColor.clear(), size: CGSize(width: floor.currentWidth*3, height: 5))
-        floorCollisionBox.physicsBody = SKPhysicsBody(rectangleOf: floorCollisionBox.size)
-        floorCollisionBox.physicsBody?.affectedByGravity = false
-        floorCollisionBox.physicsBody?.isDynamic = false
-        floorCollisionBox.physicsBody?.categoryBitMask = PhysicsCategory.Floor // 3
+        floorCollisionBox = SKSpriteNode(color: SKColor.clear(), size: CGSize(width: floor.currentWidth*3, height: 5))
+        floorCollisionBox!.physicsBody = SKPhysicsBody(rectangleOf: floorCollisionBox!.size)
+        floorCollisionBox!.physicsBody?.affectedByGravity = false
+        floorCollisionBox!.physicsBody?.isDynamic = false
+        floorCollisionBox!.physicsBody?.categoryBitMask = PhysicsCategory.Floor // 3
 //        floorCollisionBox.physicsBody?.contactTestBitMask = PhysicsCategory.Item // 4
-        floorCollisionBox.physicsBody?.collisionBitMask = PhysicsCategory.None // 5
-        floorCollisionBox.position.y = floor.position.y-20
-        floorCollisionBox.zPosition = 3
+        floorCollisionBox!.physicsBody?.collisionBitMask = PhysicsCategory.None // 5
+        floorCollisionBox!.position.y = floor.position.y-20
+        
+        floorCollisionBox!.zPosition = 3
         
         self.addChild(self.wallpaper)
         self.addChild(self.floor)
-        self.addChild(floorCollisionBox)
+        self.addChild(floorCollisionBox!)
         
 //        spawn(itemName: "burger")
     }
@@ -130,6 +133,7 @@ class World: SKNode, SKPhysicsContactDelegate {
     func spawn(itemName: String) {
         let item = Item(textureName: itemName, world: self)
         item.zPosition = 200
+        item.position.y = wallpaper.frame.maxY
         
         item.physicsBody?.categoryBitMask = PhysicsCategory.Item
         item.physicsBody?.contactTestBitMask = PhysicsCategory.Floor
@@ -150,8 +154,7 @@ class World: SKNode, SKPhysicsContactDelegate {
         
         if firstBody.categoryBitMask == PhysicsCategory.Floor && secondBody.categoryBitMask == PhysicsCategory.Item {
             print("yo")
-            let item = secondBody.node as! Item
-            print(item.nearlyAtRest())
+            
         } else {
             print("no")
         }
@@ -162,6 +165,14 @@ class World: SKNode, SKPhysicsContactDelegate {
     func update(currentTime: CFTimeInterval) {
         for cat in cats {
             cat.update(currentTime: currentTime)
+        }
+        if floorCollisionBox != nil {
+            for itemBody in floorCollisionBox!.physicsBody!.allContactedBodies() {
+                if itemBody.isResting {
+                    itemBody.isDynamic = false
+                    food?.append(itemBody.node as! Item)
+                }
+            }
         }
     }
     
