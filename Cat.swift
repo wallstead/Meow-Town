@@ -223,11 +223,22 @@ class Cat: SKNode {
     
     func eat(item: Item) {
         var xPos = item.position.x
-        let yPos = item.position.y - 10
+        var yPos = item.position.y - 10
         if item.position.x > sprite.position.x { // face right
-            xPos -= 12
+            if isKitten() {
+                xPos -= 4
+                yPos += 5
+            } else {
+                xPos -= 12
+            }
+            
         } else {
-            xPos += 12
+            if isKitten() {
+                xPos += 4
+                yPos += 5
+            } else {
+                xPos += 12
+            }
         }
         
         flyTo(point: CGPoint(x: xPos, y: yPos), completion: {
