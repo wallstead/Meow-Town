@@ -10,7 +10,7 @@ import Foundation
 
 
 /// Represents a timer that can be used with Sprite Kit
-final public class Timer {
+final public class SKTimer {
     
     private(set) public var dt:CFTimeInterval = 0
 

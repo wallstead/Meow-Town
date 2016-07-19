@@ -17,7 +17,7 @@ class Cat: SKNode {
     var birthday: NSDate!
     let lifespan: TimeInterval = 30.minutes
     var world: World!
-    let timer = Timer() // the timer calculates the time step value dt for every frame
+    let timer = SKTimer() // the timer calculates the time step value dt for every frame
     let scheduler = Scheduler() // an event scheduler
     var hasPubed: Bool!
     
@@ -106,19 +106,29 @@ class Cat: SKNode {
     
     func brain() {
         if !isBusy() {
-            let randInt = Int.random(range: 0..<100) // 0 -> 99
-            switch randInt {
-            case 0..<10:
-                blink()
-            case 10..<60:
-                prance()
-            case 60..<100:
-                attemptToEat()
-            default:
-                print("default")
+            if world.food?.isEmpty == false {
+                var closestItem = world.food.first!
+                for item in world.food! {
+                    if item.position.distanceFromCGPoint(point: sprite.position) < closestItem.position.distanceFromCGPoint(point: sprite.position) {
+                        closestItem = item
+                    }
+                }
+                eat(item: closestItem)
+            } else {
+                let randInt = Int.random(range: 0..<100) // 0 -> 99
+                switch randInt {
+                case 0..<10:
+                    blink()
+                case 10..<60:
+                    prance()
+                case 60..<100:
+                    relax()
+                default:
+                    print("default")
+                }
             }
         }
-        GameScene.current.world.spawn(itemName: "fries")
+        GameScene.current.world.spawn(itemName: "burger")
     }
     
     // MARK: Calculatable Cat Data
@@ -164,7 +174,7 @@ class Cat: SKNode {
         print("\(firstname) died.")
     }
     
-    func flyTo(point: CGPoint) {
+    func flyTo(point: CGPoint, completion: (() -> ())? = nil) {
         let velocity: Double
         if isKitten() {
             velocity = 65
@@ -176,9 +186,9 @@ class Cat: SKNode {
         let distance: Double = sqrt((xDist * xDist) + (yDist * yDist))
         let time: TimeInterval = distance/velocity //so time is dependent on distance
         if point.x > sprite.position.x {
-            sprite.background.xScale = -1
+            sprite.xScale = -1
         } else {
-             sprite.background.xScale = 1
+             sprite.xScale = 1
         }
         sprite.liftLegs()
         sprite.run(SKAction.moveBy(x: 0, y: 1, duration: 0.1), completion: {
@@ -187,6 +197,9 @@ class Cat: SKNode {
             self.sprite.run(fly, completion: {
                 self.sprite.run(SKAction.moveBy(x: 0, y: -1, duration: 0.1), completion: {
                     self.sprite.stand()
+                    if completion != nil {
+                        completion!()
+                    }
                 })
             })
         })
@@ -206,6 +219,46 @@ class Cat: SKNode {
         
         let randomPoint = CGPoint(x: randomX, y: randomY)
         flyTo(point: randomPoint)
+    }
+    
+    func eat(item: Item) {
+        
+        
+        flyTo(point: CGPoint(x: item.position.x, y: item.position.y-10), completion: {
+            
+            
+            let spawnCrumb = SKAction.run({
+                let randx = randomInRange(low: 1, high: Int(item.sprite.size.width-1))
+                let randy = randomInRange(low: 1, high: Int(item.sprite.size.height-1))
+                let pixPoint = CGPoint(x: randx, y: randy)
+                let randColor = UIImage(named: item.sprite.textureName)!.getPixelColor(pos: pixPoint) as SKColor
+                
+                let crumb = SKSpriteNode(color: randColor, size: CGSize(width: 1, height: 1))
+                crumb.physicsBody = SKPhysicsBody(rectangleOf: crumb.size)
+                crumb.physicsBody?.collisionBitMask = PhysicsCategory.Floor
+                crumb.zPosition = self.sprite.zPosition
+                crumb.position = item.position
+                self.world.addChild(crumb)
+            })
+            
+            let wait = SKAction.wait(forDuration: 0.15)
+            
+            let addCrumb = SKAction.sequence([spawnCrumb,wait])
+            
+            self.world.run(SKAction.repeat(addCrumb, count: 5), completion: {
+                if let itemIndex = self.world.food.index(of: item) {
+                    self.world.food.remove(at: itemIndex)
+                    item.removeFromParent()
+                    item.removeAllActions()
+                }
+            })
+            
+            
+            
+            
+            
+
+        })
     }
     
     func pube() {
@@ -233,14 +286,6 @@ class Cat: SKNode {
         sprite.run(SKAction.wait(forDuration: TimeInterval(Int.random(range: 1..<3))))
     }
     
-    func attemptToEat() {
-        if world.food?.isEmpty == false {
-            let closestItem: Item?
-            for item in world.food! {
-                print(item.position.distanceFromCGPoint(point: sprite.position))
-            }
-        }
-    }
     
     // MARK: Update
     
@@ -277,3 +322,25 @@ extension CGPoint {
     }
 }
 
+extension UIImage {
+    func getPixelColor(pos: CGPoint) -> UIColor {
+        
+        let pixelData = self.cgImage!.dataProvider!.data
+        let data: UnsafePointer<UInt8> = CFDataGetBytePtr(pixelData)
+        
+        let pixelInfo: Int = ((Int(self.size.width) * Int(pos.y)) + Int(pos.x)) * 4
+        
+        let r = CGFloat(data[pixelInfo]) / CGFloat(255.0)
+        let g = CGFloat(data[pixelInfo+1]) / CGFloat(255.0)
+        let b = CGFloat(data[pixelInfo+2]) / CGFloat(255.0)
+        let a = CGFloat(data[pixelInfo+3]) / CGFloat(255.0)
+        
+        return UIColor(red: r, green: g, blue: b, alpha: a)
+    }
+    
+    
+}
+
+func randomInRange(low: Int, high : Int) -> Int {
+    return low + Int(arc4random_uniform(UInt32(high - low + 1)))
+}

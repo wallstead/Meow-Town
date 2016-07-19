@@ -11,15 +11,18 @@ import SpriteKit
 
 class Item: SKNode, SKPhysicsContactDelegate {
     var world: World!
+    var sprite: SKPixelSpriteNode!
     
     required convenience init(coder decoder: NSCoder) {
         self.init()
         self.world = decoder.decodeObject(forKey: "world") as! World
+        self.sprite = decoder.decodeObject(forKey: "sprite") as! SKPixelSpriteNode
     }
     
-    convenience init(textureName: String, world: World) {
+    convenience init(textureName: String, parentWorld: World) {
         self.init()
-        let sprite = SKPixelSpriteNode(textureName: textureName)
+        
+        sprite = SKPixelSpriteNode(textureName: textureName)
         sprite.zPosition = 3
         self.physicsBody = SKPhysicsBody(rectangleOf: sprite.size)
         self.physicsBody?.friction = 0.2
@@ -28,12 +31,13 @@ class Item: SKNode, SKPhysicsContactDelegate {
         self.physicsBody?.isDynamic = true
         self.addChild(sprite)
         
-        self.world = world
+        self.world = parentWorld
         world.addChild(self)
     }
     
     override func encode(with aCoder: NSCoder) {
         if let world = world { aCoder.encode(world, forKey: "world") }
+        if let sprite = sprite { aCoder.encode(sprite, forKey: "sprite") }
     }
     
   

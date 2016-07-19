@@ -21,7 +21,7 @@ class World: SKNode, SKPhysicsContactDelegate {
     var floor: SKPixelSpriteNode!
     var floorCollisionBox: SKSpriteNode?
     var cats: [Cat]!
-    var food: [Item]?
+    var food: [Item]!
     var score: Int!
     
     override var description: String { return "*** World ***\ncats: \(cats)" }
@@ -34,6 +34,7 @@ class World: SKNode, SKPhysicsContactDelegate {
         self.floor = decoder.decodeObject(forKey: "floor") as! SKPixelSpriteNode
         self.cats = decoder.decodeObject(forKey: "cats") as? [Cat]
         self.score = decoder.decodeInteger(forKey: "score")
+        self.food = []
         
         layout()
         
@@ -47,6 +48,7 @@ class World: SKNode, SKPhysicsContactDelegate {
         self.wallpaper = SKPixelSpriteNode(textureName: "wallpaper")
         self.floor = SKPixelSpriteNode(textureName: "floor")
         self.cats = []
+        self.food = []
         self.score = 0
         
         layout()
@@ -109,7 +111,7 @@ class World: SKNode, SKPhysicsContactDelegate {
         floorCollisionBox!.physicsBody?.categoryBitMask = PhysicsCategory.Floor // 3
 //        floorCollisionBox.physicsBody?.contactTestBitMask = PhysicsCategory.Item // 4
         floorCollisionBox!.physicsBody?.collisionBitMask = PhysicsCategory.None // 5
-        floorCollisionBox!.position.y = floor.position.y-20
+        floorCollisionBox!.position.y = floor.position.y-10
         
         floorCollisionBox!.zPosition = 3
         
@@ -131,8 +133,8 @@ class World: SKNode, SKPhysicsContactDelegate {
     }
     
     func spawn(itemName: String) {
-        let item = Item(textureName: itemName, world: self)
-        item.zPosition = 200
+        let item = Item(textureName: itemName, parentWorld: self)
+        item.zPosition = 160
         item.position.y = wallpaper.frame.maxY
         
         item.physicsBody?.categoryBitMask = PhysicsCategory.Item
@@ -153,10 +155,10 @@ class World: SKNode, SKPhysicsContactDelegate {
         }
         
         if firstBody.categoryBitMask == PhysicsCategory.Floor && secondBody.categoryBitMask == PhysicsCategory.Item {
-            print("yo")
+//            print("yo")
             
         } else {
-            print("no")
+//            print("no")
         }
     }
     
@@ -168,9 +170,9 @@ class World: SKNode, SKPhysicsContactDelegate {
         }
         if floorCollisionBox != nil {
             for itemBody in floorCollisionBox!.physicsBody!.allContactedBodies() {
-                if itemBody.isResting {
+                if itemBody.isResting && itemBody.categoryBitMask == PhysicsCategory.Item {
                     itemBody.isDynamic = false
-                    food?.append(itemBody.node as! Item)
+                    food.append(itemBody.node as! Item)
                 }
             }
         }

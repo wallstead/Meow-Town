@@ -215,7 +215,7 @@ class Menu: SKNode {
                 
                 let version = SKLabelNode(fontNamed: "Silkscreen")
                 version.zPosition = 1
-                version.text = Bundle.main().objectForInfoDictionaryKey("CFBundleShortVersionString") as! String
+                version.text = Bundle.main().objectForInfoDictionaryKey("CFBundleShortVersionString") as? String
                 version.setScale(1/10)
                 version.fontSize = 80
                 version.fontColor = SKColor(colorLiteralRed: 245/255, green: 245/255, blue: 245/255, alpha: 1)
