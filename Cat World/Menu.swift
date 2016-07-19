@@ -203,6 +203,31 @@ class Menu: SKNode {
                     GameScene.current.world.addCat(name: "oscar")
                 }
                 content.addChild(addCat)
+                
+                let togglePhysics = SKPixelButtonNode(textureName: "catselect_done", text: "phys")
+                togglePhysics.zPosition = 1
+                togglePhysics.position.y = addCat.position.y - 15
+                togglePhysics.action = {
+                    GameScene.current.view?.showsPhysics.toggle()
+                }
+                content.addChild(togglePhysics)
+                
+                let toggleNodeCount = SKPixelButtonNode(textureName: "catselect_done", text: "nodes")
+                toggleNodeCount.zPosition = 1
+                toggleNodeCount.position.y = addCat.position.y - 30
+                toggleNodeCount.action = {
+                    GameScene.current.view?.showsNodeCount.toggle()
+                }
+                content.addChild(toggleNodeCount)
+                
+                let toggleFPS = SKPixelButtonNode(textureName: "catselect_done", text: "fps")
+                toggleFPS.zPosition = 1
+                toggleFPS.position.y = addCat.position.y - 45
+                toggleFPS.action = {
+                    GameScene.current.view?.showsFPS.toggle()
+                }
+                content.addChild(toggleFPS)
+                
             } else if contentDisplayed == "info" {
                 let title = SKLabelNode(fontNamed: "Fipps-Regular")
                 title.zPosition = 1
@@ -547,4 +572,13 @@ extension UIColor { // temp
                        blue:  .random(),
                        alpha: 1.0)
     }
+}
+
+extension Bool {
+    
+    mutating func toggle() -> Bool {
+        self = !self
+        return self
+    }
+    
 }

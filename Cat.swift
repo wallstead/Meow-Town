@@ -188,7 +188,7 @@ class Cat: SKNode {
         if point.x > sprite.position.x {
             sprite.xScale = -1
         } else {
-             sprite.xScale = 1
+            sprite.xScale = 1
         }
         sprite.liftLegs()
         sprite.run(SKAction.moveBy(x: 0, y: 1, duration: 0.1), completion: {
@@ -222,9 +222,15 @@ class Cat: SKNode {
     }
     
     func eat(item: Item) {
+        var xPos = item.position.x
+        let yPos = item.position.y - 10
+        if item.position.x > sprite.position.x { // face right
+            xPos -= 12
+        } else {
+            xPos += 12
+        }
         
-        
-        flyTo(point: CGPoint(x: item.position.x, y: item.position.y-10), completion: {
+        flyTo(point: CGPoint(x: xPos, y: yPos), completion: {
             
             
             let spawnCrumb = SKAction.run({
@@ -236,16 +242,25 @@ class Cat: SKNode {
                 let crumb = SKSpriteNode(color: randColor, size: CGSize(width: 1, height: 1))
                 crumb.physicsBody = SKPhysicsBody(rectangleOf: crumb.size)
                 crumb.physicsBody?.collisionBitMask = PhysicsCategory.Floor
-                crumb.zPosition = self.sprite.zPosition
+                crumb.zPosition = self.sprite.zPosition+1
                 crumb.position = item.position
                 self.world.addChild(crumb)
+                
+                let angle = randomBetweenNumbers(firstNum: -0.2, secondNum: 0.2)
+                let angle2 = randomBetweenNumbers(firstNum: -0.2, secondNum: 0.2)
+                crumb.physicsBody?.applyForce(CGVector(dx: angle, dy:angle2))
+                crumb.run(SKAction.wait(forDuration: 2.5), completion: {
+                    crumb.run(SKAction.fadeAlpha(to: 0, duration: 0.05), completion: {
+                        crumb.removeFromParent()
+                    })
+                })
             })
             
             let wait = SKAction.wait(forDuration: 0.15)
             
             let addCrumb = SKAction.sequence([spawnCrumb,wait])
             
-            self.world.run(SKAction.repeat(addCrumb, count: 5), completion: {
+            self.sprite.run(SKAction.repeat(addCrumb, count: 5), completion: {
                 if let itemIndex = self.world.food.index(of: item) {
                     self.world.food.remove(at: itemIndex)
                     item.removeFromParent()
@@ -343,4 +358,8 @@ extension UIImage {
 
 func randomInRange(low: Int, high : Int) -> Int {
     return low + Int(arc4random_uniform(UInt32(high - low + 1)))
+}
+
+func randomBetweenNumbers(firstNum: CGFloat, secondNum: CGFloat) -> CGFloat{
+    return CGFloat(arc4random()) / CGFloat(UINT32_MAX) * abs(firstNum - secondNum) + min(firstNum, secondNum)
 }
