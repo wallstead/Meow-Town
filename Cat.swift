@@ -15,7 +15,7 @@ class Cat: SKNode {
     var sprite: SKPixelCatNode!
     var mood: String!
     var birthday: NSDate!
-    let lifespan: TimeInterval = 30.minutes
+    let lifespan: TimeInterval = 3.minutes
     var world: World!
     let timer = SKTimer() // the timer calculates the time step value dt for every frame
     let scheduler = Scheduler() // an event scheduler
@@ -122,13 +122,13 @@ class Cat: SKNode {
                 case 10..<60:
                     prance()
                 case 60..<100:
-                    relax()
+                    GameScene.current.world.spawn(itemName: "burger")
                 default:
                     print("default")
                 }
             }
         }
-        GameScene.current.world.spawn(itemName: "burger")
+//        
     }
     
     // MARK: Calculatable Cat Data
@@ -174,35 +174,85 @@ class Cat: SKNode {
         print("\(firstname) died.")
     }
     
-    func flyTo(point: CGPoint, completion: (() -> ())? = nil) {
+    func flyTo(point: CGPoint, food: Item? = nil, completion: (() -> ())? = nil) {
+        var pointToFlyTo: CGPoint
+        let faceThing = SKSpriteNode(color: UIColor.randomColor(), size: CGSize(width: 1, height: 1))
+        if food != nil {
+            if self.isKitten() {
+                faceThing.position.x = self.sprite.background.frame.minX+3.5
+                faceThing.position.y = 5.5
+            } else {
+                faceThing.position.x = self.sprite.background.frame.minX+6
+                faceThing.position.y = 12.5
+            }
+            faceThing.zPosition = 1000
+            self.sprite.background.addChild(faceThing)
+            
+//            if sprite.xScale > 0 { // facing left
+//                print(faceThing.position.x)
+//            } else { // facing right
+//                print(-faceThing.position.x)
+//            }
+//            print(food!.position.x)
+//            print("\(sprite.position.x)")
+            print(abs(food!.position.x-sprite.position.x))
+            
+            if abs(food!.position.x-sprite.position.x) < sprite.background.width/2 {
+                print("contains")
+            }
+            
+            
+            
+            
+            
+            
+        
+            
+            
+            
+//            pointToFlyTo = CGPoint(x: point.x - faceThing.position.x*multiplier, y: point.y - faceThing.position.y)
+//            print(point)
+//            print(pointToFlyTo)
+            pointToFlyTo = point
+        } else {
+            pointToFlyTo = point
+            
+        }
+        if pointToFlyTo.x > sprite.position.x {
+            sprite.xScale = -1
+        } else {
+            sprite.xScale = 1
+        }
+        
         let velocity: Double
         if isKitten() {
             velocity = 65
         } else {
             velocity = 45
         }
-        let xDist: Double = Double(point.x - sprite.position.x)
-        let yDist: Double = Double(point.y - sprite.position.y)
+        let xDist: Double = Double(pointToFlyTo.x - sprite.position.x)
+        let yDist: Double = Double(pointToFlyTo.y - sprite.position.y)
         let distance: Double = sqrt((xDist * xDist) + (yDist * yDist))
         let time: TimeInterval = distance/velocity //so time is dependent on distance
-        if point.x > sprite.position.x {
-            sprite.xScale = -1
-        } else {
-            sprite.xScale = 1
-        }
+ 
         sprite.liftLegs()
         sprite.run(SKAction.moveBy(x: 0, y: 1, duration: 0.1), completion: {
-            let fly = SKAction.move(to: point, duration: time)
+            let fly = SKAction.move(to: pointToFlyTo, duration: time)
             fly.timingMode = .easeIn
             self.sprite.run(fly, completion: {
                 self.sprite.run(SKAction.moveBy(x: 0, y: -1, duration: 0.1), completion: {
                     self.sprite.stand()
+//                    if faceThing.positionInScene.x < 0 {
+//                        if faceThing.positionInScene.x + point.x
+//                    }
+                    
                     if completion != nil {
                         completion!()
                     }
                 })
             })
         })
+        
         
     }
     
@@ -222,26 +272,29 @@ class Cat: SKNode {
     }
     
     func eat(item: Item) {
-        var xPos = item.position.x
-        var yPos = item.position.y - 10
-        if item.position.x > sprite.position.x { // face right
-            if isKitten() {
-                xPos -= 4
-                yPos += 5
-            } else {
-                xPos -= 12
-            }
-            
-        } else {
-            if isKitten() {
-                xPos += 4
-                yPos += 5
-            } else {
-                xPos += 12
-            }
-        }
         
-        flyTo(point: CGPoint(x: xPos, y: yPos), completion: {
+        
+//        if item.position.x > sprite.position.x - 4 { // face right
+//            if isKitten() {
+//                xPos -= 4
+//                yPos += 5
+//            } else {
+//                xPos -= 12
+//            }
+//            
+//        } else if item.position.x <= sprite.position.x - 4 {
+//            if isKitten() {
+//                xPos += 4
+//                yPos += 5
+//            } else {
+//                xPos += 12
+//            }
+//        }
+        
+        flyTo(point: item.position, food: item, completion: {
+            /* Find where the mouth is */
+            
+
             
             
             let spawnCrumb = SKAction.run({
@@ -268,7 +321,6 @@ class Cat: SKNode {
             })
             
             let wait = SKAction.wait(forDuration: 0.15)
-            
             let addCrumb = SKAction.sequence([spawnCrumb,wait])
             
             self.sprite.run(SKAction.repeat(addCrumb, count: 5), completion: {
@@ -276,14 +328,9 @@ class Cat: SKNode {
                     self.world.food.remove(at: itemIndex)
                     item.removeFromParent()
                     item.removeAllActions()
+                    
                 }
             })
-            
-            
-            
-            
-            
-
         })
     }
     

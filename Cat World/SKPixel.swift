@@ -350,6 +350,8 @@ class SKPixelCatNode: SKPixelSpriteNode {
         stand()
     }
     
+    
+    
     func pube() {
         let grownCatName = textureName.replacingOccurrences(of: "_kitten", with: "")
         self.skinName = grownCatName
