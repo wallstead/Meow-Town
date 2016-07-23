@@ -228,6 +228,17 @@ class Menu: SKNode {
                 }
                 content.addChild(toggleFPS)
                 
+                let killCats = SKPixelButtonNode(textureName: "catselect_done", text: "killall")
+                killCats.zPosition = 1
+                killCats.position.y = addCat.position.y - 60
+                killCats.action = {
+                    for cat in GameScene.current.world.cats {
+                        cat.die()
+                    }
+                }
+                content.addChild(killCats)
+
+                
             } else if contentDisplayed == "info" {
                 let title = SKLabelNode(fontNamed: "Fipps-Regular")
                 title.zPosition = 1

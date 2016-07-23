@@ -15,7 +15,7 @@ class Cat: SKNode {
     var sprite: SKPixelCatNode!
     var mood: String!
     var birthday: NSDate!
-    let lifespan: TimeInterval = 3.minutes
+    let lifespan: TimeInterval = 10.minutes
     var world: World!
     let timer = SKTimer() // the timer calculates the time step value dt for every frame
     let scheduler = Scheduler() // an event scheduler
@@ -124,7 +124,7 @@ class Cat: SKNode {
                 case 60..<100:
                     GameScene.current.world.spawn(itemName: "burger")
                 default:
-                    print("default")
+                    relax()
                 }
             }
         }
@@ -190,15 +190,19 @@ class Cat: SKNode {
             
             print("sprite position: \(sprite.position.x)")
             print("food position: \(food?.position.x)")
+            
+            // just to calculate where the face is
             var offSet: CGFloat = 0
             if sprite.xScale > 0 { // facing left
-                offSet = faceThing.position.x
+                offSet = -faceThing.position.x
                 print("facing left")
             } else { // facing right
-                offSet = -faceThing.position.x
+                offSet = faceThing.position.x
                 print("facing right")
             }
+            print("offset: \(offSet)")
             
+            // just to turn this bitch
             let facePosition = sprite.position.x + offSet
             print("face position: \(facePosition)")
             
@@ -211,11 +215,20 @@ class Cat: SKNode {
             }
             
             
-        
+            // now that it has turned, check where it is facing and adjust from there
+            var offSetFinal: CGFloat = 0
+            if sprite.xScale > 0 { // facing left
+                offSetFinal = -faceThing.position.x
+                print("facing left")
+            } else { // facing right
+                offSetFinal = faceThing.position.x
+                print("facing right")
+            }
+            print("offsetFinal: \(offSetFinal)")
             
             
             
-            pointToFlyTo = CGPoint(x: point.x + offSet, y: point.y - faceThing.position.y)
+            pointToFlyTo = CGPoint(x: point.x + offSetFinal, y: point.y - faceThing.position.y)
 //            print(point)
 //            print(pointToFlyTo)
         } else {
@@ -230,9 +243,9 @@ class Cat: SKNode {
         
         let velocity: Double
         if isKitten() {
-            velocity = 65
+            velocity = 65// 65
         } else {
-            velocity = 45
+            velocity = 45//45
         }
         let xDist: Double = Double(pointToFlyTo.x - sprite.position.x)
         let yDist: Double = Double(pointToFlyTo.y - sprite.position.y)
@@ -276,24 +289,6 @@ class Cat: SKNode {
     }
     
     func eat(item: Item) {
-        
-        
-//        if item.position.x > sprite.position.x - 4 { // face right
-//            if isKitten() {
-//                xPos -= 4
-//                yPos += 5
-//            } else {
-//                xPos -= 12
-//            }
-//            
-//        } else if item.position.x <= sprite.position.x - 4 {
-//            if isKitten() {
-//                xPos += 4
-//                yPos += 5
-//            } else {
-//                xPos += 12
-//            }
-//        }
         
         flyTo(point: item.position, food: item, completion: {
             /* Find where the mouth is */

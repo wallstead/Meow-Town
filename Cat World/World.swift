@@ -134,7 +134,7 @@ class World: SKNode, SKPhysicsContactDelegate {
     
     func spawn(itemName: String) {
         let item = Item(textureName: itemName, parentWorld: self)
-        item.zPosition = 165
+        item.zPosition = 172 // down floor -> up in z
         item.position.y = wallpaper.frame.maxY
         
         item.physicsBody?.categoryBitMask = PhysicsCategory.Item
