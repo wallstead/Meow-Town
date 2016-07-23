@@ -46,7 +46,7 @@ class SKPixelSpriteNode: SKSpriteNode {
         let oldYScale = background.yScale
         self.background.size.height = newTexture.size().height
         self.background.size.width = newTexture.size().width
-        print(oldXScale)
+//        print(oldXScale)
         self.background.xScale = oldXScale
         self.background.yScale = oldYScale
         

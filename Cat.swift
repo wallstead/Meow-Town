@@ -188,40 +188,44 @@ class Cat: SKNode {
             faceThing.zPosition = 1000
             self.sprite.background.addChild(faceThing)
             
-//            if sprite.xScale > 0 { // facing left
-//                print(faceThing.position.x)
-//            } else { // facing right
-//                print(-faceThing.position.x)
-//            }
-//            print(food!.position.x)
-//            print("\(sprite.position.x)")
-            print(abs(food!.position.x-sprite.position.x))
-            
-            if abs(food!.position.x-sprite.position.x) < sprite.background.width/2 {
-                print("contains")
+            print("sprite position: \(sprite.position.x)")
+            print("food position: \(food?.position.x)")
+            var offSet: CGFloat = 0
+            if sprite.xScale > 0 { // facing left
+                offSet = faceThing.position.x
+                print("facing left")
+            } else { // facing right
+                offSet = -faceThing.position.x
+                print("facing right")
             }
             
+            let facePosition = sprite.position.x + offSet
+            print("face position: \(facePosition)")
             
-            
-            
+            if facePosition > food?.position.x {
+                sprite.xScale = 1
+                print("turning left\n----------------------")
+            } else {
+                sprite.xScale = -1
+                print("turning right\n----------------------")
+            }
             
             
         
             
             
             
-//            pointToFlyTo = CGPoint(x: point.x - faceThing.position.x*multiplier, y: point.y - faceThing.position.y)
+            pointToFlyTo = CGPoint(x: point.x + offSet, y: point.y - faceThing.position.y)
 //            print(point)
 //            print(pointToFlyTo)
-            pointToFlyTo = point
         } else {
             pointToFlyTo = point
             
-        }
-        if pointToFlyTo.x > sprite.position.x {
-            sprite.xScale = -1
-        } else {
-            sprite.xScale = 1
+            if pointToFlyTo.x > sprite.position.x {
+                sprite.xScale = -1
+            } else {
+                sprite.xScale = 1
+            }
         }
         
         let velocity: Double
