@@ -23,7 +23,7 @@ class Item: SKNode, SKPhysicsContactDelegate {
         self.init()
         
         sprite = SKPixelSpriteNode(textureName: textureName)
-        sprite.zPosition = 3
+        sprite.zPosition = 0
         self.physicsBody = SKPhysicsBody(rectangleOf: sprite.size)
         self.physicsBody?.friction = 0.2
         self.physicsBody?.restitution = 0.2

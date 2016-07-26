@@ -7,9 +7,10 @@
 //
 
 import UIKit
+import UserNotifications
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate  {
 
     var window: UIWindow?
 
@@ -17,6 +18,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         PlistManager.sharedInstance.startPlistManager()
         
+        let center = UNUserNotificationCenter.current()
+        center.requestAuthorization([.alert, .sound]) { (granted, error) in
+            // Enable or disable features based on authorization.
+        }
         return true
     }
 
@@ -32,9 +37,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-        for cat in GameScene.current.world.cats {
-            cat.pause()
-        }
+//        for cat in GameScene.current.world.cats {
+//            cat.pause()
+//        }
         GameScene.current.world.save()
     }
     
@@ -57,4 +62,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         GameScene.current.world.save()
     }
 }
+
 

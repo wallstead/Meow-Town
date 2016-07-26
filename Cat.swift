@@ -15,7 +15,7 @@ class Cat: SKNode {
     var sprite: SKPixelCatNode!
     var mood: String!
     var birthday: NSDate!
-    let lifespan: TimeInterval = 10.minutes
+    let lifespan: TimeInterval = 1.minute
     var world: World!
     let timer = SKTimer() // the timer calculates the time step value dt for every frame
     let scheduler = Scheduler() // an event scheduler
@@ -176,7 +176,7 @@ class Cat: SKNode {
     
     func flyTo(point: CGPoint, food: Item? = nil, completion: (() -> ())? = nil) {
         var pointToFlyTo: CGPoint
-        let faceThing = SKSpriteNode(color: UIColor.randomColor(), size: CGSize(width: 1, height: 1))
+        let faceThing = SKSpriteNode(color: SKColor.clear(), size: CGSize(width: 1, height: 1))
         if food != nil {
             if self.isKitten() {
                 faceThing.position.x = self.sprite.background.frame.minX+3.5
@@ -305,7 +305,7 @@ class Cat: SKNode {
                 let crumb = SKSpriteNode(color: randColor, size: CGSize(width: 1, height: 1))
                 crumb.physicsBody = SKPhysicsBody(rectangleOf: crumb.size)
                 crumb.physicsBody?.collisionBitMask = PhysicsCategory.Floor
-                crumb.zPosition = self.sprite.zPosition+1
+                crumb.zPosition = self.sprite.zPosition + 1
                 crumb.position = item.position
                 self.world.addChild(crumb)
                 
@@ -365,6 +365,8 @@ class Cat: SKNode {
         timer.advance()
         scheduler.update(dt: timer.dt)
         changeZPosition()
+        print(age().seconds/lifespan.seconds)
+        
     }
     
     func changeZPosition() {
@@ -373,6 +375,7 @@ class Cat: SKNode {
         let divisorCoeff = world.floor.frame.maxY-world.floor.frame.minY
         let percentageYPos = (1-(catPosCoeff/divisorCoeff))*100
         self.sprite.zPosition = 100 + percentageYPos
+        
     }
 }
 

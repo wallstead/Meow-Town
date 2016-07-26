@@ -11,6 +11,7 @@ import SpriteKit
 class GameScene: SKScene {
     var world: World!
     var catCam: CatCam!
+    var scale: CGFloat!
     
     override init() {
         let width = UIScreen.main().bounds.width

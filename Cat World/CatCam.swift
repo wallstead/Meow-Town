@@ -54,18 +54,18 @@ class CatCam: SKCameraNode {
         menuButton = SKPixelToggleButtonNode(textureName: "topbar_menubutton")
         itemsButton = SKPixelToggleButtonNode(textureName: "topbar_itemsbutton")
         
-        let scale = GameScene.current.frame.width/(topBar.frame.width+menuButton.frame.width+itemsButton.frame.width)
+        GameScene.current.scale = GameScene.current.frame.width/(topBar.frame.width+menuButton.frame.width+itemsButton.frame.width)
     
         topBar.zPosition = 200
         menuButton.zPosition = 200
         itemsButton.zPosition = 200
         
-        topBar.setScale(scale)
+        topBar.setScale(GameScene.current.scale)
         topBar.position.y = camFrame.maxY-topBar.frame.height/2
-        menuButton.setScale(scale)
+        menuButton.setScale(GameScene.current.scale)
         menuButton.position.x = camFrame.minX+menuButton.frame.width/2
         menuButton.position.y = topBar.position.y
-        itemsButton.setScale(scale)
+        itemsButton.setScale(GameScene.current.scale)
         itemsButton.position.x = camFrame.maxX-itemsButton.frame.width/2
         itemsButton.position.y = topBar.position.y
         

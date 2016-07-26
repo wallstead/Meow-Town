@@ -45,7 +45,7 @@ class World: SKNode, SKPhysicsContactDelegate {
     
     convenience init(name: String) {
         self.init()
-        self.wallpaper = SKPixelSpriteNode(textureName: "wallpaper")
+        self.wallpaper = SKPixelSpriteNode(textureName: "wallpaper_floral")
         self.floor = SKPixelSpriteNode(textureName: "floor")
         self.cats = []
         self.food = []
@@ -84,23 +84,33 @@ class World: SKNode, SKPhysicsContactDelegate {
         
         GameScene.current.catCam.updateScore(score: score)
         
-        self.setScale(GameScene.current.frame.width/wallpaper.frame.width)
-        wallpaper.zPosition = 0
+        self.setScale(GameScene.current.frame.width/floor.frame.width)
+//        self.setScale(GameScene.current.scale)
+        
         floor.zPosition = 2
-        floor.position = CGPoint(x: wallpaper.frame.midX, y: wallpaper.frame.minY+(floor!.frame.height/2))
+//        floor.position.y = wallpaper.frame.minY+(floor!.frame.height/2)
+        floor.position.y = -floor!.frame.height*1.3
         for i in -1...1 {
-            if i != 0 {
-                let wallpaperCopy = SKPixelSpriteNode(textureName: wallpaper.textureName)
-                wallpaperCopy.position.x = 60*CGFloat(i)
-                wallpaperCopy.zPosition = 0
-                self.addChild(wallpaperCopy)
-            }
             for j in 0...2 {
                 let floorCopy = SKPixelSpriteNode(textureName: floor.textureName)
                 floorCopy.position.y = floor.position.y-(CGFloat(j)*30)
                 floorCopy.position.x = 60*CGFloat(i)
                 floorCopy.zPosition = 2-CGFloat(j)
                 self.addChild(floorCopy)
+            }
+        }
+        
+        wallpaper.zPosition = 3
+        wallpaper.position.x = floor.frame.minX + wallpaper.width/2 - wallpaper.width*4
+        wallpaper.position.y = floor.frame.maxY + wallpaper.height/2
+        
+        for i in 1...8 {
+            for j in 0...3 {
+                let wallpaperCopy = SKPixelSpriteNode(textureName: wallpaper.textureName)
+                wallpaperCopy.position.y = wallpaper.position.y+wallpaper.height*CGFloat(j)
+                wallpaperCopy.position.x = wallpaper.position.x+wallpaper.width*CGFloat(i)
+                wallpaperCopy.zPosition = 3
+                self.addChild(wallpaperCopy)
             }
         }
         
@@ -139,7 +149,7 @@ class World: SKNode, SKPhysicsContactDelegate {
         
         item.physicsBody?.categoryBitMask = PhysicsCategory.Item
         item.physicsBody?.contactTestBitMask = PhysicsCategory.Floor
-        item.physicsBody?.collisionBitMask = PhysicsCategory.All
+        item.physicsBody?.collisionBitMask = PhysicsCategory.Floor | PhysicsCategory.Item
     }
     
     func didBegin(_ contact: SKPhysicsContact) {
