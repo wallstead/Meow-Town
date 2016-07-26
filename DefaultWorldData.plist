@@ -24,6 +24,13 @@
 			<key>skin</key>
 			<string>oscar</string>
 		</dict>
+		<key>Timmy</key>
+		<dict>
+			<key>name</key>
+			<string>timmy</string>
+			<key>skin</key>
+			<string>timmy</string>
+		</dict>
 	</dict>
 	<key>Store</key>
 	<dict>
