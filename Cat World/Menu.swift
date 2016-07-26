@@ -200,7 +200,15 @@ class Menu: SKNode {
                 let addCat = SKPixelButtonNode(textureName: "catselect_done", text: "+CAT")
                 addCat.zPosition = 1
                 addCat.action = {
-                    GameScene.current.world.addCat(name: "oscar")
+                    let cats = PlistManager.sharedInstance.getValueForKey(key: "Selectable Cats") as! NSDictionary
+                    var possibleCatNames: [String] = []
+                    for cat in cats {
+                        if let catSkin = cat.value.value(forKey: "skin") as? String {
+                            possibleCatNames.append(catSkin)
+                        }
+                    }
+                    let randIndex = Int(arc4random_uniform(UInt32(possibleCatNames.count)))
+                    GameScene.current.world.addCat(name: possibleCatNames[randIndex])
                 }
                 content.addChild(addCat)
                 
