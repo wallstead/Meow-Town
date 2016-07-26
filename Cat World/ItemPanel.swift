@@ -36,6 +36,35 @@ class ItemPanel: SKNode {
         bgPanel.background.anchorPoint = CGPoint(x: 0.5, y: 0)
         bgPanel.position.y = camFrame.maxY-topBar.frame.height
         self.addChild(bgPanel)
+        
+        let burgerButton = SKPixelButtonNode(textureName: "topbar_itempanel_itembutton")
+        burgerButton.zPosition = 2
+        burgerButton.position.y = burgerButton.currentHeight/2+2
+        burgerButton.position.x = -2*(burgerButton.currentWidth+1)
+        bgPanel.addChild(burgerButton)
+        
+        burgerButton.action = {
+            GameScene.current.world.spawn(itemName: "burger")
+        }
+        
+        let friesButton = SKPixelButtonNode(textureName: "topbar_itempanel_itembutton")
+        friesButton.zPosition = 2
+        friesButton.position.y = friesButton.currentHeight/2+2
+        friesButton.position.x = -1*(friesButton.currentWidth+1)
+        bgPanel.addChild(friesButton)
+        
+        friesButton.action = {
+            GameScene.current.world.spawn(itemName: "fries")
+        }
+        
+        let hotdogButton = SKPixelButtonNode(textureName: "topbar_itempanel_itembutton")
+        hotdogButton.zPosition = 2
+        hotdogButton.position.y = hotdogButton.currentHeight/2+2
+        bgPanel.addChild(hotdogButton)
+        
+        hotdogButton.action = {
+            GameScene.current.world.spawn(itemName: "hotdog")
+        }
 
     }
     

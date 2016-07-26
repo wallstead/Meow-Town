@@ -122,7 +122,7 @@ class Cat: SKNode {
                 case 10..<60:
                     prance()
                 case 60..<100:
-                    GameScene.current.world.spawn(itemName: "burger")
+                    relax()
                 default:
                     relax()
                 }
