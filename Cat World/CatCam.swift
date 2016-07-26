@@ -15,6 +15,7 @@ class CatCam: SKCameraNode {
     var camFrame: CGRect!
     var catInfo: SKNode!
     var menu: Menu!
+    var itemPanel: ItemPanel!
     var menuButton: SKPixelToggleButtonNode!
     var itemsButton: SKPixelToggleButtonNode!
     var topBar: SKPixelSpriteNode!
@@ -90,9 +91,17 @@ class CatCam: SKCameraNode {
         menu.zPosition = 100
         self.addChild(menu)
         
+        itemPanel = ItemPanel(camFrame: camFrame, topBar: topBar)
+        itemPanel.zPosition = 99
+        self.addChild(itemPanel)
+        
         
         menuButton.action = {
             self.menu.toggle()
+        }
+        
+        itemsButton.action = {
+            self.itemPanel.toggle()
         }
     }
     

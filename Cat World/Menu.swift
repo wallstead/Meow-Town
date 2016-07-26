@@ -539,6 +539,9 @@ class Menu: SKNode {
         if isOpen! {
             close()
         } else {
+            if GameScene.current.catCam.itemPanel.isOpen == true {
+                GameScene.current.catCam.itemPanel.close()
+            }
             open()
         }
     }

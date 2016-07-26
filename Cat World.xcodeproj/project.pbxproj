@@ -13,6 +13,7 @@
 		43470F2D1D07E9390069A8A4 /* CatCam.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43470F2C1D07E9390069A8A4 /* CatCam.swift */; };
 		4374EA221D43EBAC007CB9EA /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4374EA201D43EBAC007CB9EA /* UserNotifications.framework */; };
 		4374EA231D43EBAC007CB9EA /* UserNotificationsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4374EA211D43EBAC007CB9EA /* UserNotificationsUI.framework */; };
+		4374EA251D47F6E2007CB9EA /* ItemPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4374EA241D47F6E2007CB9EA /* ItemPanel.swift */; };
 		437C2EC51D0BADBB00F05AEF /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437C2EC41D0BADBB00F05AEF /* Menu.swift */; };
 		437C2EC71D10DC5200F05AEF /* CatSelection.wav in Resources */ = {isa = PBXBuildFile; fileRef = 437C2EC61D10DC5200F05AEF /* CatSelection.wav */; };
 		437C2EC91D10DD9B00F05AEF /* pixeladventures.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 437C2EC81D10DD9B00F05AEF /* pixeladventures.mp3 */; };
@@ -70,6 +71,7 @@
 		43470F2C1D07E9390069A8A4 /* CatCam.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CatCam.swift; sourceTree = "<group>"; };
 		4374EA201D43EBAC007CB9EA /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		4374EA211D43EBAC007CB9EA /* UserNotificationsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotificationsUI.framework; path = System/Library/Frameworks/UserNotificationsUI.framework; sourceTree = SDKROOT; };
+		4374EA241D47F6E2007CB9EA /* ItemPanel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemPanel.swift; sourceTree = "<group>"; };
 		437C2EC41D0BADBB00F05AEF /* Menu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Menu.swift; sourceTree = "<group>"; };
 		437C2EC61D10DC5200F05AEF /* CatSelection.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = CatSelection.wav; sourceTree = "<group>"; };
 		437C2EC81D10DD9B00F05AEF /* pixeladventures.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = pixeladventures.mp3; sourceTree = "<group>"; };
@@ -214,6 +216,7 @@
 				43470F2C1D07E9390069A8A4 /* CatCam.swift */,
 				43E4D1771D22E47C00E266EA /* SpriteKit-Spring.swift */,
 				437C2EC41D0BADBB00F05AEF /* Menu.swift */,
+				4374EA241D47F6E2007CB9EA /* ItemPanel.swift */,
 				433DA5F01CBEAA12009F1B36 /* SKPixel.swift */,
 				439AD6831CB7681500E1E018 /* Main.storyboard */,
 				439AD6861CB7681500E1E018 /* Assets.xcassets */,
@@ -395,6 +398,7 @@
 				43E113151D0755EF005ADA37 /* TargetAction.swift in Sources */,
 				433DA5F11CBEAA12009F1B36 /* SKPixel.swift in Sources */,
 				43E113141D0755EF005ADA37 /* Scheduler.swift in Sources */,
+				4374EA251D47F6E2007CB9EA /* ItemPanel.swift in Sources */,
 				439AD6AE1CB7683700E1E018 /* Cat.swift in Sources */,
 				43E4D1781D22E47C00E266EA /* SpriteKit-Spring.swift in Sources */,
 				43E113161D0755EF005ADA37 /* Timer.swift in Sources */,
