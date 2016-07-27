@@ -8,6 +8,7 @@
 
 import Foundation
 import SpriteKit
+import UserNotifications
 
 class Cat: SKNode {
     var firstname: String!
@@ -15,7 +16,7 @@ class Cat: SKNode {
     var sprite: SKPixelCatNode!
     var mood: String!
     var birthday: NSDate!
-    let lifespan: TimeInterval = 1.minute
+    let lifespan: TimeInterval = 30.seconds
     var world: World!
     let timer = SKTimer() // the timer calculates the time step value dt for every frame
     let scheduler = Scheduler() // an event scheduler
@@ -63,7 +64,20 @@ class Cat: SKNode {
     
     func birth() {
         /* Do any first-time things here (coreograph an interesting entrance?) */
-        print("\(firstname) has been born")
+        print("\(firstname!) has been born")
+        
+        let content = UNMutableNotificationContent()
+        content.title = NSString.localizedUserNotificationString(forKey: "Oh No!", arguments: nil)
+        content.body = NSString.localizedUserNotificationString(forKey: "\(firstname!) kicked the bucket..", arguments: nil)
+        content.sound = UNNotificationSound.default()
+        
+        // Deliver the notification after lifespan has passed.
+        let trigger = UNTimeIntervalNotificationTrigger.init(timeInterval: lifespan, repeats: false)
+        let request = UNNotificationRequest.init(identifier: "cat_death_\(firstname!)", content: content, trigger: trigger)
+        
+        // Schedule the notification.
+        let center = UNUserNotificationCenter.current()
+        center.add(request)
         
         displayCat()
     }
