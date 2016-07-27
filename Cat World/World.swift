@@ -82,7 +82,7 @@ class World: SKNode, SKPhysicsContactDelegate {
         GameScene.current.physicsWorld.contactDelegate = self
         GameScene.current.physicsWorld.speed = 1
         
-        GameScene.current.catCam.updateScore(score: score)
+        GameScene.current.catCam.updateScore(score: score!)
         
         self.setScale(GameScene.current.frame.width/floor.frame.width)
 //        self.setScale(GameScene.current.scale)
@@ -141,6 +141,40 @@ class World: SKNode, SKPhysicsContactDelegate {
         cats.append(testCat)
         save()
     }
+    
+    func addPoints(item: Item, location: CGPoint? = nil) {
+        let storeDict = PlistManager.sharedInstance.getValueForKey(key: "Store") as! NSDictionary
+        let categoriesDict = storeDict.value(forKey: "Categories") as! NSDictionary
+        let foodsDict = categoriesDict.value(forKey: "Foods") as! NSDictionary
+        let itemDict = foodsDict.value(forKey: item.sprite!.textureName) as! NSDictionary
+        let infoDict = itemDict.value(forKey: "info") as! NSDictionary
+        let points = infoDict.value(forKey: "calories") as! Int
+        
+        if location != nil {
+            // spawn the points
+            let pointLabel = SKLabelNode(fontNamed: "Silkscreen")
+            pointLabel.zPosition = item.zPosition+1
+            pointLabel.text = "+\(points)"
+            pointLabel.setScale(1/10)
+            pointLabel.fontSize = 80
+            pointLabel.fontColor = SKColor(colorLiteralRed: 245/255, green: 245/255, blue: 245/255, alpha: 1)
+            pointLabel.verticalAlignmentMode = .center
+            pointLabel.position = location!
+            self.addChild(pointLabel)
+            
+            pointLabel.run(SKAction.group([SKAction.moveBy(x: 0, y: 30, duration: 1.5), SKAction.fadeOut(withDuration: 1.2)]), completion: {
+                pointLabel.removeFromParent()
+            })
+            
+            
+        }
+        
+        score = score + points
+        GameScene.current.catCam.updateScore(score: score)
+        print("score: \(score!)")
+    }
+    
+    
     
     func spawn(itemName: String) {
         let item = Item(textureName: itemName, parentWorld: self)

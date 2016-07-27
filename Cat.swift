@@ -325,9 +325,10 @@ class Cat: SKNode {
             self.sprite.run(SKAction.repeat(addCrumb, count: 5), completion: {
                 if let itemIndex = self.world.food.index(of: item) {
                     self.world.food.remove(at: itemIndex)
+                    
+                    self.world.addPoints(item: item, location: item.position)
                     item.removeFromParent()
                     item.removeAllActions()
-                    
                 }
             })
         })
@@ -365,7 +366,7 @@ class Cat: SKNode {
         timer.advance()
         scheduler.update(dt: timer.dt)
         changeZPosition()
-        print(age().seconds/lifespan.seconds)
+//        print(age().seconds/lifespan.seconds)
         
     }
     
