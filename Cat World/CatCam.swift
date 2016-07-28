@@ -147,15 +147,25 @@ class CatCam: SKCameraNode {
                 
             })
     
-            let catName = SKLabelNode(fontNamed: "Silkscreen")
+            let catName = SKLabelNode(fontNamed: "Silkscreen-Bold")
             catName.zPosition = 1
             catName.text = currentFocus?.firstname
             catName.setScale(1/10)
             catName.fontSize = 80
             catName.fontColor = SKColor(colorLiteralRed: 245/255, green: 245/255, blue: 245/255, alpha: 1)
             catName.verticalAlignmentMode = .center
+            catName.position.y = 5
 //            catName.position.y = 
             quickinfobg.addChild(catName)
+            
+            for heartIndex in -2...2 {
+                let heart = SKPixelSpriteNode(textureName: "heart")
+                heart.zPosition = 1
+                heart.position.y = -5
+                heart.position.x = 8*CGFloat(heartIndex)
+                
+                quickinfobg.addChild(heart)
+            }
             
             self.catInfo.addChild(quickinfobg)
         }
