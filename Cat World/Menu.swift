@@ -473,6 +473,8 @@ class Menu: SKNode {
 
         } else if type == "item" {
             
+            
+            
             let itemImageContainter = SKPixelSpriteNode(textureName: "topbar_menupanel_itemimagecontainer")
             itemImageContainter.background.color = collectionBG.color.darkerColor(percent: 0.1)
             itemImageContainter.background.colorBlendFactor = 1
@@ -498,13 +500,13 @@ class Menu: SKNode {
             
             let infoTable = SKNode()
             let infoDict = collectionData.value(forKey: "info") as! NSDictionary
+            let itemCost = infoDict.value(forKey: "price") as! Int
             var infoCounter = 0
             for infoItem in infoDict {
                 // create left side and right side bg
                 let leftSide = SKSpriteNode(color: collectionBG.color.darkerColor(percent: 0.1), size: CGSize(width: itemImageContainter.frame.width/2, height: 15))
                 leftSide.position.x = -leftSide.frame.width/2
                 leftSide.position.y = -(CGFloat(infoCounter)*16)
-                print(leftSide.width)
                 infoTable.addChild(leftSide)
                 
                 let leftInfoText = SKLabelNode(fontNamed: "Silkscreen")
@@ -543,7 +545,14 @@ class Menu: SKNode {
             
             let buyButton = SKPixelButtonNode(textureName: "basicbutton", text: "Buy", bgcolor: SKColor(colorLiteralRed: 255/255, green: 162/255, blue: 51/255, alpha: 1))
             buyButton.zPosition = 4
-            buyButton.position.y = infoTable.position.y - 49
+            buyButton.position.y = infoTable.position.y - 49.5
+            buyButton.action = {
+                if GameScene.current.world.score >= itemCost {
+                    print("can buy!")
+                } else {
+                    print("can't buy!")
+                }
+            }
             
             collectionBG.addChild(buyButton)
         }
