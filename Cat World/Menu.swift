@@ -297,13 +297,13 @@ class Menu: SKNode {
         return SKAction.sequence([down1, up1, down2])
     }
     
-    func displayCollection(parent: SKSpriteNode, withData data: NSDictionary? = nil) {
+    func displayCollection(parent: SKSpriteNode, withData data: NSMutableDictionary? = nil) {
         let shiftTime = 0.3
         let timeMode: SKActionTimingMode = .easeOut
         var type: String
         
         /* Figure out what data needs to be displayed */
-        let collectionData: NSDictionary
+        let collectionData: NSMutableDictionary
         if data != nil {
             collectionData = data!
             if collectionData.count != 0 {
@@ -316,8 +316,8 @@ class Menu: SKNode {
                 type = "unknown"
             }
         } else {
-            let storeDict = PlistManager.sharedInstance.getValueForKey(key: "Store") as! NSDictionary
-            collectionData = storeDict.value(forKey: "Categories") as! NSDictionary
+            let storeDict = PlistManager.sharedInstance.getValueForKey(key: "Store") as! NSMutableDictionary
+            collectionData = storeDict.value(forKey: "Categories") as! NSMutableDictionary
             type = "collection"
         }
         
@@ -442,7 +442,7 @@ class Menu: SKNode {
                                 button.run(move, completion: {
                                     if offset == 0 {
                                         self.panelDepth += 1
-                                        self.displayCollection(parent: itemButton, withData: collectionData.value(forKey: item.key as! String) as? NSDictionary)
+                                        self.displayCollection(parent: itemButton, withData: collectionData.value(forKey: item.key as! String) as? NSMutableDictionary)
                                         var belowCounter: CGFloat = 0
                                         for itemButtonBelow in itemButtonsBelow {
                                             let move = SKAction.moveTo(y: -collectionBG.currentHeight-(35*belowCounter)-5-itemButton.currentHeight/2, duration: shiftTime)
@@ -544,18 +544,40 @@ class Menu: SKNode {
             infoTable.position.y = itemImageContainter.frame.minY-8.5
             
             let buyButton = SKPixelButtonNode(textureName: "basicbutton", text: "Buy", bgcolor: SKColor(colorLiteralRed: 255/255, green: 162/255, blue: 51/255, alpha: 1))
-            buyButton.zPosition = 4
+            buyButton.zPosition = 3
             buyButton.position.y = infoTable.position.y - 49.5
             buyButton.action = {
                 if GameScene.current.world.score >= itemCost {
                     print("can buy!")
+                    /* What in the fuck even is this */
+                    /* TODO: Fix this bullshit */
+                    
                 } else {
                     print("can't buy!")
                 }
             }
-            
             collectionBG.addChild(buyButton)
+            
+//            let owned = collectionData.value(forKey: "owned") as! Bool
+//            
+//            if owned == true {
+//                buyButton.alpha = 0.5
+//                buyButton.isUserInteractionEnabled = false
+//                buyButton.text!.text = "Owned"
+//            }
+            
+            let enableButton = SKPixelToggleButtonNode(textureName: "basicbutton", text: "Enable", bgcolor: SKColor(colorLiteralRed: 255/255, green: 162/255, blue: 51/255, alpha: 1))
+            enableButton.zPosition = 3
+            enableButton.position.y = buyButton.position.y - 13
+            enableButton.action = {
+                
+            }
+            collectionBG.addChild(enableButton)
         }
+    }
+    
+    func buy(category: String, item: String) {
+        
     }
     
     func toggle() {

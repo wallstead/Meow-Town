@@ -151,6 +151,10 @@ class SKPixelToggleButtonNode: SKPixelButtonNode {
         texturePressed.filteringMode = .nearest
         super.init(textureName: textureName, text: text)
         self.enabled = false
+        if bgcolor != nil {
+            background.color = bgcolor!
+            background.colorBlendFactor = 1
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {

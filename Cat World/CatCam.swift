@@ -47,6 +47,7 @@ class CatCam: SKCameraNode {
         }
         DispatchQueue.main.async {
             self.toggleCatFocusInfo()
+            self.alert(type: "error", message: "test")
         }
     }
     
@@ -165,7 +166,7 @@ class CatCam: SKCameraNode {
             catNameDepth.text = catName.text
             catNameDepth.setScale(catName.xScale)
             catNameDepth.fontSize = catName.fontSize
-            catNameDepth.fontColor = SKColor(colorLiteralRed: 245/255, green: 245/255, blue: 245/255, alpha: 0.3)
+            catNameDepth.fontColor = SKColor(colorLiteralRed: 245/255, green: 245/255, blue: 245/255, alpha: 0.5)
             catNameDepth.verticalAlignmentMode = .center
             catNameDepth.position.y = catName.position.y-1
             quickinfobg.addChild(catNameDepth)
@@ -368,6 +369,31 @@ class CatCam: SKCameraNode {
             scoreLabel.text = "Calories: \(score)"
         }
         
+    }
+    
+    func alert(type: String, message: String? = nil) {
+        var bgColor: SKColor
+        switch type {
+        case "error":
+            bgColor = SKColor.red()
+        case "warning":
+            bgColor = SKColor.yellow()
+        case "success":
+            bgColor = SKColor.green()
+        default:
+            bgColor = SKColor.gray()
+        }
+        
+        let bg = SKSpriteNode(color: bgColor, size: CGSize(width: camFrame.width, height: 43))
+        bg.zPosition = 200
+        bg.anchorPoint = CGPoint(x: 0.5, y: 0)
+        bg.position.y = -topBar.currentHeight/2
+        
+        topBar.addChild(bg)
+        
+        let showAlert = SKAction.moveTo(y: -topBar.currentHeight/2-bg.currentHeight, duration: 0.5)
+        showAlert.timingMode = .easeOut
+        bg.run(showAlert)
     }
 }
 
