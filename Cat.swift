@@ -16,7 +16,7 @@ class Cat: SKNode {
     var sprite: SKPixelCatNode!
     var mood: String!
     var birthday: NSDate!
-    let lifespan: TimeInterval = 30.minutes
+    let lifespan: TimeInterval = 30.seconds
     var world: World!
     let timer = SKTimer() // the timer calculates the time step value dt for every frame
     let scheduler = Scheduler() // an event scheduler
@@ -166,6 +166,7 @@ class Cat: SKNode {
     // MARK: Cat Actions
     
     func die() {
+//        world.addGraveStone(catName: firstname!, position: sprite.position, zPos: sprite.zPosition)
         sprite.removeAllActions()
         timer.pause()
         scheduler.stop()
@@ -390,7 +391,6 @@ class Cat: SKNode {
         let divisorCoeff = world.floor.frame.maxY-world.floor.frame.minY
         let percentageYPos = (1-(catPosCoeff/divisorCoeff))*100
         self.sprite.zPosition = 100 + percentageYPos
-        
     }
 }
 

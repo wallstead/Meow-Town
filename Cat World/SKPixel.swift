@@ -62,7 +62,7 @@ class SKPixelButtonNode: SKPixelSpriteNode {
     var activeTexture: SKTexture
     var text: SKLabelNode?
     
-    init(textureName: String, text: String? = nil) {
+    init(textureName: String, text: String? = nil, bgcolor: SKColor? = nil) {
         let texture = SKTexture(imageNamed: textureName)
         texture.filteringMode = .nearest
         let texturePressed = SKTexture(imageNamed: textureName+"_pressed")
@@ -82,6 +82,12 @@ class SKPixelButtonNode: SKPixelSpriteNode {
         }
         self.textureName = textureName
         self.isUserInteractionEnabled = true
+        
+        if bgcolor != nil {
+            background.color = bgcolor!
+            background.colorBlendFactor = 1
+            
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -138,7 +144,7 @@ class SKPixelButtonNode: SKPixelSpriteNode {
 class SKPixelToggleButtonNode: SKPixelButtonNode {
     var enabled: Bool!
     
-    override init(textureName: String, text: String? = nil) {
+    override init(textureName: String, text: String? = nil, bgcolor: SKColor? = nil) {
         let texture = SKTexture(imageNamed: textureName)
         texture.filteringMode = .nearest
         let texturePressed = SKTexture(imageNamed: textureName+"_pressed")

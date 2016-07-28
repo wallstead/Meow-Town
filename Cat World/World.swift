@@ -142,6 +142,37 @@ class World: SKNode, SKPhysicsContactDelegate {
         save()
     }
     
+    func addGraveStone(catName: String, position: CGPoint, zPos: CGFloat) {
+        let graveStone = SKPixelSpriteNode(textureName: "gravestone")
+        graveStone.position = position
+        graveStone.background.anchorPoint = CGPoint(x: 0.5, y: 0)
+        graveStone.zPosition = zPos
+        self.addChild(graveStone)
+        
+        let rip = SKLabelNode(fontNamed: "Silkscreen-bold")
+        rip.zPosition = graveStone.zPosition+1
+        rip.text = "RIP"
+        rip.setScale(1/10)
+        rip.fontSize = 80
+        rip.fontColor = SKColor(colorLiteralRed: 52/255, green: 52/255, blue: 52/255, alpha: 1)
+        rip.verticalAlignmentMode = .center
+        rip.position.y = 20
+        graveStone.addChild(rip)
+        
+//        let name = SKLabelNode(fontNamed: "Silkscreen")
+//        name.zPosition = graveStone.zPosition+1
+//        name.text = catName.remo
+//
+//        name.setScale(1/10)
+//        name.fontSize = 80
+//        name.fontColor = SKColor(colorLiteralRed: 52/255, green: 52/255, blue: 52/255, alpha: 1)
+//        name.verticalAlignmentMode = .center
+//        name.position.y = rip.position.y-7
+//        graveStone.addChild(name)
+        
+        
+    }
+    
     func addPoints(item: Item, location: CGPoint? = nil) {
         let storeDict = PlistManager.sharedInstance.getValueForKey(key: "Store") as! NSDictionary
         let categoriesDict = storeDict.value(forKey: "Categories") as! NSDictionary

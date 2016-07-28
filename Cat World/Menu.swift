@@ -504,6 +504,7 @@ class Menu: SKNode {
                 let leftSide = SKSpriteNode(color: collectionBG.color.darkerColor(percent: 0.1), size: CGSize(width: itemImageContainter.frame.width/2, height: 15))
                 leftSide.position.x = -leftSide.frame.width/2
                 leftSide.position.y = -(CGFloat(infoCounter)*16)
+                print(leftSide.width)
                 infoTable.addChild(leftSide)
                 
                 let leftInfoText = SKLabelNode(fontNamed: "Silkscreen")
@@ -539,6 +540,12 @@ class Menu: SKNode {
             }
             collectionBG.addChild(infoTable)
             infoTable.position.y = itemImageContainter.frame.minY-8.5
+            
+            let buyButton = SKPixelButtonNode(textureName: "basicbutton", text: "Buy", bgcolor: SKColor(colorLiteralRed: 255/255, green: 162/255, blue: 51/255, alpha: 1))
+            buyButton.zPosition = 4
+            buyButton.position.y = infoTable.position.y - 49
+            
+            collectionBG.addChild(buyButton)
         }
     }
     
