@@ -147,7 +147,7 @@ class CatCam: SKCameraNode {
                 
             })
     
-            let catName = SKLabelNode(fontNamed: "Silkscreen-Bold")
+            let catName = SKLabelNode(fontNamed: "Silkscreen")
             catName.zPosition = 1
             catName.text = currentFocus?.firstname
             catName.setScale(1/10)
