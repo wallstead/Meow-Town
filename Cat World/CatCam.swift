@@ -47,7 +47,7 @@ class CatCam: SKCameraNode {
         }
         DispatchQueue.main.async {
             self.toggleCatFocusInfo()
-            self.alert(type: "error", message: "test")
+            self.alert(type: "success", message: "test")
         }
     }
     
@@ -375,25 +375,39 @@ class CatCam: SKCameraNode {
         var bgColor: SKColor
         switch type {
         case "error":
-            bgColor = SKColor.red()
+            bgColor = SKColor(red: 223/255, green: 51/255, blue: 41/255, alpha: 1)
         case "warning":
-            bgColor = SKColor.yellow()
+            bgColor = SKColor(red: 249/255, green: 208/255, blue: 51/255, alpha: 1)
         case "success":
-            bgColor = SKColor.green()
+            bgColor = SKColor(red: 0/255, green: 187/255, blue: 125/255, alpha: 1)
         default:
-            bgColor = SKColor.gray()
+            bgColor = SKColor(red: 0/255, green: 187/255, blue: 125/255, alpha: 1)
         }
+        
+        let bgCropper = SKCropNode()
+        bgCropper.maskNode = SKSpriteNode(color: SKColor.red(), size: CGSize(width: camFrame.width, height: 43))
+        bgCropper.zPosition = 200
+        bgCropper.position.y = -topBar.currentHeight/2-bgCropper.maskNode!.currentHeight/2
+        topBar.addChild(bgCropper)
         
         let bg = SKSpriteNode(color: bgColor, size: CGSize(width: camFrame.width, height: 43))
         bg.zPosition = 200
-        bg.anchorPoint = CGPoint(x: 0.5, y: 0)
-        bg.position.y = -topBar.currentHeight/2
+        bg.position.y = bg.currentHeight
+        bgCropper.addChild(bg)
         
-        topBar.addChild(bg)
+        let bgBottom = SKSpriteNode(color: bgColor.darkerColor(percent: 0.2), size: CGSize(width: bg.width, height: 1))
+        bgBottom.zPosition = 1
+        bgBottom.position.y = -bg.currentHeight/2+0.5
+        bg.addChild(bgBottom)
         
-        let showAlert = SKAction.moveTo(y: -topBar.currentHeight/2-bg.currentHeight, duration: 0.5)
+        let showAlert = SKAction.moveTo(y: 0, duration: 0.2)//0.2
         showAlert.timingMode = .easeOut
-        bg.run(showAlert)
+        let hideAlert = SKAction.moveTo(y: bg.currentHeight, duration: 0.2)
+        hideAlert.timingMode = .easeIn
+        
+        bg.run(SKAction.sequence([showAlert, SKAction.wait(forDuration: 2), hideAlert]), completion: {
+            bgCropper.removeFromParent()
+        })
     }
 }
 
