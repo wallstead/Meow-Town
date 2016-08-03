@@ -47,7 +47,7 @@ class CatCam: SKCameraNode {
         }
         DispatchQueue.main.async {
             self.toggleCatFocusInfo()
-            self.alert(type: "success", message: "test")
+            self.alert(type: "warning", message: "Yo dawg your cat is mah shnizzle kna i'm talkin' 'bout?")
         }
     }
     
@@ -371,17 +371,22 @@ class CatCam: SKCameraNode {
         
     }
     
-    func alert(type: String, message: String? = nil) {
+    func alert(type: String, message: String) {
         var bgColor: SKColor
+        var alertIcon: SKPixelSpriteNode
         switch type {
         case "error":
             bgColor = SKColor(red: 223/255, green: 51/255, blue: 41/255, alpha: 1)
+            alertIcon = SKPixelSpriteNode(textureName: "warning_icon")
         case "warning":
             bgColor = SKColor(red: 249/255, green: 208/255, blue: 51/255, alpha: 1)
+            alertIcon = SKPixelSpriteNode(textureName: "warning_icon")
         case "success":
             bgColor = SKColor(red: 0/255, green: 187/255, blue: 125/255, alpha: 1)
+            alertIcon = SKPixelSpriteNode(textureName: "warning_icon")
         default:
             bgColor = SKColor(red: 0/255, green: 187/255, blue: 125/255, alpha: 1)
+            alertIcon = SKPixelSpriteNode(textureName: "warning_icon") // default to success
         }
         
         let bgCropper = SKCropNode()
@@ -408,6 +413,66 @@ class CatCam: SKCameraNode {
         bg.run(SKAction.sequence([showAlert, SKAction.wait(forDuration: 2), hideAlert]), completion: {
             bgCropper.removeFromParent()
         })
+        
+        alertIcon.zPosition = 2
+        alertIcon.background.color = bgColor.darkerColor(percent: 0.05)
+        alertIcon.background.colorBlendFactor = 1
+        alertIcon.position.x = -65
+        bg.addChild(alertIcon)
+        
+        
+        let messageNode = SKNode()
+        let separators = NSCharacterSet.whitespacesAndNewlines()
+        let words = message.components(separatedBy: separators)
+        
+        let width = 28
+        
+        
+        var labels: [SKLabelNode] = [] // each line is a label and cannot exceed the width constant
+        var currentLabelIndex = -1 // start at -1 to show we need a first one
+        
+        func createNewLine() {
+            currentLabelIndex += 1
+            
+            let line = SKLabelNode(fontNamed: "Silkscreen")
+            line.zPosition = 10
+            line.text = ""
+            line.setScale(1/10)
+            line.fontSize = 80
+            line.fontColor = SKColor.white()
+            line.position.y = -(CGFloat(currentLabelIndex)*7)
+            line.verticalAlignmentMode = .top
+            line.horizontalAlignmentMode = .left
+            messageNode.addChild(line)
+            
+            labels.append(line)
+            
+        }
+        
+        for word in words {
+            if currentLabelIndex == -1 { // if first label needs to be created
+                createNewLine()
+            }
+            
+            let thisWordLength = word.characters.count
+            let currentLabelTextLength = labels[currentLabelIndex].text!.characters.count
+            
+            
+            if (currentLabelTextLength + thisWordLength + 1) > width { // Create New Line (+1 for space)
+                createNewLine()
+            }
+            
+            labels[currentLabelIndex].text!.append(word+" ")
+        }
+        
+        for label in labels {
+            print(label.text)
+        }
+        
+        messageNode.position.x = -messageNode.calculateAccumulatedFrame().width/2+alertIcon.currentWidth-10
+        messageNode.position.y = messageNode.calculateAccumulatedFrame().height/2
+        
+        bg.addChild(messageNode)
     }
 }
 
@@ -423,5 +488,19 @@ extension SKNode {
         get {
             return frame.height/yScale
         }
+    }
+}
+extension String {
+    subscript(i: Int) -> String {
+        guard i >= 0 && i < characters.count else { return "" }
+        return String(self[index(startIndex, offsetBy: i)])
+    }
+    subscript(range: Range<Int>) -> String {
+        let lowerIndex = index(startIndex, offsetBy: max(0,range.lowerBound), limitedBy: endIndex) ?? endIndex
+        return substring(with: lowerIndex..<(index(lowerIndex, offsetBy: range.upperBound - range.lowerBound, limitedBy: endIndex) ?? endIndex))
+    }
+    subscript(range: ClosedRange<Int>) -> String {
+        let lowerIndex = index(startIndex, offsetBy: max(0,range.lowerBound), limitedBy: endIndex) ?? endIndex
+        return substring(with: lowerIndex..<(index(lowerIndex, offsetBy: range.upperBound - range.lowerBound + 1, limitedBy: endIndex) ?? endIndex))
     }
 }

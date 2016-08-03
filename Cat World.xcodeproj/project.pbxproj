@@ -13,6 +13,7 @@
 		4345CD981CF77692003BA6D4 /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4345CD971CF77692003BA6D4 /* Activity.swift */; };
 		4345CD9A1CF77F09003BA6D4 /* DefaultWorldData.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4345CD991CF77F09003BA6D4 /* DefaultWorldData.plist */; };
 		43470F2D1D07E9390069A8A4 /* CatCam.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43470F2C1D07E9390069A8A4 /* CatCam.swift */; };
+		43689FA11D4C2BEA001C3E73 /* SKMultilineLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43689FA01D4C2BEA001C3E73 /* SKMultilineLabel.swift */; };
 		4374EA221D43EBAC007CB9EA /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4374EA201D43EBAC007CB9EA /* UserNotifications.framework */; };
 		4374EA231D43EBAC007CB9EA /* UserNotificationsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4374EA211D43EBAC007CB9EA /* UserNotificationsUI.framework */; };
 		4374EA251D47F6E2007CB9EA /* ItemPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4374EA241D47F6E2007CB9EA /* ItemPanel.swift */; };
@@ -73,6 +74,7 @@
 		4345CD971CF77692003BA6D4 /* Activity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Activity.swift; sourceTree = "<group>"; };
 		4345CD991CF77F09003BA6D4 /* DefaultWorldData.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = DefaultWorldData.plist; path = ../DefaultWorldData.plist; sourceTree = "<group>"; };
 		43470F2C1D07E9390069A8A4 /* CatCam.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CatCam.swift; sourceTree = "<group>"; };
+		43689FA01D4C2BEA001C3E73 /* SKMultilineLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKMultilineLabel.swift; sourceTree = "<group>"; };
 		4374EA201D43EBAC007CB9EA /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		4374EA211D43EBAC007CB9EA /* UserNotificationsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotificationsUI.framework; path = System/Library/Frameworks/UserNotificationsUI.framework; sourceTree = SDKROOT; };
 		4374EA241D47F6E2007CB9EA /* ItemPanel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemPanel.swift; sourceTree = "<group>"; };
@@ -170,6 +172,7 @@
 		43470F2B1D07E8960069A8A4 /* Utilites */ = {
 			isa = PBXGroup;
 			children = (
+				43689FA01D4C2BEA001C3E73 /* SKMultilineLabel.swift */,
 				43A6ACBE1D2C6DA7008E8FDA /* UIImageColors.swift */,
 				4345CD971CF77692003BA6D4 /* Activity.swift */,
 				43A3C61F1D054DEB004BBFBA /* CoolTime.swift */,
@@ -399,6 +402,7 @@
 			files = (
 				438032091D04DFB4004D9D58 /* PlistManager.swift in Sources */,
 				43470F2D1D07E9390069A8A4 /* CatCam.swift in Sources */,
+				43689FA11D4C2BEA001C3E73 /* SKMultilineLabel.swift in Sources */,
 				4345CD981CF77692003BA6D4 /* Activity.swift in Sources */,
 				43A6ACBF1D2C6DA7008E8FDA /* UIImageColors.swift in Sources */,
 				43E113131D0755EF005ADA37 /* Globals.swift in Sources */,
