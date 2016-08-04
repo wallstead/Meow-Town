@@ -213,6 +213,7 @@ class SKPixelToggleButtonNode: SKPixelButtonNode {
 class SKPixelToggleCollectionButtonNode: SKPixelToggleButtonNode {
     let overlay: SKPixelSpriteNode?
     let icon: SKPixelSpriteNode?
+    let shiftTime = 0.3
     
     init(type: String, iconName: String, text: String) {
         if type == "collection" || type == "item" {
@@ -281,19 +282,23 @@ class SKPixelToggleCollectionButtonNode: SKPixelToggleButtonNode {
         if withAction {
             action?()
         }
-        text?.position.y = 0
-        overlay?.position.y = 0
-        overlay?.run(SKAction.fadeOut(withDuration: 0.1), completion: {
-            self.overlay?.changeTextureTo(textureName: "topbar_menupanel_itemcategory_ui")
-            self.overlay?.run(SKAction.fadeIn(withDuration: 0.1))
+        self.text?.position.y = 0
+        self.overlay?.position.y = 0
+        self.icon?.position.y = 0.5
+        self.background.texture = self.defaultTexture
+        
+        self.run(SKAction.wait(forDuration: shiftTime), completion: {
+            self.overlay?.run(SKAction.fadeOut(withDuration: 0.1), completion: {
+                self.overlay?.changeTextureTo(textureName: "topbar_menupanel_itemcategory_ui")
+                self.overlay?.run(SKAction.fadeIn(withDuration: 0.1))
+            })
+            self.icon?.run(SKAction.fadeIn(withDuration: 0.1))
+            self.background.run(SKAction.scaleX(to: 1, duration: 0.2), completion: {
+                self.isUserInteractionEnabled = true
+            })
+            
+            self.enabled = false
         })
-        icon?.position.y = 0.5
-        icon?.run(SKAction.fadeIn(withDuration: 0.1))
-        self.background.run(SKAction.scaleX(to: 1, duration: 0.2), completion: {
-            self.isUserInteractionEnabled = true
-        })
-        self.background.texture = defaultTexture
-        enabled = false
     }
     
     override func enable() {
