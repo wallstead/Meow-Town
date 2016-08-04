@@ -367,7 +367,10 @@ class Menu: SKNode {
                 itemButtons.append(itemButton)
                 itemButton.zPosition = 1
                 itemButton.position.y = (-35*yPosCounter)-5-itemButton.currentHeight/2
-//                itemButton.isUserInteractionEnabled = false
+                itemButton.isUserInteractionEnabled = false
+                itemButton.run(SKAction.wait(forDuration: shiftTime), completion: {
+                    itemButton.isUserInteractionEnabled = true
+                })
                 collection.addChild(itemButton)
                 yPosCounter += 1
                 var itemButtonsBelow: [SKPixelToggleCollectionButtonNode] = [] // All buttons below the selected one
@@ -382,7 +385,7 @@ class Menu: SKNode {
                     parent.isUserInteractionEnabled = false
                 }
                 itemButton.action = {
-                    if self.menuIsAnimating == false {
+                    if self.menuIsAnimating == false && self.isOpen == true {
                         self.menuIsAnimating = true
                         for eachItemButton in itemButtons {
                             eachItemButton.isUserInteractionEnabled = false

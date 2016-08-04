@@ -267,6 +267,7 @@ class SKPixelToggleCollectionButtonNode: SKPixelToggleButtonNode {
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.isUserInteractionEnabled = false
         if !enabled {
             enable()
         } else {
@@ -288,7 +289,9 @@ class SKPixelToggleCollectionButtonNode: SKPixelToggleButtonNode {
         })
         icon?.position.y = 0.5
         icon?.run(SKAction.fadeIn(withDuration: 0.1))
-        self.background.run(SKAction.scaleX(to: 1, duration: 0.2))
+        self.background.run(SKAction.scaleX(to: 1, duration: 0.2), completion: {
+            self.isUserInteractionEnabled = true
+        })
         self.background.texture = defaultTexture
         enabled = false
     }
@@ -305,7 +308,9 @@ class SKPixelToggleCollectionButtonNode: SKPixelToggleButtonNode {
                 self.overlay?.run(SKAction.fadeIn(withDuration: 0.1))
             })
             
-            self.background.run(SKAction.scaleX(to: 1.4, duration: 0.2))
+            self.background.run(SKAction.scaleX(to: 1.4, duration: 0.2), completion: {
+                self.isUserInteractionEnabled = true
+            })
             self.background.texture = defaultTexture
             enabled = true
         }
