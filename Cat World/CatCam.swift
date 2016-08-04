@@ -47,7 +47,7 @@ class CatCam: SKCameraNode {
         }
         DispatchQueue.main.async {
             self.toggleCatFocusInfo()
-            self.alert(type: "warning", message: "Yo dawg your cat is mah shnizzle kna i'm talkin' 'bout?")
+            self.alert(type: "success", message: "Yo dawg your cat is mah shnizzle kna i'm talkin' 'bout?")
         }
     }
     
@@ -377,13 +377,13 @@ class CatCam: SKCameraNode {
         switch type {
         case "error":
             bgColor = SKColor(red: 223/255, green: 51/255, blue: 41/255, alpha: 1)
-            alertIcon = SKPixelSpriteNode(textureName: "warning_icon")
+            alertIcon = SKPixelSpriteNode(textureName: "error_icon")
         case "warning":
             bgColor = SKColor(red: 249/255, green: 208/255, blue: 51/255, alpha: 1)
             alertIcon = SKPixelSpriteNode(textureName: "warning_icon")
         case "success":
             bgColor = SKColor(red: 0/255, green: 187/255, blue: 125/255, alpha: 1)
-            alertIcon = SKPixelSpriteNode(textureName: "warning_icon")
+            alertIcon = SKPixelSpriteNode(textureName: "success_icon")
         default:
             bgColor = SKColor(red: 0/255, green: 187/255, blue: 125/255, alpha: 1)
             alertIcon = SKPixelSpriteNode(textureName: "warning_icon") // default to success
@@ -415,9 +415,9 @@ class CatCam: SKCameraNode {
         })
         
         alertIcon.zPosition = 2
-        alertIcon.background.color = bgColor.darkerColor(percent: 0.05)
+        alertIcon.background.color = bgColor.darkerColor(percent: 0.1)
         alertIcon.background.colorBlendFactor = 1
-        alertIcon.position.x = -65
+        alertIcon.position.x = -63
         bg.addChild(alertIcon)
         
         
