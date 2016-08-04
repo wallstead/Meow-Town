@@ -545,15 +545,17 @@ class Menu: SKNode {
             
             let buyButton = SKPixelButtonNode(textureName: "basicbutton", text: "Buy", bgcolor: SKColor(colorLiteralRed: 255/255, green: 162/255, blue: 51/255, alpha: 1))
             buyButton.zPosition = 3
-            buyButton.position.y = infoTable.position.y - 49.5
+            buyButton.position.y = infoTable.position.y - 49.35
             buyButton.action = {
                 if GameScene.current.world.score >= itemCost {
                     print("can buy!")
                     /* What in the fuck even is this */
                     /* TODO: Fix this bullshit */
                     
+                    GameScene.current.catCam.alert(type: "success", message: "You successfully bought \(collectionData.value(forKey: "name")!)s.")
+                    
                 } else {
-                    print("can't buy!")
+                    GameScene.current.catCam.alert(type: "error", message: "cant buy.")
                 }
             }
             collectionBG.addChild(buyButton)
@@ -568,7 +570,7 @@ class Menu: SKNode {
             
             let enableButton = SKPixelToggleButtonNode(textureName: "basicbutton", text: "Enable", bgcolor: SKColor(colorLiteralRed: 255/255, green: 162/255, blue: 51/255, alpha: 1))
             enableButton.zPosition = 3
-            enableButton.position.y = buyButton.position.y - 13
+            enableButton.position.y = buyButton.position.y - 18
             enableButton.action = {
                 
             }

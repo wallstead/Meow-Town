@@ -47,7 +47,7 @@ class CatCam: SKCameraNode {
         }
         DispatchQueue.main.async {
             self.toggleCatFocusInfo()
-            self.alert(type: "success", message: "Yo dawg your cat is mah shnizzle kna i'm talkin' 'bout?")
+//            GameScene.current.catCam.alert(type: "error", message: "test.")
         }
     }
     
@@ -417,7 +417,7 @@ class CatCam: SKCameraNode {
         alertIcon.zPosition = 2
         alertIcon.background.color = bgColor.darkerColor(percent: 0.1)
         alertIcon.background.colorBlendFactor = 1
-        alertIcon.position.x = -63
+        alertIcon.position.x = -65
         bg.addChild(alertIcon)
         
         
@@ -425,7 +425,7 @@ class CatCam: SKCameraNode {
         let separators = NSCharacterSet.whitespacesAndNewlines()
         let words = message.components(separatedBy: separators)
         
-        let width = 28
+        let width = 25
         
         
         var labels: [SKLabelNode] = [] // each line is a label and cannot exceed the width constant
