@@ -570,8 +570,12 @@ class Menu: SKNode {
                     print("can buy!")
                     /* What in the fuck even is this */
                     /* TODO: Fix this bullshit */
+                    if GameScene.current.attemptPurchase(withData: data!) == true {
+                        GameScene.current.catCam.alert(type: "success", message: "You successfully bought \(collectionData.value(forKey: "name")!)s.")
+                    } else {
+                        GameScene.current.catCam.alert(type: "error", message: "An error occured when attempting to purchase \(collectionData.value(forKey: "name")!)s.")
+                    }
                     
-                    GameScene.current.catCam.alert(type: "success", message: "You successfully bought \(collectionData.value(forKey: "name")!)s.")
                     
                 } else {
                     GameScene.current.catCam.alert(type: "error", message: "You don't have enough calories to buy \(collectionData.value(forKey: "name")!)s.")

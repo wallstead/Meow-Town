@@ -161,16 +161,6 @@ class CatCam: SKCameraNode {
             
             /* TODO: Add this to a skpixellabel class and use it in the score as well */
             
-            let catNameDepth = SKLabelNode(fontNamed: catName.fontName)
-            catNameDepth.zPosition = catName.zPosition-1
-            catNameDepth.text = catName.text
-            catNameDepth.setScale(catName.xScale)
-            catNameDepth.fontSize = catName.fontSize
-            catNameDepth.fontColor = SKColor(colorLiteralRed: 245/255, green: 245/255, blue: 245/255, alpha: 0.5)
-            catNameDepth.verticalAlignmentMode = .center
-            catNameDepth.position.y = catName.position.y-1
-            quickinfobg.addChild(catNameDepth)
-            
             for heartIndex in -2...2 {
                 let heart = SKPixelSpriteNode(textureName: "heart")
                 heart.zPosition = 1
@@ -415,7 +405,7 @@ class CatCam: SKCameraNode {
         })
         
         alertIcon.zPosition = 2
-        alertIcon.background.color = bgColor.darkerColor(percent: 0.1)
+        alertIcon.background.color = bgColor.lighterColor(percent: 0.25)
         alertIcon.background.colorBlendFactor = 1
         alertIcon.position.x = -65
         bg.addChild(alertIcon)

@@ -65,6 +65,32 @@ class GameScene: SKScene {
         world.update(currentTime: currentTime)
         catCam.update(currentTime: currentTime)
     }
+    
+    func attemptPurchase(withData data: NSMutableDictionary) -> Bool {
+        let storeDict = PlistManager.sharedInstance.getValueForKey(key: "Store") as! NSMutableDictionary
+        let categoriesDict = storeDict.value(forKey: "Categories") as! NSMutableDictionary
+        let foodsDict = categoriesDict.value(forKey: "Foods") as! NSMutableDictionary
+        for value in foodsDict.allValues {
+            if data == value as! NSMutableDictionary {
+                let mutableValue = value as! NSMutableDictionary
+                let infoDict = mutableValue.value(forKey: "info") as! NSDictionary
+                let price = infoDict.value(forKey: "price") as! Int
+                if world.score - price >= 0 {
+                    world.score = world.score - price
+                    GameScene.current.catCam.updateScore(score: world.score)
+                    print("score: \(world.score)")
+                } else {
+                    return false // not enough funds somehow
+                }
+                
+               
+                mutableValue.setValue(true, forKey: "owned")
+                PlistManager.sharedInstance.saveValue(value: storeDict, forKey: "Store")
+                return true
+            }
+        }
+        return false // if it makes it here there was an error
+    }
 }
 
 
