@@ -250,7 +250,7 @@ class Menu: SKNode {
             } else if contentDisplayed == "info" {
                 let title = SKLabelNode(fontNamed: "Fipps-Regular")
                 title.zPosition = 1
-                title.text = "FAT FELINE"
+                title.text = "Meow Town"
                 title.setScale(2/10)
                 title.fontSize = 80
                 title.fontColor = SKColor(colorLiteralRed: 245/255, green: 245/255, blue: 245/255, alpha: 1)
@@ -330,7 +330,7 @@ class Menu: SKNode {
 
         /* Add background */
         let collectionBG = SKSpriteNode()
-        collectionBG.isUserInteractionEnabled = false // disable until shown
+        
         collectionBG.size = CGSize(width: storeContainer.frame.width, height: bgpanel.currentHeight-infoButton.currentHeight-20)
         collectionBG.color = SKColor(colorLiteralRed: 182/255, green: 24/255, blue: 25/255, alpha: 1).darkerColor(percent: 0.125*Double(panelDepth))
         collectionBG.name = "collectionBG"
@@ -342,6 +342,9 @@ class Menu: SKNode {
         collectionBG.anchorPoint = CGPoint(x: 0.5, y: 1)
         collectionBG.position.y = collectionBG.size.height-parent.currentHeight/2
         parent.addChild(collectionBG)
+        collectionBG.isUserInteractionEnabled = false // disable until shown
+        parent.isUserInteractionEnabled = false
+        
         
       
         let showCollection = SKAction.moveTo(y: -parent.currentHeight/2, duration: shiftTime)
@@ -382,7 +385,7 @@ class Menu: SKNode {
                         }
                         
                     }
-                    parent.isUserInteractionEnabled = false
+                    
                 }
                 itemButton.action = {
                     if self.menuIsAnimating == false && self.isOpen == true {
