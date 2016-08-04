@@ -301,6 +301,7 @@ class Menu: SKNode {
         let shiftTime = 0.3
         let timeMode: SKActionTimingMode = .easeOut
         var type: String
+        self.menuIsAnimating = true
         
         /* Figure out what data needs to be displayed */
         let collectionData: NSMutableDictionary
@@ -329,6 +330,7 @@ class Menu: SKNode {
 
         /* Add background */
         let collectionBG = SKSpriteNode()
+        collectionBG.isUserInteractionEnabled = false // disable until shown
         collectionBG.size = CGSize(width: storeContainer.frame.width, height: bgpanel.currentHeight-infoButton.currentHeight-20)
         collectionBG.color = SKColor(colorLiteralRed: 182/255, green: 24/255, blue: 25/255, alpha: 1).darkerColor(percent: 0.125*Double(panelDepth))
         collectionBG.name = "collectionBG"
@@ -341,11 +343,15 @@ class Menu: SKNode {
         collectionBG.position.y = collectionBG.size.height-parent.currentHeight/2
         parent.addChild(collectionBG)
         
+      
         let showCollection = SKAction.moveTo(y: -parent.currentHeight/2, duration: shiftTime)
         showCollection.timingMode = timeMode
-        collectionBG.run(showCollection)
+        collectionBG.run(showCollection, completion: {
+            self.menuIsAnimating = false
+        })
         
         /* Add buttons */
+        print(type)
         if type == "collection" {
             var yPosCounter: CGFloat = 0
             let collection = SKNode()
@@ -361,16 +367,26 @@ class Menu: SKNode {
                 itemButtons.append(itemButton)
                 itemButton.zPosition = 1
                 itemButton.position.y = (-35*yPosCounter)-5-itemButton.currentHeight/2
+//                itemButton.isUserInteractionEnabled = false
                 collection.addChild(itemButton)
                 yPosCounter += 1
                 var itemButtonsBelow: [SKPixelToggleCollectionButtonNode] = [] // All buttons below the selected one
-                itemButton.action = {
-                    if self.menuIsAnimating == false {
-                        for itemButton in itemButtons {
-                            itemButton.isUserInteractionEnabled = false
+                itemButton.onPress = {
+                    for eachItemButton in itemButtons {
+                        eachItemButton.isUserInteractionEnabled = false
+                        if eachItemButton.enabled == true && eachItemButton != itemButton {
+                            eachItemButton.disable(withAction: false)
                         }
                         
+                    }
+                    parent.isUserInteractionEnabled = false
+                }
+                itemButton.action = {
+                    if self.menuIsAnimating == false {
                         self.menuIsAnimating = true
+                        for eachItemButton in itemButtons {
+                            eachItemButton.isUserInteractionEnabled = false
+                        }
                         
                         if itemButton.enabled == true { // CLOSE
                             /* close the button's child bg */
@@ -392,10 +408,12 @@ class Menu: SKNode {
                                             itemButton.zPosition = 1
                                             self.panelDepth -= 1
                                             itemButtonsBelow.removeAll()
-                                            self.menuIsAnimating = false
+                                            
                                             for itemButton in itemButtons {
                                                 itemButton.isUserInteractionEnabled = true
                                             }
+                                            self.menuIsAnimating = false
+                                            parent.isUserInteractionEnabled = true
                                         }
                                     })
                                     yPosCounterReplace += 1
@@ -407,7 +425,7 @@ class Menu: SKNode {
                                 parent.run(move)
                             }
                             if itemButtonsBelow.isEmpty == false {
-                                print(itemButtonsBelow.count)
+//                                print(itemButtonsBelow.count)
                                 for itemButtonBelow in itemButtonsBelow {
                                     let move = SKAction.moveTo(y: (-35*belowCounter)-itemButton.currentHeight/2, duration: shiftTime)
                                     move.timingMode = timeMode
@@ -466,6 +484,7 @@ class Menu: SKNode {
                             }
                         }
                     } else {
+                        print("already animating")
                     }
                 }
             }
@@ -555,7 +574,7 @@ class Menu: SKNode {
                     GameScene.current.catCam.alert(type: "success", message: "You successfully bought \(collectionData.value(forKey: "name")!)s.")
                     
                 } else {
-                    GameScene.current.catCam.alert(type: "error", message: "cant buy.")
+                    GameScene.current.catCam.alert(type: "error", message: "You don't have enough calories to buy \(collectionData.value(forKey: "name")!)s.")
                 }
             }
             collectionBG.addChild(buyButton)

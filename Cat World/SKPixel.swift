@@ -13,6 +13,7 @@ class SKPixelSpriteNode: SKSpriteNode {
     var background: SKSpriteNode
     var textureName: String
     internal var action: (() -> Void)?
+    internal var onPress: (() -> Void)?
     
     init(textureName: String) {
         let texture = SKTexture(imageNamed: textureName)
@@ -246,6 +247,7 @@ class SKPixelToggleCollectionButtonNode: SKPixelToggleButtonNode {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        onPress!()
         self.background.texture = activeTexture
         text?.position.y = -1
         overlay?.position.y = -1
