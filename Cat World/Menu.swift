@@ -619,11 +619,13 @@ class Menu: SKNode {
     
     
     func open() {
+        self.zPosition = 200
         self.isOpen = true
         bgpanel.run(dropPanelToY(y: camFrame.minY+bgpanel.frame.height/2, duration: 0.75))
     }
     
     func close() {
+        self.zPosition = 100
         self.isOpen = false
         bgpanel.run(dropPanelToY(y: camFrame.maxY-self.topBar.frame.height+bgpanel.frame.height/2, duration: 0.75))
         

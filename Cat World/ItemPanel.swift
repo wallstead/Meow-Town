@@ -79,16 +79,19 @@ class ItemPanel: SKNode {
                 GameScene.current.catCam.menu.close()
             }
             open()
+            
         }
     }
     
     
     func open() {
+        self.zPosition = 200
         self.isOpen = true
         bgPanel.run(SKAction.moveTo(y: camFrame.maxY-topBar.frame.height-bgPanel.frame.height, duration: 0.1))
     }
     
     func close() {
+        self.zPosition = 100
         self.isOpen = false
         bgPanel.run(SKAction.moveTo(y: camFrame.maxY-topBar.frame.height, duration: 0.1))
     }

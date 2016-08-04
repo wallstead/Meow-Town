@@ -58,9 +58,9 @@ class CatCam: SKCameraNode {
         
         GameScene.current.scale = GameScene.current.frame.width/(topBar.frame.width+menuButton.frame.width+itemsButton.frame.width)
     
-        topBar.zPosition = 200
-        menuButton.zPosition = 200
-        itemsButton.zPosition = 200
+        topBar.zPosition = 300
+        menuButton.zPosition = 300
+        itemsButton.zPosition = 300
         
         topBar.setScale(GameScene.current.scale)
         topBar.position.y = camFrame.maxY-topBar.frame.height/2
@@ -89,11 +89,11 @@ class CatCam: SKCameraNode {
         
         
         menu = Menu(camFrame: camFrame, topBar: topBar)
-        menu.zPosition = 100
+        menu.zPosition = 200
         self.addChild(menu)
         
         itemPanel = ItemPanel(camFrame: camFrame, topBar: topBar)
-        itemPanel.zPosition = 99
+        itemPanel.zPosition = 100
         self.addChild(itemPanel)
         
         
@@ -381,12 +381,12 @@ class CatCam: SKCameraNode {
         
         let bgCropper = SKCropNode()
         bgCropper.maskNode = SKSpriteNode(color: SKColor.red(), size: CGSize(width: camFrame.width, height: 43))
-        bgCropper.zPosition = 200
+        bgCropper.zPosition = 300
         bgCropper.position.y = -topBar.currentHeight/2-bgCropper.maskNode!.currentHeight/2
         topBar.addChild(bgCropper)
         
         let bg = SKSpriteNode(color: bgColor, size: CGSize(width: camFrame.width, height: 43))
-        bg.zPosition = 200
+        bg.zPosition = 0
         bg.position.y = bg.currentHeight
         bgCropper.addChild(bg)
         
