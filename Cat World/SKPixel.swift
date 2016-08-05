@@ -16,6 +16,35 @@ extension SKTexture {
     }
 }
 
+class SKPixelSpriteNode2: SKSpriteNode {
+    override var texture: SKTexture? {
+        didSet {
+            updateTexture()
+        }
+    }
+    var action: (() -> Void)?
+    
+    init(pixelImageNamed name: String, interactionEnabled: Bool? = false) {
+        let pixelTexture = SKTexture(pixelImageNamed: name)
+        super.init(texture: pixelTexture, color: SKColor.clear(), size: pixelTexture.size())
+        if interactionEnabled == true {
+            isUserInteractionEnabled = true
+        }
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        action?()
+    }
+    
+    func updateTexture() {
+        
+    }
+}
+
 class SKPixelSpriteNode: SKSpriteNode {
     var background: SKSpriteNode
     var textureName: String
