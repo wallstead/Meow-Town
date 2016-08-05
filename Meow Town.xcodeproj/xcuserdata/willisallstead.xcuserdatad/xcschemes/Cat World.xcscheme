@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "439AD6771CB7681500E1E018"
-               BuildableName = "Cat World.app"
-               BlueprintName = "Cat World"
-               ReferencedContainer = "container:Cat World.xcodeproj">
+               BuildableName = "Meow Town.app"
+               BlueprintName = "Meow Town"
+               ReferencedContainer = "container:Meow Town.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "439AD68F1CB7681500E1E018"
-               BuildableName = "Cat WorldTests.xctest"
-               BlueprintName = "Cat WorldTests"
-               ReferencedContainer = "container:Cat World.xcodeproj">
+               BuildableName = "Meow TownTests.xctest"
+               BlueprintName = "Meow TownTests"
+               ReferencedContainer = "container:Meow Town.xcodeproj">
             </BuildableReference>
          </TestableReference>
          <TestableReference
@@ -43,9 +43,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "439AD69A1CB7681500E1E018"
-               BuildableName = "Cat WorldUITests.xctest"
-               BlueprintName = "Cat WorldUITests"
-               ReferencedContainer = "container:Cat World.xcodeproj">
+               BuildableName = "Meow TownUITests.xctest"
+               BlueprintName = "Meow TownUITests"
+               ReferencedContainer = "container:Meow Town.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -53,9 +53,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "439AD6771CB7681500E1E018"
-            BuildableName = "Cat World.app"
-            BlueprintName = "Cat World"
-            ReferencedContainer = "container:Cat World.xcodeproj">
+            BuildableName = "Meow Town.app"
+            BlueprintName = "Meow Town"
+            ReferencedContainer = "container:Meow Town.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -76,9 +76,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "439AD6771CB7681500E1E018"
-            BuildableName = "Cat World.app"
-            BlueprintName = "Cat World"
-            ReferencedContainer = "container:Cat World.xcodeproj">
+            BuildableName = "Meow Town.app"
+            BlueprintName = "Meow Town"
+            ReferencedContainer = "container:Meow Town.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -95,9 +95,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "439AD6771CB7681500E1E018"
-            BuildableName = "Cat World.app"
-            BlueprintName = "Cat World"
-            ReferencedContainer = "container:Cat World.xcodeproj">
+            BuildableName = "Meow Town.app"
+            BlueprintName = "Meow Town"
+            ReferencedContainer = "container:Meow Town.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
