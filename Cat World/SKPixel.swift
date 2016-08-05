@@ -9,10 +9,22 @@
 import Foundation
 import SpriteKit
 
+// MARK: New Classes & Extensions
+
 extension SKTexture {
     convenience init(pixelImageNamed name: String) {
         self.init(imageNamed: name)
         self.filteringMode = .nearest
+    }
+}
+
+extension SKLabelNode {
+    convenience init(pixelFontNamed name: String) {
+        self.init(fontNamed: name)
+        fontSize = 80
+        setScale(1/10)
+        fontColor = SKColor.white()
+        verticalAlignmentMode = .center
     }
 }
 
@@ -33,7 +45,7 @@ class SKPixelSpriteNode2: SKSpriteNode {
     }
     
     required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: aDecoder)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -44,6 +56,77 @@ class SKPixelSpriteNode2: SKSpriteNode {
         
     }
 }
+
+class SKPixelButtonNode2: SKPixelSpriteNode2 {
+    var defaultTexture: SKTexture
+    var pressedTexture: SKTexture
+    var label: SKLabelNode?
+    
+    init(pixelImageNamed name: String, withText text: String?) {
+        defaultTexture = SKTexture(pixelImageNamed: name)
+        pressedTexture = SKTexture(pixelImageNamed: name+"_pressed")
+        super.init(pixelImageNamed: name, interactionEnabled: true)
+        if text != nil {
+            label = SKLabelNode(pixelFontNamed: "Silkscreen")
+            addChild(label!)
+        }
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        defaultTexture = aDecoder.decodeObject(forKey: "defaultTexture") as! SKTexture
+        pressedTexture = aDecoder.decodeObject(forKey: "pressedTexture") as! SKTexture
+        label = aDecoder.decodeObject(forKey: "label") as? SKLabelNode
+        super.init(coder: aDecoder)
+
+    }
+    
+    override func encode(with aCoder: NSCoder) {
+        aCoder.encode(defaultTexture, forKey: "defaultTexture")
+        aCoder.encode(pressedTexture, forKey: "pressedTexture")
+        aCoder.encode(label, forKey: "label")
+        super.encode(with: aCoder)
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        texture = pressedTexture
+        if label != nil {
+            label!.position.y = -1
+        }
+    }
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if let touch = touches.first {
+            let location: CGPoint = touch.location(in: self.parent!)
+            if self.contains(location) { // still inside bounds
+                if texture != pressedTexture {
+                    texture = pressedTexture
+                }
+                if label != nil && label?.position.y != -1 {
+                    label!.position.y = -1
+                }
+            } else {
+                if texture != defaultTexture {
+                    texture = defaultTexture
+                }
+                if label != nil && label?.position.y != 0 {
+                    label!.position.y = 0
+                }
+            }
+        }
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if texture == pressedTexture {
+            action?()
+        }
+        if label != nil {
+            label!.position.y = 0
+        }
+        texture = defaultTexture
+    }
+}
+
+// MARK: Old stuff
 
 class SKPixelSpriteNode: SKSpriteNode {
     var background: SKSpriteNode
