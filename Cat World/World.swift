@@ -1,6 +1,6 @@
 //
 //  World.swift
-//  Cat World
+//  Meow Town
 //
 //  Created by Willis Allstead on 4/29/16.
 //  Copyright © 2016 Willis Allstead. All rights reserved.
@@ -80,14 +80,10 @@ class World: SKNode, SKPhysicsContactDelegate {
         GameScene.current.physicsWorld.gravity = CGVector(dx: 0.0, dy: -5.0)
         GameScene.current.physicsWorld.contactDelegate = self
         GameScene.current.physicsWorld.speed = 1
-        
         GameScene.current.catCam.updateScore(score: score!)
-        
         self.setScale(GameScene.current.frame.width/floor.frame.width)
-//        self.setScale(GameScene.current.scale)
         
         floor.zPosition = 2
-//        floor.position.y = wallpaper.frame.minY+(floor!.frame.height/2)
         floor.position.y = -floor!.frame.height*1.3
         for i in -1...1 {
             for j in 0...2 {
@@ -102,7 +98,6 @@ class World: SKNode, SKPhysicsContactDelegate {
         wallpaper.zPosition = 3
         wallpaper.position.x = floor.frame.minX + wallpaper.width/2 - wallpaper.width*4
         wallpaper.position.y = floor.frame.maxY + wallpaper.height/2
-        
         for i in 1...8 {
             for j in 0...3 {
                 let wallpaperCopy = SKPixelSpriteNode(textureName: wallpaper.textureName)
@@ -118,20 +113,14 @@ class World: SKNode, SKPhysicsContactDelegate {
         floorCollisionBox!.physicsBody?.affectedByGravity = false
         floorCollisionBox!.physicsBody?.isDynamic = false
         floorCollisionBox!.physicsBody?.categoryBitMask = PhysicsCategory.Floor // 3
-//        floorCollisionBox.physicsBody?.contactTestBitMask = PhysicsCategory.Item // 4
         floorCollisionBox!.physicsBody?.collisionBitMask = PhysicsCategory.None // 5
         floorCollisionBox!.position.y = floor.position.y-10
-        
         floorCollisionBox!.zPosition = 3
         
         self.addChild(self.wallpaper)
         self.addChild(self.floor)
         self.addChild(floorCollisionBox!)
-        
-//        spawn(itemName: "burger")
     }
-    
-    
     
     // MARK: Cat Stuff
     
@@ -157,19 +146,6 @@ class World: SKNode, SKPhysicsContactDelegate {
         rip.verticalAlignmentMode = .center
         rip.position.y = 20
         graveStone.addChild(rip)
-        
-//        let name = SKLabelNode(fontNamed: "Silkscreen")
-//        name.zPosition = graveStone.zPosition+1
-//        name.text = catName.remo
-//
-//        name.setScale(1/10)
-//        name.fontSize = 80
-//        name.fontColor = SKColor(colorLiteralRed: 52/255, green: 52/255, blue: 52/255, alpha: 1)
-//        name.verticalAlignmentMode = .center
-//        name.position.y = rip.position.y-7
-//        graveStone.addChild(name)
-        
-        
     }
     
     func addPoints(item: Item, location: CGPoint? = nil) {
@@ -181,7 +157,6 @@ class World: SKNode, SKPhysicsContactDelegate {
         let points = infoDict.value(forKey: "calories") as! Int
         
         if location != nil {
-            // spawn the points
             let pointLabel = SKLabelNode(fontNamed: "Silkscreen")
             pointLabel.zPosition = item.zPosition+1
             pointLabel.text = "+\(points)"
@@ -195,45 +170,20 @@ class World: SKNode, SKPhysicsContactDelegate {
             pointLabel.run(SKAction.group([SKAction.moveBy(x: 0, y: 30, duration: 1.5), SKAction.fadeOut(withDuration: 1.2)]), completion: {
                 pointLabel.removeFromParent()
             })
-            
-            
         }
         
         score = score + points
         GameScene.current.catCam.updateScore(score: score)
         print("score: \(score!)")
     }
-    
-    
-    
+
     func spawn(itemName: String) {
         let item = Item(textureName: itemName, parentWorld: self)
         item.zPosition = 172 // down floor -> up in z
         item.position.y = wallpaper.frame.maxY
-        
         item.physicsBody?.categoryBitMask = PhysicsCategory.Item
         item.physicsBody?.contactTestBitMask = PhysicsCategory.Floor
         item.physicsBody?.collisionBitMask = PhysicsCategory.Floor | PhysicsCategory.Item
-    }
-    
-    func didBegin(_ contact: SKPhysicsContact) {
-        var firstBody: SKPhysicsBody
-        var secondBody: SKPhysicsBody
-        
-        if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask {
-            firstBody = contact.bodyA
-            secondBody = contact.bodyB
-        } else {
-            firstBody = contact.bodyB
-            secondBody = contact.bodyA
-        }
-        
-        if firstBody.categoryBitMask == PhysicsCategory.Floor && secondBody.categoryBitMask == PhysicsCategory.Item {
-//            print("yo")
-            
-        } else {
-//            print("no")
-        }
     }
     
     // MARK: Update

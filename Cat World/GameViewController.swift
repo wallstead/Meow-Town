@@ -1,6 +1,6 @@
 //
 //  GameViewController.swift
-//  Cat World
+//  Meow Town
 //
 //  Created by Willis Allstead on 4/7/16.
 //  Copyright (c) 2016 Willis Allstead. All rights reserved.

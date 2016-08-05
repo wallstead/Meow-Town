@@ -1,6 +1,6 @@
 //
 //  Item.swift
-//  Cat World
+//  Meow Town
 //
 //  Created by Willis Allstead on 7/15/16.
 //  Copyright © 2016 Willis Allstead. All rights reserved.
