@@ -247,7 +247,7 @@
 		439AD66F1CB7681500E1E018 = {
 			isa = PBXGroup;
 			children = (
-				439AD67A1CB7681500E1E018 /* Cat World */,
+				439AD67A1CB7681500E1E018 /* Meow Town */,
 				439AD6791CB7681500E1E018 /* Products */,
 				4374EA1F1D43EBAC007CB9EA /* Frameworks */,
 			);
@@ -263,7 +263,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		439AD67A1CB7681500E1E018 /* Cat World */ = {
+		439AD67A1CB7681500E1E018 /* Meow Town */ = {
 			isa = PBXGroup;
 			children = (
 				439AD67B1CB7681500E1E018 /* AppDelegate.swift */,
@@ -275,6 +275,7 @@
 				43470F2B1D07E8960069A8A4 /* Utilites */,
 				433ECFB61D55026A00A01023 /* Resources */,
 			);
+			name = "Meow Town";
 			path = "Cat World";
 			sourceTree = "<group>";
 		};
