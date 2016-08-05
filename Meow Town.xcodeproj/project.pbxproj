@@ -12,7 +12,6 @@
 		433DA5F11CBEAA12009F1B36 /* SKPixel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433DA5F01CBEAA12009F1B36 /* SKPixel.swift */; };
 		433ECFB31D54FD8A00A01023 /* MiscExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433ECFB21D54FD8A00A01023 /* MiscExtensions.swift */; };
 		433ECFBC1D55089E00A01023 /* website.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 433ECFBB1D55089E00A01023 /* website.rtf */; };
-		433ECFBE1D550CDA00A01023 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 433ECFBD1D550CDA00A01023 /* README.md */; };
 		4345CD981CF77692003BA6D4 /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4345CD971CF77692003BA6D4 /* Activity.swift */; };
 		4345CD9A1CF77F09003BA6D4 /* DefaultWorldData.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4345CD991CF77F09003BA6D4 /* DefaultWorldData.plist */; };
 		43470F2D1D07E9390069A8A4 /* CatCam.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43470F2C1D07E9390069A8A4 /* CatCam.swift */; };
@@ -74,7 +73,6 @@
 		433DA5F01CBEAA12009F1B36 /* SKPixel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKPixel.swift; sourceTree = "<group>"; };
 		433ECFB21D54FD8A00A01023 /* MiscExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MiscExtensions.swift; sourceTree = "<group>"; };
 		433ECFBB1D55089E00A01023 /* website.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = website.rtf; sourceTree = "<group>"; };
-		433ECFBD1D550CDA00A01023 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		4345CD971CF77692003BA6D4 /* Activity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Activity.swift; sourceTree = "<group>"; };
 		4345CD991CF77F09003BA6D4 /* DefaultWorldData.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = DefaultWorldData.plist; path = ../DefaultWorldData.plist; sourceTree = "<group>"; };
 		43470F2C1D07E9390069A8A4 /* CatCam.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CatCam.swift; sourceTree = "<group>"; };
@@ -279,7 +277,6 @@
 		439AD67A1CB7681500E1E018 /* Meow Town */ = {
 			isa = PBXGroup;
 			children = (
-				433ECFBD1D550CDA00A01023 /* README.md */,
 				439AD67B1CB7681500E1E018 /* AppDelegate.swift */,
 				439AD6811CB7681500E1E018 /* GameViewController.swift */,
 				439AD67F1CB7681500E1E018 /* GameScene.swift */,
@@ -456,7 +453,6 @@
 				438032091D04DFB4004D9D58 /* PlistManager.swift in Sources */,
 				43470F2D1D07E9390069A8A4 /* CatCam.swift in Sources */,
 				43689FA11D4C2BEA001C3E73 /* SKMultilineLabel.swift in Sources */,
-				433ECFBE1D550CDA00A01023 /* README.md in Sources */,
 				4345CD981CF77692003BA6D4 /* Activity.swift in Sources */,
 				43A6ACBF1D2C6DA7008E8FDA /* UIImageColors.swift in Sources */,
 				43E113131D0755EF005ADA37 /* Globals.swift in Sources */,
