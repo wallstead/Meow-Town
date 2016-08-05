@@ -13,6 +13,8 @@ class GameScene: SKScene {
     var catCam: CatCam!
     var scale: CGFloat!
     
+    // MARK: Scene Setup
+    
     override init() {
         let width = UIScreen.main().bounds.width
         let height = UIScreen.main().bounds.height
@@ -56,6 +58,8 @@ class GameScene: SKScene {
         world.update(currentTime: currentTime)
         catCam.update(currentTime: currentTime)
     }
+    
+    // MARK: Purchasing
     
     func attemptPurchase(withData data: NSMutableDictionary) -> Bool {
         let storeDict = PlistManager.sharedInstance.getValueForKey(key: "Store") as! NSMutableDictionary
