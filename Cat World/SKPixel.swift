@@ -188,13 +188,15 @@ class SKPixelToggleButtonNode: SKPixelButtonNode {
         if !enabled {
             enable()
         } else {
-            disable()
+            disable(withAction: true)
         }
     }
     
-    func disable() {
+    func disable(withAction: Bool = false) {
         if self.background.texture == activeTexture {
-            action?()
+            if withAction == true {
+                action?()
+            }
             text?.position.y = 0
             self.background.texture = defaultTexture
             enabled = false
@@ -278,7 +280,7 @@ class SKPixelToggleCollectionButtonNode: SKPixelToggleButtonNode {
     
     
     
-    func disable(withAction: Bool) {
+    override func disable(withAction: Bool) {
         if withAction {
             action?()
         }

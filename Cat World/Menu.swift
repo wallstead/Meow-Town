@@ -615,6 +615,7 @@ class Menu: SKNode {
         } else {
             if GameScene.current.catCam.itemPanel.isOpen == true {
                 GameScene.current.catCam.itemPanel.close()
+                GameScene.current.catCam.itemsButton.disable()
             }
             open()
         }

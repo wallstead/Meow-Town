@@ -74,9 +74,12 @@ class ItemPanel: SKNode {
         removeAllActions()
         if isOpen! {
             close()
+            
         } else {
             if GameScene.current.catCam.menu.isOpen == true {
                 GameScene.current.catCam.menu.close()
+                GameScene.current.catCam.menuButton.disable()
+                
             }
             open()
             
