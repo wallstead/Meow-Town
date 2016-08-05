@@ -126,6 +126,28 @@ class SKPixelButtonNode2: SKPixelSpriteNode2 {
     }
 }
 
+class SKPixelToggleButtonNode2: SKPixelButtonNode2 {
+    var enabled: Bool {
+        didSet {
+            
+        }
+    }
+    
+    override init(pixelImageNamed name: String, withText text: String?) {
+        enabled = false
+        super.init(pixelImageNamed: name, withText: text)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func updateState() { // called when enabled member is set programatically
+        
+    }
+
+}
+
 // MARK: Old stuff
 
 class SKPixelSpriteNode: SKSpriteNode {
