@@ -565,6 +565,17 @@ class Menu: SKNode {
             collectionBG.addChild(infoTable)
             infoTable.position.y = itemImageContainter.frame.minY-8.5
             
+            
+            let enableButton = SKPixelToggleButtonNode(textureName: "basicbutton", text: "Turn On", bgcolor: SKColor(colorLiteralRed: 255/255, green: 162/255, blue: 51/255, alpha: 1))
+            enableButton.zPosition = 3
+            enableButton.position.y = infoTable.position.y - 49.35 - 18
+            //            enableButton.action = {
+            //
+            //            }
+            
+            
+            
+            
             let buyButton = SKPixelButtonNode(textureName: "basicbutton", text: "Buy", bgcolor: SKColor(colorLiteralRed: 255/255, green: 162/255, blue: 51/255, alpha: 1))
             buyButton.zPosition = 3
             buyButton.position.y = infoTable.position.y - 49.35
@@ -575,6 +586,11 @@ class Menu: SKNode {
                     /* TODO: Fix this bullshit */
                     if GameScene.current.attemptPurchase(withData: data!) == true {
                         GameScene.current.catCam.alert(type: "success", message: "You successfully bought \(collectionData.value(forKey: "name")!)s.")
+                        buyButton.text!.text = "Owned"
+                        buyButton.background.alpha = 0.5
+                        buyButton.isUserInteractionEnabled = false
+                        enableButton.shownText = "On"
+                        /* TODO: Actually enable the item */
                     } else {
                         GameScene.current.catCam.alert(type: "error", message: "An error occured when attempting to purchase \(collectionData.value(forKey: "name")!)s.")
                     }
@@ -584,23 +600,19 @@ class Menu: SKNode {
                     GameScene.current.catCam.alert(type: "error", message: "You don't have enough calories to buy \(collectionData.value(forKey: "name")!)s.")
                 }
             }
-            collectionBG.addChild(buyButton)
             
-//            let owned = collectionData.value(forKey: "owned") as! Bool
-//            
-//            if owned == true {
-//                buyButton.alpha = 0.5
-//                buyButton.isUserInteractionEnabled = false
-//                buyButton.text!.text = "Owned"
-//            }
-            
-            let enableButton = SKPixelToggleButtonNode(textureName: "basicbutton", text: "Enable", bgcolor: SKColor(colorLiteralRed: 255/255, green: 162/255, blue: 51/255, alpha: 1))
-            enableButton.zPosition = 3
-            enableButton.position.y = buyButton.position.y - 18
-            enableButton.action = {
-                
+            if collectionData.value(forKey: "owned") as! Bool == true {
+                enableButton.shownText = "Off"
+                buyButton.text!.text = "Owned"
+                buyButton.background.alpha = 0.5
+                buyButton.isUserInteractionEnabled = false
             }
             collectionBG.addChild(enableButton)
+            
+            collectionBG.addChild(buyButton)
+            
+            
+            
         }
     }
     
@@ -648,28 +660,4 @@ class Menu: SKNode {
     }
 }
 
-extension CGFloat {
-    static func random() -> CGFloat {
-        return CGFloat(arc4random()) / CGFloat(UInt32.max)
-    }
-}
 
-extension UIColor { // temp
-    static func randomColor() -> UIColor {
-        // If you wanted a random alpha, just create another
-        // random number for that too.
-        return UIColor(red:   .random(),
-                       green: .random(),
-                       blue:  .random(),
-                       alpha: 1.0)
-    }
-}
-
-extension Bool {
-    
-    mutating func toggle() -> Bool {
-        self = !self
-        return self
-    }
-    
-}

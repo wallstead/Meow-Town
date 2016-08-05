@@ -10,6 +10,7 @@
 		43196E9C1D49AC9200B8A62E /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43196E9B1D49AC9200B8A62E /* iAd.framework */; };
 		43196E9E1D49AC9900B8A62E /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43196E9D1D49AC9900B8A62E /* AdSupport.framework */; };
 		433DA5F11CBEAA12009F1B36 /* SKPixel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433DA5F01CBEAA12009F1B36 /* SKPixel.swift */; };
+		433ECFB31D54FD8A00A01023 /* MiscExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433ECFB21D54FD8A00A01023 /* MiscExtensions.swift */; };
 		4345CD981CF77692003BA6D4 /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4345CD971CF77692003BA6D4 /* Activity.swift */; };
 		4345CD9A1CF77F09003BA6D4 /* DefaultWorldData.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4345CD991CF77F09003BA6D4 /* DefaultWorldData.plist */; };
 		43470F2D1D07E9390069A8A4 /* CatCam.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43470F2C1D07E9390069A8A4 /* CatCam.swift */; };
@@ -30,7 +31,6 @@
 		439AD6871CB7681500E1E018 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 439AD6861CB7681500E1E018 /* Assets.xcassets */; };
 		439AD68A1CB7681500E1E018 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 439AD6881CB7681500E1E018 /* LaunchScreen.storyboard */; };
 		439AD6AE1CB7683700E1E018 /* Cat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439AD6AD1CB7683700E1E018 /* Cat.swift */; };
-		439AD6B41CB7737D00E1E018 /* Int+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439AD6B31CB7737D00E1E018 /* Int+Extensions.swift */; };
 		43A3C6201D054DEB004BBFBA /* CoolTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A3C61F1D054DEB004BBFBA /* CoolTime.swift */; };
 		43A6ACBF1D2C6DA7008E8FDA /* UIImageColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A6ACBE1D2C6DA7008E8FDA /* UIImageColors.swift */; };
 		43E113131D0755EF005ADA37 /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E1130F1D0755EF005ADA37 /* Globals.swift */; };
@@ -71,6 +71,7 @@
 		43196E9B1D49AC9200B8A62E /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
 		43196E9D1D49AC9900B8A62E /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		433DA5F01CBEAA12009F1B36 /* SKPixel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKPixel.swift; sourceTree = "<group>"; };
+		433ECFB21D54FD8A00A01023 /* MiscExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MiscExtensions.swift; sourceTree = "<group>"; };
 		4345CD971CF77692003BA6D4 /* Activity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Activity.swift; sourceTree = "<group>"; };
 		4345CD991CF77F09003BA6D4 /* DefaultWorldData.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = DefaultWorldData.plist; path = ../DefaultWorldData.plist; sourceTree = "<group>"; };
 		43470F2C1D07E9390069A8A4 /* CatCam.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CatCam.swift; sourceTree = "<group>"; };
@@ -95,7 +96,6 @@
 		439AD6901CB7681500E1E018 /* Cat WorldTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Cat WorldTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		439AD69B1CB7681500E1E018 /* Cat WorldUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Cat WorldUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		439AD6AD1CB7683700E1E018 /* Cat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Cat.swift; path = ../Cat.swift; sourceTree = "<group>"; };
-		439AD6B31CB7737D00E1E018 /* Int+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Int+Extensions.swift"; sourceTree = "<group>"; };
 		43A3C61F1D054DEB004BBFBA /* CoolTime.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoolTime.swift; sourceTree = "<group>"; };
 		43A6ACBE1D2C6DA7008E8FDA /* UIImageColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageColors.swift; sourceTree = "<group>"; };
 		43E1130F1D0755EF005ADA37 /* Globals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Globals.swift; sourceTree = "<group>"; };
@@ -172,11 +172,11 @@
 		43470F2B1D07E8960069A8A4 /* Utilites */ = {
 			isa = PBXGroup;
 			children = (
+				43E4D1771D22E47C00E266EA /* SpriteKit-Spring.swift */,
 				43689FA01D4C2BEA001C3E73 /* SKMultilineLabel.swift */,
 				43A6ACBE1D2C6DA7008E8FDA /* UIImageColors.swift */,
 				4345CD971CF77692003BA6D4 /* Activity.swift */,
 				43A3C61F1D054DEB004BBFBA /* CoolTime.swift */,
-				439AD6B31CB7737D00E1E018 /* Int+Extensions.swift */,
 				438032081D04DFB4004D9D58 /* PlistManager.swift */,
 				43E1130F1D0755EF005ADA37 /* Globals.swift */,
 			);
@@ -220,12 +220,12 @@
 				439AD67B1CB7681500E1E018 /* AppDelegate.swift */,
 				439AD67D1CB7681500E1E018 /* GameScene.sks */,
 				439AD67F1CB7681500E1E018 /* GameScene.swift */,
+				433ECFB21D54FD8A00A01023 /* MiscExtensions.swift */,
 				439AD6811CB7681500E1E018 /* GameViewController.swift */,
 				439AD6AD1CB7683700E1E018 /* Cat.swift */,
 				43F71A771D396852008FF8D9 /* Item.swift */,
 				43FD71481CD41CAA0058DFBA /* World.swift */,
 				43470F2C1D07E9390069A8A4 /* CatCam.swift */,
-				43E4D1771D22E47C00E266EA /* SpriteKit-Spring.swift */,
 				437C2EC41D0BADBB00F05AEF /* Menu.swift */,
 				4374EA241D47F6E2007CB9EA /* ItemPanel.swift */,
 				433DA5F01CBEAA12009F1B36 /* SKPixel.swift */,
@@ -418,9 +418,9 @@
 				437C2EC51D0BADBB00F05AEF /* Menu.swift in Sources */,
 				43F71A781D396852008FF8D9 /* Item.swift in Sources */,
 				43FD71491CD41CAA0058DFBA /* World.swift in Sources */,
-				439AD6B41CB7737D00E1E018 /* Int+Extensions.swift in Sources */,
 				439AD6821CB7681500E1E018 /* GameViewController.swift in Sources */,
 				439AD67C1CB7681500E1E018 /* AppDelegate.swift in Sources */,
+				433ECFB31D54FD8A00A01023 /* MiscExtensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -455,9 +455,7 @@ class CatCam: SKCameraNode {
             labels[currentLabelIndex].text!.append(word+" ")
         }
         
-        for label in labels {
-            print(label.text)
-        }
+       
         
         messageNode.position.x = -messageNode.calculateAccumulatedFrame().width/2+alertIcon.currentWidth-10
         messageNode.position.y = messageNode.calculateAccumulatedFrame().height/2
@@ -466,31 +464,6 @@ class CatCam: SKCameraNode {
     }
 }
 
-extension SKNode {
-    
-    var currentWidth:CGFloat {
-        get {
-            return frame.width/xScale
-        }
-    }
-    
-    var currentHeight:CGFloat {
-        get {
-            return frame.height/yScale
-        }
-    }
-}
-extension String {
-    subscript(i: Int) -> String {
-        guard i >= 0 && i < characters.count else { return "" }
-        return String(self[index(startIndex, offsetBy: i)])
-    }
-    subscript(range: Range<Int>) -> String {
-        let lowerIndex = index(startIndex, offsetBy: max(0,range.lowerBound), limitedBy: endIndex) ?? endIndex
-        return substring(with: lowerIndex..<(index(lowerIndex, offsetBy: range.upperBound - range.lowerBound, limitedBy: endIndex) ?? endIndex))
-    }
-    subscript(range: ClosedRange<Int>) -> String {
-        let lowerIndex = index(startIndex, offsetBy: max(0,range.lowerBound), limitedBy: endIndex) ?? endIndex
-        return substring(with: lowerIndex..<(index(lowerIndex, offsetBy: range.upperBound - range.lowerBound + 1, limitedBy: endIndex) ?? endIndex))
-    }
-}
+
+
+

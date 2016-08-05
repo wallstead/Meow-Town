@@ -144,12 +144,21 @@ class SKPixelButtonNode: SKPixelSpriteNode {
 
 class SKPixelToggleButtonNode: SKPixelButtonNode {
     var enabled: Bool!
+    var shownText: String? {
+        didSet {
+            updateText()
+        }
+    }
     
     override init(textureName: String, text: String? = nil, bgcolor: SKColor? = nil) {
         let texture = SKTexture(imageNamed: textureName)
         texture.filteringMode = .nearest
         let texturePressed = SKTexture(imageNamed: textureName+"_pressed")
         texturePressed.filteringMode = .nearest
+        if text != nil {
+            self.shownText = text!
+        }
+
         super.init(textureName: textureName, text: text)
         self.enabled = false
         if bgcolor != nil {
@@ -209,6 +218,10 @@ class SKPixelToggleButtonNode: SKPixelButtonNode {
             text?.position.y = -1
             enabled = true
         }
+    }
+    
+    func updateText() {
+        text?.text = shownText
     }
 }
 

@@ -406,30 +406,7 @@ extension Cat {
     }
 }
 
-extension CGPoint {
-    func distanceFromCGPoint(point:CGPoint)->CGFloat{
-        return sqrt(pow(self.x - point.x,2) + pow(self.y - point.y,2))
-    }
-}
 
-extension UIImage {
-    func getPixelColor(pos: CGPoint) -> UIColor {
-        
-        let pixelData = self.cgImage!.dataProvider!.data
-        let data: UnsafePointer<UInt8> = CFDataGetBytePtr(pixelData)
-        
-        let pixelInfo: Int = ((Int(self.size.width) * Int(pos.y)) + Int(pos.x)) * 4
-        
-        let r = CGFloat(data[pixelInfo]) / CGFloat(255.0)
-        let g = CGFloat(data[pixelInfo+1]) / CGFloat(255.0)
-        let b = CGFloat(data[pixelInfo+2]) / CGFloat(255.0)
-        let a = CGFloat(data[pixelInfo+3]) / CGFloat(255.0)
-        
-        return UIColor(red: r, green: g, blue: b, alpha: a)
-    }
-    
-    
-}
 
 func randomInRange(low: Int, high : Int) -> Int {
     return low + Int(arc4random_uniform(UInt32(high - low + 1)))

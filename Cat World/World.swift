@@ -33,7 +33,7 @@ class World: SKNode, SKPhysicsContactDelegate {
         self.wallpaper = decoder.decodeObject(forKey: "wallpaper") as! SKPixelSpriteNode
         self.floor = decoder.decodeObject(forKey: "floor") as! SKPixelSpriteNode
         self.cats = decoder.decodeObject(forKey: "cats") as? [Cat]
-        self.score = decoder.decodeInteger(forKey: "score")
+        self.score = decoder.decodeInteger(forKey: "calories")
         self.food = []
         
         layout()
@@ -53,7 +53,6 @@ class World: SKNode, SKPhysicsContactDelegate {
         
         layout()
         
-        
         GameScene.current.catCam.displayCatSelection()
     }
     
@@ -65,7 +64,7 @@ class World: SKNode, SKPhysicsContactDelegate {
             aCoder.encode(cats, forKey: "cats")
             print("saving this to cats: \(cats)")
         }
-        if let score = score { aCoder.encode(score, forKey: "score") }
+        if let score = score { aCoder.encode(score, forKey: "calories") }
     }
     
     // MARK: Saving
