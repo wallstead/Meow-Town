@@ -47,7 +47,6 @@ class CatCam: SKCameraNode {
         }
         DispatchQueue.main.async {
             self.toggleCatFocusInfo()
-//            GameScene.current.catCam.alert(type: "error", message: "test.")
         }
     }
     

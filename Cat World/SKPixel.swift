@@ -9,6 +9,13 @@
 import Foundation
 import SpriteKit
 
+extension SKTexture {
+    convenience init(pixelImageNamed name: String) {
+        self.init(imageNamed: name)
+        self.filteringMode = .nearest
+    }
+}
+
 class SKPixelSpriteNode: SKSpriteNode {
     var background: SKSpriteNode
     var textureName: String
@@ -16,9 +23,8 @@ class SKPixelSpriteNode: SKSpriteNode {
     internal var onPress: (() -> Void)?
     
     init(textureName: String) {
-        let texture = SKTexture(imageNamed: textureName)
+        let texture = SKTexture(pixelImageNamed: textureName)
         self.textureName = textureName
-        texture.filteringMode = .nearest
         self.background = SKSpriteNode(texture: texture)
         super.init(texture: nil, color: SKColor.clear(), size: texture.size())
         self.isUserInteractionEnabled = true
@@ -40,8 +46,7 @@ class SKPixelSpriteNode: SKSpriteNode {
     
     func changeTextureTo(textureName: String) {
         self.background.size = CGSize(width: 0, height: 0)
-        let newTexture = SKTexture(imageNamed: textureName)
-        newTexture.filteringMode = .nearest
+        let newTexture = SKTexture(pixelImageNamed: textureName)
         self.background.texture = newTexture
         let oldXScale = background.xScale
         let oldYScale = background.yScale
@@ -64,10 +69,8 @@ class SKPixelButtonNode: SKPixelSpriteNode {
     var text: SKLabelNode?
     
     init(textureName: String, text: String? = nil, bgcolor: SKColor? = nil) {
-        let texture = SKTexture(imageNamed: textureName)
-        texture.filteringMode = .nearest
-        let texturePressed = SKTexture(imageNamed: textureName+"_pressed")
-        texturePressed.filteringMode = .nearest
+        let texture = SKTexture(pixelImageNamed: textureName)
+        let texturePressed = SKTexture(pixelImageNamed: textureName+"_pressed")
         self.defaultTexture = texture
         self.activeTexture = texturePressed
         super.init(textureName: textureName)
@@ -151,10 +154,8 @@ class SKPixelToggleButtonNode: SKPixelButtonNode {
     }
     
     override init(textureName: String, text: String? = nil, bgcolor: SKColor? = nil) {
-        let texture = SKTexture(imageNamed: textureName)
-        texture.filteringMode = .nearest
-        let texturePressed = SKTexture(imageNamed: textureName+"_pressed")
-        texturePressed.filteringMode = .nearest
+        let texture = SKTexture(pixelImageNamed: textureName)
+        let texturePressed = SKTexture(pixelImageNamed: textureName+"_pressed")
         if text != nil {
             self.shownText = text!
         }
