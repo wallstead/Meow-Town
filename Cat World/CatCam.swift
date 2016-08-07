@@ -51,9 +51,9 @@ class CatCam: SKCameraNode {
     }
     
     func showHUD() {
-        topBar = SKPixelSpriteNode(textureName: "topbar_center")
-        menuButton = SKPixelToggleButtonNode(textureName: "topbar_menubutton")
-        itemsButton = SKPixelToggleButtonNode(textureName: "topbar_itemsbutton")
+        topBar = SKPixelSpriteNode(pixelImageNamed: "topbar_center")
+        menuButton = SKPixelToggleButtonNode(pixelImageNamed: "topbar_menubutton")
+        itemsButton = SKPixelToggleButtonNode(pixelImageNamed: "topbar_itemsbutton")
         
         GameScene.current.scale = GameScene.current.frame.width/(topBar.frame.width+menuButton.frame.width+itemsButton.frame.width)
     
@@ -128,15 +128,15 @@ class CatCam: SKCameraNode {
         }
         
         func display() {
-            let quickinfobg = SKPixelSpriteNode(textureName: "catfocus_quickinfobg")
+            let quickinfobg = SKPixelSpriteNode(pixelImageNamed: "catfocus_quickinfobg")
             quickinfobg.alpha = 0
             if let catColor = currentFocus?.sprite.colors.primaryColor {
-                quickinfobg.background.color = catColor
+                quickinfobg.color = catColor
             } else {
-                quickinfobg.background.color = SKColor.gray()
+                quickinfobg.color = SKColor.gray()
             }
             
-            quickinfobg.background.colorBlendFactor = 1
+            quickinfobg.colorBlendFactor = 1
             quickinfobg.setScale(topBar.xScale)
             quickinfobg.position.y = camFrame.midY-(quickinfobg.frame.height*5)
             quickinfobg.zPosition = 50
@@ -161,7 +161,7 @@ class CatCam: SKCameraNode {
             /* TODO: Add this to a skpixellabel class and use it in the score as well */
             
             for heartIndex in -2...2 {
-                let heart = SKPixelSpriteNode(textureName: "heart")
+                let heart = SKPixelSpriteNode(pixelImageNamed: "heart")
                 heart.zPosition = 1
                 heart.position.y = -5
                 heart.position.x = 8*CGFloat(heartIndex)
@@ -186,7 +186,7 @@ class CatCam: SKCameraNode {
     
     func displayCatSelection() {
         if menu.isOpen == true {
-            menuButton.disable()
+            menuButton.enabled = false // FIXME: this needs to actually do shit
             menu.close()
         }
         unfocus()
@@ -195,7 +195,7 @@ class CatCam: SKCameraNode {
         var catSpriteArray: [SKPixelSpriteNode] = []
         var currentCatSprite: SKPixelSpriteNode
         
-        let background = SKPixelSpriteNode(textureName: "catselect_bg")
+        let background = SKPixelSpriteNode(pixelImageNamed: "catselect_bg")
         background.setScale(GameScene.current.frame.width/background.frame.width)
         background.zPosition = 1000
         background.alpha = 0
@@ -204,13 +204,13 @@ class CatCam: SKCameraNode {
         let cats = PlistManager.sharedInstance.getValueForKey(key: "Selectable Cats") as! NSDictionary
         for cat in cats {
             if let catSkin = cat.value.value(forKey: "skin") as? String {
-                catSpriteArray.append(SKPixelSpriteNode(textureName: catSkin))
+                catSpriteArray.append(SKPixelSpriteNode(pixelImageNamed: catSkin))
                 print(catSkin)
             }
         }
         currentCatSprite = catSpriteArray[0]
         
-        let titleBar = SKPixelSpriteNode(textureName: "catselect_titlebar")
+        let titleBar = SKPixelSpriteNode(pixelImageNamed: "catselect_titlebar")
         background.addChild(titleBar)
         titleBar.zPosition = 10
         titleBar.position = titleBar.convert(CGPoint(x: 0, y:self.frame.maxY), from: self)
@@ -225,7 +225,7 @@ class CatCam: SKCameraNode {
         title.fontColor = SKColor(red: 50/255, green: 50/255, blue: 50/255, alpha: 1)
         title.verticalAlignmentMode = .center
 
-        let circleBackground = SKPixelSpriteNode(textureName: "catselect_circle")
+        let circleBackground = SKPixelSpriteNode(pixelImageNamed: "catselect_circle")
         background.addChild(circleBackground)
         circleBackground.zPosition = 10
         circleBackground.position.y -= 5
@@ -234,7 +234,7 @@ class CatCam: SKCameraNode {
         background.addChild(circleCropNode)
         circleCropNode.zPosition = 11
         circleCropNode.position = circleBackground.position
-        circleCropNode.maskNode = SKPixelSpriteNode(textureName: "catselect_circle_mask")
+        circleCropNode.maskNode = SKPixelSpriteNode(pixelImageNamed: "catselect_circle_mask")
         
         let description = SKLabelNode(fontNamed: "Silkscreen")
         background.addChild(description)
@@ -261,8 +261,8 @@ class CatCam: SKCameraNode {
             return SKAction.moveByX(deltaX: multiplier*55, y: 0, duration: 0.5, delay: 0, usingSpringWithDamping: 0.65, initialSpringVelocity: 0)
         }
         
-        let leftButton = SKPixelButtonNode(textureName: "catselect_arrow")
-        let rightButton = SKPixelButtonNode(textureName: "catselect_arrow")
+        let leftButton = SKPixelButtonNode(pixelImageNamed: "catselect_arrow")
+        let rightButton = SKPixelButtonNode(pixelImageNamed: "catselect_arrow")
 
         func updateButtons() {
             if catSpriteArray.index(of: currentCatSprite) == 0 {
@@ -320,7 +320,7 @@ class CatCam: SKCameraNode {
             }
         }
 
-        let doneButton = SKPixelButtonNode(textureName: "catselect_done", text: "Mine!")
+        let doneButton = SKPixelButtonNode(pixelImageNamed: "catselect_done", withText: "Mine!")
         background.addChild(doneButton)
         doneButton.zPosition = 12
         doneButton.position.y = circleBackground.frame.minY-11
@@ -366,16 +366,16 @@ class CatCam: SKCameraNode {
         switch type {
         case "error":
             bgColor = SKColor(red: 223/255, green: 51/255, blue: 41/255, alpha: 1)
-            alertIcon = SKPixelSpriteNode(textureName: "error_icon")
+            alertIcon = SKPixelSpriteNode(pixelImageNamed: "error_icon")
         case "warning":
             bgColor = SKColor(red: 249/255, green: 208/255, blue: 51/255, alpha: 1)
-            alertIcon = SKPixelSpriteNode(textureName: "warning_icon")
+            alertIcon = SKPixelSpriteNode(pixelImageNamed: "warning_icon")
         case "success":
             bgColor = SKColor(red: 0/255, green: 187/255, blue: 125/255, alpha: 1)
-            alertIcon = SKPixelSpriteNode(textureName: "success_icon")
+            alertIcon = SKPixelSpriteNode(pixelImageNamed: "success_icon")
         default:
             bgColor = SKColor(red: 0/255, green: 187/255, blue: 125/255, alpha: 1)
-            alertIcon = SKPixelSpriteNode(textureName: "warning_icon") // default to success
+            alertIcon = SKPixelSpriteNode(pixelImageNamed: "warning_icon") // default to success
         }
         
         let bgCropper = SKCropNode()
@@ -404,8 +404,8 @@ class CatCam: SKCameraNode {
         })
         
         alertIcon.zPosition = 2
-        alertIcon.background.color = bgColor.lighterColor(percent: 0.25)
-        alertIcon.background.colorBlendFactor = 1
+        alertIcon.color = bgColor.lighterColor(percent: 0.25)
+        alertIcon.colorBlendFactor = 1
         alertIcon.position.x = -65
         bg.addChild(alertIcon)
         

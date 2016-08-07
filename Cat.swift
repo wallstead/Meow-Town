@@ -89,7 +89,7 @@ class Cat: SKNode {
         sprite.position.y = world.wallpaper.frame.minY-10
         sprite.position.x = CGFloat(Int.random(min: Int(world.floor.frame.minX-10), max: Int(world.floor.frame.maxX+10)))
         sprite.zPosition = 100
-        sprite.background.anchorPoint = CGPoint(x: 0.5, y: 0)
+        sprite.anchorPoint = CGPoint(x: 0.5, y: 0)
         sprite.action = {
             GameScene.current.catCam.toggleFocus(cat: self)
         }
@@ -194,14 +194,14 @@ class Cat: SKNode {
         let faceThing = SKSpriteNode(color: SKColor.clear(), size: CGSize(width: 1, height: 1))
         if food != nil {
             if self.isKitten() {
-                faceThing.position.x = self.sprite.background.frame.minX+3.5
+                faceThing.position.x = self.sprite.frame.minX+3.5
                 faceThing.position.y = 5.5
             } else {
-                faceThing.position.x = self.sprite.background.frame.minX+6
+                faceThing.position.x = self.sprite.frame.minX+6
                 faceThing.position.y = 12.5
             }
             faceThing.zPosition = 1000
-            self.sprite.background.addChild(faceThing)
+            self.sprite.addChild(faceThing)
             
             print("sprite position: \(sprite.position.x)")
             print("food position: \(food?.position.x)")
@@ -315,7 +315,8 @@ class Cat: SKNode {
                 let randx = randomInRange(low: 1, high: Int(item.sprite.size.width-1))
                 let randy = randomInRange(low: 1, high: Int(item.sprite.size.height-1))
                 let pixPoint = CGPoint(x: randx, y: randy)
-                let randColor = UIImage(named: item.sprite.textureName)!.getPixelColor(pos: pixPoint) as SKColor
+//                let randColor = UIImage(named: item.sprite.pixelImageNamed)!.getPixelColor(pos: pixPoint) as SKColor
+                let randColor = SKColor.red()
                 
                 let crumb = SKSpriteNode(color: randColor, size: CGSize(width: 1, height: 1))
                 crumb.physicsBody = SKPhysicsBody(rectangleOf: crumb.size)

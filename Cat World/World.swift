@@ -45,8 +45,8 @@ class World: SKNode, SKPhysicsContactDelegate {
     
     convenience init(name: String) {
         self.init()
-        self.wallpaper = SKPixelSpriteNode(textureName: "wallpaper_greenforest")
-        self.floor = SKPixelSpriteNode(textureName: "floor")
+        self.wallpaper = SKPixelSpriteNode(pixelImageNamed: "wallpaper_greenforest")
+        self.floor = SKPixelSpriteNode(pixelImageNamed: "floor")
         self.cats = []
         self.food = []
         self.score = 0
@@ -85,28 +85,28 @@ class World: SKNode, SKPhysicsContactDelegate {
         
         floor.zPosition = 2
         floor.position.y = -floor!.frame.height*1.3
-        for i in -1...1 {
-            for j in 0...2 {
-                let floorCopy = SKPixelSpriteNode(textureName: floor.textureName)
-                floorCopy.position.y = floor.position.y-(CGFloat(j)*30)
-                floorCopy.position.x = 60*CGFloat(i)
-                floorCopy.zPosition = 2-CGFloat(j)
-                self.addChild(floorCopy)
-            }
-        }
+//        for i in -1...1 {
+//            for j in 0...2 {
+//                let floorCopy = SKPixelSpriteNode(pixelImageNamed: floor.pixelImageNamed)
+//                floorCopy.position.y = floor.position.y-(CGFloat(j)*30)
+//                floorCopy.position.x = 60*CGFloat(i)
+//                floorCopy.zPosition = 2-CGFloat(j)
+//                self.addChild(floorCopy)
+//            }
+//        }
         
         wallpaper.zPosition = 3
         wallpaper.position.x = floor.frame.minX + wallpaper.width/2 - wallpaper.width*4
         wallpaper.position.y = floor.frame.maxY + wallpaper.height/2
-        for i in 1...8 {
-            for j in 0...3 {
-                let wallpaperCopy = SKPixelSpriteNode(textureName: wallpaper.textureName)
-                wallpaperCopy.position.y = wallpaper.position.y+wallpaper.height*CGFloat(j)
-                wallpaperCopy.position.x = wallpaper.position.x+wallpaper.width*CGFloat(i)
-                wallpaperCopy.zPosition = 3
-                self.addChild(wallpaperCopy)
-            }
-        }
+//        for i in 1...8 {
+//            for j in 0...3 {
+//                let wallpaperCopy = SKPixelSpriteNode(pixelImageNamed: wallpaper.pixelImageNamed)
+//                wallpaperCopy.position.y = wallpaper.position.y+wallpaper.height*CGFloat(j)
+//                wallpaperCopy.position.x = wallpaper.position.x+wallpaper.width*CGFloat(i)
+//                wallpaperCopy.zPosition = 3
+//                self.addChild(wallpaperCopy)
+//            }
+//        }
         
         floorCollisionBox = SKSpriteNode(color: SKColor.clear(), size: CGSize(width: floor.currentWidth*3, height: 5))
         floorCollisionBox!.physicsBody = SKPhysicsBody(rectangleOf: floorCollisionBox!.size)
@@ -131,21 +131,21 @@ class World: SKNode, SKPhysicsContactDelegate {
     }
     
     func addGraveStone(catName: String, position: CGPoint, zPos: CGFloat) {
-        let graveStone = SKPixelSpriteNode(textureName: "gravestone")
-        graveStone.position = position
-        graveStone.background.anchorPoint = CGPoint(x: 0.5, y: 0)
-        graveStone.zPosition = zPos
-        self.addChild(graveStone)
-        
-        let rip = SKLabelNode(fontNamed: "Silkscreen-bold")
-        rip.zPosition = graveStone.zPosition+1
-        rip.text = "RIP"
-        rip.setScale(1/10)
-        rip.fontSize = 80
-        rip.fontColor = SKColor(colorLiteralRed: 52/255, green: 52/255, blue: 52/255, alpha: 1)
-        rip.verticalAlignmentMode = .center
-        rip.position.y = 20
-        graveStone.addChild(rip)
+//        let graveStone = SKPixelSpriteNode(pixelImageNamed: "gravestone")
+//        graveStone.position = position
+//        graveStone.anchorPoint = CGPoint(x: 0.5, y: 0)
+//        graveStone.zPosition = zPos
+//        self.addChild(graveStone)
+//        
+//        let rip = SKLabelNode(fontNamed: "Silkscreen-bold")
+//        rip.zPosition = graveStone.zPosition+1
+//        rip.text = "RIP"
+//        rip.setScale(1/10)
+//        rip.fontSize = 80
+//        rip.fontColor = SKColor(colorLiteralRed: 52/255, green: 52/255, blue: 52/255, alpha: 1)
+//        rip.verticalAlignmentMode = .center
+//        rip.position.y = 20
+//        graveStone.addChild(rip)
     }
     
     func addPoints(item: Item, location: CGPoint? = nil) {
@@ -178,7 +178,7 @@ class World: SKNode, SKPhysicsContactDelegate {
     }
 
     func spawn(itemName: String) {
-        let item = Item(textureName: itemName, parentWorld: self)
+        let item = Item(pixelImageNamed: itemName, parentWorld: self)
         item.zPosition = 172 // down floor -> up in z
         item.position.y = wallpaper.frame.maxY
         item.physicsBody?.categoryBitMask = PhysicsCategory.Item
