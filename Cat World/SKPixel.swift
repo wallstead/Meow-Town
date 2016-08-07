@@ -47,7 +47,15 @@ class SKPixelSpriteNode: SKSpriteNode {
     }
     
     required init?(coder aDecoder: NSCoder) {
-        fatalError()
+        textureName = aDecoder.decodeObject(forKey: "textureName") as! String
+        super.init(coder: aDecoder)
+        texture = aDecoder.decodeObject(forKey: "texture") as? SKTexture
+    }
+
+    override func encode(with aCoder: NSCoder) {
+        aCoder.encode(textureName, forKey: "textureName")
+        aCoder.encode(texture, forKey: "texture")
+        super.encode(with: aCoder)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -141,7 +149,13 @@ class SKPixelToggleButtonNode: SKPixelButtonNode {
     }
     
     required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        enabled = aDecoder.decodeBool(forKey: "enabled")
+        super.init(coder: aDecoder)
+    }
+    
+    override func encode(with aCoder: NSCoder) {
+        aCoder.encode(enabled, forKey: "enabled")
+        super.encode(with: aCoder)
     }
     
     func updateState() { // called when enabled member is set programatically
