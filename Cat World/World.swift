@@ -85,28 +85,28 @@ class World: SKNode, SKPhysicsContactDelegate {
         
         floor.zPosition = 2
         floor.position.y = -floor!.frame.height*1.3
-//        for i in -1...1 {
-//            for j in 0...2 {
-//                let floorCopy = SKPixelSpriteNode(pixelImageNamed: floor.pixelImageNamed)
-//                floorCopy.position.y = floor.position.y-(CGFloat(j)*30)
-//                floorCopy.position.x = 60*CGFloat(i)
-//                floorCopy.zPosition = 2-CGFloat(j)
-//                self.addChild(floorCopy)
-//            }
-//        }
+        for i in -1...1 {
+            for j in 0...2 {
+                let floorCopy = SKPixelSpriteNode(pixelImageNamed: floor.textureName)
+                floorCopy.position.y = floor.position.y-(CGFloat(j)*30)
+                floorCopy.position.x = 60*CGFloat(i)
+                floorCopy.zPosition = 2-CGFloat(j)
+                self.addChild(floorCopy)
+            }
+        }
         
         wallpaper.zPosition = 3
         wallpaper.position.x = floor.frame.minX + wallpaper.width/2 - wallpaper.width*4
         wallpaper.position.y = floor.frame.maxY + wallpaper.height/2
-//        for i in 1...8 {
-//            for j in 0...3 {
-//                let wallpaperCopy = SKPixelSpriteNode(pixelImageNamed: wallpaper.pixelImageNamed)
-//                wallpaperCopy.position.y = wallpaper.position.y+wallpaper.height*CGFloat(j)
-//                wallpaperCopy.position.x = wallpaper.position.x+wallpaper.width*CGFloat(i)
-//                wallpaperCopy.zPosition = 3
-//                self.addChild(wallpaperCopy)
-//            }
-//        }
+        for i in 1...8 {
+            for j in 0...3 {
+                let wallpaperCopy = SKPixelSpriteNode(pixelImageNamed: wallpaper.textureName)
+                wallpaperCopy.position.y = wallpaper.position.y+wallpaper.height*CGFloat(j)
+                wallpaperCopy.position.x = wallpaper.position.x+wallpaper.width*CGFloat(i)
+                wallpaperCopy.zPosition = 3
+                self.addChild(wallpaperCopy)
+            }
+        }
         
         floorCollisionBox = SKSpriteNode(color: SKColor.clear(), size: CGSize(width: floor.currentWidth*3, height: 5))
         floorCollisionBox!.physicsBody = SKPhysicsBody(rectangleOf: floorCollisionBox!.size)
