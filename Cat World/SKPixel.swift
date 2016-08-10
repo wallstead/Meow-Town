@@ -62,9 +62,7 @@ class SKPixelSpriteNode: SKSpriteNode {
         action?()
     }
     
-    func updateTexture() {
-        print("updating 🍐")
-    }
+    func updateTexture() { }
 }
 
 class SKPixelButtonNode: SKPixelSpriteNode {
@@ -607,12 +605,20 @@ class SKPixelCatNode: SKPixelSpriteNode {
         stand()
     }
     
-    
-    
     func pube() {
         let grownCatName = skinName.replacingOccurrences(of: "_kitten", with: "")
         self.skinName = grownCatName
         stand()
         print("pubed")
+    }
+    
+    override func updateTexture() {
+        let oldXScale = xScale
+        let oldYScale = yScale
+        size = CGSize(width: 0, height: 0)
+        size.height = texture!.size().height
+        size.width = texture!.size().width
+        xScale = oldXScale
+        yScale = oldYScale
     }
 }

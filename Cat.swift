@@ -16,7 +16,7 @@ class Cat: SKNode {
     var sprite: SKPixelCatNode!
     var mood: String!
     var birthday: NSDate!
-    let lifespan: TimeInterval = 30.minutes
+    let lifespan: TimeInterval = 1.minute
     var world: World!
     let timer = SKTimer() // the timer calculates the time step value dt for every frame
     let scheduler = Scheduler() // an event scheduler
@@ -308,15 +308,11 @@ class Cat: SKNode {
         flyTo(point: item.position, food: item, completion: {
             /* Find where the mouth is */
             
-
-            
-            
             let spawnCrumb = SKAction.run({
                 let randx = randomInRange(low: 1, high: Int(item.sprite.size.width-1))
                 let randy = randomInRange(low: 1, high: Int(item.sprite.size.height-1))
                 let pixPoint = CGPoint(x: randx, y: randy)
-//                let randColor = UIImage(named: item.sprite.pixelImageNamed)!.getPixelColor(pos: pixPoint) as SKColor
-                let randColor = SKColor.red()
+                let randColor = UIImage(named: item.sprite.textureName)!.getPixelColor(pos: pixPoint) as SKColor
                 
                 let crumb = SKSpriteNode(color: randColor, size: CGSize(width: 1, height: 1))
                 crumb.physicsBody = SKPhysicsBody(rectangleOf: crumb.size)
