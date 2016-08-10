@@ -161,7 +161,17 @@ class SKPixelToggleButtonNode: SKPixelButtonNode {
     }
     
     func updateState() { // called when enabled member is set programatically
-        
+        if enabled {
+            texture = pressedTexture
+            if label != nil {
+                label!.position.y = -1
+            }
+        } else {
+            texture = defaultTexture
+            if label != nil {
+                label!.position.y = 0
+            }
+        }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
