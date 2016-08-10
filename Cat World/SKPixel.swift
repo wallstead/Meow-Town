@@ -221,8 +221,8 @@ class SKPixelToggleButtonNode: SKPixelButtonNode {
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         enabled.toggle()
+        action?()
     }
-
 }
 
 // MARK: Old stuff
