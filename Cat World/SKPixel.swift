@@ -233,6 +233,147 @@ class SKPixelToggleButtonNode: SKPixelButtonNode {
     }
 }
 
+class SKPixelCollectionToggleButtonNode: SKPixelToggleButtonNode {
+    let overlay: SKPixelSpriteNode
+    let icon: SKPixelSpriteNode
+    
+    init(type: String, iconNamed iconName: String, withText text: String? = nil) {
+        if type == "collection" || type == "item" {
+            overlay = SKPixelSpriteNode(pixelImageNamed: "topbar_menupanel_itemcategory_ui")
+            icon = SKPixelSpriteNode(pixelImageNamed: iconName)
+        } else {
+            print("unrecognized type of button")
+            overlay = SKPixelSpriteNode(pixelImageNamed: "topbar_menupanel_itemcategory_ui")
+            icon = SKPixelSpriteNode(pixelImageNamed: "burger")
+        }
+        super.init(pixelImageNamed: "topbar_menupanel_itemcategory", withText: text)
+        overlay.zPosition = 1
+        addChild(overlay)
+        icon.zPosition = 2
+        icon.position.x = -46.5
+        icon.position.y = 0.5
+        addChild(icon)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        // FIXME: these need to be set dyanamically
+        overlay = SKPixelSpriteNode(pixelImageNamed: "topbar_menupanel_itemcategory_ui")
+        icon = SKPixelSpriteNode(pixelImageNamed: "burger")
+        super.init(coder: aDecoder)
+        overlay.zPosition = 1
+        addChild(overlay)
+        icon.zPosition = 2
+        icon.position.x = -46.5
+        icon.position.y = 0.5
+        addChild(icon)
+    }
+    
+    override func encode(with aCoder: NSCoder) {
+//        aCoder.encode(enabled, forKey: "enabled")
+//        super.encode(with: aCoder)
+    }
+    
+    override func updateState() { // called when enabled member is set programatically
+        if enabled {
+            texture = pressedTexture
+            if label != nil {
+                label!.position.y = -1
+            }
+        } else {
+            texture = defaultTexture
+            if label != nil {
+                label!.position.y = 0
+            }
+        }
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        // enabled -> pressedTexture
+        // disabled -> defaultTexture
+        if enabled {
+            texture = defaultTexture
+            if label != nil {
+                label!.position.y = 0
+                overlay.position.y = 0
+                icon.position.y = 0.5
+            }
+        } else {
+            texture = pressedTexture
+            if label != nil {
+                label!.position.y = -1
+                overlay.position.y = -1
+                icon.position.y = -0.5
+            }
+        }
+    }
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if let touch = touches.first {
+            let location: CGPoint = touch.location(in: self.parent!)
+            if self.contains(location) { // still inside bounds
+                if enabled {
+                    if texture != defaultTexture {
+                        texture = defaultTexture
+                    }
+                    if label != nil && label?.position.y != 0 {
+                        label!.position.y = 0
+                        overlay.position.y = 0
+                        icon.position.y = 0.5
+                    }
+                } else {
+                    if texture != pressedTexture {
+                        texture = pressedTexture
+                    }
+                    if label != nil && label?.position.y != -1 {
+                        label!.position.y = -1
+                        overlay.position.y = -1
+                        icon.position.y = -0.5
+                    }
+                }
+            } else {
+                if enabled { // reset to enabled
+                    if texture != pressedTexture {
+                        texture = pressedTexture
+                    }
+                    if label != nil && label?.position.y != -1 {
+                        label!.position.y = -1
+                        overlay.position.y = -1
+                        icon.position.y = -0.5
+                    }
+                } else { // reset to disabled
+                    if texture != defaultTexture {
+                        texture = defaultTexture
+                    }
+                    if label != nil && label?.position.y != 0 {
+                        label!.position.y = 0
+                        overlay.position.y = 0
+                        icon.position.y = 0.5
+                    }
+                }
+            }
+        }
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        enabled.toggle()
+        if texture == pressedTexture {
+            texture = defaultTexture
+            label?.position.y = 0
+            overlay.texture = SKTexture(pixelImageNamed: "topbar_menupanel_itemcategory_ui2")
+            overlay.position.y = 0
+            icon.position.y = 0.5
+            icon.run(SKAction.fadeOut(withDuration: 0.1))
+            let resize = SKAction.resize(toWidth: 168, duration: 0.1)
+            resize.timingMode = .easeIn
+            run(resize, completion: {
+                self.action?()
+            })
+        } else {
+            
+        }
+    }
+}
+
 // MARK: Old stuff
 
 //class SKPixelSpriteNode: SKSpriteNode {
