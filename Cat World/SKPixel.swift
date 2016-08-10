@@ -560,21 +560,28 @@ class SKPixelToggleButtonNode: SKPixelButtonNode {
 class SKPixelCatNode: SKPixelSpriteNode {
     var skinName: String
     var colors: UIImageColors
+    var mouth: SKSpriteNode
     
     init(catName: String) {
-        self.skinName = catName
-        self.colors = UIImage(named: self.skinName)!.getColors()
-        super.init(pixelImageNamed: self.skinName, interactionEnabled: true)
+        skinName = catName
+        colors = UIImage(named: skinName)!.getColors()
+        mouth = SKSpriteNode(color: SKColor.green(), size: CGSize(width: 1, height: 1))
+        
+        super.init(pixelImageNamed: skinName, interactionEnabled: true)
+        mouth.zPosition = 1
+        
+        addChild(mouth)
     }
     
     required init?(coder aDecoder: NSCoder) {
         self.skinName = aDecoder.decodeObject(forKey: "catname") as! String
-        self.colors = UIImage(named: self.skinName)!.getColors()
+        self.colors = UIImage(named: skinName)!.getColors()
+        self.mouth = SKSpriteNode(color: SKColor.orange(), size: CGSize(width: 1, height: 1))
         super.init(coder: aDecoder)
     }
     
     override func encode(with aCoder: NSCoder) {
-        aCoder.encode(self.skinName, forKey: "catname")
+        aCoder.encode(skinName, forKey: "catname")
         super.encode(with: aCoder)
     }
     
@@ -606,10 +613,8 @@ class SKPixelCatNode: SKPixelSpriteNode {
     }
     
     func pube() {
-        let grownCatName = skinName.replacingOccurrences(of: "_kitten", with: "")
-        self.skinName = grownCatName
+        skinName = skinName.replacingOccurrences(of: "_kitten", with: "")
         stand()
-        print("pubed")
     }
     
     override func updateTexture() {
@@ -620,5 +625,13 @@ class SKPixelCatNode: SKPixelSpriteNode {
         size.width = texture!.size().width
         xScale = oldXScale
         yScale = oldYScale
+        
+        /* update mouth */
+        if skinName.contains("_kitten") {
+            mouth.position = CGPoint(x: -4.5, y: 5.5)
+        } else {
+            mouth.position = CGPoint(x: -12, y: 12.5)
+        }
+        
     }
 }

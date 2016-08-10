@@ -191,17 +191,8 @@ class Cat: SKNode {
     
     func flyTo(point: CGPoint, food: Item? = nil, completion: (() -> ())? = nil) {
         var pointToFlyTo: CGPoint
-        let faceThing = SKSpriteNode(color: SKColor.clear(), size: CGSize(width: 1, height: 1))
+        
         if food != nil {
-            if self.isKitten() {
-                faceThing.position.x = self.sprite.frame.minX+3.5
-                faceThing.position.y = 5.5
-            } else {
-                faceThing.position.x = self.sprite.frame.minX+6
-                faceThing.position.y = 12.5
-            }
-            faceThing.zPosition = 1000
-            self.sprite.addChild(faceThing)
             
             print("sprite position: \(sprite.position.x)")
             print("food position: \(food?.position.x)")
@@ -209,10 +200,10 @@ class Cat: SKNode {
             // just to calculate where the face is
             var offSet: CGFloat = 0
             if sprite.xScale > 0 { // facing left
-                offSet = -faceThing.position.x
+                offSet = -sprite.mouth.position.x
                 print("facing left")
             } else { // facing right
-                offSet = faceThing.position.x
+                offSet = sprite.mouth.position.x
                 print("facing right")
             }
             print("offset: \(offSet)")
@@ -233,19 +224,15 @@ class Cat: SKNode {
             // now that it has turned, check where it is facing and adjust from there
             var offSetFinal: CGFloat = 0
             if sprite.xScale > 0 { // facing left
-                offSetFinal = -faceThing.position.x
+                offSetFinal = -sprite.mouth.position.x
                 print("facing left")
             } else { // facing right
-                offSetFinal = faceThing.position.x
+                offSetFinal = sprite.mouth.position.x
                 print("facing right")
             }
             print("offsetFinal: \(offSetFinal)")
             
-            
-            
-            pointToFlyTo = CGPoint(x: point.x + offSetFinal, y: point.y - faceThing.position.y)
-//            print(point)
-//            print(pointToFlyTo)
+            pointToFlyTo = CGPoint(x: point.x + offSetFinal, y: point.y - sprite.mouth.position.y)
         } else {
             pointToFlyTo = point
             
