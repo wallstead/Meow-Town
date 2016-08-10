@@ -576,7 +576,7 @@ class SKPixelCatNode: SKPixelSpriteNode {
     required init?(coder aDecoder: NSCoder) {
         self.skinName = aDecoder.decodeObject(forKey: "catname") as! String
         self.colors = UIImage(named: skinName)!.getColors()
-        self.mouth = SKSpriteNode(color: SKColor.orange(), size: CGSize(width: 1, height: 1))
+        self.mouth = SKSpriteNode(color: SKColor.clear(), size: CGSize(width: 1, height: 1))
         super.init(coder: aDecoder)
     }
     
