@@ -63,7 +63,7 @@ class SKPixelSpriteNode: SKSpriteNode {
     }
     
     func updateTexture() {
-        
+        print("updating 🍐")
     }
 }
 
@@ -78,6 +78,8 @@ class SKPixelButtonNode: SKPixelSpriteNode {
         super.init(pixelImageNamed: name, interactionEnabled: true)
         if text != nil {
             label = SKLabelNode(pixelFontNamed: "Silkscreen")
+            label!.text = text!
+            label!.zPosition = 2
             addChild(label!)
         }
     }
