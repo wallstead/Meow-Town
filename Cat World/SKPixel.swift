@@ -706,7 +706,7 @@ class SKPixelCatNode: SKPixelSpriteNode {
     init(catName: String) {
         skinName = catName
         colors = UIImage(named: skinName)!.getColors()
-        mouth = SKSpriteNode(color: SKColor.green(), size: CGSize(width: 1, height: 1))
+        mouth = SKSpriteNode(color: SKColor.clear(), size: CGSize(width: 1, height: 1))
         
         super.init(pixelImageNamed: skinName, interactionEnabled: true)
         mouth.zPosition = 1
