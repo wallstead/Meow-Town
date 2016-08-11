@@ -219,7 +219,7 @@ class CatCam: SKCameraNode {
         let title = SKLabelNode(fontNamed: "Fipps-Regular")
         titleBar.addChild(title)
         title.zPosition = 1
-        title.text = "FAT FELINE"
+        title.text = "MEOW TOWN"
         title.setScale(1/10)
         title.fontSize = 80
         title.fontColor = SKColor(red: 50/255, green: 50/255, blue: 50/255, alpha: 1)

@@ -339,7 +339,7 @@ class Menu: SKNode {
         collectionBG.position.y = collectionBG.size.height-parent.currentHeight/2
         parent.addChild(collectionBG)
         collectionBG.isUserInteractionEnabled = false // disable until shown
-        parent.isUserInteractionEnabled = false
+//        parent.isUserInteractionEnabled = false
         
         
       
@@ -347,6 +347,7 @@ class Menu: SKNode {
         showCollection.timingMode = timeMode
         collectionBG.run(showCollection, completion: {
             self.menuIsAnimating = false
+//            parent.isUserInteractionEnabled = true
         })
         
         /* Add buttons */
@@ -385,9 +386,11 @@ class Menu: SKNode {
                 itemButton.action = {
                     if self.menuIsAnimating == false && self.isOpen == true {
                         self.menuIsAnimating = true
-                        for eachItemButton in itemButtons {
-                            eachItemButton.isUserInteractionEnabled = false
-                        }
+//                        for eachItemButton in itemButtons {
+//                            eachItemButton.isUserInteractionEnabled = false
+//                        }
+                        
+                        print(itemButton.enabled)
                         
                         if itemButton.enabled == false { // CLOSE
                             /* close the button's child bg */
@@ -469,7 +472,7 @@ class Menu: SKNode {
                                         itemButton.zPosition = 9
                                         self.menuIsAnimating = false
                                         for itemButton in itemButtons {
-                                            itemButton.isUserInteractionEnabled = true
+//                                            itemButton.isUserInteractionEnabled = true
                                         }
                                     }
                                 })
