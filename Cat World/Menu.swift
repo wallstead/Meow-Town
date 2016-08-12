@@ -339,15 +339,15 @@ class Menu: SKNode {
         collectionBG.position.y = collectionBG.size.height-parent.currentHeight/2
         parent.addChild(collectionBG)
         collectionBG.isUserInteractionEnabled = false // disable until shown
-//        parent.isUserInteractionEnabled = false
         
         
-      
+        
+        
         let showCollection = SKAction.moveTo(y: -parent.currentHeight/2, duration: shiftTime)
         showCollection.timingMode = timeMode
         collectionBG.run(showCollection, completion: {
             self.menuIsAnimating = false
-//            parent.isUserInteractionEnabled = true
+            parent.isUserInteractionEnabled = true
         })
         
         /* Add buttons */
@@ -356,6 +356,16 @@ class Menu: SKNode {
             var yPosCounter: CGFloat = 0
             let collection = SKNode()
             var itemButtons: [SKPixelCollectionToggleButtonNode] = []
+            let disableButtons = SKAction.run({
+                for itemButton in itemButtons {
+                    itemButton.isUserInteractionEnabled = false
+                }
+            })
+            let enableButtons = SKAction.run({
+                for itemButton in itemButtons {
+                    itemButton.isUserInteractionEnabled = true
+                }
+            })
             for item in collectionData {
                 var itemImageName = (item.value as! NSDictionary).value(forKey: "image name") as? String
                 let itemButton: SKPixelCollectionToggleButtonNode
@@ -374,16 +384,16 @@ class Menu: SKNode {
                 collection.addChild(itemButton)
                 yPosCounter += 1
                 var itemButtonsBelow: [SKPixelCollectionToggleButtonNode] = [] // All buttons below the selected one
-//                itemButton.onPress = {
-//                    for eachItemButton in itemButtons {
-//                        eachItemButton.isUserInteractionEnabled = false
-//                        if eachItemButton.enabled == true && eachItemButton != itemButton {
-//                            eachItemButton.disable(withAction: false)
-//                        }
-//                        
-//                    }
-//                }
+                itemButton.onPress = {
+                    itemButton.run(disableButtons)
+                    parent.isUserInteractionEnabled = false
+                    
+                }
+                itemButton.onCancel = { // when the touch moved out of the button
+                    itemButton.run(enableButtons)
+                }
                 itemButton.action = {
+                    itemButton.isUserInteractionEnabled = false
                     if self.menuIsAnimating == false && self.isOpen == true {
                         self.menuIsAnimating = true
 //                        for eachItemButton in itemButtons {
@@ -392,13 +402,12 @@ class Menu: SKNode {
                         
                         print(itemButton.enabled)
                         
-                        if itemButton.enabled == false { // CLOSE
+                        if itemButton.enabled == false || itemButton.enabled == nil { // CLOSE
                             /* close the button's child bg */
-                        
                         
                             if let childCollectionBG = itemButton.childNode(withName: "collectionBG") as? SKSpriteNode {
                                 var belowCounter: CGFloat = 1
-                                collectionBG.run(showCollection)
+                                collectionBG.run(SKAction.sequence([disableButtons, showCollection, enableButtons]))
                                 
                                 func moveButtonsBack() {
                                     var yPosCounterReplace: CGFloat = 0
@@ -471,9 +480,7 @@ class Menu: SKNode {
                                         }
                                         itemButton.zPosition = 9
                                         self.menuIsAnimating = false
-                                        for itemButton in itemButtons {
-//                                            itemButton.isUserInteractionEnabled = true
-                                        }
+                                        
                                     }
                                 })
                                 if offset != 0 && button.enabled == true  { // Make sure only the selected button is enabled
@@ -485,7 +492,8 @@ class Menu: SKNode {
                             }
                         }
                     } else {
-                        print("already animating")
+                        print("already happening")
+                        itemButton.enabled = false
                     }
                 }
             }

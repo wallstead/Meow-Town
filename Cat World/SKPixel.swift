@@ -242,6 +242,9 @@ class SKPixelToggleButtonNode: SKPixelButtonNode {
 class SKPixelCollectionToggleButtonNode: SKPixelToggleButtonNode {
     let overlay: SKPixelSpriteNode
     let icon: SKPixelSpriteNode
+    var onPress: (() -> Void)?
+    var onCancel: (() -> Void)?
+    let shiftTime = 0.3
     
     init(type: String, iconNamed iconName: String, withText text: String? = nil) {
         if type == "collection" || type == "item" {
@@ -282,15 +285,22 @@ class SKPixelCollectionToggleButtonNode: SKPixelToggleButtonNode {
     }
     
     override func updateState() { // called when enabled member is set programatically
+        texture = defaultTexture
+        if label != nil {
+            label!.position.y = 0
+            overlay.position.y = 0
+            icon.position.y = 0.5
+        }
+        if enabled == false && size.width > 122.0 {
+            let resize = SKAction.resize(toWidth: 122.0, duration: 0.1)
+            resize.timingMode = .easeIn
+            run(resize)
+            overlay.texture = SKTexture(pixelImageNamed: "topbar_menupanel_itemcategory_ui")
+            icon.run(SKAction.fadeIn(withDuration: 0.1))
+        }
 
         if enabled != nil {
             isUserInteractionEnabled = true
-            texture = defaultTexture
-            if label != nil {
-                label!.position.y = 0
-                overlay.position.y = 0
-                icon.position.y = 0.5
-            }
         } else {
             isUserInteractionEnabled = false
         }
@@ -299,6 +309,7 @@ class SKPixelCollectionToggleButtonNode: SKPixelToggleButtonNode {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         print(enabled)
         if enabled != nil {
+            onPress?()
             texture = pressedTexture
             label!.position.y = -1
             overlay.position.y = -1
@@ -331,8 +342,9 @@ class SKPixelCollectionToggleButtonNode: SKPixelToggleButtonNode {
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if enabled != nil {
-            
+        isUserInteractionEnabled = false
+        
+        if enabled != nil && texture != defaultTexture {
             if enabled == false { // about to toggle to true
                 enabled = nil // disable interaction
                 overlay.texture = SKTexture(pixelImageNamed: "topbar_menupanel_itemcategory_ui2")
@@ -345,15 +357,20 @@ class SKPixelCollectionToggleButtonNode: SKPixelToggleButtonNode {
                 })
             } else { // about to toggle to false
                 enabled = nil // disable interaction
-                overlay.texture = SKTexture(pixelImageNamed: "topbar_menupanel_itemcategory_ui")
-                icon.run(SKAction.fadeIn(withDuration: 0.1))
-                let resize = SKAction.resize(toWidth: 122.0, duration: 0.1)
-                resize.timingMode = .easeIn
-                run(resize, completion: {
-                    self.enabled = false
-                    self.action?()
+                run(SKAction.wait(forDuration: shiftTime), completion: {
+                    self.overlay.texture = SKTexture(pixelImageNamed: "topbar_menupanel_itemcategory_ui")
+                    self.icon.run(SKAction.fadeIn(withDuration: 0.1))
+                    let resize = SKAction.resize(toWidth: 122.0, duration: 0.1)
+                    resize.timingMode = .easeIn
+                    self.run(resize, completion: {
+                        self.enabled = false
+                    })
                 })
+                self.action?()
             }
+        } else if enabled != nil && texture == defaultTexture {
+            self.enabled = false
+            onCancel?()
         }
     }
 }
