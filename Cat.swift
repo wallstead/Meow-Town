@@ -16,7 +16,7 @@ class Cat: SKNode {
     var sprite: SKPixelCatNode!
     var mood: String!
     var birthday: NSDate!
-    let lifespan: TimeInterval = 30.minutes
+    let lifespan: TimeInterval = 1.minute
     var world: World!
     let timer = SKTimer() // the timer calculates the time step value dt for every frame
     let scheduler = Scheduler() // an event scheduler
@@ -89,7 +89,7 @@ class Cat: SKNode {
         sprite.position.y = world.wallpaper.frame.minY-10
         sprite.position.x = CGFloat(Int.random(min: Int(world.floor.frame.minX-10), max: Int(world.floor.frame.maxX+10)))
         sprite.zPosition = 100
-        sprite.background.anchorPoint = CGPoint(x: 0.5, y: 0)
+        sprite.anchorPoint = CGPoint(x: 0.5, y: 0)
         sprite.action = {
             GameScene.current.catCam.toggleFocus(cat: self)
         }
@@ -191,17 +191,8 @@ class Cat: SKNode {
     
     func flyTo(point: CGPoint, food: Item? = nil, completion: (() -> ())? = nil) {
         var pointToFlyTo: CGPoint
-        let faceThing = SKSpriteNode(color: SKColor.clear(), size: CGSize(width: 1, height: 1))
+        
         if food != nil {
-            if self.isKitten() {
-                faceThing.position.x = self.sprite.background.frame.minX+3.5
-                faceThing.position.y = 5.5
-            } else {
-                faceThing.position.x = self.sprite.background.frame.minX+6
-                faceThing.position.y = 12.5
-            }
-            faceThing.zPosition = 1000
-            self.sprite.background.addChild(faceThing)
             
             print("sprite position: \(sprite.position.x)")
             print("food position: \(food?.position.x)")
@@ -209,10 +200,10 @@ class Cat: SKNode {
             // just to calculate where the face is
             var offSet: CGFloat = 0
             if sprite.xScale > 0 { // facing left
-                offSet = -faceThing.position.x
+                offSet = -sprite.mouth.position.x
                 print("facing left")
             } else { // facing right
-                offSet = faceThing.position.x
+                offSet = sprite.mouth.position.x
                 print("facing right")
             }
             print("offset: \(offSet)")
@@ -233,19 +224,15 @@ class Cat: SKNode {
             // now that it has turned, check where it is facing and adjust from there
             var offSetFinal: CGFloat = 0
             if sprite.xScale > 0 { // facing left
-                offSetFinal = -faceThing.position.x
+                offSetFinal = -sprite.mouth.position.x
                 print("facing left")
             } else { // facing right
-                offSetFinal = faceThing.position.x
+                offSetFinal = sprite.mouth.position.x
                 print("facing right")
             }
             print("offsetFinal: \(offSetFinal)")
             
-            
-            
-            pointToFlyTo = CGPoint(x: point.x + offSetFinal, y: point.y - faceThing.position.y)
-//            print(point)
-//            print(pointToFlyTo)
+            pointToFlyTo = CGPoint(x: point.x + offSetFinal, y: point.y - sprite.mouth.position.y)
         } else {
             pointToFlyTo = point
             
@@ -307,9 +294,6 @@ class Cat: SKNode {
         
         flyTo(point: item.position, food: item, completion: {
             /* Find where the mouth is */
-            
-
-            
             
             let spawnCrumb = SKAction.run({
                 let randx = randomInRange(low: 1, high: Int(item.sprite.size.width-1))

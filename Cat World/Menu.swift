@@ -23,9 +23,6 @@ class Menu: SKNode {
     var topbuttonPanelBG: SKPixelSpriteNode!
     var storeContainer: SKSpriteNode!
     
-//    var collectionBG: SKSpriteNode!
-//    var currentButtons: [[SKPixelToggleCollectionButtonNode]]! // 2D: rows->each depth of menu | cols-> each button in that depth
-    
     // MARK: Initialization
     
     convenience init(camFrame: CGRect, topBar: SKPixelSpriteNode) {
@@ -34,7 +31,6 @@ class Menu: SKNode {
         self.topBar = topBar
         self.isOpen = false
         self.menuIsAnimating = false
-//        self.currentButtons = []
         
         DispatchQueue.main.async {
             self.layout()
@@ -42,21 +38,21 @@ class Menu: SKNode {
     }
     
     func layout() {
-        bgpanel = SKPixelSpriteNode(textureName: "topbar_menupanel")
-        bgpanel.background.color = SKColor(red: 212/255, green: 29/255, blue: 32/255, alpha: 1)
-        bgpanel.background.colorBlendFactor = 1
+        bgpanel = SKPixelSpriteNode(pixelImageNamed: "topbar_menupanel")
+        bgpanel.color = SKColor(red: 212/255, green: 29/255, blue: 32/255, alpha: 1)
+        bgpanel.colorBlendFactor = 1
         bgpanel.zPosition = 1
         bgpanel.setScale(camFrame.width/bgpanel.frame.width)
         bgpanel.position.y = camFrame.maxY+bgpanel.frame.height/2-topBar.frame.height/2
         self.addChild(bgpanel)
         
         menuCropper = SKCropNode()
-        menuCropper.maskNode = SKPixelSpriteNode(textureName: "topbar_menupanel")
+        menuCropper.maskNode = SKPixelSpriteNode(pixelImageNamed: "topbar_menupanel")
         menuCropper.zPosition = 1
         menuCropper.isUserInteractionEnabled = false
         bgpanel.addChild(menuCropper)
         
-        settingsButton = SKPixelToggleButtonNode(textureName: "topbar_menupanel_settingsbutton")
+        settingsButton = SKPixelToggleButtonNode(pixelImageNamed: "topbar_menupanel_settingsbutton")
         settingsButton.zPosition = 25
         settingsButton.position.x = -bgpanel.currentWidth/2+settingsButton.frame.width/2
         settingsButton.position.y = bgpanel.currentHeight/2-settingsButton.frame.height/2
@@ -65,7 +61,7 @@ class Menu: SKNode {
         }
         menuCropper.addChild(settingsButton)
         
-        infoButton = SKPixelToggleButtonNode(textureName: "topbar_menupanel_infobutton")
+        infoButton = SKPixelToggleButtonNode(pixelImageNamed: "topbar_menupanel_infobutton")
         infoButton.zPosition = 25
         infoButton.position.x = 0
         infoButton.position.y = bgpanel.currentHeight/2-infoButton.frame.height/2
@@ -74,7 +70,7 @@ class Menu: SKNode {
         }
         menuCropper.addChild(infoButton)
         
-        IAPButton = SKPixelToggleButtonNode(textureName: "topbar_menupanel_iapbutton")
+        IAPButton = SKPixelToggleButtonNode(pixelImageNamed: "topbar_menupanel_iapbutton")
         IAPButton.zPosition = 25
         IAPButton.position.x = bgpanel.currentWidth/2-IAPButton.frame.width/2
         IAPButton.position.y = bgpanel.currentHeight/2-IAPButton.frame.height/2
@@ -83,7 +79,7 @@ class Menu: SKNode {
         }
         menuCropper.addChild(IAPButton)
         
-        topbuttonPanelBG = SKPixelSpriteNode(textureName: "topbar_menupanel")
+        topbuttonPanelBG = SKPixelSpriteNode(pixelImageNamed: "topbar_menupanel")
         topbuttonPanelBG.color = SKColor(red: 0/255, green: 187/255, blue: 125/255, alpha: 1)
         topbuttonPanelBG.colorBlendFactor = 1
         topbuttonPanelBG.zPosition = 20
@@ -132,10 +128,10 @@ class Menu: SKNode {
         let topButtons = [settingsButton, infoButton, IAPButton]
         for button in topButtons {
             if button?.enabled == true && button != toToggle {
-                button?.disable()
+                button?.enabled = false
             }
         }
-        if toToggle.enabled == false { // enabling currently
+        if toToggle.enabled == true { // enabling currently
             openTopButtonBackground()
             displayContentForTopButton(button: toToggle)
         } else { // disabling currently
@@ -197,7 +193,7 @@ class Menu: SKNode {
             
             /* Add new content */
             if contentDisplayed == "settings" {
-                let addCat = SKPixelButtonNode(textureName: "catselect_done", text: "+CAT")
+                let addCat = SKPixelButtonNode(pixelImageNamed: "catselect_done", withText: "+CAT")
                 addCat.zPosition = 1
                 addCat.action = {
                     let cats = PlistManager.sharedInstance.getValueForKey(key: "Selectable Cats") as! NSDictionary
@@ -212,7 +208,7 @@ class Menu: SKNode {
                 }
                 content.addChild(addCat)
                 
-                let togglePhysics = SKPixelButtonNode(textureName: "catselect_done", text: "phys")
+                let togglePhysics = SKPixelButtonNode(pixelImageNamed: "catselect_done", withText: "phys")
                 togglePhysics.zPosition = 1
                 togglePhysics.position.y = addCat.position.y - 15
                 togglePhysics.action = {
@@ -220,7 +216,7 @@ class Menu: SKNode {
                 }
                 content.addChild(togglePhysics)
                 
-                let toggleNodeCount = SKPixelButtonNode(textureName: "catselect_done", text: "nodes")
+                let toggleNodeCount = SKPixelButtonNode(pixelImageNamed: "catselect_done", withText: "nodes")
                 toggleNodeCount.zPosition = 1
                 toggleNodeCount.position.y = addCat.position.y - 30
                 toggleNodeCount.action = {
@@ -228,7 +224,7 @@ class Menu: SKNode {
                 }
                 content.addChild(toggleNodeCount)
                 
-                let toggleFPS = SKPixelButtonNode(textureName: "catselect_done", text: "fps")
+                let toggleFPS = SKPixelButtonNode(pixelImageNamed: "catselect_done", withText: "fps")
                 toggleFPS.zPosition = 1
                 toggleFPS.position.y = addCat.position.y - 45
                 toggleFPS.action = {
@@ -236,7 +232,7 @@ class Menu: SKNode {
                 }
                 content.addChild(toggleFPS)
                 
-                let killCats = SKPixelButtonNode(textureName: "catselect_done", text: "killall")
+                let killCats = SKPixelButtonNode(pixelImageNamed: "catselect_done", withText: "killall")
                 killCats.zPosition = 1
                 killCats.position.y = addCat.position.y - 60
                 killCats.action = {
@@ -343,30 +339,43 @@ class Menu: SKNode {
         collectionBG.position.y = collectionBG.size.height-parent.currentHeight/2
         parent.addChild(collectionBG)
         collectionBG.isUserInteractionEnabled = false // disable until shown
-        parent.isUserInteractionEnabled = false
         
         
-      
+        
         let showCollection = SKAction.moveTo(y: -parent.currentHeight/2, duration: shiftTime)
         showCollection.timingMode = timeMode
         collectionBG.run(showCollection, completion: {
             self.menuIsAnimating = false
+            parent.isUserInteractionEnabled = true
         })
         
         /* Add buttons */
-        print(type)
+        
         if type == "collection" {
             var yPosCounter: CGFloat = 0
             let collection = SKNode()
-            var itemButtons: [SKPixelToggleCollectionButtonNode] = []
+            collection.name = "collection"
+            collection.isUserInteractionEnabled = false
+            var itemButtons: [SKPixelCollectionToggleButtonNode] = []
+            let disableButtons = SKAction.run({
+                for itemButton in itemButtons {
+                    itemButton.isUserInteractionEnabled = false
+                }
+            })
+            let enableButtons = SKAction.run({
+                for itemButton in itemButtons {
+                    itemButton.isUserInteractionEnabled = true
+                }
+            })
             for item in collectionData {
                 var itemImageName = (item.value as! NSDictionary).value(forKey: "image name") as? String
-                let itemButton: SKPixelToggleCollectionButtonNode
+                let itemButton: SKPixelCollectionToggleButtonNode
                 if itemImageName != nil {
-                    itemButton = SKPixelToggleCollectionButtonNode(type: "collection", iconName: itemImageName!, text: item.key as! String)
+                    itemButton = SKPixelCollectionToggleButtonNode(type: "collection", iconNamed: itemImageName!, withText: item.key as? String)
                 }else {
-                    itemButton = SKPixelToggleCollectionButtonNode(type: "collection", iconName: "burger", text: item.key as! String)
+                    itemButton = SKPixelCollectionToggleButtonNode(type: "collection", iconNamed: "burger", withText: item.key as? String)
                 }
+                itemButton.name = "itemButton"
                 itemButtons.append(itemButton)
                 itemButton.zPosition = 1
                 itemButton.position.y = (-35*yPosCounter)-5-itemButton.currentHeight/2
@@ -376,31 +385,58 @@ class Menu: SKNode {
                 })
                 collection.addChild(itemButton)
                 yPosCounter += 1
-                var itemButtonsBelow: [SKPixelToggleCollectionButtonNode] = [] // All buttons below the selected one
+                var itemButtonsBelow: [SKPixelCollectionToggleButtonNode] = [] // All buttons below the selected one
                 itemButton.onPress = {
-                    for eachItemButton in itemButtons {
-                        eachItemButton.isUserInteractionEnabled = false
-                        if eachItemButton.enabled == true && eachItemButton != itemButton {
-                            eachItemButton.disable(withAction: false)
-                        }
-                        
-                    }
+//                    if parent.parent?.name == "itemButton" {
+//                        print("found the top one")
+//                    }
                     
+                    itemButton.run(disableButtons)
+                    parent.isUserInteractionEnabled = false
+                    if itemButton.enabled == true {
+                        if let childCollectionBG = itemButton.childNode(withName: "collectionBG") as? SKSpriteNode {
+                            if let childCollection = childCollectionBG.childNode(withName: "collection") {
+//                                print("yo im a parent and this is my collection: \(childCollection.children)")
+                                for childItemButton in childCollection.children {
+                                    childItemButton.isUserInteractionEnabled = false
+                                    
+                                }
+                            }
+                        }
+                    }
+                }
+                itemButton.onCancel = { // when the touch moved out of the button
+                    itemButton.run(enableButtons)
+                    parent.isUserInteractionEnabled = true
+                    if itemButton.enabled == true {
+                        if let childCollectionBG = itemButton.childNode(withName: "collectionBG") as? SKSpriteNode {
+                            if let childCollection = childCollectionBG.childNode(withName: "collection") {
+//                                print("yo im a parent and this is my collection: \(childCollection.children)")
+                                for childItemButton in childCollection.children {
+                                    childItemButton.isUserInteractionEnabled = true
+                                }
+                            }
+                        }
+                    }
                 }
                 itemButton.action = {
+                    if parent.name == "itemButton" {
+                        if let parentItemButton = parent as? SKPixelCollectionToggleButtonNode {
+                            parentItemButton.reset()
+//                            print(parentItemButton.texture)
+                        }
+                    }
+                    
+                    itemButton.isUserInteractionEnabled = false
+                    
                     if self.menuIsAnimating == false && self.isOpen == true {
                         self.menuIsAnimating = true
-                        for eachItemButton in itemButtons {
-                            eachItemButton.isUserInteractionEnabled = false
-                        }
-                        
-                        if itemButton.enabled == true { // CLOSE
+                        if itemButton.enabled == false || itemButton.enabled == nil { // CLOSE
                             /* close the button's child bg */
-                        
                         
                             if let childCollectionBG = itemButton.childNode(withName: "collectionBG") as? SKSpriteNode {
                                 var belowCounter: CGFloat = 1
-                                collectionBG.run(showCollection)
+                                collectionBG.run(SKAction.sequence([disableButtons, showCollection, enableButtons]))
                                 
                                 func moveButtonsBack() {
                                     var yPosCounterReplace: CGFloat = 0
@@ -473,13 +509,11 @@ class Menu: SKNode {
                                         }
                                         itemButton.zPosition = 9
                                         self.menuIsAnimating = false
-                                        for itemButton in itemButtons {
-                                            itemButton.isUserInteractionEnabled = true
-                                        }
+                                        
                                     }
                                 })
                                 if offset != 0 && button.enabled == true  { // Make sure only the selected button is enabled
-                                    button.disable(withAction: false)
+                                    button.enabled = false
                                 }
                                 if offset > 0 {
                                     itemButtonsBelow.append(button)
@@ -487,7 +521,8 @@ class Menu: SKNode {
                             }
                         }
                     } else {
-                        print("already animating")
+//                        print("already happening")
+                        itemButton.enabled = false
                     }
                 }
             }
@@ -497,14 +532,14 @@ class Menu: SKNode {
             
             
             
-            let itemImageContainter = SKPixelSpriteNode(textureName: "topbar_menupanel_itemimagecontainer")
-            itemImageContainter.background.color = collectionBG.color.darkerColor(percent: 0.1)
-            itemImageContainter.background.colorBlendFactor = 1
+            let itemImageContainter = SKPixelSpriteNode(pixelImageNamed: "topbar_menupanel_itemimagecontainer")
+            itemImageContainter.color = collectionBG.color.darkerColor(percent: 0.1)
+            itemImageContainter.colorBlendFactor = 1
             itemImageContainter.zPosition = 1
             itemImageContainter.position.y = -34
             collectionBG.addChild(itemImageContainter)
             
-            let itemImage = SKPixelSpriteNode(textureName: collectionData.value(forKey: "image name") as! String)
+            let itemImage = SKPixelSpriteNode(pixelImageNamed: collectionData.value(forKey: "image name") as! String)
             itemImage.zPosition = 1
             itemImage.position.y = 6
             itemImage.setScale(2)
@@ -566,7 +601,9 @@ class Menu: SKNode {
             infoTable.position.y = itemImageContainter.frame.minY-8.5
             
             
-            let enableButton = SKPixelToggleButtonNode(textureName: "basicbutton", text: "Turn On", bgcolor: SKColor(colorLiteralRed: 255/255, green: 162/255, blue: 51/255, alpha: 1))
+            let enableButton = SKPixelToggleButtonNode(pixelImageNamed: "basicbutton", withText: "Turn On")
+            enableButton.color = SKColor(colorLiteralRed: 255/255, green: 162/255, blue: 51/255, alpha: 1)
+            enableButton.colorBlendFactor = 1
             enableButton.zPosition = 3
             enableButton.position.y = infoTable.position.y - 49.35 - 18
             //            enableButton.action = {
@@ -576,20 +613,22 @@ class Menu: SKNode {
             
             
             
-            let buyButton = SKPixelButtonNode(textureName: "basicbutton", text: "Buy", bgcolor: SKColor(colorLiteralRed: 255/255, green: 162/255, blue: 51/255, alpha: 1))
+            let buyButton = SKPixelButtonNode(pixelImageNamed: "basicbutton", withText: "Buy")
+            buyButton.color = SKColor(colorLiteralRed: 255/255, green: 162/255, blue: 51/255, alpha: 1)
+            buyButton.colorBlendFactor = 1
             buyButton.zPosition = 3
             buyButton.position.y = infoTable.position.y - 49.35
             buyButton.action = {
                 if GameScene.current.world.score >= itemCost {
-                    print("can buy!")
+//                    print("can buy!")
                     /* What in the fuck even is this */
                     /* TODO: Fix this bullshit */
                     if GameScene.current.attemptPurchase(withData: data!) == true {
                         GameScene.current.catCam.alert(type: "success", message: "You successfully bought \(collectionData.value(forKey: "name")!)s.")
-                        buyButton.text!.text = "Owned"
-                        buyButton.background.alpha = 0.5
+                        buyButton.label!.text = "Owned"
+                        buyButton.alpha = 0.5
                         buyButton.isUserInteractionEnabled = false
-                        enableButton.shownText = "On"
+                        enableButton.label!.text = "On"
                         /* TODO: Actually enable the item */
                     } else {
                         GameScene.current.catCam.alert(type: "error", message: "An error occured when attempting to purchase \(collectionData.value(forKey: "name")!)s.")
@@ -602,9 +641,9 @@ class Menu: SKNode {
             }
             
             if collectionData.value(forKey: "owned") as! Bool == true {
-                enableButton.shownText = "Off"
-                buyButton.text!.text = "Owned"
-                buyButton.background.alpha = 0.5
+                enableButton.label!.text = "Off"
+                buyButton.label!.text = "Owned"
+                buyButton.alpha = 0.5
                 buyButton.isUserInteractionEnabled = false
             }
             collectionBG.addChild(enableButton)
@@ -627,7 +666,7 @@ class Menu: SKNode {
         } else {
             if GameScene.current.catCam.itemPanel.isOpen == true {
                 GameScene.current.catCam.itemPanel.close()
-                GameScene.current.catCam.itemsButton.disable()
+                GameScene.current.catCam.itemsButton.enabled = false
             }
             open()
         }
@@ -650,7 +689,7 @@ class Menu: SKNode {
         let topButtons = [settingsButton, infoButton, IAPButton]
         for button in topButtons {
             if button?.enabled == true {
-                button?.disable()
+                button?.enabled = false
             }
         }
     }

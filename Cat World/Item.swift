@@ -19,10 +19,10 @@ class Item: SKNode, SKPhysicsContactDelegate {
         self.sprite = decoder.decodeObject(forKey: "sprite") as! SKPixelSpriteNode
     }
     
-    convenience init(textureName: String, parentWorld: World) {
+    convenience init(pixelImageNamed: String, parentWorld: World) {
         self.init()
         
-        sprite = SKPixelSpriteNode(textureName: textureName)
+        sprite = SKPixelSpriteNode(pixelImageNamed: pixelImageNamed)
         sprite.zPosition = 0
         self.physicsBody = SKPhysicsBody(rectangleOf: sprite.size)
         self.physicsBody?.friction = 0.2
