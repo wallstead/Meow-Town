@@ -342,7 +342,6 @@ class Menu: SKNode {
         
         
         
-        
         let showCollection = SKAction.moveTo(y: -parent.currentHeight/2, duration: shiftTime)
         showCollection.timingMode = timeMode
         collectionBG.run(showCollection, completion: {
@@ -351,11 +350,12 @@ class Menu: SKNode {
         })
         
         /* Add buttons */
-        print(type)
+        
         if type == "collection" {
             var yPosCounter: CGFloat = 0
             let collection = SKNode()
             collection.name = "collection"
+            collection.isUserInteractionEnabled = false
             var itemButtons: [SKPixelCollectionToggleButtonNode] = []
             let disableButtons = SKAction.run({
                 for itemButton in itemButtons {
@@ -390,15 +390,13 @@ class Menu: SKNode {
 //                    if parent.parent?.name == "itemButton" {
 //                        print("found the top one")
 //                    }
-                    if let parentItemButton = parent as? SKPixelCollectionToggleButtonNode {
-//                        if parentItemButton.enabled = true
-                    }
+                    
                     itemButton.run(disableButtons)
                     parent.isUserInteractionEnabled = false
                     if itemButton.enabled == true {
                         if let childCollectionBG = itemButton.childNode(withName: "collectionBG") as? SKSpriteNode {
                             if let childCollection = childCollectionBG.childNode(withName: "collection") {
-                                print("yo im a parent and this is my collection: \(childCollection.children)")
+//                                print("yo im a parent and this is my collection: \(childCollection.children)")
                                 for childItemButton in childCollection.children {
                                     childItemButton.isUserInteractionEnabled = false
                                     
@@ -413,7 +411,7 @@ class Menu: SKNode {
                     if itemButton.enabled == true {
                         if let childCollectionBG = itemButton.childNode(withName: "collectionBG") as? SKSpriteNode {
                             if let childCollection = childCollectionBG.childNode(withName: "collection") {
-                                print("yo im a parent and this is my collection: \(childCollection.children)")
+//                                print("yo im a parent and this is my collection: \(childCollection.children)")
                                 for childItemButton in childCollection.children {
                                     childItemButton.isUserInteractionEnabled = true
                                 }
@@ -422,7 +420,15 @@ class Menu: SKNode {
                     }
                 }
                 itemButton.action = {
+                    if parent.name == "itemButton" {
+                        if let parentItemButton = parent as? SKPixelCollectionToggleButtonNode {
+                            parentItemButton.reset()
+//                            print(parentItemButton.texture)
+                        }
+                    }
+                    
                     itemButton.isUserInteractionEnabled = false
+                    
                     if self.menuIsAnimating == false && self.isOpen == true {
                         self.menuIsAnimating = true
                         if itemButton.enabled == false || itemButton.enabled == nil { // CLOSE
@@ -515,7 +521,7 @@ class Menu: SKNode {
                             }
                         }
                     } else {
-                        print("already happening")
+//                        print("already happening")
                         itemButton.enabled = false
                     }
                 }
@@ -614,7 +620,7 @@ class Menu: SKNode {
             buyButton.position.y = infoTable.position.y - 49.35
             buyButton.action = {
                 if GameScene.current.world.score >= itemCost {
-                    print("can buy!")
+//                    print("can buy!")
                     /* What in the fuck even is this */
                     /* TODO: Fix this bullshit */
                     if GameScene.current.attemptPurchase(withData: data!) == true {

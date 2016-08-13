@@ -262,7 +262,7 @@ class SKPixelCollectionToggleButtonNode: SKPixelToggleButtonNode {
         icon.position.x = -46.5
         icon.position.y = 0.5
         addChild(icon)
-        print(size.width)
+//        print(size.width)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -306,7 +306,7 @@ class SKPixelCollectionToggleButtonNode: SKPixelToggleButtonNode {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        print(enabled)
+//        print(enabled)
         if enabled != nil {
             onPress?()
             texture = pressedTexture
@@ -341,7 +341,7 @@ class SKPixelCollectionToggleButtonNode: SKPixelToggleButtonNode {
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        print(isUserInteractionEnabled)
+        
         isUserInteractionEnabled = false
         
         if enabled != nil && texture != defaultTexture {
@@ -376,7 +376,13 @@ class SKPixelCollectionToggleButtonNode: SKPixelToggleButtonNode {
                 self.enabled = false
                 onCancel?() // reset and run cancel
             }
+        } else if enabled == nil && texture == defaultTexture {// if nil, but texture is default, set to
+            enabled = true
         }
+    }
+    
+    func reset() { // resets to nil, so touches are canceled, then is recalled to
+        enabled = nil
     }
 }
 
