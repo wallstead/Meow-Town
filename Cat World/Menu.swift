@@ -387,22 +387,21 @@ class Menu: SKNode {
                 yPosCounter += 1
                 var itemButtonsBelow: [SKPixelCollectionToggleButtonNode] = [] // All buttons below the selected one
                 itemButton.onPress = {
-//                    if parent.parent?.name == "itemButton" {
-//                        print("found the top one")
-//                    }
-                    
-                    itemButton.run(disableButtons)
-                    parent.isUserInteractionEnabled = false
-                    if itemButton.enabled == true {
-                        if let childCollectionBG = itemButton.childNode(withName: "collectionBG") as? SKSpriteNode {
-                            if let childCollection = childCollectionBG.childNode(withName: "collection") {
-//                                print("yo im a parent and this is my collection: \(childCollection.children)")
-                                for childItemButton in childCollection.children {
-                                    childItemButton.isUserInteractionEnabled = false
-                                    
+                    if self.isOpen == true {
+                        itemButton.run(disableButtons)
+                        parent.isUserInteractionEnabled = false
+                        if itemButton.enabled == true {
+                            if let childCollectionBG = itemButton.childNode(withName: "collectionBG") as? SKSpriteNode {
+                                if let childCollection = childCollectionBG.childNode(withName: "collection") {
+                                    for childItemButton in childCollection.children {
+                                        childItemButton.isUserInteractionEnabled = false
+                                        
+                                    }
                                 }
                             }
                         }
+                    } else {
+                        itemButton.reset()
                     }
                 }
                 itemButton.onCancel = { // when the touch moved out of the button
@@ -420,17 +419,18 @@ class Menu: SKNode {
                     }
                 }
                 itemButton.action = {
-                    if parent.name == "itemButton" {
-                        if let parentItemButton = parent as? SKPixelCollectionToggleButtonNode {
-                            if parentItemButton.enabled == true && parentItemButton.texture == parentItemButton.pressedTexture {
-                                parentItemButton.reset()
-                            }
-                        }
-                    }
                     
-                    itemButton.isUserInteractionEnabled = false
                     
                     if self.menuIsAnimating == false && self.isOpen == true {
+                        if parent.name == "itemButton" {
+                            if let parentItemButton = parent as? SKPixelCollectionToggleButtonNode {
+                                if parentItemButton.enabled == true && parentItemButton.texture == parentItemButton.pressedTexture {
+                                    parentItemButton.reset()
+                                }
+                            }
+                        }
+                        
+                        itemButton.isUserInteractionEnabled = false
                         self.menuIsAnimating = true
                         if itemButton.enabled == false || itemButton.enabled == nil { // CLOSE
                             /* close the button's child bg */
@@ -605,7 +605,7 @@ class Menu: SKNode {
             let enableButton = SKPixelToggleButtonNode(pixelImageNamed: "basicbutton", withText: "Turn On")
             enableButton.color = SKColor(colorLiteralRed: 255/255, green: 162/255, blue: 51/255, alpha: 1)
             enableButton.colorBlendFactor = 1
-            enableButton.zPosition = 3
+            enableButton.zPosition = 2
             enableButton.position.y = infoTable.position.y - 49.35 - 18
             //            enableButton.action = {
             //
@@ -617,7 +617,7 @@ class Menu: SKNode {
             let buyButton = SKPixelButtonNode(pixelImageNamed: "basicbutton", withText: "Buy")
             buyButton.color = SKColor(colorLiteralRed: 255/255, green: 162/255, blue: 51/255, alpha: 1)
             buyButton.colorBlendFactor = 1
-            buyButton.zPosition = 3
+            buyButton.zPosition = 2
             buyButton.position.y = infoTable.position.y - 49.35
             buyButton.action = {
                 if GameScene.current.world.score >= itemCost {
