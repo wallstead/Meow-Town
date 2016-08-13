@@ -276,7 +276,6 @@ class SKPixelCollectionToggleButtonNode: SKPixelToggleButtonNode {
         icon.position.x = -46.5
         icon.position.y = 0.5
         addChild(icon)
-        
     }
     
     override func encode(with aCoder: NSCoder) {
@@ -342,6 +341,7 @@ class SKPixelCollectionToggleButtonNode: SKPixelToggleButtonNode {
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        print(isUserInteractionEnabled)
         isUserInteractionEnabled = false
         
         if enabled != nil && texture != defaultTexture {
@@ -356,6 +356,7 @@ class SKPixelCollectionToggleButtonNode: SKPixelToggleButtonNode {
                     self.action?()
                 })
             } else { // about to toggle to false
+                
                 enabled = nil // disable interaction
                 run(SKAction.wait(forDuration: shiftTime), completion: {
                     self.overlay.texture = SKTexture(pixelImageNamed: "topbar_menupanel_itemcategory_ui")
@@ -369,8 +370,12 @@ class SKPixelCollectionToggleButtonNode: SKPixelToggleButtonNode {
                 self.action?()
             }
         } else if enabled != nil && texture == defaultTexture {
-            self.enabled = false
-            onCancel?()
+            if enabled == true {
+               self.enabled = true // reset
+            } else {
+                self.enabled = false
+                onCancel?() // reset and run cancel
+            }
         }
     }
 }

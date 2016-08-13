@@ -355,6 +355,7 @@ class Menu: SKNode {
         if type == "collection" {
             var yPosCounter: CGFloat = 0
             let collection = SKNode()
+            collection.name = "collection"
             var itemButtons: [SKPixelCollectionToggleButtonNode] = []
             let disableButtons = SKAction.run({
                 for itemButton in itemButtons {
@@ -374,6 +375,7 @@ class Menu: SKNode {
                 }else {
                     itemButton = SKPixelCollectionToggleButtonNode(type: "collection", iconNamed: "burger", withText: item.key as? String)
                 }
+                itemButton.name = "itemButton"
                 itemButtons.append(itemButton)
                 itemButton.zPosition = 1
                 itemButton.position.y = (-35*yPosCounter)-5-itemButton.currentHeight/2
@@ -385,23 +387,44 @@ class Menu: SKNode {
                 yPosCounter += 1
                 var itemButtonsBelow: [SKPixelCollectionToggleButtonNode] = [] // All buttons below the selected one
                 itemButton.onPress = {
+//                    if parent.parent?.name == "itemButton" {
+//                        print("found the top one")
+//                    }
+                    if let parentItemButton = parent as? SKPixelCollectionToggleButtonNode {
+//                        if parentItemButton.enabled = true
+                    }
                     itemButton.run(disableButtons)
                     parent.isUserInteractionEnabled = false
-                    
+                    if itemButton.enabled == true {
+                        if let childCollectionBG = itemButton.childNode(withName: "collectionBG") as? SKSpriteNode {
+                            if let childCollection = childCollectionBG.childNode(withName: "collection") {
+                                print("yo im a parent and this is my collection: \(childCollection.children)")
+                                for childItemButton in childCollection.children {
+                                    childItemButton.isUserInteractionEnabled = false
+                                    
+                                }
+                            }
+                        }
+                    }
                 }
                 itemButton.onCancel = { // when the touch moved out of the button
                     itemButton.run(enableButtons)
+                    parent.isUserInteractionEnabled = true
+                    if itemButton.enabled == true {
+                        if let childCollectionBG = itemButton.childNode(withName: "collectionBG") as? SKSpriteNode {
+                            if let childCollection = childCollectionBG.childNode(withName: "collection") {
+                                print("yo im a parent and this is my collection: \(childCollection.children)")
+                                for childItemButton in childCollection.children {
+                                    childItemButton.isUserInteractionEnabled = true
+                                }
+                            }
+                        }
+                    }
                 }
                 itemButton.action = {
                     itemButton.isUserInteractionEnabled = false
                     if self.menuIsAnimating == false && self.isOpen == true {
                         self.menuIsAnimating = true
-//                        for eachItemButton in itemButtons {
-//                            eachItemButton.isUserInteractionEnabled = false
-//                        }
-                        
-                        print(itemButton.enabled)
-                        
                         if itemButton.enabled == false || itemButton.enabled == nil { // CLOSE
                             /* close the button's child bg */
                         
