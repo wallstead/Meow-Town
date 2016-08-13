@@ -390,6 +390,7 @@ class SKPixelCollectionToggleButtonNode: SKPixelToggleButtonNode {
     
     func reset() { // resets to nil, so touches are canceled, then is recalled to
         enabled = nil
+        print("reseting")
     }
 }
 

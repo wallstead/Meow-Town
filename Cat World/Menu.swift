@@ -324,7 +324,6 @@ class Menu: SKNode {
             parent.parent?.parent?.parent?.run(move)
         }
 
-        /* Add background */
         let collectionBG = SKSpriteNode()
         
         collectionBG.size = CGSize(width: storeContainer.frame.width, height: bgpanel.currentHeight-infoButton.currentHeight-20)
@@ -338,9 +337,7 @@ class Menu: SKNode {
         collectionBG.anchorPoint = CGPoint(x: 0.5, y: 1)
         collectionBG.position.y = collectionBG.size.height-parent.currentHeight/2
         parent.addChild(collectionBG)
-        collectionBG.isUserInteractionEnabled = false // disable until shown
-        
-        
+        collectionBG.isUserInteractionEnabled = false
         
         let showCollection = SKAction.moveTo(y: -parent.currentHeight/2, duration: shiftTime)
         showCollection.timingMode = timeMode
@@ -410,7 +407,6 @@ class Menu: SKNode {
                     if itemButton.enabled == true {
                         if let childCollectionBG = itemButton.childNode(withName: "collectionBG") as? SKSpriteNode {
                             if let childCollection = childCollectionBG.childNode(withName: "collection") {
-//                                print("yo im a parent and this is my collection: \(childCollection.children)")
                                 for childItemButton in childCollection.children {
                                     childItemButton.isUserInteractionEnabled = true
                                 }
@@ -419,7 +415,6 @@ class Menu: SKNode {
                     }
                 }
                 itemButton.action = {
-                    
                     
                     if self.menuIsAnimating == false && self.isOpen == true {
                         if parent.name == "itemButton" {
@@ -433,7 +428,6 @@ class Menu: SKNode {
                         itemButton.isUserInteractionEnabled = false
                         self.menuIsAnimating = true
                         if itemButton.enabled == false || itemButton.enabled == nil { // CLOSE
-                            /* close the button's child bg */
                         
                             if let childCollectionBG = itemButton.childNode(withName: "collectionBG") as? SKSpriteNode {
                                 var belowCounter: CGFloat = 1
@@ -468,7 +462,6 @@ class Menu: SKNode {
                                     parent.run(move)
                                 }
                                 if itemButtonsBelow.isEmpty == false {
-                                    //                                print(itemButtonsBelow.count)
                                     for itemButtonBelow in itemButtonsBelow {
                                         let move = SKAction.moveTo(y: (-35*belowCounter)-itemButton.currentHeight/2, duration: shiftTime)
                                         move.timingMode = timeMode
@@ -486,8 +479,6 @@ class Menu: SKNode {
                             } else {
                                 self.menuIsAnimating = false
                             }
-                            
-                
                         } else { // OPEN
                             /* Move all buttons up, centering the selected button at the top */
                             for button in itemButtons {
@@ -522,16 +513,12 @@ class Menu: SKNode {
                             }
                         }
                     } else {
-//                        print("already happening")
                         itemButton.enabled = false
                     }
                 }
             }
             collectionBG.addChild(collection)
-
         } else if type == "item" {
-            
-            
             
             let itemImageContainter = SKPixelSpriteNode(pixelImageNamed: "topbar_menupanel_itemimagecontainer")
             itemImageContainter.color = collectionBG.color.darkerColor(percent: 0.1)
@@ -601,18 +588,11 @@ class Menu: SKNode {
             collectionBG.addChild(infoTable)
             infoTable.position.y = itemImageContainter.frame.minY-8.5
             
-            
             let enableButton = SKPixelToggleButtonNode(pixelImageNamed: "basicbutton", withText: "Turn On")
             enableButton.color = SKColor(colorLiteralRed: 255/255, green: 162/255, blue: 51/255, alpha: 1)
             enableButton.colorBlendFactor = 1
             enableButton.zPosition = 2
             enableButton.position.y = infoTable.position.y - 49.35 - 18
-            //            enableButton.action = {
-            //
-            //            }
-            
-            
-            
             
             let buyButton = SKPixelButtonNode(pixelImageNamed: "basicbutton", withText: "Buy")
             buyButton.color = SKColor(colorLiteralRed: 255/255, green: 162/255, blue: 51/255, alpha: 1)
@@ -621,9 +601,6 @@ class Menu: SKNode {
             buyButton.position.y = infoTable.position.y - 49.35
             buyButton.action = {
                 if GameScene.current.world.score >= itemCost {
-//                    print("can buy!")
-                    /* What in the fuck even is this */
-                    /* TODO: Fix this bullshit */
                     if GameScene.current.attemptPurchase(withData: data!) == true {
                         GameScene.current.catCam.alert(type: "success", message: "You successfully bought \(collectionData.value(forKey: "name")!)s.")
                         buyButton.label!.text = "Owned"
@@ -634,8 +611,6 @@ class Menu: SKNode {
                     } else {
                         GameScene.current.catCam.alert(type: "error", message: "An error occured when attempting to purchase \(collectionData.value(forKey: "name")!)s.")
                     }
-                    
-                    
                 } else {
                     GameScene.current.catCam.alert(type: "error", message: "You don't have enough calories to buy \(collectionData.value(forKey: "name")!)s.")
                 }
@@ -648,16 +623,8 @@ class Menu: SKNode {
                 buyButton.isUserInteractionEnabled = false
             }
             collectionBG.addChild(enableButton)
-            
             collectionBG.addChild(buyButton)
-            
-            
-            
         }
-    }
-    
-    func buy(category: String, item: String) {
-        
     }
     
     func toggle() {
@@ -672,7 +639,6 @@ class Menu: SKNode {
             open()
         }
     }
-    
     
     func open() {
         self.zPosition = 200
@@ -696,7 +662,6 @@ class Menu: SKNode {
     }
     
     func update(currentTime: CFTimeInterval) {
-//        print(menuIsAnimating)
     }
 }
 
