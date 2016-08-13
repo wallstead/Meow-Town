@@ -422,8 +422,9 @@ class Menu: SKNode {
                 itemButton.action = {
                     if parent.name == "itemButton" {
                         if let parentItemButton = parent as? SKPixelCollectionToggleButtonNode {
-                            parentItemButton.reset()
-//                            print(parentItemButton.texture)
+                            if parentItemButton.enabled == true && parentItemButton.texture == parentItemButton.pressedTexture {
+                                parentItemButton.reset()
+                            }
                         }
                     }
                     

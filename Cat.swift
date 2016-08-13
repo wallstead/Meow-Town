@@ -16,7 +16,7 @@ class Cat: SKNode {
     var sprite: SKPixelCatNode!
     var mood: String!
     var birthday: NSDate!
-    let lifespan: TimeInterval = 1.minute
+    let lifespan: TimeInterval = 20.minutes
     var world: World!
     let timer = SKTimer() // the timer calculates the time step value dt for every frame
     let scheduler = Scheduler() // an event scheduler
