@@ -588,8 +588,8 @@ class Menu: SKNode {
             collectionBG.addChild(infoTable)
             infoTable.position.y = itemImageContainter.frame.minY-8.5
             
-            let enableButton = SKPixelToggleButtonNode(pixelImageNamed: "basicbutton", withText: "Turn On")
-            enableButton.color = SKColor(colorLiteralRed: 255/255, green: 162/255, blue: 51/255, alpha: 1)
+            let enableButton = SKPixelToggleSliderNode(withState: false)
+            enableButton.color = collectionBG.color.darkerColor(percent: 0.1)
             enableButton.colorBlendFactor = 1
             enableButton.zPosition = 2
             enableButton.position.y = infoTable.position.y - 49.35 - 18
@@ -606,7 +606,7 @@ class Menu: SKNode {
                         buyButton.label!.text = "Owned"
                         buyButton.alpha = 0.5
                         buyButton.isUserInteractionEnabled = false
-                        enableButton.label!.text = "On"
+//                        enableButton.label!.text = "On"
                         /* TODO: Actually enable the item */
                     } else {
                         GameScene.current.catCam.alert(type: "error", message: "An error occured when attempting to purchase \(collectionData.value(forKey: "name")!)s.")
@@ -617,7 +617,7 @@ class Menu: SKNode {
             }
             
             if collectionData.value(forKey: "owned") as! Bool == true {
-                enableButton.label!.text = "Off"
+//                enableButton.label!.text = "Off"
                 buyButton.label!.text = "Owned"
                 buyButton.alpha = 0.5
                 buyButton.isUserInteractionEnabled = false

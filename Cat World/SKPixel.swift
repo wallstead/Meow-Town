@@ -77,7 +77,7 @@ class SKPixelButtonNode: SKPixelSpriteNode {
         if text != nil {
             label = SKLabelNode(pixelFontNamed: "Silkscreen")
             label!.text = text!
-            label!.zPosition = 2
+            label!.zPosition = 1
             addChild(label!)
         }
     }
@@ -122,6 +122,56 @@ class SKPixelButtonNode: SKPixelSpriteNode {
                     label!.position.y = 0
                 }
             }
+        }
+        
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if texture == pressedTexture {
+            action?()
+        }
+        if label != nil {
+            label!.position.y = 0
+        }
+        texture = defaultTexture
+    }
+}
+
+class SKPixelDraggableButtonNode: SKPixelButtonNode {
+    var moved: (() -> Void)?
+    var lastPosMovedTo: CGPoint?
+    
+    override init(pixelImageNamed name: String, withText text: String? = nil) {
+        super.init(pixelImageNamed: name, withText: text)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        
+    }
+    
+    override func encode(with aCoder: NSCoder) {
+        super.encode(with: aCoder)
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        texture = pressedTexture
+        if label != nil {
+            label!.position.y = -1
+        }
+    }
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if let touch = touches.first {
+            let location: CGPoint = touch.location(in: self.parent!)
+            if texture != pressedTexture {
+                texture = pressedTexture
+            }
+            if label != nil && label?.position.y != -1 {
+                label!.position.y = -1
+            }
+            lastPosMovedTo = location
+            moved?()
         }
     }
     
@@ -262,7 +312,6 @@ class SKPixelCollectionToggleButtonNode: SKPixelToggleButtonNode {
         icon.position.x = -46.5
         icon.position.y = 0.5
         addChild(icon)
-//        print(size.width)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -394,329 +443,135 @@ class SKPixelCollectionToggleButtonNode: SKPixelToggleButtonNode {
     }
 }
 
-// MARK: Old stuff
-
-//class SKPixelSpriteNode: SKSpriteNode {
-//    var background: SKSpriteNode
-//    var pixelImageNamed: String
-//    internal var action: (() -> Void)?
-//    internal var onPress: (() -> Void)?
-//    
-//    init(pixelImageNamed: String) {
-//        let texture = SKTexture(pixelImageNamed: pixelImageNamed)
-//        self.pixelImageNamed = pixelImageNamed
-//        self.background = SKSpriteNode(texture: texture)
-//        super.init(texture: nil, color: SKColor.clear(), size: texture.size())
-//        self.isUserInteractionEnabled = true
-//        self.addChild(self.background)
-//    }
-//    
-//    required init?(coder aDecoder: NSCoder) {
-//        self.pixelImageNamed = aDecoder.decodeObject(forKey: "pixelImageNamed") as! String
-//        self.background = aDecoder.decodeObject(forKey: "background") as! SKSpriteNode
-//        super.init(coder: aDecoder)
-//        self.isUserInteractionEnabled = true
-//    }
-//    
-//    override func encode(with aCoder: NSCoder) {
-//        aCoder.encode(self.pixelImageNamed, forKey: "pixelImageNamed")
-//        aCoder.encode(self.background, forKey: "background")
-//        super.encode(with: aCoder)
-//    }
-//    
-//    func changeTextureTo(pixelImageNamed: String) {
-//        self.background.size = CGSize(width: 0, height: 0)
-//        let newTexture = SKTexture(pixelImageNamed: pixelImageNamed)
-//        self.background.texture = newTexture
-//        let oldXScale = background.xScale
-//        let oldYScale = background.yScale
-//        self.background.size.height = newTexture.size().height
-//        self.background.size.width = newTexture.size().width
-////        print(oldXScale)
-//        self.background.xScale = oldXScale
-//        self.background.yScale = oldYScale
-//        
-//    }
-//
-//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        action?()
-//    }
-//}
-//
-//class SKPixelButtonNode: SKPixelSpriteNode {
-//    var defaultTexture: SKTexture
-//    var activeTexture: SKTexture
-//    var text: SKLabelNode?
-//    
-//    init(pixelImageNamed: String, text: String? = nil, bgcolor: SKColor? = nil) {
-//        let texture = SKTexture(pixelImageNamed: pixelImageNamed)
-//        let texturePressed = SKTexture(pixelImageNamed: pixelImageNamed+"_pressed")
-//        self.defaultTexture = texture
-//        self.activeTexture = texturePressed
-//        super.init(pixelImageNamed: pixelImageNamed)
-//        if (text != nil) {
-//            self.text = SKLabelNode(fontNamed: "Silkscreen")
-//            self.text!.text = text
-//            self.text!.setScale(1/10)
-//            self.text!.fontSize = 80
-//            self.text!.fontColor = SKColor.white()
-//            self.text!.verticalAlignmentMode = .center
-//            self.text!.zPosition = 1
-//            self.addChild(self.text!)
+class SKPixelToggleSliderNode: SKPixelToggleButtonNode {
+    let toggleSwitch: SKPixelDraggableButtonNode
+    
+    init(withState state: Bool) {
+        toggleSwitch = SKPixelDraggableButtonNode(pixelImageNamed: "toggleswitch", withText: "OFF")
+        super.init(pixelImageNamed: "basicttoggle")
+        enabled = state
+        toggleSwitch.label?.fontColor = SKColor(colorLiteralRed: 245/255, green: 245/255, blue: 245/255, alpha: 1)
+        toggleSwitch.color = SKColor(red: 223/255, green: 51/255, blue: 41/255, alpha: 1) //SKColor(red: 0/255, green: 187/255, blue: 125/255, alpha: 1)
+        toggleSwitch.colorBlendFactor = 1
+        toggleSwitch.zPosition = 1
+        toggleSwitch.position.x = -size.width/2 + 21 // max x
+        toggleSwitch.moved = {
+            self.toggleSwitchMoved()
+        }
+        toggleSwitch.action = {
+            self.snapSwitch()
+        }
+        addChild(toggleSwitch)
+//        toggleSwitch.run(SKAction.colorize(with: SKColor(red: 223/255, green: 51/255, blue: 41/255, alpha: 1), colorBlendFactor: 1, duration: 5))
+        
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        toggleSwitch = SKPixelDraggableButtonNode(pixelImageNamed: "toggleswitch", withText: "OFF")
+        super.init(coder: aDecoder)
+        enabled = aDecoder.decodeBool(forKey: "enabled")
+    }
+    
+    override func encode(with aCoder: NSCoder) {
+        aCoder.encode(enabled, forKey: "enabled")
+        super.encode(with: aCoder)
+    }
+    
+    func toggleSwitchMoved() {
+        if toggleSwitch.lastPosMovedTo!.x < size.width/2 - 21 && toggleSwitch.lastPosMovedTo!.x > -size.width/2 + 21 {
+            toggleSwitch.run(SKAction.moveTo(x: toggleSwitch.lastPosMovedTo!.x, duration: 0.05))
+        }
+    }
+    
+    func snapSwitch() {
+        if toggleSwitch.position.x >= 0 { // snap to right
+            toggleSwitch.run(SKAction.moveTo(x: size.width/2 - 21, duration: 0.1))
+            enabled = true
+        } else {
+            toggleSwitch.run(SKAction.moveTo(x: -size.width/2 + 21, duration: 0.1))
+            enabled = false
+        }
+    }
+    
+    override func updateState() { // called when enabled member is set programatically
+        if enabled == true {
+            isUserInteractionEnabled = true
+            toggleSwitch.label?.text = "ON"
+            toggleSwitch.color = SKColor(red: 0/255, green: 187/255, blue: 125/255, alpha: 1)
+            print("enabled")
+        } else if enabled == false {
+            isUserInteractionEnabled = true
+            toggleSwitch.label?.text = "OFF"
+            toggleSwitch.color = SKColor(red: 223/255, green: 51/255, blue: 41/255, alpha: 1)
+            print("disabled")
+        } else {
+            isUserInteractionEnabled = false
+        }
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        // enabled -> pressedTexture
+        // disabled -> defaultTexture
+//        if enabled == true {
+//            texture = defaultTexture
+//            if label != nil {
+//                label!.position.y = 0
+//            }
+//        } else if enabled == false {
+//            texture = pressedTexture
+//            if label != nil {
+//                label!.position.y = -1
+//            }
 //        }
-//        self.pixelImageNamed = pixelImageNamed
-//        self.isUserInteractionEnabled = true
-//        
-//        if bgcolor != nil {
-//            background.color = bgcolor!
-//            background.colorBlendFactor = 1
-//            
-//        }
-//    }
-//    
-//    required init?(coder aDecoder: NSCoder) {
-//        self.defaultTexture = aDecoder.decodeObject(forKey: "defaulttexture") as! SKTexture
-//        self.activeTexture = aDecoder.decodeObject(forKey: "activeTexture") as! SKTexture
-//        self.text = aDecoder.decodeObject(forKey: "text") as? SKLabelNode
-//        super.init(coder: aDecoder)
-//        self.isUserInteractionEnabled = true
-//    }
-//    
-//    override func encode(with aCoder: NSCoder) {
-//        aCoder.encode(self.defaultTexture, forKey: "defaultTexture")
-//        aCoder.encode(self.activeTexture, forKey: "activeTexture")
-//        aCoder.encode(self.text, forKey: "text")
-//        super.encode(with: aCoder)
-//    }
-//    
-//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        self.background.texture = activeTexture
-//        if (text != nil) {
-//            text?.position.y = -1
-//        }
-//    }
-//    
-//    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+    }
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        print("moving")
 //        if let touch = touches.first {
 //            let location: CGPoint = touch.location(in: self.parent!)
-//            if self.contains(location) {
-//                self.background.texture = activeTexture
-//                if (text != nil) {
-//                    text?.position.y = -1
+//            if self.contains(location) { // still inside bounds
+//                if enabled == true {
+//                    if texture != defaultTexture {
+//                        texture = defaultTexture
+//                    }
+//                    if label != nil && label?.position.y != 0 {
+//                        label!.position.y = 0
+//                    }
+//                } else if enabled == false {
+//                    if texture != pressedTexture {
+//                        texture = pressedTexture
+//                    }
+//                    if label != nil && label?.position.y != -1 {
+//                        label!.position.y = -1
+//                    }
 //                }
 //            } else {
-//                self.background.texture = defaultTexture
-//                if (text != nil) {
-//                    text?.position.y = 0
+//                if enabled == true { // reset to enabled
+//                    if texture != pressedTexture {
+//                        texture = pressedTexture
+//                    }
+//                    if label != nil && label?.position.y != -1 {
+//                        label!.position.y = -1
+//                    }
+//                } else if enabled == false { // reset to disabled
+//                    if texture != defaultTexture {
+//                        texture = defaultTexture
+//                    }
+//                    if label != nil && label?.position.y != 0 {
+//                        label!.position.y = 0
+//                    }
 //                }
 //            }
 //        }
-//
-//    }
-//
-//    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        if self.background.texture == activeTexture {
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        if enabled != nil {
+//            enabled!.toggle()
 //            action?()
 //        }
-//        if (text != nil) {
-//            text?.position.y = 0
-//        }
-//        self.background.texture = defaultTexture
-//    }
-//}
-//
-//class SKPixelToggleButtonNode: SKPixelButtonNode {
-//    var enabled: Bool!
-//    var shownText: String? {
-//        didSet {
-//            updateText()
-//        }
-//    }
-//    
-//    override init(pixelImageNamed: String, text: String? = nil, bgcolor: SKColor? = nil) {
-//        let texture = SKTexture(pixelImageNamed: pixelImageNamed)
-//        let texturePressed = SKTexture(pixelImageNamed: pixelImageNamed+"_pressed")
-//        if text != nil {
-//            self.shownText = text!
-//        }
-//
-//        super.init(pixelImageNamed: pixelImageNamed, text: text)
-//        self.enabled = false
-//        if bgcolor != nil {
-//            background.color = bgcolor!
-//            background.colorBlendFactor = 1
-//        }
-//    }
-//    
-//    required init?(coder aDecoder: NSCoder) {
-//        self.enabled = aDecoder.decodeObject(forKey: "enabled") as! Bool
-//        super.init(coder: aDecoder)
-//        self.isUserInteractionEnabled = true
-//    }
-//    
-//    override func encode(with aCoder: NSCoder) {
-//        aCoder.encode(self.enabled, forKey: "enabled")
-//        super.encode(with: aCoder)
-//    }
-//    
-//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        self.background.texture = activeTexture
-//        text?.position.y = -1
-//    }
-//    
-//    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        if let touch = touches.first {
-//            let location: CGPoint = touch.location(in: self.parent!)
-//            if self.contains(location) {
-//                self.background.texture = activeTexture
-//                text?.position.y = -1
-//            }
-//        }
-//    }
-//    
-//    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        if !enabled {
-//            enable()
-//        } else {
-//            disable(withAction: true)
-//        }
-//    }
-//    
-//    func disable(withAction: Bool = false) {
-//        if self.background.texture == activeTexture {
-//            if withAction == true {
-//                action?()
-//            }
-//            text?.position.y = 0
-//            self.background.texture = defaultTexture
-//            enabled = false
-//        }
-//    }
-//    
-//    func enable() {
-//        if self.background.texture == activeTexture {
-//            action?()
-//            text?.position.y = -1
-//            enabled = true
-//        }
-//    }
-//    
-//    func updateText() {
-//        text?.text = shownText
-//    }
-//}
-//
-//class SKPixelToggleCollectionButtonNode: SKPixelToggleButtonNode {
-//    let overlay: SKPixelSpriteNode?
-//    let icon: SKPixelSpriteNode?
-//    let shiftTime = 0.3
-//    
-//    init(type: String, iconName: String, text: String) {
-//        if type == "collection" || type == "item" {
-//            overlay = SKPixelSpriteNode(pixelImageNamed: "topbar_menupanel_itemcategory_ui")
-//            icon = SKPixelSpriteNode(pixelImageNamed: iconName)
-//        } else {
-//            print("unrecognized type of button")
-//            overlay = nil
-//            icon = nil
-//        }
-//        
-//        super.init(pixelImageNamed: "topbar_menupanel_itemcategory", text: text)
-//        
-//        if overlay != nil {
-//            overlay!.zPosition = 2
-//            overlay!.isUserInteractionEnabled = false
-//            self.addChild(overlay!)
-//        }
-//        if icon != nil {
-//            icon!.zPosition = 3
-//            icon!.isUserInteractionEnabled = false
-//            icon!.position.x = -46.5
-//            icon!.position.y = 0.5
-//            
-//            
-//            self.addChild(icon!)
-//        }
-//    }
-//    
-//    required init?(coder aDecoder: NSCoder) {
-//        fatalError("init(coder:) has not been implemented")
-//    }
-//    
-//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        onPress!()
-//        self.background.texture = activeTexture
-//        text?.position.y = -1
-//        overlay?.position.y = -1
-//        icon?.position.y = -0.5
-//    }
-//    
-//    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        if let touch = touches.first {
-//            let location: CGPoint = touch.location(in: self.parent!)
-//            if self.contains(location) {
-//                self.background.texture = activeTexture
-//                text?.position.y = -1
-//                overlay?.position.y = -1
-//                icon?.position.y = -0.5
-//            }
-//        }
-//    }
-//    
-//    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        self.isUserInteractionEnabled = false
-//        if !enabled {
-//            enable()
-//        } else {
-//            disable(withAction: true)
-//        }
-//    }
-//    
-//    
-//    
-//    override func disable(withAction: Bool) {
-//        if withAction {
-//            action?()
-//        }
-//        self.text?.position.y = 0
-//        self.overlay?.position.y = 0
-//        self.icon?.position.y = 0.5
-//        self.background.texture = self.defaultTexture
-//        
-//        self.run(SKAction.wait(forDuration: shiftTime), completion: {
-//            self.overlay?.run(SKAction.fadeOut(withDuration: 0.1), completion: {
-//                self.overlay?.changeTextureTo(pixelImageNamed: "topbar_menupanel_itemcategory_ui")
-//                self.overlay?.run(SKAction.fadeIn(withDuration: 0.1))
-//            })
-//            self.icon?.run(SKAction.fadeIn(withDuration: 0.1))
-//            self.background.run(SKAction.scaleX(to: 1, duration: 0.2), completion: {
-//                self.isUserInteractionEnabled = true
-//            })
-//            
-//            self.enabled = false
-//        })
-//    }
-//    
-//    override func enable() {
-//        if self.background.texture == activeTexture {
-//            action?()
-//            text?.position.y = 0
-//            overlay?.position.y = 0
-//            icon?.position.y = 0.5
-//            icon?.run(SKAction.fadeOut(withDuration: 0.1))
-//            overlay?.run(SKAction.fadeOut(withDuration: 0.1), completion: {
-//                self.overlay?.changeTextureTo(pixelImageNamed: "topbar_menupanel_itemcategory_ui2")
-//                self.overlay?.run(SKAction.fadeIn(withDuration: 0.1))
-//            })
-//            
-//            self.background.run(SKAction.scaleX(to: 1.4, duration: 0.2), completion: {
-//                self.isUserInteractionEnabled = true
-//            })
-//            self.background.texture = defaultTexture
-//            enabled = true
-//        }
-//    }
-//}
+    }
+}
 
 class SKPixelCatNode: SKPixelSpriteNode {
     var skinName: String
