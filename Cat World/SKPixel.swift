@@ -490,11 +490,11 @@ class SKPixelToggleSliderNode: SKPixelToggleButtonNode {
     
     func snapSwitch() {
         func snapRight() {
-            toggleSwitch.run(SKAction.moveTo(x: size.width/2 - 21, duration: 0.1))
+            toggleSwitch.run(SKAction.moveTo(x: size.width/2 - 21, duration: 0.2)) // TODO: duration could be calculated by distance from the end
         }
         
         func snapLeft() {
-            toggleSwitch.run(SKAction.moveTo(x: -size.width/2 + 21, duration: 0.1))
+            toggleSwitch.run(SKAction.moveTo(x: -size.width/2 + 21, duration: 0.2))
         }
         
         if enabled == true { // on right
