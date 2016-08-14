@@ -45,7 +45,7 @@ class World: SKNode, SKPhysicsContactDelegate {
     
     convenience init(name: String) {
         self.init()
-        self.wallpaper = SKPixelSpriteNode(pixelImageNamed: "wallpaper_floral")
+        self.wallpaper = SKPixelSpriteNode(pixelImageNamed: "wallpaper_greenforest")
         self.floor = SKPixelSpriteNode(pixelImageNamed: "floor")
         self.cats = []
         self.food = []

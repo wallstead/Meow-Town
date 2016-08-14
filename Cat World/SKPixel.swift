@@ -462,8 +462,6 @@ class SKPixelToggleSliderNode: SKPixelToggleButtonNode {
             self.snapSwitch()
         }
         addChild(toggleSwitch)
-//        toggleSwitch.run(SKAction.colorize(with: SKColor(red: 223/255, green: 51/255, blue: 41/255, alpha: 1), colorBlendFactor: 1, duration: 5))
-        
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -480,17 +478,42 @@ class SKPixelToggleSliderNode: SKPixelToggleButtonNode {
     func toggleSwitchMoved() {
         if toggleSwitch.lastPosMovedTo!.x < size.width/2 - 21 && toggleSwitch.lastPosMovedTo!.x > -size.width/2 + 21 {
             toggleSwitch.run(SKAction.moveTo(x: toggleSwitch.lastPosMovedTo!.x, duration: 0.05))
+        } else { // out of bounds
+            if toggleSwitch.lastPosMovedTo!.x >= 0 { // snap to right
+                toggleSwitch.run(SKAction.moveTo(x: size.width/2 - 21, duration: 0.1))
+            } else {
+                toggleSwitch.run(SKAction.moveTo(x: -size.width/2 + 21, duration: 0.1))
+            }
         }
     }
     
     func snapSwitch() {
-        if toggleSwitch.position.x >= 0 { // snap to right
+        func snapRight() {
             toggleSwitch.run(SKAction.moveTo(x: size.width/2 - 21, duration: 0.1))
-            enabled = true
-        } else {
-            toggleSwitch.run(SKAction.moveTo(x: -size.width/2 + 21, duration: 0.1))
-            enabled = false
         }
+        
+        func snapLeft() {
+            toggleSwitch.run(SKAction.moveTo(x: -size.width/2 + 21, duration: 0.1))
+        }
+        
+        if enabled == true { // on right
+            if toggleSwitch.position.x <= 0 || toggleSwitch.position.x > size.width/2 - 27 { // snap to right
+                snapLeft()
+                enabled = false
+            } else {
+                snapRight()
+                enabled = true
+            }
+        } else {
+            if toggleSwitch.position.x >= 0 || toggleSwitch.position.x < -size.width/2 + 27 { // snap to right
+                snapRight()
+                enabled = true
+            } else {
+                snapLeft()
+                enabled = false
+            }
+        }
+        
     }
     
     override func updateState() { // called when enabled member is set programatically
@@ -510,66 +533,15 @@ class SKPixelToggleSliderNode: SKPixelToggleButtonNode {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        // enabled -> pressedTexture
-        // disabled -> defaultTexture
-//        if enabled == true {
-//            texture = defaultTexture
-//            if label != nil {
-//                label!.position.y = 0
-//            }
-//        } else if enabled == false {
-//            texture = pressedTexture
-//            if label != nil {
-//                label!.position.y = -1
-//            }
-//        }
+        print("test")
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        print("moving")
-//        if let touch = touches.first {
-//            let location: CGPoint = touch.location(in: self.parent!)
-//            if self.contains(location) { // still inside bounds
-//                if enabled == true {
-//                    if texture != defaultTexture {
-//                        texture = defaultTexture
-//                    }
-//                    if label != nil && label?.position.y != 0 {
-//                        label!.position.y = 0
-//                    }
-//                } else if enabled == false {
-//                    if texture != pressedTexture {
-//                        texture = pressedTexture
-//                    }
-//                    if label != nil && label?.position.y != -1 {
-//                        label!.position.y = -1
-//                    }
-//                }
-//            } else {
-//                if enabled == true { // reset to enabled
-//                    if texture != pressedTexture {
-//                        texture = pressedTexture
-//                    }
-//                    if label != nil && label?.position.y != -1 {
-//                        label!.position.y = -1
-//                    }
-//                } else if enabled == false { // reset to disabled
-//                    if texture != defaultTexture {
-//                        texture = defaultTexture
-//                    }
-//                    if label != nil && label?.position.y != 0 {
-//                        label!.position.y = 0
-//                    }
-//                }
-//            }
-//        }
+
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        if enabled != nil {
-//            enabled!.toggle()
-//            action?()
-//        }
+
     }
 }
 
