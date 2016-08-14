@@ -593,6 +593,9 @@ class Menu: SKNode {
             enableButton.colorBlendFactor = 1
             enableButton.zPosition = 2
             enableButton.position.y = infoTable.position.y - 49.35 - 18
+            enableButton.onStateChange = {
+                GameScene.current.catCam.alert(type: "warning", message: "The enabled property of this button is now set to \(enableButton.enabled!).")
+            }
             
             let buyButton = SKPixelButtonNode(pixelImageNamed: "basicbutton", withText: "Buy")
             buyButton.color = SKColor(colorLiteralRed: 255/255, green: 162/255, blue: 51/255, alpha: 1)

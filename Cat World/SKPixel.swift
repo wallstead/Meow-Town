@@ -445,6 +445,7 @@ class SKPixelCollectionToggleButtonNode: SKPixelToggleButtonNode {
 
 class SKPixelToggleSliderNode: SKPixelToggleButtonNode {
     let toggleSwitch: SKPixelDraggableButtonNode
+    var onStateChange: (() -> Void)?
     
     init(withState state: Bool) {
         toggleSwitch = SKPixelDraggableButtonNode(pixelImageNamed: "toggleswitch", withText: "OFF")
@@ -521,15 +522,14 @@ class SKPixelToggleSliderNode: SKPixelToggleButtonNode {
             isUserInteractionEnabled = true
             toggleSwitch.label?.text = "ON"
             toggleSwitch.color = SKColor(red: 0/255, green: 187/255, blue: 125/255, alpha: 1)
-            print("enabled")
         } else if enabled == false {
             isUserInteractionEnabled = true
             toggleSwitch.label?.text = "OFF"
             toggleSwitch.color = SKColor(red: 223/255, green: 51/255, blue: 41/255, alpha: 1)
-            print("disabled")
         } else {
             isUserInteractionEnabled = false
         }
+        onStateChange?()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
