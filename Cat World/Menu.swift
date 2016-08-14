@@ -486,6 +486,7 @@ class Menu: SKNode {
                                 let thisIndex = itemButtons.index(of: button)
                                 let baseIndex = itemButtons.index(of: itemButton)
                                 let offset = -1*(baseIndex!-thisIndex!)
+                                
                                 let move = SKAction.moveTo(y: -button.currentHeight/2-(35*CGFloat(offset)), duration: shiftTime/2)
                                 move.timingMode = timeMode
                                 button.run(move, completion: {
@@ -524,7 +525,7 @@ class Menu: SKNode {
             itemImageContainter.color = collectionBG.color.darkerColor(percent: 0.1)
             itemImageContainter.colorBlendFactor = 1
             itemImageContainter.zPosition = 1
-            itemImageContainter.position.y = -34
+            itemImageContainter.position.y = -36
             collectionBG.addChild(itemImageContainter)
             
             let itemImage = SKPixelSpriteNode(pixelImageNamed: collectionData.value(forKey: "image name") as! String)
@@ -592,7 +593,7 @@ class Menu: SKNode {
             enableButton.color = collectionBG.color.darkerColor(percent: 0.1)
             enableButton.colorBlendFactor = 1
             enableButton.zPosition = 2
-            enableButton.position.y = infoTable.position.y - 49.35 - 18
+            enableButton.position.y = infoTable.position.y - 49.2 //infoTable.position.y - 49.35 - 18
             enableButton.onStateChange = {
                 GameScene.current.catCam.alert(type: "warning", message: "The enabled property of this button is now set to \(enableButton.enabled!).")
             }
@@ -601,16 +602,14 @@ class Menu: SKNode {
             buyButton.color = SKColor(colorLiteralRed: 255/255, green: 162/255, blue: 51/255, alpha: 1)
             buyButton.colorBlendFactor = 1
             buyButton.zPosition = 2
-            buyButton.position.y = infoTable.position.y - 49.35
+            buyButton.position.y = infoTable.position.y - 49.2
             buyButton.action = {
                 if GameScene.current.world.score >= itemCost {
                     if GameScene.current.attemptPurchase(withData: data!) == true {
                         GameScene.current.catCam.alert(type: "success", message: "You successfully bought \(collectionData.value(forKey: "name")!)s.")
-                        buyButton.label!.text = "Owned"
-                        buyButton.alpha = 0.5
-                        buyButton.isUserInteractionEnabled = false
-//                        enableButton.label!.text = "On"
-                        /* TODO: Actually enable the item */
+                        /* TODO: Hide buyButton */
+                        buyButton.removeFromParent()
+                        collectionBG.addChild(enableButton)
                     } else {
                         GameScene.current.catCam.alert(type: "error", message: "An error occured when attempting to purchase \(collectionData.value(forKey: "name")!)s.")
                     }
@@ -620,13 +619,11 @@ class Menu: SKNode {
             }
             
             if collectionData.value(forKey: "owned") as! Bool == true {
-//                enableButton.label!.text = "Off"
-                buyButton.label!.text = "Owned"
-                buyButton.alpha = 0.5
-                buyButton.isUserInteractionEnabled = false
+                collectionBG.addChild(enableButton)
+            } else {
+                collectionBG.addChild(buyButton)
             }
-            collectionBG.addChild(enableButton)
-            collectionBG.addChild(buyButton)
+            
         }
     }
     
