@@ -554,14 +554,26 @@ class SKPixelToggleSliderNode: SKPixelToggleButtonNode {
     var onStateChange: (() -> Void)?
     
     init(withState state: Bool) {
+        
         toggleSwitch = SKPixelDraggableButtonNode(pixelImageNamed: "toggleswitch", withText: "OFF")
         super.init(pixelImageNamed: "basicttoggle")
+        
+        let switchColor: SKColor
+        let switchPos: CGFloat
+        
+        if state == true {
+            switchColor = SKColor(red: 0/255, green: 187/255, blue: 125/255, alpha: 1)
+            switchPos = size.width/2 - 21
+        } else {
+            switchColor = SKColor(red: 223/255, green: 51/255, blue: 41/255, alpha: 1)
+            switchPos = -size.width/2 + 21
+        }
         enabled = state
         toggleSwitch.label?.fontColor = SKColor(colorLiteralRed: 245/255, green: 245/255, blue: 245/255, alpha: 1)
-        toggleSwitch.color = SKColor(red: 223/255, green: 51/255, blue: 41/255, alpha: 1) //SKColor(red: 0/255, green: 187/255, blue: 125/255, alpha: 1)
+        toggleSwitch.color = switchColor
         toggleSwitch.colorBlendFactor = 1
         toggleSwitch.zPosition = 1
-        toggleSwitch.position.x = -size.width/2 + 21 // max x
+        toggleSwitch.position.x = switchPos // max x
         toggleSwitch.moved = {
             self.toggleSwitchMoved()
         }

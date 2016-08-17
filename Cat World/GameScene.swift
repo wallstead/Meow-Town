@@ -86,5 +86,22 @@ class GameScene: SKScene {
         }
         return false // if it makes it here there was an error
     }
+    
+    func toggleEnable(withData data: NSMutableDictionary) -> Bool {
+        let storeDict = PlistManager.sharedInstance.getValueForKey(key: "Store") as! NSMutableDictionary
+        let categoriesDict = storeDict.value(forKey: "Categories") as! NSMutableDictionary
+        let foodsDict = categoriesDict.value(forKey: "Foods") as! NSMutableDictionary
+        for value in foodsDict.allValues {
+            if data == value as! NSMutableDictionary {
+                let mutableValue = value as! NSMutableDictionary
+                var enabledState = mutableValue.value(forKey: "enabled") as! Bool
+                enabledState.toggle()
+                mutableValue.setValue(enabledState, forKey: "enabled")
+                PlistManager.sharedInstance.saveValue(value: storeDict, forKey: "Store")
+                return true
+            }
+        }
+        return false // if it makes it here there was an error
+    }
 }
 

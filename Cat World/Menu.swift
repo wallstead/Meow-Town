@@ -589,7 +589,7 @@ class Menu: SKNode {
             collectionBG.addChild(infoTable)
             infoTable.position.y = itemImageContainter.frame.minY-8.5
             
-            let enableButton = SKPixelToggleSliderNode(withState: collectionData.value(forKey: "owned") as! Bool)
+            let enableButton = SKPixelToggleSliderNode(withState: collectionData.value(forKey: "enabled") as! Bool)
             enableButton.color = collectionBG.color.darkerColor(percent: 0.1)
             enableButton.colorBlendFactor = 1
             enableButton.zPosition = 2
@@ -601,10 +601,18 @@ class Menu: SKNode {
                     let wait = infoDict.value(forKey: "regen") as! Int
                     if GameScene.current.catCam.itemPanel.addQuickItem(itemName: collectionData.value(forKey: "image name")! as! String, waitTime: wait) == false {
                         GameScene.current.catCam.alert(type: "error", message: "Cannot enable an item already enabled.")
+                    } else {
+                        if GameScene.current.toggleEnable(withData: data!) == true {
+                            GameScene.current.catCam.alert(type: "success", message: "Toggled.")
+                        }
                     }
                 } else {
                     if GameScene.current.catCam.itemPanel.removeQuickItem(itemName: collectionData.value(forKey: "image name")! as! String) == false {
                         GameScene.current.catCam.alert(type: "error", message: "Cannot remove an item that doesn't exist.")
+                    } else {
+                        if GameScene.current.toggleEnable(withData: data!) == true {
+                            GameScene.current.catCam.alert(type: "success", message: "Toggled.")
+                        }
                     }
                 }
                
