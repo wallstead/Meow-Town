@@ -148,21 +148,23 @@ class SKPixelButtonNode: SKPixelSpriteNode {
 }
 
 class SKPixelItemButtonNode: SKPixelButtonNode {
-//    var defaultTexture: SKTexture
-//    var pressedTexture: SKTexture
-//    var label: SKLabelNode?
-//    let pressSound = SoundEffect(fileName: "press", fileType: "wav", enableSound: true, enableLooping: false, defaultVolume: 1.0)
-//    let selectSound = SoundEffect(fileName: "select", fileType: "wav", enableSound: true, enableLooping: false, defaultVolume: 1.0)
+    var iconName: String
     
     init(itemNamed name: String) {
+        iconName = name
         super.init(pixelImageNamed: "topbar_itempanel_itembutton")
+        let icon = SKPixelSpriteNode(pixelImageNamed: name)
+        icon.zPosition = 2
+        addChild(icon)
     }
     
     required init?(coder aDecoder: NSCoder) {
+        iconName = aDecoder.decodeObject(forKey: "iconName") as! String
         super.init(coder: aDecoder)
     }
     
     override func encode(with aCoder: NSCoder) {
+        aCoder.encode(iconName, forKey: "iconName")
         super.encode(with: aCoder)
     }
     

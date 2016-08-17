@@ -14,7 +14,7 @@ class ItemPanel: SKNode {
     var camFrame: CGRect!
     var topBar: SKPixelSpriteNode!
     var bgPanel: SKPixelSpriteNode!
-    var itemButtons: Queue<SKPixelItemButtonNode>!
+    var itemButtons: Array<SKPixelItemButtonNode>!
     
     // MARK: Initialization
     
@@ -39,41 +39,6 @@ class ItemPanel: SKNode {
         bgPanel.anchorPoint = CGPoint(x: 0.5, y: 0)
         bgPanel.position.y = camFrame.maxY-topBar.frame.height
         self.addChild(bgPanel)
-        
-//        let burgerButton = SKPixelButtonNode(pixelImageNamed: "topbar_itempanel_itembutton")
-//        burgerButton.zPosition = 2
-//        burgerButton.position.y = burgerButton.currentHeight/2+2
-//        burgerButton.position.x = -2*(burgerButton.currentWidth+1)
-//        bgPanel.addChild(burgerButton)
-//        
-//        burgerButton.action = {
-//            GameScene.current.world.spawn(itemName: "burger")
-//        }
-//        
-//        let friesButton = SKPixelButtonNode(pixelImageNamed: "topbar_itempanel_itembutton")
-//        friesButton.zPosition = 2
-//        friesButton.position.y = friesButton.currentHeight/2+2
-//        friesButton.position.x = -1*(friesButton.currentWidth+1)
-//        bgPanel.addChild(friesButton)
-//        
-//        friesButton.action = {
-//            GameScene.current.world.spawn(itemName: "fries")
-//        }
-//        
-//        let hotdogButton = SKPixelButtonNode(pixelImageNamed: "topbar_itempanel_itembutton")
-//        hotdogButton.zPosition = 2
-//        hotdogButton.position.y = hotdogButton.currentHeight/2+2
-//        bgPanel.addChild(hotdogButton)
-//        
-//        hotdogButton.action = {
-//            GameScene.current.world.spawn(itemName: "hotdog")
-//        }
-        addQuickItem(itemName: "burger")
-        addQuickItem(itemName: "fries")
-        addQuickItem(itemName: "burger")
-        addQuickItem(itemName: "fries")
-        addQuickItem(itemName: "burger")
-        addQuickItem(itemName: "fries")
     }
     
    
@@ -92,23 +57,46 @@ class ItemPanel: SKNode {
         
     }
     
-    func addQuickItem(itemName: String) {
-        let itemButton = SKPixelItemButtonNode(itemNamed: itemName) // add it to scene in updateButtons
-        if itemButtons.count == 5 {
-            itemButtons.pop()
+    func addQuickItem(itemName: String) -> Bool {
+        for itemButton in itemButtons {
+            if itemButton.iconName == itemName {
+                return false // already exists
+            }
         }
-        itemButtons.push(value: itemButton)
+        
+        let itemButton = SKPixelItemButtonNode(itemNamed: itemName) // add it to scene in updateButtons
+        itemButton.action = {
+            GameScene.current.world.spawn(itemName: itemName)
+        }
+        if itemButtons.count == 5 {
+            itemButtons.first!.removeFromParent()
+            print("removed \(itemButtons.removeFirst())")
+        }
+        itemButtons.append(itemButton)
         updateButtons()
+        return true
+    }
+    
+    func removeQuickItem(itemName: String) -> Bool {
+        for itemButton in itemButtons {
+            if itemButton.iconName == itemName {
+                itemButtons.remove(at: itemButtons.index(of: itemButton)!)
+                itemButton.removeFromParent()
+                updateButtons()
+                return true
+            }
+        }
+        return false
     }
     
     func updateButtons() {
         let origin: CGFloat = -50
-        for itemButton in itemButtons.elements {
+        for itemButton in itemButtons {
             if itemButton.parent == nil {
                 bgPanel.addChild(itemButton)
                 itemButton.zPosition = 2
             }
-            itemButton.position.x = origin+(CGFloat(itemButtons.elements.index(of: itemButton)!)*(itemButton.currentWidth+1))
+            itemButton.position.x = origin+(CGFloat(4-itemButtons.index(of: itemButton)!)*(itemButton.currentWidth+1))
             itemButton.position.y = itemButton.currentHeight/2+2
         }
     }

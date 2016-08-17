@@ -595,7 +595,18 @@ class Menu: SKNode {
             enableButton.zPosition = 2
             enableButton.position.y = infoTable.position.y - 49.2 //infoTable.position.y - 49.35 - 18
             enableButton.onStateChange = {
-                GameScene.current.catCam.alert(type: "warning", message: "The enabled property of this button is now set to \(enableButton.enabled!).")
+//                GameScene.current.catCam.alert(type: "warning", message: "The enabled property of this button is now set to \(enableButton.enabled!).")
+                
+                if enableButton.enabled == true {
+                    if GameScene.current.catCam.itemPanel.addQuickItem(itemName: collectionData.value(forKey: "image name")! as! String) == false {
+                        GameScene.current.catCam.alert(type: "error", message: "Cannot enable an item already enabled.")
+                    }
+                } else {
+                    if GameScene.current.catCam.itemPanel.removeQuickItem(itemName: collectionData.value(forKey: "image name")! as! String) == false {
+                        GameScene.current.catCam.alert(type: "error", message: "Cannot remove an item that doesn't exist.")
+                    }
+                }
+               
             }
             
             let buyButton = SKPixelButtonNode(pixelImageNamed: "basicbutton", withText: "Buy")
