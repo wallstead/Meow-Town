@@ -598,7 +598,8 @@ class Menu: SKNode {
 //                GameScene.current.catCam.alert(type: "warning", message: "The enabled property of this button is now set to \(enableButton.enabled!).")
                 
                 if enableButton.enabled == true {
-                    if GameScene.current.catCam.itemPanel.addQuickItem(itemName: collectionData.value(forKey: "image name")! as! String) == false {
+                    let wait = infoDict.value(forKey: "regen") as! Int
+                    if GameScene.current.catCam.itemPanel.addQuickItem(itemName: collectionData.value(forKey: "image name")! as! String, waitTime: wait) == false {
                         GameScene.current.catCam.alert(type: "error", message: "Cannot enable an item already enabled.")
                     }
                 } else {

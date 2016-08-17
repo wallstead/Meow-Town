@@ -148,24 +148,97 @@ class SKPixelButtonNode: SKPixelSpriteNode {
 }
 
 class SKPixelItemButtonNode: SKPixelButtonNode {
-    var iconName: String
+    var icon: SKPixelSpriteNode
+    var wait: Int
+    var regenLabel: SKLabelNode
     
-    init(itemNamed name: String) {
-        iconName = name
+    init(itemNamed name: String, waitTime: Int) {
+        wait = waitTime
+        icon = SKPixelSpriteNode(pixelImageNamed: name)
+        regenLabel = SKLabelNode(pixelFontNamed: "Silkscreen")
         super.init(pixelImageNamed: "topbar_itempanel_itembutton")
-        let icon = SKPixelSpriteNode(pixelImageNamed: name)
         icon.zPosition = 2
+        regenLabel.zPosition = 3
         addChild(icon)
+//        addChild(regenLabel)
     }
     
     required init?(coder aDecoder: NSCoder) {
-        iconName = aDecoder.decodeObject(forKey: "iconName") as! String
+        icon = aDecoder.decodeObject(forKey: "icon") as! SKPixelSpriteNode
+        wait = aDecoder.decodeObject(forKey: "wait") as! Int
+        regenLabel = aDecoder.decodeObject(forKey: "regenLabel") as! SKLabelNode
         super.init(coder: aDecoder)
     }
     
     override func encode(with aCoder: NSCoder) {
-        aCoder.encode(iconName, forKey: "iconName")
+        aCoder.encode(icon, forKey: "icon")
+        aCoder.encode(wait, forKey: "wait")
+        aCoder.encode(regenLabel, forKey: "regenLabel")
         super.encode(with: aCoder)
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        texture = pressedTexture
+        icon.position.y = -1
+        pressSound.play()
+        if label != nil {
+            label!.position.y = -1
+        }
+    }
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if let touch = touches.first {
+            let location: CGPoint = touch.location(in: self.parent!)
+            if self.contains(location) { // still inside bounds
+                if texture != pressedTexture {
+                    texture = pressedTexture
+                }
+                if label != nil && label?.position.y != -1 {
+                    label!.position.y = -1
+                }
+                icon.position.y = -1
+            } else {
+                if texture != defaultTexture {
+                    selectSound.play()
+                    texture = defaultTexture
+                    icon.position.y = 0
+                }
+                if label != nil && label?.position.y != 0 {
+                    label!.position.y = 0
+                }
+            }
+        }
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+        if texture == pressedTexture {
+            action?()
+            icon.position.y = 0
+            selectSound.play()
+            regen()
+        }
+        if label != nil {
+            label!.position.y = 0
+        }
+        texture = defaultTexture
+    }
+    
+    func regen() {
+        isUserInteractionEnabled = false
+        addChild(regenLabel)
+        icon.alpha = 0.5
+        regenLabel.text = "\(wait)"
+        let waitOne = SKAction.wait(forDuration: 1)
+        let updateLabel = SKAction.run({
+            self.wait -= 1
+            self.regenLabel.text = "\(self.wait)"
+        })
+        regenLabel.run(SKAction.repeat(SKAction.sequence([waitOne,updateLabel]), count: self.wait), completion: {
+            self.regenLabel.removeFromParent()
+            self.icon.alpha = 1
+            self.isUserInteractionEnabled = true
+        })
     }
 }
 

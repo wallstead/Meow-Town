@@ -57,14 +57,14 @@ class ItemPanel: SKNode {
         
     }
     
-    func addQuickItem(itemName: String) -> Bool {
+    func addQuickItem(itemName: String, waitTime: Int) -> Bool {
         for itemButton in itemButtons {
-            if itemButton.iconName == itemName {
+            if itemButton.icon.textureName == itemName {
                 return false // already exists
             }
         }
         
-        let itemButton = SKPixelItemButtonNode(itemNamed: itemName) // add it to scene in updateButtons
+        let itemButton = SKPixelItemButtonNode(itemNamed: itemName, waitTime: waitTime) // add it to scene in updateButtons
         itemButton.action = {
             GameScene.current.world.spawn(itemName: itemName)
         }
@@ -79,7 +79,7 @@ class ItemPanel: SKNode {
     
     func removeQuickItem(itemName: String) -> Bool {
         for itemButton in itemButtons {
-            if itemButton.iconName == itemName {
+            if itemButton.icon.textureName == itemName {
                 itemButtons.remove(at: itemButtons.index(of: itemButton)!)
                 itemButton.removeFromParent()
                 updateButtons()
