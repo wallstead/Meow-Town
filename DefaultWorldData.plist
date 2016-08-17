@@ -51,9 +51,9 @@
 					<key>info</key>
 					<dict>
 						<key>price</key>
-						<integer>10</integer>
+						<integer>200</integer>
 						<key>calories</key>
-						<integer>10</integer>
+						<integer>20</integer>
 						<key>regen</key>
 						<integer>15</integer>
 					</dict>
@@ -79,7 +79,7 @@
 						<key>calories</key>
 						<integer>10</integer>
 						<key>regen</key>
-						<integer>15</integer>
+						<integer>10</integer>
 					</dict>
 					<key>owned</key>
 					<false/>

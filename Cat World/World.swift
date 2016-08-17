@@ -40,6 +40,7 @@ class World: SKNode, SKPhysicsContactDelegate {
         
         if self.cats.isEmpty {
             GameScene.current.catCam.displayCatSelection()
+            
         }
     }
     
@@ -122,6 +123,8 @@ class World: SKNode, SKPhysicsContactDelegate {
         self.addChild(self.wallpaper)
         self.addChild(self.floor)
         self.addChild(floorCollisionBox!)
+        
+        spawn(itemName: "burger")
     }
     
     // MARK: Cat Stuff

@@ -213,10 +213,10 @@ class SKPixelItemButtonNode: SKPixelButtonNode {
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         
         if texture == pressedTexture {
+            regen()
             action?()
             icon.position.y = 0
             selectSound.play()
-            regen()
         }
         if label != nil {
             label!.position.y = 0
@@ -229,10 +229,11 @@ class SKPixelItemButtonNode: SKPixelButtonNode {
         addChild(regenLabel)
         icon.alpha = 0.5
         regenLabel.text = "\(wait)"
+        var counter = wait
         let waitOne = SKAction.wait(forDuration: 1)
         let updateLabel = SKAction.run({
-            self.wait -= 1
-            self.regenLabel.text = "\(self.wait)"
+            counter -= 1
+            self.regenLabel.text = "\(counter)"
         })
         regenLabel.run(SKAction.repeat(SKAction.sequence([waitOne,updateLabel]), count: self.wait), completion: {
             self.regenLabel.removeFromParent()
