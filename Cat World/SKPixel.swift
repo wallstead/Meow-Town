@@ -167,50 +167,6 @@ class SKPixelItemButtonNode: SKPixelButtonNode {
         aCoder.encode(iconName, forKey: "iconName")
         super.encode(with: aCoder)
     }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        texture = pressedTexture
-//        pressSound.play()
-//        if label != nil {
-//            label!.position.y = -1
-//        }
-    }
-    
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        if let touch = touches.first {
-//            let location: CGPoint = touch.location(in: self.parent!)
-//            if self.contains(location) { // still inside bounds
-//                if texture != pressedTexture {
-//                    texture = pressedTexture
-//                }
-//                if label != nil && label?.position.y != -1 {
-//                    label!.position.y = -1
-//                }
-//            } else {
-//                if texture != defaultTexture {
-//                    selectSound.play()
-//                    texture = defaultTexture
-//                }
-//                if label != nil && label?.position.y != 0 {
-//                    label!.position.y = 0
-//                }
-//            }
-//        }
-        
-    }
-    
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
-//        if texture == pressedTexture {
-//            action?()
-//            selectSound.play()
-//        }
-//        if label != nil {
-//            label!.position.y = 0
-//        }
-//        texture = defaultTexture
-//        
-    }
 }
 
 class SKPixelDraggableButtonNode: SKPixelButtonNode {

@@ -589,7 +589,7 @@ class Menu: SKNode {
             collectionBG.addChild(infoTable)
             infoTable.position.y = itemImageContainter.frame.minY-8.5
             
-            let enableButton = SKPixelToggleSliderNode(withState: false)
+            let enableButton = SKPixelToggleSliderNode(withState: collectionData.value(forKey: "owned") as! Bool)
             enableButton.color = collectionBG.color.darkerColor(percent: 0.1)
             enableButton.colorBlendFactor = 1
             enableButton.zPosition = 2
