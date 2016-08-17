@@ -40,5 +40,13 @@ class Item: SKNode, SKPhysicsContactDelegate {
         if let sprite = sprite { aCoder.encode(sprite, forKey: "sprite") }
     }
     
+    func didBegin(_ contact: SKPhysicsContact) {
+        print("yo")
+    }
+    
+    func didEnd(_ contact: SKPhysicsContact) {
+        print("shmo")
+    }
+    
   
 }

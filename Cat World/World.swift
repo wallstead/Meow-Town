@@ -79,7 +79,7 @@ class World: SKNode, SKPhysicsContactDelegate {
     func layout() {
         GameScene.current.physicsWorld.gravity = CGVector(dx: 0.0, dy: -5.0)
         GameScene.current.physicsWorld.contactDelegate = self
-        GameScene.current.physicsWorld.speed = 1
+//        GameScene.current.physicsWorld.speed = 1
         GameScene.current.catCam.updateScore(score: score!)
         self.setScale(GameScene.current.frame.width/floor.frame.width)
         
@@ -108,14 +108,16 @@ class World: SKNode, SKPhysicsContactDelegate {
             }
         }
         
-        floorCollisionBox = SKSpriteNode(color: SKColor.clear(), size: CGSize(width: floor.currentWidth*3, height: 5))
-        floorCollisionBox!.physicsBody = SKPhysicsBody(rectangleOf: floorCollisionBox!.size)
-        floorCollisionBox!.physicsBody?.affectedByGravity = false
-        floorCollisionBox!.physicsBody?.isDynamic = false
-        floorCollisionBox!.physicsBody?.categoryBitMask = PhysicsCategory.Floor // 3
-        floorCollisionBox!.physicsBody?.collisionBitMask = PhysicsCategory.None // 5
+        floorCollisionBox = SKSpriteNode(color: SKColor.clear(), size: CGSize(width: floor.currentWidth*3, height: 15))
         floorCollisionBox!.position.y = floor.position.y-10
         floorCollisionBox!.zPosition = 3
+        
+        floorCollisionBox!.physicsBody = SKPhysicsBody(rectangleOf: floorCollisionBox!.size)
+        floorCollisionBox!.physicsBody!.affectedByGravity = false
+        floorCollisionBox!.physicsBody!.isDynamic = false
+        floorCollisionBox!.physicsBody!.categoryBitMask = PhysicsCategory.Floor // 3
+        floorCollisionBox!.physicsBody!.contactTestBitMask = PhysicsCategory.Item
+        floorCollisionBox!.physicsBody!.collisionBitMask = PhysicsCategory.None // 5
         
         self.addChild(self.wallpaper)
         self.addChild(self.floor)
@@ -181,9 +183,9 @@ class World: SKNode, SKPhysicsContactDelegate {
         let item = Item(pixelImageNamed: itemName, parentWorld: self)
         item.zPosition = 172 // down floor -> up in z
         item.position.y = wallpaper.frame.maxY
-        item.physicsBody?.categoryBitMask = PhysicsCategory.Item
-        item.physicsBody?.contactTestBitMask = PhysicsCategory.Floor
-        item.physicsBody?.collisionBitMask = PhysicsCategory.Floor | PhysicsCategory.Item
+        item.physicsBody!.categoryBitMask = PhysicsCategory.Item
+        item.physicsBody!.contactTestBitMask = PhysicsCategory.Floor | PhysicsCategory.Item
+        item.physicsBody!.collisionBitMask = PhysicsCategory.Floor | PhysicsCategory.Item
     }
     
     // MARK: Update

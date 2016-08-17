@@ -8,6 +8,7 @@
 
 import Foundation
 import SpriteKit
+import AVFoundation
 
 // MARK: New Classes & Extensions
 
@@ -69,6 +70,8 @@ class SKPixelButtonNode: SKPixelSpriteNode {
     var defaultTexture: SKTexture
     var pressedTexture: SKTexture
     var label: SKLabelNode?
+    let pressSound = SoundEffect(fileName: "press", fileType: "wav", enableSound: true, enableLooping: false, defaultVolume: 1.0)
+    let selectSound = SoundEffect(fileName: "select", fileType: "wav", enableSound: true, enableLooping: false, defaultVolume: 1.0)
     
     init(pixelImageNamed name: String, withText text: String? = nil) {
         defaultTexture = SKTexture(pixelImageNamed: name)
@@ -80,6 +83,8 @@ class SKPixelButtonNode: SKPixelSpriteNode {
             label!.zPosition = 1
             addChild(label!)
         }
+        pressSound.prepareToPlay()
+        selectSound.prepareToPlay()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -99,6 +104,7 @@ class SKPixelButtonNode: SKPixelSpriteNode {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         texture = pressedTexture
+        pressSound.play()
         if label != nil {
             label!.position.y = -1
         }
@@ -116,6 +122,7 @@ class SKPixelButtonNode: SKPixelSpriteNode {
                 }
             } else {
                 if texture != defaultTexture {
+                    selectSound.play()
                     texture = defaultTexture
                 }
                 if label != nil && label?.position.y != 0 {
@@ -127,13 +134,80 @@ class SKPixelButtonNode: SKPixelSpriteNode {
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+       
         if texture == pressedTexture {
             action?()
+            selectSound.play()
         }
         if label != nil {
             label!.position.y = 0
         }
         texture = defaultTexture
+        
+    }
+}
+
+class SKPixelItemButtonNode: SKPixelButtonNode {
+//    var defaultTexture: SKTexture
+//    var pressedTexture: SKTexture
+//    var label: SKLabelNode?
+//    let pressSound = SoundEffect(fileName: "press", fileType: "wav", enableSound: true, enableLooping: false, defaultVolume: 1.0)
+//    let selectSound = SoundEffect(fileName: "select", fileType: "wav", enableSound: true, enableLooping: false, defaultVolume: 1.0)
+    
+    init(itemNamed name: String) {
+        super.init(pixelImageNamed: "topbar_itempanel_itembutton")
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
+    override func encode(with aCoder: NSCoder) {
+        super.encode(with: aCoder)
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        texture = pressedTexture
+//        pressSound.play()
+//        if label != nil {
+//            label!.position.y = -1
+//        }
+    }
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        if let touch = touches.first {
+//            let location: CGPoint = touch.location(in: self.parent!)
+//            if self.contains(location) { // still inside bounds
+//                if texture != pressedTexture {
+//                    texture = pressedTexture
+//                }
+//                if label != nil && label?.position.y != -1 {
+//                    label!.position.y = -1
+//                }
+//            } else {
+//                if texture != defaultTexture {
+//                    selectSound.play()
+//                    texture = defaultTexture
+//                }
+//                if label != nil && label?.position.y != 0 {
+//                    label!.position.y = 0
+//                }
+//            }
+//        }
+        
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+//        if texture == pressedTexture {
+//            action?()
+//            selectSound.play()
+//        }
+//        if label != nil {
+//            label!.position.y = 0
+//        }
+//        texture = defaultTexture
+//        
     }
 }
 

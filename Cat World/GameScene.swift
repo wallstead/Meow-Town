@@ -39,6 +39,7 @@ class GameScene: SKScene {
         self.camera = catCam
         self.addChild(catCam)
         
+        
         let worldData = PlistManager.sharedInstance.getValueForKey(key: "World") as! Data
         if worldData.count != 0 { // if not empty
             let loadedWorld = NSKeyedUnarchiver.unarchiveObject(with: worldData) as! World
