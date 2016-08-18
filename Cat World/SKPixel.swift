@@ -599,40 +599,48 @@ class SKPixelToggleSliderNode: SKPixelToggleButtonNode {
             toggleSwitch.run(SKAction.moveTo(x: toggleSwitch.lastPosMovedTo!.x, duration: 0.05))
         } else { // out of bounds
             if toggleSwitch.lastPosMovedTo!.x >= 0 { // snap to right
-                toggleSwitch.run(SKAction.moveTo(x: size.width/2 - 21, duration: 0.1))
+                isUserInteractionEnabled = false
+//                toggleSwitch
+                let move = SKAction.moveTo(x: size.width/2 - 21, duration: 0.2)
+                move.timingMode = .easeOut
+                toggleSwitch.run(move, completion: {
+                    self.isUserInteractionEnabled = true
+                })
             } else {
-                toggleSwitch.run(SKAction.moveTo(x: -size.width/2 + 21, duration: 0.1))
+                isUserInteractionEnabled = false
+                let move = SKAction.moveTo(x: -size.width/2 + 21, duration: 0.2)
+                move.timingMode = .easeOut
+                toggleSwitch.run(move, completion: {
+                    self.isUserInteractionEnabled = true
+                })
             }
         }
     }
     
     func snapSwitch() {
+        isUserInteractionEnabled = false
+        
         func snapRight() {
-            toggleSwitch.run(SKAction.moveTo(x: size.width/2 - 21, duration: 0.2)) // TODO: duration could be calculated by distance from the end
+            let move = SKAction.moveTo(x: size.width/2 - 21, duration: 0.2)
+            move.timingMode = .easeOut
+            toggleSwitch.run(move, completion: {
+                self.enabled = true
+            })
         }
         
         func snapLeft() {
-            toggleSwitch.run(SKAction.moveTo(x: -size.width/2 + 21, duration: 0.2))
+            let move = SKAction.moveTo(x: -size.width/2 + 21, duration: 0.2)
+            move.timingMode = .easeOut
+            toggleSwitch.run(move, completion: {
+                self.enabled = false
+            })
         }
         
-        if enabled == true { // on right
-            if toggleSwitch.position.x <= 0 || toggleSwitch.position.x > size.width/2 - 27 { // snap to right
-                snapLeft()
-                enabled = false
-            } else {
-                snapRight()
-                enabled = true
-            }
+        if toggleSwitch.lastPosMovedTo?.x <= 0 {
+            snapLeft()
         } else {
-            if toggleSwitch.position.x >= 0 || toggleSwitch.position.x < -size.width/2 + 27 { // snap to right
-                snapRight()
-                enabled = true
-            } else {
-                snapLeft()
-                enabled = false
-            }
+            snapRight()
         }
-        
     }
     
     override func updateState() { // called when enabled member is set programatically
@@ -651,7 +659,6 @@ class SKPixelToggleSliderNode: SKPixelToggleButtonNode {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        print("test")
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
