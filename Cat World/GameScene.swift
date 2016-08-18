@@ -52,7 +52,40 @@ class GameScene: SKScene {
         world.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
         world.zPosition = 0
         
-        self.addChild(world)
+        let worldEffectNode = SKEffectNode()
+        worldEffectNode.addChild(world)
+        worldEffectNode.shouldEnableEffects = true
+//        let newfilter = CIFilter(name: "CIColorMonochrome")
+        
+        
+//        var scaleCounter = 0.0
+//        
+//        
+//        
+//        let changeFilter = SKAction.run({
+//            let newfilter = CIFilter(name: "CIVignetteEffect", options: )
+////            worldEffectNode.shouldCenterFilter = false
+//            
+//            newfilter?.setValue(CIVector(x: 400, y: 150), forKey: kCIInputCenterKey)
+//            print(newfilter?.value(forKey: kCIInputCenterKey))
+//            
+//            newfilter?.setValue(900, forKey: kCIInputRadiusKey)
+//            newfilter?.setValue(0.2, forKey: kCIInputIntensityKey)
+//            worldEffectNode.filter = newfilter
+//            scaleCounter += 0.1
+//        })
+//        
+//        let wait = SKAction.wait(forDuration: 0.1)
+//        
+//        let animateFilter = SKAction.repeat(SKAction.sequence([changeFilter, wait]), count: 20)
+//        
+//     
+//        worldEffectNode.run(animateFilter)
+        
+        self.addChild(worldEffectNode)
+//        CIFilter *blurFilter = [CIFilter filterWithName:@"CIGaussianBlur"];
+//        [blurFilter setValue:@10.0 forKey:kCIInputRadiusKey];
+        
     }
    
     override func update(_ currentTime: CFTimeInterval) {
