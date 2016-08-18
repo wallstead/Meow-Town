@@ -675,7 +675,6 @@ class SKPixelCatNode: SKPixelSpriteNode {
         
         super.init(pixelImageNamed: skinName, interactionEnabled: true)
         mouth.zPosition = 1
-        
         addChild(mouth)
     }
     

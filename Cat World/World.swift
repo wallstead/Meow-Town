@@ -125,6 +125,8 @@ class World: SKNode, SKPhysicsContactDelegate {
         self.addChild(floorCollisionBox!)
         
         spawn(itemName: "burger")
+        spawn(itemName: "fries")
+        spawn(itemName: "fries")
     }
     
     // MARK: Cat Stuff
@@ -184,7 +186,10 @@ class World: SKNode, SKPhysicsContactDelegate {
 
     func spawn(itemName: String) {
         let item = Item(pixelImageNamed: itemName, parentWorld: self)
-        item.zPosition = 172 // down floor -> up in z
+        item.zPosition = 163
+        
+        
+        
         item.position.y = wallpaper.frame.maxY
         item.physicsBody!.categoryBitMask = PhysicsCategory.Item
         item.physicsBody!.contactTestBitMask = PhysicsCategory.Floor | PhysicsCategory.Item
