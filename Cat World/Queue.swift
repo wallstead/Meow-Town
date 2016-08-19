@@ -1,4 +1,4 @@
-public struct Queue<T>: ArrayLiteralConvertible {
+public struct Queue<T>: ExpressibleByArrayLiteral {
     /// backing array store
     public private(set) var elements: Array<T> = []
     

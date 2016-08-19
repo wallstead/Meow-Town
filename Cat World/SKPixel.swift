@@ -24,7 +24,7 @@ extension SKLabelNode {
         self.init(fontNamed: name)
         fontSize = 80
         setScale(1/10)
-        fontColor = SKColor.white()
+        fontColor = SKColor.white
         verticalAlignmentMode = .center
     }
 }
@@ -41,7 +41,7 @@ class SKPixelSpriteNode: SKSpriteNode {
     init(pixelImageNamed name: String, interactionEnabled: Bool? = false) {
         let pixelTexture = SKTexture(pixelImageNamed: name)
         textureName = name
-        super.init(texture: pixelTexture, color: SKColor.clear(), size: pixelTexture.size())
+        super.init(texture: pixelTexture, color: SKColor.clear, size: pixelTexture.size())
         if interactionEnabled == true {
             isUserInteractionEnabled = true
         }
@@ -636,7 +636,7 @@ class SKPixelToggleSliderNode: SKPixelToggleButtonNode {
             })
         }
         
-        if toggleSwitch.lastPosMovedTo?.x <= 0 {
+        if toggleSwitch.lastPosMovedTo!.x <= 0 {
             snapLeft()
         } else {
             snapRight()
@@ -672,13 +672,13 @@ class SKPixelToggleSliderNode: SKPixelToggleButtonNode {
 
 class SKPixelCatNode: SKPixelSpriteNode {
     var skinName: String
-    var colors: UIImageColors
+//    var colors: UIImageColors
     var mouth: SKSpriteNode
     
     init(catName: String) {
         skinName = catName
-        colors = UIImage(named: skinName)!.getColors()
-        mouth = SKSpriteNode(color: SKColor.clear(), size: CGSize(width: 1, height: 1))
+//        colors = UIImage(named: skinName)!.getColors()
+        mouth = SKSpriteNode(color: SKColor.clear, size: CGSize(width: 1, height: 1))
         
         super.init(pixelImageNamed: skinName, interactionEnabled: true)
         mouth.zPosition = 1
@@ -687,8 +687,8 @@ class SKPixelCatNode: SKPixelSpriteNode {
     
     required init?(coder aDecoder: NSCoder) {
         self.skinName = aDecoder.decodeObject(forKey: "catname") as! String
-        self.colors = UIImage(named: skinName)!.getColors()
-        self.mouth = SKSpriteNode(color: SKColor.clear(), size: CGSize(width: 1, height: 1))
+//        self.colors = UIImage(named: skinName)!.getColors()
+        self.mouth = SKSpriteNode(color: SKColor.clear, size: CGSize(width: 1, height: 1))
         super.init(coder: aDecoder)
     }
     

@@ -86,7 +86,7 @@ class Menu: SKNode {
         topbuttonPanelBG.position.y = bgpanel.currentHeight-infoButton.frame.height
         menuCropper.addChild(topbuttonPanelBG)
         
-        storeContainer = SKSpriteNode(color: SKColor.clear(), size: CGSize(width: bgpanel.currentWidth, height: bgpanel.currentHeight-settingsButton.frame.height))
+        storeContainer = SKSpriteNode(color: SKColor.clear, size: CGSize(width: bgpanel.currentWidth, height: bgpanel.currentHeight-settingsButton.frame.height))
         storeContainer.zPosition = 1
         storeContainer.isUserInteractionEnabled = false
         storeContainer.position.y = -infoButton.frame.height/2
@@ -199,7 +199,7 @@ class Menu: SKNode {
                     let cats = PlistManager.sharedInstance.getValueForKey(key: "Selectable Cats") as! NSDictionary
                     var possibleCatNames: [String] = []
                     for cat in cats {
-                        if let catSkin = cat.value.value(forKey: "skin") as? String {
+                        if let catSkin = (cat.value as AnyObject).value(forKey: "skin") as? String {
                             possibleCatNames.append(catSkin)
                         }
                     }
@@ -255,7 +255,7 @@ class Menu: SKNode {
                 
                 let version = SKLabelNode(fontNamed: "Silkscreen")
                 version.zPosition = 1
-                version.text = Bundle.main().objectForInfoDictionaryKey("CFBundleShortVersionString") as? String
+                version.text = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
                 version.setScale(1/10)
                 version.fontSize = 80
                 version.fontColor = SKColor(colorLiteralRed: 245/255, green: 245/255, blue: 245/255, alpha: 1)

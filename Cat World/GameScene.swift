@@ -16,8 +16,8 @@ class GameScene: SKScene {
     // MARK: Scene Setup
     
     override init() {
-        let width = UIScreen.main().bounds.width
-        let height = UIScreen.main().bounds.height
+        let width = UIScreen.main.bounds.width
+        let height = UIScreen.main.bounds.height
         
         let h = min(width, height)
         let w = max(width, height)

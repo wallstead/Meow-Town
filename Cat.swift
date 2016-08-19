@@ -18,8 +18,8 @@ class Cat: SKNode {
     var birthday: NSDate!
     let lifespan: TimeInterval = 5.minutes
     var world: World!
-    let timer = SKTimer() // the timer calculates the time step value dt for every frame
-    let scheduler = Scheduler() // an event scheduler
+//    let timer = SKTimer() // the timer calculates the time step value dt for every frame
+//    let scheduler = Scheduler() // an event scheduler
     var hasPubed: Bool!
     
     override var description: String { return "*** \(firstname) ***\nskin: \(skin)\nmood: \(mood)\nb-day: \(birthday)" }
@@ -96,17 +96,17 @@ class Cat: SKNode {
         world.addChild(sprite)
         prance()
         
-        scheduler
-            .every(time: 1.0) // every one second
-            .perform( action: self=>Cat.trackAge ) // update the elapsed time label
-            .end()
-        
-        scheduler
-            .every(time: 1.0) // every tenth of a second
-            .perform( action: self=>Cat.brain ) // think
-            .end()
-        
-        scheduler.start()
+//        scheduler
+//            .every(time: 1.0) // every one second
+//            .perform( action: self=>Cat.trackAge ) // update the elapsed time label
+//            .end()
+//        
+//        scheduler
+//            .every(time: 1.0) // every tenth of a second
+//            .perform( action: self=>Cat.brain ) // think
+//            .end()
+//        
+//        scheduler.start()
     }
     
     func trackAge() {
@@ -168,8 +168,8 @@ class Cat: SKNode {
     func die() {
 //        world.addGraveStone(catName: firstname!, position: sprite.position, zPos: sprite.zPosition)
         sprite.removeAllActions()
-        timer.pause()
-        scheduler.stop()
+//        timer.pause()
+//        scheduler.stop()
         if GameScene.current.catCam.currentFocus == self {
             GameScene.current.catCam.toggleFocus(cat: self)
         }
@@ -194,43 +194,27 @@ class Cat: SKNode {
         
         if food != nil {
             
-//            print("sprite position: \(sprite.position.x)")
-//            print("food position: \(food?.position.x)")
-            
-            // just to calculate where the face is
             var offSet: CGFloat = 0
             if sprite.xScale > 0 { // facing left
                 offSet = -sprite.mouth.position.x
-//                print("facing left")
             } else { // facing right
                 offSet = sprite.mouth.position.x
-//                print("facing right")
             }
-//            print("offset: \(offSet)")
             
-            // just to turn this bitch
             let facePosition = sprite.position.x + offSet
-//            print("face position: \(facePosition)")
             
-            if facePosition > food?.position.x {
+            if facePosition > (food?.position.x)! {
                 sprite.xScale = 1
-//                print("turning left\n----------------------")
             } else {
                 sprite.xScale = -1
-//                print("turning right\n----------------------")
             }
-            
-            
-            // now that it has turned, check where it is facing and adjust from there
+        
             var offSetFinal: CGFloat = 0
             if sprite.xScale > 0 { // facing left
                 offSetFinal = -sprite.mouth.position.x
-//                print("facing left")
             } else { // facing right
                 offSetFinal = sprite.mouth.position.x
-//                print("facing right")
             }
-//            print("offsetFinal: \(offSetFinal)")
             
             pointToFlyTo = CGPoint(x: point.x + offSetFinal, y: point.y - sprite.mouth.position.y)
         } else {
@@ -261,9 +245,6 @@ class Cat: SKNode {
             self.sprite.run(fly, completion: {
                 self.sprite.run(SKAction.moveBy(x: 0, y: -1, duration: 0.1), completion: {
                     self.sprite.stand()
-//                    if faceThing.positionInScene.x < 0 {
-//                        if faceThing.positionInScene.x + point.x
-//                    }
                     
                     if completion != nil {
                         completion!()
@@ -362,8 +343,8 @@ class Cat: SKNode {
     // MARK: Update
     
     func update(currentTime: CFTimeInterval) {
-        timer.advance()
-        scheduler.update(dt: timer.dt)
+//        timer.advance()
+//        scheduler.update(dt: timer.dt)
         changeZPosition()
     }
     
@@ -379,12 +360,12 @@ class Cat: SKNode {
 extension Cat {
     func pause() {
         self.isPaused = true
-        timer.advance(paused: true)
+//        timer.advance(paused: true)
     }
     
     func unpause() {
         self.isPaused = false
-        timer.advance(paused: false)
+//        timer.advance(paused: false)
     }
 }
 

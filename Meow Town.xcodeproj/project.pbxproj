@@ -12,6 +12,7 @@
 		433DA5F11CBEAA12009F1B36 /* SKPixel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433DA5F01CBEAA12009F1B36 /* SKPixel.swift */; };
 		433ECFB31D54FD8A00A01023 /* MiscExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433ECFB21D54FD8A00A01023 /* MiscExtensions.swift */; };
 		433ECFBC1D55089E00A01023 /* website.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 433ECFBB1D55089E00A01023 /* website.rtf */; };
+		433EEDE21D67849100A5AE9D /* Plist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433EEDE11D67849100A5AE9D /* Plist.swift */; };
 		4345CD981CF77692003BA6D4 /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4345CD971CF77692003BA6D4 /* Activity.swift */; };
 		4345CD9A1CF77F09003BA6D4 /* DefaultWorldData.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4345CD991CF77F09003BA6D4 /* DefaultWorldData.plist */; };
 		43470F2D1D07E9390069A8A4 /* CatCam.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43470F2C1D07E9390069A8A4 /* CatCam.swift */; };
@@ -38,12 +39,8 @@
 		439AD6871CB7681500E1E018 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 439AD6861CB7681500E1E018 /* Assets.xcassets */; };
 		439AD68A1CB7681500E1E018 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 439AD6881CB7681500E1E018 /* LaunchScreen.storyboard */; };
 		439AD6AE1CB7683700E1E018 /* Cat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439AD6AD1CB7683700E1E018 /* Cat.swift */; };
-		43A6ACBF1D2C6DA7008E8FDA /* UIImageColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A6ACBE1D2C6DA7008E8FDA /* UIImageColors.swift */; };
 		43CF9D011D610F8500C1EFEA /* SoundEffect-Swift3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43CF9D001D610F8500C1EFEA /* SoundEffect-Swift3.swift */; };
 		43E113131D0755EF005ADA37 /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E1130F1D0755EF005ADA37 /* Globals.swift */; };
-		43E113141D0755EF005ADA37 /* Scheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E113101D0755EF005ADA37 /* Scheduler.swift */; };
-		43E113151D0755EF005ADA37 /* TargetAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E113111D0755EF005ADA37 /* TargetAction.swift */; };
-		43E113161D0755EF005ADA37 /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E113121D0755EF005ADA37 /* Timer.swift */; };
 		43E4D1781D22E47C00E266EA /* SpriteKit-Spring.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E4D1771D22E47C00E266EA /* SpriteKit-Spring.swift */; };
 		43F453071CC8A543009912D8 /* Fipps-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 43F453061CC8A543009912D8 /* Fipps-Regular.otf */; };
 		43F4530C1CC8AD3B009912D8 /* slkscr.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43F453081CC8AD3B009912D8 /* slkscr.ttf */; };
@@ -80,6 +77,7 @@
 		433DA5F01CBEAA12009F1B36 /* SKPixel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKPixel.swift; sourceTree = "<group>"; };
 		433ECFB21D54FD8A00A01023 /* MiscExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MiscExtensions.swift; sourceTree = "<group>"; };
 		433ECFBB1D55089E00A01023 /* website.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = website.rtf; sourceTree = "<group>"; };
+		433EEDE11D67849100A5AE9D /* Plist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Plist.swift; sourceTree = "<group>"; };
 		4345CD971CF77692003BA6D4 /* Activity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Activity.swift; sourceTree = "<group>"; };
 		4345CD991CF77F09003BA6D4 /* DefaultWorldData.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = DefaultWorldData.plist; path = ../DefaultWorldData.plist; sourceTree = "<group>"; };
 		43470F2C1D07E9390069A8A4 /* CatCam.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CatCam.swift; sourceTree = "<group>"; };
@@ -110,12 +108,8 @@
 		439AD6901CB7681500E1E018 /* Meow TownTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Meow TownTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		439AD69B1CB7681500E1E018 /* Meow TownUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Meow TownUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		439AD6AD1CB7683700E1E018 /* Cat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Cat.swift; path = ../Cat.swift; sourceTree = "<group>"; };
-		43A6ACBE1D2C6DA7008E8FDA /* UIImageColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageColors.swift; sourceTree = "<group>"; };
 		43CF9D001D610F8500C1EFEA /* SoundEffect-Swift3.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SoundEffect-Swift3.swift"; sourceTree = "<group>"; };
 		43E1130F1D0755EF005ADA37 /* Globals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Globals.swift; sourceTree = "<group>"; };
-		43E113101D0755EF005ADA37 /* Scheduler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scheduler.swift; sourceTree = "<group>"; };
-		43E113111D0755EF005ADA37 /* TargetAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TargetAction.swift; sourceTree = "<group>"; };
-		43E113121D0755EF005ADA37 /* Timer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Timer.swift; sourceTree = "<group>"; };
 		43E4D1771D22E47C00E266EA /* SpriteKit-Spring.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SpriteKit-Spring.swift"; sourceTree = "<group>"; };
 		43F453061CC8A543009912D8 /* Fipps-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Fipps-Regular.otf"; sourceTree = "<group>"; };
 		43F453081CC8AD3B009912D8 /* slkscr.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = slkscr.ttf; sourceTree = "<group>"; };
@@ -247,14 +241,13 @@
 		43470F2B1D07E8960069A8A4 /* Utilites */ = {
 			isa = PBXGroup;
 			children = (
-				43E1130E1D0755D2005ADA37 /* Timer */,
+				433EEDE11D67849100A5AE9D /* Plist.swift */,
 				433ECFB21D54FD8A00A01023 /* MiscExtensions.swift */,
 				437B81A01D66678800DF8139 /* GlowFilter.swift */,
 				4364AB931D64FE5000B8DCBE /* Queue.swift */,
 				43CF9D001D610F8500C1EFEA /* SoundEffect-Swift3.swift */,
 				43E4D1771D22E47C00E266EA /* SpriteKit-Spring.swift */,
 				43689FA01D4C2BEA001C3E73 /* SKMultilineLabel.swift */,
-				43A6ACBE1D2C6DA7008E8FDA /* UIImageColors.swift */,
 				4345CD971CF77692003BA6D4 /* Activity.swift */,
 				438032081D04DFB4004D9D58 /* PlistManager.swift */,
 				43E1130F1D0755EF005ADA37 /* Globals.swift */,
@@ -317,16 +310,6 @@
 				438BB4031D61726F00AAB6D4 /* select.wav */,
 			);
 			name = effects;
-			sourceTree = "<group>";
-		};
-		43E1130E1D0755D2005ADA37 /* Timer */ = {
-			isa = PBXGroup;
-			children = (
-				43E113101D0755EF005ADA37 /* Scheduler.swift */,
-				43E113111D0755EF005ADA37 /* TargetAction.swift */,
-				43E113121D0755EF005ADA37 /* Timer.swift */,
-			);
-			name = Timer;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -491,15 +474,12 @@
 				43470F2D1D07E9390069A8A4 /* CatCam.swift in Sources */,
 				43689FA11D4C2BEA001C3E73 /* SKMultilineLabel.swift in Sources */,
 				4345CD981CF77692003BA6D4 /* Activity.swift in Sources */,
-				43A6ACBF1D2C6DA7008E8FDA /* UIImageColors.swift in Sources */,
 				43E113131D0755EF005ADA37 /* Globals.swift in Sources */,
-				43E113151D0755EF005ADA37 /* TargetAction.swift in Sources */,
 				433DA5F11CBEAA12009F1B36 /* SKPixel.swift in Sources */,
-				43E113141D0755EF005ADA37 /* Scheduler.swift in Sources */,
 				4374EA251D47F6E2007CB9EA /* ItemPanel.swift in Sources */,
 				439AD6AE1CB7683700E1E018 /* Cat.swift in Sources */,
 				43E4D1781D22E47C00E266EA /* SpriteKit-Spring.swift in Sources */,
-				43E113161D0755EF005ADA37 /* Timer.swift in Sources */,
+				433EEDE21D67849100A5AE9D /* Plist.swift in Sources */,
 				439AD6801CB7681500E1E018 /* GameScene.swift in Sources */,
 				437C2EC51D0BADBB00F05AEF /* Menu.swift in Sources */,
 				43CF9D011D610F8500C1EFEA /* SoundEffect-Swift3.swift in Sources */,

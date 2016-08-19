@@ -172,7 +172,7 @@ class SoundEffect {
     
     func prepareToPlay() {
         
-        let path = Bundle.main().pathForResource(self.name, ofType: self.ofType)
+        let path = Bundle.main.path(forResource: self.name, ofType: self.ofType)
         
         let soundUrl = URL(fileURLWithPath: path!)
         

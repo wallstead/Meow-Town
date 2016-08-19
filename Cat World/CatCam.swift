@@ -130,11 +130,11 @@ class CatCam: SKCameraNode {
         func display() {
             let quickinfobg = SKPixelSpriteNode(pixelImageNamed: "catfocus_quickinfobg")
             quickinfobg.alpha = 0
-            if let catColor = currentFocus?.sprite.colors.primaryColor {
-                quickinfobg.color = catColor
-            } else {
-                quickinfobg.color = SKColor.gray()
-            }
+//            if let catColor = currentFocus?.sprite.colors.primaryColor {
+//                quickinfobg.color = catColor
+//            } else {
+                quickinfobg.color = SKColor.gray
+//            }
             
             quickinfobg.colorBlendFactor = 1
             quickinfobg.setScale(topBar.xScale)
@@ -202,8 +202,10 @@ class CatCam: SKCameraNode {
         self.addChild(background)
         
         let cats = PlistManager.sharedInstance.getValueForKey(key: "Selectable Cats") as! NSDictionary
+        print(cats)
+        print("got here")
         for cat in cats {
-            if let catSkin = cat.value.value(forKey: "skin") as? String {
+            if let catSkin = (cat.value as AnyObject).value(forKey: "skin") as? String {
                 catSpriteArray.append(SKPixelSpriteNode(pixelImageNamed: catSkin))
                 print(catSkin)
             }
@@ -288,7 +290,7 @@ class CatCam: SKCameraNode {
         leftButton.position.x = circleBackground.frame.minX-6
         leftButton.position.y = circleBackground.position.y
         leftButton.action = {
-            if !isShiftingCats && catSpriteArray.index(of: currentCatSprite) > 0  {
+            if !isShiftingCats && catSpriteArray.index(of: currentCatSprite)! > 0  {
                 currentCatSprite = catSpriteArray[catSpriteArray.index(of: currentCatSprite)!-1]
                 updateButtons()
                 for cat in catSpriteArray {
@@ -307,7 +309,7 @@ class CatCam: SKCameraNode {
         rightButton.position.y = circleBackground.position.y
         rightButton.xScale = -1
         rightButton.action = {
-            if !isShiftingCats && catSpriteArray.index(of: currentCatSprite) < catSpriteArray.count - 1  {
+            if !isShiftingCats && catSpriteArray.index(of: currentCatSprite)! < catSpriteArray.count - 1  {
                 currentCatSprite = catSpriteArray[catSpriteArray.index(of: currentCatSprite)!+1]
                 updateButtons()
                 for cat in catSpriteArray {
@@ -379,7 +381,7 @@ class CatCam: SKCameraNode {
         }
         
         let bgCropper = SKCropNode()
-        bgCropper.maskNode = SKSpriteNode(color: SKColor.red(), size: CGSize(width: camFrame.width, height: 43))
+        bgCropper.maskNode = SKSpriteNode(color: SKColor.red, size: CGSize(width: camFrame.width, height: 43))
         bgCropper.zPosition = 300
         bgCropper.position.y = -topBar.currentHeight/2-bgCropper.maskNode!.currentHeight/2
         topBar.addChild(bgCropper)
@@ -411,7 +413,7 @@ class CatCam: SKCameraNode {
         
         
         let messageNode = SKNode()
-        let separators = NSCharacterSet.whitespacesAndNewlines()
+        let separators = NSCharacterSet.whitespacesAndNewlines
         let words = message.components(separatedBy: separators)
         
         let width = 25
@@ -428,7 +430,7 @@ class CatCam: SKCameraNode {
             line.text = ""
             line.setScale(1/10)
             line.fontSize = 80
-            line.fontColor = SKColor.white()
+            line.fontColor = SKColor.white
             line.position.y = -(CGFloat(currentLabelIndex)*7)
             line.verticalAlignmentMode = .top
             line.horizontalAlignmentMode = .left

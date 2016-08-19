@@ -29,7 +29,7 @@ class SKMultilineLabel: SKNode {
     var rect:SKShapeNode?
     var labels:[SKLabelNode] = []
     
-    init(text:String, labelWidth:Int, pos:CGPoint, fontName:String="ChalkboardSE-Regular",fontSize:CGFloat=10,fontColor:SKColor=SKColor.black(),leading:Int=10, alignment:SKLabelHorizontalAlignmentMode = .center, shouldShowBorder:Bool = false)
+    init(text:String, labelWidth:Int, pos:CGPoint, fontName:String="ChalkboardSE-Regular",fontSize:CGFloat=10,fontColor:SKColor=SKColor.black,leading:Int=10, alignment:SKLabelHorizontalAlignmentMode = .center, shouldShowBorder:Bool = false)
     {
         self.text = text
         self.labelWidth = labelWidth
@@ -60,7 +60,7 @@ class SKMultilineLabel: SKNode {
             }
             labels = []
         }
-        let separators = NSCharacterSet.whitespacesAndNewlines()
+        let separators = NSCharacterSet.whitespacesAndNewlines
         let words = text.components(separatedBy: separators)
         
         var finalLine = false
@@ -78,7 +78,7 @@ class SKMultilineLabel: SKNode {
             label.name = "line\(lineCount)"
             label.horizontalAlignmentMode = alignment
             label.fontSize = fontSize
-            label.fontColor = SKColor.white()
+            label.fontColor = SKColor.white
             
             while lineLength < CGFloat(labelWidth)
             {
@@ -135,7 +135,7 @@ class SKMultilineLabel: SKNode {
         }
         self.rect = SKShapeNode(rectOf: CGSize(width: labelWidth, height: labelHeight))
         if let rect = self.rect {
-            rect.strokeColor = SKColor.white()
+            rect.strokeColor = SKColor.white
             rect.lineWidth = 1
             rect.position = CGPoint(x: pos.x, y: pos.y - (CGFloat(labelHeight) / 2.0))
             self.addChild(rect)

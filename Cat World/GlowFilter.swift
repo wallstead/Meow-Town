@@ -40,9 +40,9 @@ class GlowFilter : CIFilter
             let inputCenterY = inputCenter?.y ?? 0
             if inputCenterX > 0
             {
-                var transform = CGAffineTransform.identity.translateBy(x: inputCenterX, y: inputCenterY)
-                transform = transform.scaleBy(x: glowSize, y: glowSize)
-                transform = transform.translateBy(x: -inputCenterX, y: -inputCenterY)
+                var transform = CGAffineTransform.identity.translatedBy(x: inputCenterX, y: inputCenterY)
+                transform = transform.scaledBy(x: glowSize, y: glowSize)
+                transform = transform.translatedBy(x: -inputCenterX, y: -inputCenterY)
                 
                 let affineTransformFilter = CIFilter(name: "CIAffineTransform")
                 affineTransformFilter?.setDefaults()
@@ -70,13 +70,13 @@ class GlowFilter : CIFilter
     override init()
     {
         super.init()
-        glowColor = UIColor.white()
+        glowColor = UIColor.white
     }
     
     required init?(coder aDecoder: NSCoder)
     {
         super.init(coder: aDecoder)
-        glowColor = UIColor.white()
+        glowColor = UIColor.white
     }
     
     

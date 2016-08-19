@@ -72,7 +72,7 @@ class World: SKNode, SKPhysicsContactDelegate {
     
     func save() {
         let worldData = NSKeyedArchiver.archivedData(withRootObject: self)
-        PlistManager.sharedInstance.saveValue(value: worldData, forKey: "World")
+        PlistManager.sharedInstance.saveValue(value: worldData as AnyObject, forKey: "World")
     }
     
     // MARK: Layout
@@ -109,7 +109,7 @@ class World: SKNode, SKPhysicsContactDelegate {
             }
         }
         
-        floorCollisionBox = SKSpriteNode(color: SKColor.clear(), size: CGSize(width: floor.currentWidth*3, height: 15))
+        floorCollisionBox = SKSpriteNode(color: SKColor.clear, size: CGSize(width: floor.currentWidth*3, height: 15))
         floorCollisionBox!.position.y = floor.position.y-10
         floorCollisionBox!.zPosition = 3
         
@@ -187,8 +187,6 @@ class World: SKNode, SKPhysicsContactDelegate {
     func spawn(itemName: String) {
         let item = Item(pixelImageNamed: itemName, parentWorld: self)
         item.zPosition = 163
-        
-        
         
         item.position.y = wallpaper.frame.maxY
         item.physicsBody!.categoryBitMask = PhysicsCategory.Item
