@@ -326,17 +326,19 @@ class CatCam: SKCameraNode {
         doneButton.zPosition = 12
         doneButton.position.y = circleBackground.frame.minY-11
         doneButton.action = {
-            isShiftingCats = true
-//            GameScene.current.world.addCat(name: currentCatSprite.textureName)
-            background.run(SKAction.fadeAlpha(to: 0, duration: 0.5), completion: {
-                background.removeAllChildren()
-                background.removeFromParent()
-            })
+            if currentCatSprite != nil {
+                isShiftingCats = true
+                GameScene.current.world!.addCat(name: currentCatSprite!.textureName) // world should probably be optional
+                background.run(SKAction.fadeAlpha(to: 0, duration: 0.5), completion: {
+                    background.removeAllChildren()
+                    background.removeFromParent()
+                })
+            }
         }
         
-        background.run(SKAction.fadeAlpha(to: 1, duration: 1))
+        background.run(SKAction.fadeAlpha(to: 1, duration: 0.5))
         
-//        updateButtons()
+        updateButtons()
     }
     
     func update(currentTime: CFTimeInterval) {
