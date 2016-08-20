@@ -16,7 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate  {
 
     private func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
-        PlistManager.sharedInstance.startPlistManager()
+//        PlistManager.sharedInstance.startPlistManager()
         
         let center = UNUserNotificationCenter.current()
         center.requestAuthorization(options: [.alert, .sound]) { (granted, error) in

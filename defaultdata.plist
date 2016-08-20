@@ -4,34 +4,12 @@
 <dict>
 	<key>Version</key>
 	<integer>1</integer>
-	<key>Wallpaper</key>
-	<string>greenforest</string>
-	<key>Floor</key>
-	<string>floor</string>
-	<key>Selectable Cats</key>
-	<dict>
-		<key>Delphi</key>
-		<dict>
-			<key>name</key>
-			<string>delphi</string>
-			<key>skin</key>
-			<string>delphi</string>
-		</dict>
-		<key>Oscar</key>
-		<dict>
-			<key>name</key>
-			<string>oscar</string>
-			<key>skin</key>
-			<string>oscar</string>
-		</dict>
-		<key>Timmy</key>
-		<dict>
-			<key>name</key>
-			<string>timmy</string>
-			<key>skin</key>
-			<string>timmy</string>
-		</dict>
-	</dict>
+	<key>Available Cats</key>
+	<array>
+		<string>delphi</string>
+		<string>oscar</string>
+		<string>timmy</string>
+	</array>
 	<key>Store</key>
 	<dict>
 		<key>Categories</key>
@@ -167,7 +145,5 @@
 			</dict>
 		</dict>
 	</dict>
-	<key>World</key>
-	<data></data>
 </dict>
 </plist>

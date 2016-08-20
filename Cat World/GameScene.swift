@@ -12,7 +12,7 @@ class GameScene: SKScene {
     var world: World?
     var catCam: CatCam!
     var scale: CGFloat!
-    
+    var defaultData: Plist?
     
     // MARK: Scene Setup
     
@@ -25,6 +25,10 @@ class GameScene: SKScene {
         super.init(size: CGSize(width: w, height: h))
         
         GameScene.current = self
+        
+        if let path = Bundle.main.path(forResource: "defaultdata", ofType: "plist") {
+            defaultData = Plist(path: path)
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -33,16 +37,21 @@ class GameScene: SKScene {
     
     static var current: GameScene! = nil
     
+    
+    // MARK: Presenting Scene
+    
     override func didMove(to view: SKView) {
+        
+        /* Framing the camera */
+        
         catCam = CatCam(withFrame: CGRect(x: -self.frame.width/2, y: -self.frame.height/2, width: self.frame.width, height: self.frame.height))
         catCam.position = self.frame.mid()
         catCam.zPosition = 9999999
         self.camera = catCam
         self.addChild(catCam)
         
-        print("attempting load!")
+        /* Making the world */
         
-//        let worldFileName = getDocumentsDirectory().appending("worldData")
         var filePath : String? {
             let manager = FileManager.default
             let url = manager.urls(for: .documentDirectory, in: .userDomainMask).first
@@ -50,96 +59,39 @@ class GameScene: SKScene {
         }
         
         if filePath != nil {
-            print("filepath is not nil")
             if let loadedWorld = NSKeyedUnarchiver.unarchiveObject(withFile: filePath!) as? World {
-                print(loadedWorld)
-                print("loaded!")
+                world = loadedWorld
+                print("[GameScene] Loaded \(world!)")
             } else {
-                print("couldn't load!")
-                let newWorld = World(name: "worldo")
-                print("saving new world!")
+                print("[GameScene] Couldn't load world 😕.")
+                let newWorld = World(name: "worldy")
+                world = newWorld
                 if NSKeyedArchiver.archiveRootObject(newWorld, toFile: filePath!) {
-                    print("saved new world!")
+                    print("[GameScene] Saved \(world!)")
                 } else {
-                    print("failed to save new world!")
+                    print("[GameScene] Failed to save \(world!)")
                 }
-}
+            }
         } else {
-            print("filepath is nil")
+            print("[GameScene] Filepath is nil.")
         }
-        
-        
-//        if let loadedWorld = NSKeyedUnarchiver.unarchiveObject(withFile: worldFileName) as! World? {
-//            print("loaded!")
-//        } else {
-//            print("couldn't load!")
-//            print("creating new world!")
-//            let newWorld = World(name: "worldo")
-//            print("saving new world!")
-//            let data = NSKeyedArchiver.archivedData(withRootObject: newWorld)
-//            print(data)
-//            if NSKeyedArchiver.archiveRootObject(newWorld, toFile: worldFileName) {
-//                print("saved new world!")
-//            } else {
-//                print("failed to save new world!")
-//            }
-//        }
-        
-        
-        
-        
-//        let worldData = PlistManager.sharedInstance.getValueForKey(key: "World") as! Data
-//        if worldData.count != 0 { // if not empty
-//            let loadedWorld = NSKeyedUnarchiver.unarchiveObject(with: worldData) as! World
-//            print(loadedWorld)
-//            world = loadedWorld
-//        } else {
-//            world = World(name: "world")
-//            world.save()
-//        }
-//        world.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
-//        world.zPosition = 0
-        
-//        let worldEffectNode = SKEffectNode()
-//        worldEffectNode.addChild(world)
-//        worldEffectNode.shouldEnableEffects = true
-//        let newfilter = CIFilter(name: "CIColorMonochrome")
-        
-        
-//        var scaleCounter = 0.0
-//        
-//        
-//        
-//        let changeFilter = SKAction.run({
-//            let newfilter = CIFilter(name: "CIVignetteEffect", options: )
-////            worldEffectNode.shouldCenterFilter = false
-//            
-//            newfilter?.setValue(CIVector(x: 400, y: 150), forKey: kCIInputCenterKey)
-//            print(newfilter?.value(forKey: kCIInputCenterKey))
-//            
-//            newfilter?.setValue(900, forKey: kCIInputRadiusKey)
-//            newfilter?.setValue(0.2, forKey: kCIInputIntensityKey)
-//            worldEffectNode.filter = newfilter
-//            scaleCounter += 0.1
-//        })
-//        
-//        let wait = SKAction.wait(forDuration: 0.1)
-//        
-//        let animateFilter = SKAction.repeat(SKAction.sequence([changeFilter, wait]), count: 20)
-//        
-//     
-//        worldEffectNode.run(animateFilter)
-        
-//        self.addChild(worldEffectNode)
-//        CIFilter *blurFilter = [CIFilter filterWithName:@"CIGaussianBlur"];
-//        [blurFilter setValue:@10.0 forKey:kCIInputRadiusKey];
-        
+    
+        if world != nil {
+            world!.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
+            world!.zPosition = 0
+            
+            let worldEffectNode = SKEffectNode() // Can add effects to this node
+            worldEffectNode.addChild(world!)
+            addChild(worldEffectNode)
+        }
     }
    
     override func update(_ currentTime: CFTimeInterval) {
 //        world.update(currentTime: currentTime)
         catCam.update(currentTime: currentTime)
     }
+    
+    
     
     // MARK: Purchasing
     
