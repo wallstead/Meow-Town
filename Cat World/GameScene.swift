@@ -33,7 +33,6 @@ class GameScene: SKScene {
         
         if let path = Bundle.main.path(forResource: "defaultdata", ofType: "plist") {
             defaultData = Plist(path: path)
-            print(defaultData)
         }
     }
     
@@ -69,7 +68,6 @@ class GameScene: SKScene {
         } else {
             print("[GameScene] Loaded \(world!)")
         }
-        
         world!.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
         world!.zPosition = 0
         
@@ -151,11 +149,5 @@ class GameScene: SKScene {
 //        }
 //        return false // if it makes it here there was an error
 //    }
-    
-    func getDocumentsDirectory() -> String {
-        let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
-        let documentsDirectory = paths[0]
-        return documentsDirectory
-    }
 }
 

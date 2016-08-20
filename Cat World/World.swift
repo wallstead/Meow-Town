@@ -40,7 +40,6 @@ class World: SKNode, SKPhysicsContactDelegate {
         
         if self.cats.isEmpty {
             GameScene.current.catCam.displayCatSelection()
-            
         }
     }
     
@@ -127,7 +126,11 @@ class World: SKNode, SKPhysicsContactDelegate {
     func addCat(name: String) {
         let testCat = Cat(name: name.capitalized, skin: name, mood: "happy", birthday: NSDate(), world: self)
         cats.append(testCat)
-//        GameScene.current.save()
+        if GameScene.current.save(self) {
+            print("[World] Saved world after adding cat")
+        } else {
+            print("[World] Failed to save world after adding cat")
+        }
     }
     
     func addGraveStone(catName: String, position: CGPoint, zPos: CGFloat) {
