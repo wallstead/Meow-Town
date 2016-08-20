@@ -13,6 +13,11 @@ class GameScene: SKScene {
     var catCam: CatCam!
     var scale: CGFloat!
     var defaultData: Plist?
+    var worldDataPath : String? {
+        let manager = FileManager.default
+        let url = manager.urls(for: .documentDirectory, in: .userDomainMask).first
+        return url?.appendingPathComponent("worldData").path
+    }
     
     // MARK: Scene Setup
     
@@ -28,6 +33,7 @@ class GameScene: SKScene {
         
         if let path = Bundle.main.path(forResource: "defaultdata", ofType: "plist") {
             defaultData = Plist(path: path)
+            print(defaultData)
         }
     }
     
@@ -52,38 +58,24 @@ class GameScene: SKScene {
         
         /* Making the world */
         
-        var filePath : String? {
-            let manager = FileManager.default
-            let url = manager.urls(for: .documentDirectory, in: .userDomainMask).first
-            return url?.appendingPathComponent("worldData").path
-        }
-        
-        if filePath != nil {
-            if let loadedWorld = NSKeyedUnarchiver.unarchiveObject(withFile: filePath!) as? World {
-                world = loadedWorld
-                print("[GameScene] Loaded \(world!)")
+        world = load()
+        if world == nil {
+            world = World(name: "worldy")
+            if save(world!) {
+                print("[GameScene] Saved \(world!)")
             } else {
-                print("[GameScene] Couldn't load world 😕.")
-                let newWorld = World(name: "worldy")
-                world = newWorld
-                if NSKeyedArchiver.archiveRootObject(newWorld, toFile: filePath!) {
-                    print("[GameScene] Saved \(world!)")
-                } else {
-                    print("[GameScene] Failed to save \(world!)")
-                }
+                print("[GameScene] Failed to save \(world!)")
             }
         } else {
-            print("[GameScene] Filepath is nil.")
+            print("[GameScene] Loaded \(world!)")
         }
-    
-        if world != nil {
-            world!.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
-            world!.zPosition = 0
-            
-            let worldEffectNode = SKEffectNode() // Can add effects to this node
-            worldEffectNode.addChild(world!)
-            addChild(worldEffectNode)
-        }
+        
+        world!.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
+        world!.zPosition = 0
+        
+        let worldEffectNode = SKEffectNode() // Can add effects to this node
+        worldEffectNode.addChild(world!)
+        addChild(worldEffectNode)
     }
    
     override func update(_ currentTime: CFTimeInterval) {
@@ -91,6 +83,29 @@ class GameScene: SKScene {
         catCam.update(currentTime: currentTime)
     }
     
+    func save(_ world: World) -> Bool {
+        if worldDataPath != nil {
+            if NSKeyedArchiver.archiveRootObject(world, toFile: worldDataPath!) {
+                return true
+            } else {
+                return false
+            }
+        } else {
+            return false
+        }
+    }
+    
+    func load() -> World? {
+        if worldDataPath != nil {
+            if let loadedWorld = NSKeyedUnarchiver.unarchiveObject(withFile: worldDataPath!) as? World {
+                return loadedWorld
+            } else {
+                return nil
+            }
+        } else {
+            return nil
+        }
+    }
     
     
     // MARK: Purchasing

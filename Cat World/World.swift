@@ -24,7 +24,7 @@ class World: SKNode, SKPhysicsContactDelegate {
     var food: [Item]!
     var score: Int!
     
-    override var description: String { return "*** World ***\ncats: \(cats)" }
+    override var description: String { return "world" }
     
     // MARK: Initialization
     
@@ -58,7 +58,6 @@ class World: SKNode, SKPhysicsContactDelegate {
     }
     
     override func encode(with aCoder: NSCoder) {
-        print("+++++++++++++++ encoding world +++++++++++++++")
         if let wallpaper = wallpaper { aCoder.encode(wallpaper, forKey: "wallpaper") }
         if let floor = floor { aCoder.encode(floor, forKey: "floor") }
         if let cats = cats {
@@ -68,12 +67,6 @@ class World: SKNode, SKPhysicsContactDelegate {
         if let score = score { aCoder.encode(score, forKey: "calories") }
     }
     
-    // MARK: Saving
-    
-    func save() {
-        let worldData = NSKeyedArchiver.archivedData(withRootObject: self)
-//        PlistManager.sharedInstance.saveValue(value: worldData as AnyObject, forKey: "World")
-    }
     
     // MARK: Layout
     
@@ -134,7 +127,7 @@ class World: SKNode, SKPhysicsContactDelegate {
     func addCat(name: String) {
         let testCat = Cat(name: name.capitalized, skin: name, mood: "happy", birthday: NSDate(), world: self)
         cats.append(testCat)
-        save()
+//        GameScene.current.save()
     }
     
     func addGraveStone(catName: String, position: CGPoint, zPos: CGFloat) {

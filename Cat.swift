@@ -179,7 +179,7 @@ class Cat: SKNode {
         sprite.run(die,completion: {
             self.sprite.removeFromParent()
             self.world.cats.remove(at: self.world.cats.index(of: self)!)
-            self.world.save()
+//            GameScene.current.save()
             self.removeFromParent()
             if self.world.cats.isEmpty {
                 GameScene.current.catCam.displayCatSelection()
@@ -325,7 +325,7 @@ class Cat: SKNode {
         }
         sprite.pube()
         self.skin = firstname.lowercased()
-        world.save()
+//        GameScene.current.save()
     }
     
     func blink() {
