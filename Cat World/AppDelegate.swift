@@ -62,6 +62,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate  {
 //        }
         GameScene.current.world.save()
     }
+    
+    
 }
 
 

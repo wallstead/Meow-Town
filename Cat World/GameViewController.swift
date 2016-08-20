@@ -11,6 +11,12 @@ import SpriteKit
 
 class GameViewController: UIViewController {
 
+    override var prefersStatusBarHidden: Bool {
+        get {
+            return true
+        }  
+    }
+                                     
     override func viewDidLoad() {
         super.viewDidLoad()
     }
