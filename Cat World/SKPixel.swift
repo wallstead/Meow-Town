@@ -298,10 +298,15 @@ class SKPixelToggleButtonNode: SKPixelButtonNode {
             updateState()
         }
     }
+    let enabledSound = SoundEffect(fileName: "toggle_on", fileType: "wav", enableSound: true, enableLooping: false, defaultVolume: 1.0)
+    let disabledSound = SoundEffect(fileName: "toggle_off", fileType: "wav", enableSound: true, enableLooping: false, defaultVolume: 1.0)
     
     override init(pixelImageNamed name: String, withText text: String? = nil) {
         enabled = false
         super.init(pixelImageNamed: name, withText: text)
+        enabledSound.prepareToPlay()
+        disabledSound.prepareToPlay()
+        pressSound.prepareToPlay()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -335,6 +340,7 @@ class SKPixelToggleButtonNode: SKPixelButtonNode {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         // enabled -> pressedTexture
         // disabled -> defaultTexture
+        pressSound.play()
         if enabled == true {
             texture = defaultTexture
             if label != nil {
@@ -390,6 +396,11 @@ class SKPixelToggleButtonNode: SKPixelButtonNode {
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         if enabled != nil {
             enabled!.toggle()
+            if enabled! == true {
+                enabledSound.play()
+            } else {
+                disabledSound.play()
+            }
             action?()
         }
     }

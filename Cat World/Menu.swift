@@ -121,7 +121,7 @@ class Menu: SKNode {
         collectionBase.position.y = titleBG.position.y
         storeContainer.addChild(collectionBase)
         
-        displayCollection(parent: collectionBase)
+//        displayCollection(parent: collectionBase)
     }
     
     func toggleTopButton(toToggle: SKPixelToggleButtonNode) {
@@ -133,7 +133,7 @@ class Menu: SKNode {
         }
         if toToggle.enabled == true { // enabling currently
             openTopButtonBackground()
-            displayContentForTopButton(button: toToggle)
+//            displayContentForTopButton(button: toToggle)
         } else { // disabling currently
             closeTopButtonBackground()
         }
@@ -161,127 +161,127 @@ class Menu: SKNode {
         }
     }
     
-    func displayContentForTopButton(button: SKPixelToggleButtonNode) {
-        let contentDisplayed: String?
-        switch button.textureName {
-            case "topbar_menupanel_settingsbutton":
-                contentDisplayed = "settings"
-            case "topbar_menupanel_infobutton":
-                contentDisplayed = "info"
-            case "topbar_menupanel_iapbutton":
-                contentDisplayed = "iap"
-            default:
-                contentDisplayed = nil
-        }
-        
-        if topbuttonPanelBG.name != contentDisplayed { // content not already shown
-            topbuttonPanelBG.name = contentDisplayed
-            /* Remove old content */
-            for child in topbuttonPanelBG.children {
-                child.removeAllActions()
-                child.run(SKAction.fadeAlpha(to: 0, duration: 0.25), completion: {
-                    child.removeFromParent()
-                })
-            }
-            
-            let content = SKNode()
-            content.zPosition = 1
-            content.alpha = 0
-            content.run(SKAction.fadeAlpha(to: 1, duration: 0.25))
-            
-            topbuttonPanelBG.addChild(content)
-            
-            /* Add new content */
-            if contentDisplayed == "settings" {
-                let addCat = SKPixelButtonNode(pixelImageNamed: "catselect_done", withText: "+CAT")
-                addCat.zPosition = 1
-                addCat.action = {
-                    let cats = PlistManager.sharedInstance.getValueForKey(key: "Selectable Cats") as! NSDictionary
-                    var possibleCatNames: [String] = []
-                    for cat in cats {
-                        if let catSkin = (cat.value as AnyObject).value(forKey: "skin") as? String {
-                            possibleCatNames.append(catSkin)
-                        }
-                    }
-                    let randIndex = Int(arc4random_uniform(UInt32(possibleCatNames.count)))
-                    GameScene.current.world.addCat(name: possibleCatNames[randIndex])
-                }
-                content.addChild(addCat)
-                
-                let togglePhysics = SKPixelButtonNode(pixelImageNamed: "catselect_done", withText: "phys")
-                togglePhysics.zPosition = 1
-                togglePhysics.position.y = addCat.position.y - 15
-                togglePhysics.action = {
-                    GameScene.current.view?.showsPhysics.toggle()
-                }
-                content.addChild(togglePhysics)
-                
-                let toggleNodeCount = SKPixelButtonNode(pixelImageNamed: "catselect_done", withText: "nodes")
-                toggleNodeCount.zPosition = 1
-                toggleNodeCount.position.y = addCat.position.y - 30
-                toggleNodeCount.action = {
-                    GameScene.current.view?.showsNodeCount.toggle()
-                }
-                content.addChild(toggleNodeCount)
-                
-                let toggleFPS = SKPixelButtonNode(pixelImageNamed: "catselect_done", withText: "fps")
-                toggleFPS.zPosition = 1
-                toggleFPS.position.y = addCat.position.y - 45
-                toggleFPS.action = {
-                    GameScene.current.view?.showsFPS.toggle()
-                }
-                content.addChild(toggleFPS)
-                
-                let killCats = SKPixelButtonNode(pixelImageNamed: "catselect_done", withText: "killall")
-                killCats.zPosition = 1
-                killCats.position.y = addCat.position.y - 60
-                killCats.action = {
-                    for cat in GameScene.current.world.cats {
-                        cat.die()
-                    }
-                }
-                content.addChild(killCats)
-
-                
-            } else if contentDisplayed == "info" {
-                let title = SKLabelNode(fontNamed: "Fipps-Regular")
-                title.zPosition = 1
-                title.text = "Meow Town"
-                title.setScale(2/10)
-                title.fontSize = 80
-                title.fontColor = SKColor(colorLiteralRed: 245/255, green: 245/255, blue: 245/255, alpha: 1)
-                title.verticalAlignmentMode = .center
-                title.position.y = topbuttonPanelBG.currentHeight/2 - infoButton.currentHeight - 20
-                
-                let version = SKLabelNode(fontNamed: "Silkscreen")
-                version.zPosition = 1
-                version.text = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
-                version.setScale(1/10)
-                version.fontSize = 80
-                version.fontColor = SKColor(colorLiteralRed: 245/255, green: 245/255, blue: 245/255, alpha: 1)
-                version.verticalAlignmentMode = .center
-                version.position.y = topbuttonPanelBG.currentHeight/2 - infoButton.currentHeight - title.frame.height - 15
-                
-                content.addChild(title)
-                content.addChild(version)
-            } else {
-                let removeAds = SKLabelNode(fontNamed: "Silkscreen")
-                removeAds.zPosition = 1
-                removeAds.text = "Coming Soon"
-                removeAds.setScale(1/10)
-                removeAds.fontSize = 80
-                removeAds.fontColor = SKColor(colorLiteralRed: 245/255, green: 245/255, blue: 245/255, alpha: 1)
-                removeAds.verticalAlignmentMode = .center
-                
-                content.addChild(removeAds)
-            }
-        }
-    }
-    
-    func isAnimating() -> Bool {
-        return self.hasActions()
-    }
-    
+//    func displayContentForTopButton(button: SKPixelToggleButtonNode) {
+//        let contentDisplayed: String?
+//        switch button.textureName {
+//            case "topbar_menupanel_settingsbutton":
+//                contentDisplayed = "settings"
+//            case "topbar_menupanel_infobutton":
+//                contentDisplayed = "info"
+//            case "topbar_menupanel_iapbutton":
+//                contentDisplayed = "iap"
+//            default:
+//                contentDisplayed = nil
+//        }
+//        
+//        if topbuttonPanelBG.name != contentDisplayed { // content not already shown
+//            topbuttonPanelBG.name = contentDisplayed
+//            /* Remove old content */
+//            for child in topbuttonPanelBG.children {
+//                child.removeAllActions()
+//                child.run(SKAction.fadeAlpha(to: 0, duration: 0.25), completion: {
+//                    child.removeFromParent()
+//                })
+//            }
+//            
+//            let content = SKNode()
+//            content.zPosition = 1
+//            content.alpha = 0
+//            content.run(SKAction.fadeAlpha(to: 1, duration: 0.25))
+//            
+//            topbuttonPanelBG.addChild(content)
+//            
+//            /* Add new content */
+//            if contentDisplayed == "settings" {
+//                let addCat = SKPixelButtonNode(pixelImageNamed: "catselect_done", withText: "+CAT")
+//                addCat.zPosition = 1
+//                addCat.action = {
+//                    let cats = PlistManager.sharedInstance.getValueForKey(key: "Selectable Cats") as! NSDictionary
+//                    var possibleCatNames: [String] = []
+//                    for cat in cats {
+//                        if let catSkin = (cat.value as AnyObject).value(forKey: "skin") as? String {
+//                            possibleCatNames.append(catSkin)
+//                        }
+//                    }
+//                    let randIndex = Int(arc4random_uniform(UInt32(possibleCatNames.count)))
+//                    GameScene.current.world.addCat(name: possibleCatNames[randIndex])
+//                }
+//                content.addChild(addCat)
+//                
+//                let togglePhysics = SKPixelButtonNode(pixelImageNamed: "catselect_done", withText: "phys")
+//                togglePhysics.zPosition = 1
+//                togglePhysics.position.y = addCat.position.y - 15
+//                togglePhysics.action = {
+//                    GameScene.current.view?.showsPhysics.toggle()
+//                }
+//                content.addChild(togglePhysics)
+//                
+//                let toggleNodeCount = SKPixelButtonNode(pixelImageNamed: "catselect_done", withText: "nodes")
+//                toggleNodeCount.zPosition = 1
+//                toggleNodeCount.position.y = addCat.position.y - 30
+//                toggleNodeCount.action = {
+//                    GameScene.current.view?.showsNodeCount.toggle()
+//                }
+//                content.addChild(toggleNodeCount)
+//                
+//                let toggleFPS = SKPixelButtonNode(pixelImageNamed: "catselect_done", withText: "fps")
+//                toggleFPS.zPosition = 1
+//                toggleFPS.position.y = addCat.position.y - 45
+//                toggleFPS.action = {
+//                    GameScene.current.view?.showsFPS.toggle()
+//                }
+//                content.addChild(toggleFPS)
+//                
+//                let killCats = SKPixelButtonNode(pixelImageNamed: "catselect_done", withText: "killall")
+//                killCats.zPosition = 1
+//                killCats.position.y = addCat.position.y - 60
+//                killCats.action = {
+//                    for cat in GameScene.current.world.cats {
+//                        cat.die()
+//                    }
+//                }
+//                content.addChild(killCats)
+//
+//                
+//            } else if contentDisplayed == "info" {
+//                let title = SKLabelNode(fontNamed: "Fipps-Regular")
+//                title.zPosition = 1
+//                title.text = "Meow Town"
+//                title.setScale(2/10)
+//                title.fontSize = 80
+//                title.fontColor = SKColor(colorLiteralRed: 245/255, green: 245/255, blue: 245/255, alpha: 1)
+//                title.verticalAlignmentMode = .center
+//                title.position.y = topbuttonPanelBG.currentHeight/2 - infoButton.currentHeight - 20
+//                
+//                let version = SKLabelNode(fontNamed: "Silkscreen")
+//                version.zPosition = 1
+//                version.text = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
+//                version.setScale(1/10)
+//                version.fontSize = 80
+//                version.fontColor = SKColor(colorLiteralRed: 245/255, green: 245/255, blue: 245/255, alpha: 1)
+//                version.verticalAlignmentMode = .center
+//                version.position.y = topbuttonPanelBG.currentHeight/2 - infoButton.currentHeight - title.frame.height - 15
+//                
+//                content.addChild(title)
+//                content.addChild(version)
+//            } else {
+//                let removeAds = SKLabelNode(fontNamed: "Silkscreen")
+//                removeAds.zPosition = 1
+//                removeAds.text = "Coming Soon"
+//                removeAds.setScale(1/10)
+//                removeAds.fontSize = 80
+//                removeAds.fontColor = SKColor(colorLiteralRed: 245/255, green: 245/255, blue: 245/255, alpha: 1)
+//                removeAds.verticalAlignmentMode = .center
+//                
+//                content.addChild(removeAds)
+//            }
+//        }
+//    }
+//    
+//    func isAnimating() -> Bool {
+//        return self.hasActions()
+//    }
+//    
     func dropPanelToY(y: CGFloat, duration: TimeInterval) -> SKAction {
         let down1 = SKAction.moveTo(y: y, duration: duration/2) // 1/2
         down1.timingMode = .easeIn
@@ -292,360 +292,360 @@ class Menu: SKNode {
         
         return SKAction.sequence([down1, up1, down2])
     }
-    
-    func displayCollection(parent: SKSpriteNode, withData data: NSMutableDictionary? = nil) {
-        let shiftTime = 0.3
-        let timeMode: SKActionTimingMode = .easeOut
-        var type: String
-        self.menuIsAnimating = true
-        
-        /* Figure out what data needs to be displayed */
-        let collectionData: NSMutableDictionary
-        if data != nil {
-            collectionData = data!
-            if collectionData.count != 0 {
-                if collectionData.value(forKey: "id") == nil {
-                    type = "collection"
-                } else {
-                    type = "item"
-                }
-            } else {
-                type = "unknown"
-            }
-        } else {
-            let storeDict = PlistManager.sharedInstance.getValueForKey(key: "Store") as! NSMutableDictionary
-            collectionData = storeDict.value(forKey: "Categories") as! NSMutableDictionary
-            type = "collection"
-        }
-        
-        if panelDepth > 1 {
-            let move = SKAction.moveTo(y: 15, duration: shiftTime/2)
-            move.timingMode = timeMode
-            parent.parent?.parent?.parent?.run(move)
-        }
-
-        let collectionBG = SKSpriteNode()
-        
-        collectionBG.size = CGSize(width: storeContainer.frame.width, height: bgpanel.currentHeight-infoButton.currentHeight-20)
-        collectionBG.color = SKColor(colorLiteralRed: 182/255, green: 24/255, blue: 25/255, alpha: 1).darkerColor(percent: 0.125*Double(panelDepth))
-        collectionBG.name = "collectionBG"
-        if data == nil {
-            collectionBG.zPosition = -7
-        } else {
-            collectionBG.zPosition = -7
-        }
-        collectionBG.anchorPoint = CGPoint(x: 0.5, y: 1)
-        collectionBG.position.y = collectionBG.size.height-parent.currentHeight/2
-        parent.addChild(collectionBG)
-        collectionBG.isUserInteractionEnabled = false
-        
-        let showCollection = SKAction.moveTo(y: -parent.currentHeight/2, duration: shiftTime)
-        showCollection.timingMode = timeMode
-        collectionBG.run(showCollection, completion: {
-            self.menuIsAnimating = false
-            parent.isUserInteractionEnabled = true
-        })
-        
-        /* Add buttons */
-        
-        if type == "collection" {
-            var yPosCounter: CGFloat = 0
-            let collection = SKNode()
-            collection.name = "collection"
-            collection.isUserInteractionEnabled = false
-            var itemButtons: [SKPixelCollectionToggleButtonNode] = []
-            let disableButtons = SKAction.run({
-                for itemButton in itemButtons {
-                    itemButton.isUserInteractionEnabled = false
-                }
-            })
-            let enableButtons = SKAction.run({
-                for itemButton in itemButtons {
-                    itemButton.isUserInteractionEnabled = true
-                }
-            })
-            for item in collectionData {
-                var itemImageName = (item.value as! NSDictionary).value(forKey: "image name") as? String
-                let itemButton: SKPixelCollectionToggleButtonNode
-                if itemImageName != nil {
-                    itemButton = SKPixelCollectionToggleButtonNode(type: "collection", iconNamed: itemImageName!, withText: item.key as? String)
-                }else {
-                    itemButton = SKPixelCollectionToggleButtonNode(type: "collection", iconNamed: "burger", withText: item.key as? String)
-                }
-                itemButton.name = "itemButton"
-                itemButtons.append(itemButton)
-                itemButton.zPosition = 1
-                itemButton.position.y = (-35*yPosCounter)-5-itemButton.currentHeight/2
-                itemButton.isUserInteractionEnabled = false
-                itemButton.run(SKAction.wait(forDuration: shiftTime), completion: {
-                    itemButton.isUserInteractionEnabled = true
-                })
-                collection.addChild(itemButton)
-                yPosCounter += 1
-                var itemButtonsBelow: [SKPixelCollectionToggleButtonNode] = [] // All buttons below the selected one
-                itemButton.onPress = {
-                    if self.isOpen == true {
-                        itemButton.run(disableButtons)
-                        parent.isUserInteractionEnabled = false
-                        if itemButton.enabled == true {
-                            if let childCollectionBG = itemButton.childNode(withName: "collectionBG") as? SKSpriteNode {
-                                if let childCollection = childCollectionBG.childNode(withName: "collection") {
-                                    for childItemButton in childCollection.children {
-                                        childItemButton.isUserInteractionEnabled = false
-                                        
-                                    }
-                                }
-                            }
-                        }
-                    } else {
-                        itemButton.reset()
-                    }
-                }
-                itemButton.onCancel = { // when the touch moved out of the button
-                    itemButton.run(enableButtons)
-                    parent.isUserInteractionEnabled = true
-                    if itemButton.enabled == true {
-                        if let childCollectionBG = itemButton.childNode(withName: "collectionBG") as? SKSpriteNode {
-                            if let childCollection = childCollectionBG.childNode(withName: "collection") {
-                                for childItemButton in childCollection.children {
-                                    childItemButton.isUserInteractionEnabled = true
-                                }
-                            }
-                        }
-                    }
-                }
-                itemButton.action = {
-                    
-                    if self.menuIsAnimating == false && self.isOpen == true {
-                        if parent.name == "itemButton" {
-                            if let parentItemButton = parent as? SKPixelCollectionToggleButtonNode {
-                                if parentItemButton.enabled == true && parentItemButton.texture == parentItemButton.pressedTexture {
-                                    parentItemButton.reset()
-                                }
-                            }
-                        }
-                        
-                        itemButton.isUserInteractionEnabled = false
-                        self.menuIsAnimating = true
-                        if itemButton.enabled == false || itemButton.enabled == nil { // CLOSE
-                        
-                            if let childCollectionBG = itemButton.childNode(withName: "collectionBG") as? SKSpriteNode {
-                                var belowCounter: CGFloat = 1
-                                collectionBG.run(SKAction.sequence([disableButtons, showCollection, enableButtons]))
-                                
-                                func moveButtonsBack() {
-                                    var yPosCounterReplace: CGFloat = 0
-                                    for button in itemButtons {
-                                        let move = SKAction.moveTo(y: (-35*yPosCounterReplace)-5-itemButton.currentHeight/2, duration: shiftTime/2)
-                                        move.timingMode = timeMode
-                                        button.run(move, completion: {
-                                            if button == itemButtons.last {
-                                                yPosCounter = 0
-                                                belowCounter = 0
-                                                itemButton.zPosition = 1
-                                                self.panelDepth -= 1
-                                                itemButtonsBelow.removeAll()
-                                                
-                                                for itemButton in itemButtons {
-                                                    itemButton.isUserInteractionEnabled = true
-                                                }
-                                                self.menuIsAnimating = false
-                                                parent.isUserInteractionEnabled = true
-                                            }
-                                        })
-                                        yPosCounterReplace += 1
-                                    }
-                                }
-                                if self.panelDepth > 1 {
-                                    let move = SKAction.moveTo(y: -15, duration: shiftTime/2)
-                                    move.timingMode = timeMode
-                                    parent.run(move)
-                                }
-                                if itemButtonsBelow.isEmpty == false {
-                                    for itemButtonBelow in itemButtonsBelow {
-                                        let move = SKAction.moveTo(y: (-35*belowCounter)-itemButton.currentHeight/2, duration: shiftTime)
-                                        move.timingMode = timeMode
-                                        itemButtonBelow.run(move)
-                                        belowCounter += 1
-                                    }
-                                }
-                                
-                                let moveChildCollection = SKAction.moveTo(y: childCollectionBG.size.height-childCollectionBG.parent!.frame.height/2, duration: shiftTime)
-                                moveChildCollection.timingMode = timeMode
-                                childCollectionBG.run(moveChildCollection, completion: {
-                                    childCollectionBG.removeFromParent()
-                                    moveButtonsBack()
-                                })
-                            } else {
-                                self.menuIsAnimating = false
-                            }
-                        } else { // OPEN
-                            /* Move all buttons up, centering the selected button at the top */
-                            for button in itemButtons {
-                                /* calculate difference in index */
-                                let thisIndex = itemButtons.index(of: button)
-                                let baseIndex = itemButtons.index(of: itemButton)
-                                let offset = -1*(baseIndex!-thisIndex!)
-                                
-                                let move = SKAction.moveTo(y: -button.currentHeight/2-(35*CGFloat(offset)), duration: shiftTime/2)
-                                move.timingMode = timeMode
-                                button.run(move, completion: {
-                                    if offset == 0 {
-                                        self.panelDepth += 1
-                                        self.displayCollection(parent: itemButton, withData: collectionData.value(forKey: item.key as! String) as? NSMutableDictionary)
-                                        var belowCounter: CGFloat = 0
-                                        for itemButtonBelow in itemButtonsBelow {
-                                            let move = SKAction.moveTo(y: -collectionBG.currentHeight-(35*belowCounter)-5-itemButton.currentHeight/2, duration: shiftTime)
-                                            move.timingMode = timeMode
-                                            itemButtonBelow.run(move)
-                                            belowCounter += 1
-                                        }
-                                        itemButton.zPosition = 9
-                                        self.menuIsAnimating = false
-                                        
-                                    }
-                                })
-                                if offset != 0 && button.enabled == true  { // Make sure only the selected button is enabled
-                                    button.enabled = false
-                                }
-                                if offset > 0 {
-                                    itemButtonsBelow.append(button)
-                                }
-                            }
-                        }
-                    } else {
-                        itemButton.enabled = false
-                    }
-                }
-            }
-            collectionBG.addChild(collection)
-        } else if type == "item" {
-            
-            let itemImageContainter = SKPixelSpriteNode(pixelImageNamed: "topbar_menupanel_itemimagecontainer")
-            itemImageContainter.color = collectionBG.color.darkerColor(percent: 0.1)
-            itemImageContainter.colorBlendFactor = 1
-            itemImageContainter.zPosition = 1
-            itemImageContainter.position.y = -36
-            collectionBG.addChild(itemImageContainter)
-            
-            let itemImage = SKPixelSpriteNode(pixelImageNamed: collectionData.value(forKey: "image name") as! String)
-            itemImage.zPosition = 1
-            itemImage.position.y = 6
-            itemImage.setScale(2)
-            itemImageContainter.addChild(itemImage)
-
-            let itemDescription = SKLabelNode(fontNamed: "Silkscreen")
-            itemDescription.zPosition = 2
-            itemDescription.text = collectionData.value(forKey: "description") as? String
-            itemDescription.setScale(1/10)
-            itemDescription.fontSize = 80
-            itemDescription.fontColor = SKColor(colorLiteralRed: 245/255, green: 245/255, blue: 245/255, alpha: 1)
-            itemDescription.verticalAlignmentMode = .center
-            itemDescription.position.y = itemImageContainter.frame.minY+10
-            collectionBG.addChild(itemDescription)
-            
-            let infoTable = SKNode()
-            let infoDict = collectionData.value(forKey: "info") as! NSDictionary
-            let itemCost = infoDict.value(forKey: "price") as! Int
-            var infoCounter = 0
-            for infoItem in infoDict {
-                // create left side and right side bg
-                let leftSide = SKSpriteNode(color: collectionBG.color.darkerColor(percent: 0.1), size: CGSize(width: itemImageContainter.frame.width/2, height: 15))
-                leftSide.position.x = -leftSide.frame.width/2
-                leftSide.position.y = -(CGFloat(infoCounter)*16)
-                infoTable.addChild(leftSide)
-                
-                let leftInfoText = SKLabelNode(fontNamed: "Silkscreen")
-                leftInfoText.zPosition = 2
-                leftInfoText.text = infoItem.key as? String
-                leftInfoText.setScale(1/10)
-                leftInfoText.fontSize = 80
-                leftInfoText.fontColor = SKColor(colorLiteralRed: 245/255, green: 245/255, blue: 245/255, alpha: 1)
-                leftInfoText.verticalAlignmentMode = .center
-                leftInfoText.horizontalAlignmentMode = .right
-                leftInfoText.position.x = leftSide.frame.width/2-6
-                
-                leftSide.addChild(leftInfoText)
-                
-                let rightSide = SKSpriteNode(color: collectionBG.color.darkerColor(percent: 0.2), size: CGSize(width: itemImageContainter.frame.width/2, height: 15))
-                rightSide.position.x = rightSide.frame.width/2
-                rightSide.position.y = -(CGFloat(infoCounter)*16)
-                infoTable.addChild(rightSide)
-                
-                let rightInfoText = SKLabelNode(fontNamed: "Silkscreen")
-                rightInfoText.zPosition = 2
-                rightInfoText.text = "\(infoItem.value)"
-                rightInfoText.setScale(1/10)
-                rightInfoText.fontSize = 80
-                rightInfoText.fontColor = SKColor(colorLiteralRed: 245/255, green: 245/255, blue: 245/255, alpha: 1)
-                rightInfoText.verticalAlignmentMode = .center
-                rightInfoText.horizontalAlignmentMode = .left
-                rightInfoText.position.x = -rightSide.frame.width/2+6
-                
-                rightSide.addChild(rightInfoText)
-                
-                infoCounter += 1
-            }
-            collectionBG.addChild(infoTable)
-            infoTable.position.y = itemImageContainter.frame.minY-8.5
-            
-            let enableButton = SKPixelToggleSliderNode(withState: collectionData.value(forKey: "enabled") as! Bool)
-            enableButton.color = collectionBG.color.darkerColor(percent: 0.1)
-            enableButton.colorBlendFactor = 1
-            enableButton.zPosition = 2
-            enableButton.position.y = infoTable.position.y - 49.2 //infoTable.position.y - 49.35 - 18
-            enableButton.onStateChange = {
-//                GameScene.current.catCam.alert(type: "warning", message: "The enabled property of this button is now set to \(enableButton.enabled!).")
-                
-                if enableButton.enabled == true {
-                    let wait = infoDict.value(forKey: "regen") as! Int
-                    if GameScene.current.catCam.itemPanel.addQuickItem(itemName: collectionData.value(forKey: "image name")! as! String, waitTime: wait) == false {
-                        GameScene.current.catCam.alert(type: "error", message: "Cannot enable an item already enabled.")
-                    } else {
-                        if GameScene.current.toggleEnable(withData: data!) == true {
-                            GameScene.current.catCam.alert(type: "success", message: "Toggled.")
-                        }
-                    }
-                } else {
-                    if GameScene.current.catCam.itemPanel.removeQuickItem(itemName: collectionData.value(forKey: "image name")! as! String) == false {
-                        GameScene.current.catCam.alert(type: "error", message: "Cannot remove an item that doesn't exist.")
-                    } else {
-                        if GameScene.current.toggleEnable(withData: data!) == true {
-                            GameScene.current.catCam.alert(type: "success", message: "Toggled.")
-                        }
-                    }
-                }
-               
-            }
-            
-            let buyButton = SKPixelButtonNode(pixelImageNamed: "basicbutton", withText: "Buy")
-            buyButton.color = SKColor(colorLiteralRed: 255/255, green: 162/255, blue: 51/255, alpha: 1)
-            buyButton.colorBlendFactor = 1
-            buyButton.zPosition = 2
-            buyButton.position.y = infoTable.position.y - 49.2
-            buyButton.action = {
-                if GameScene.current.world.score >= itemCost {
-                    if GameScene.current.attemptPurchase(withData: data!) == true {
-                        GameScene.current.catCam.alert(type: "success", message: "You successfully bought \(collectionData.value(forKey: "name")!)s.")
-                        /* TODO: Hide buyButton */
-                        buyButton.removeFromParent()
-                        collectionBG.addChild(enableButton)
-                    } else {
-                        GameScene.current.catCam.alert(type: "error", message: "An error occured when attempting to purchase \(collectionData.value(forKey: "name")!)s.")
-                    }
-                } else {
-                    GameScene.current.catCam.alert(type: "error", message: "You don't have enough calories to buy \(collectionData.value(forKey: "name")!)s.")
-                }
-            }
-            
-            if collectionData.value(forKey: "owned") as! Bool == true {
-                collectionBG.addChild(enableButton)
-            } else {
-                collectionBG.addChild(buyButton)
-            }
-            
-        }
-    }
+//
+//    func displayCollection(parent: SKSpriteNode, withData data: NSMutableDictionary? = nil) {
+//        let shiftTime = 0.3
+//        let timeMode: SKActionTimingMode = .easeOut
+//        var type: String
+//        self.menuIsAnimating = true
+//        
+//        /* Figure out what data needs to be displayed */
+//        let collectionData: NSMutableDictionary
+//        if data != nil {
+//            collectionData = data!
+//            if collectionData.count != 0 {
+//                if collectionData.value(forKey: "id") == nil {
+//                    type = "collection"
+//                } else {
+//                    type = "item"
+//                }
+//            } else {
+//                type = "unknown"
+//            }
+//        } else {
+//            let storeDict = PlistManager.sharedInstance.getValueForKey(key: "Store") as! NSMutableDictionary
+//            collectionData = storeDict.value(forKey: "Categories") as! NSMutableDictionary
+//            type = "collection"
+//        }
+//        
+//        if panelDepth > 1 {
+//            let move = SKAction.moveTo(y: 15, duration: shiftTime/2)
+//            move.timingMode = timeMode
+//            parent.parent?.parent?.parent?.run(move)
+//        }
+//
+//        let collectionBG = SKSpriteNode()
+//        
+//        collectionBG.size = CGSize(width: storeContainer.frame.width, height: bgpanel.currentHeight-infoButton.currentHeight-20)
+//        collectionBG.color = SKColor(colorLiteralRed: 182/255, green: 24/255, blue: 25/255, alpha: 1).darkerColor(percent: 0.125*Double(panelDepth))
+//        collectionBG.name = "collectionBG"
+//        if data == nil {
+//            collectionBG.zPosition = -7
+//        } else {
+//            collectionBG.zPosition = -7
+//        }
+//        collectionBG.anchorPoint = CGPoint(x: 0.5, y: 1)
+//        collectionBG.position.y = collectionBG.size.height-parent.currentHeight/2
+//        parent.addChild(collectionBG)
+//        collectionBG.isUserInteractionEnabled = false
+//        
+//        let showCollection = SKAction.moveTo(y: -parent.currentHeight/2, duration: shiftTime)
+//        showCollection.timingMode = timeMode
+//        collectionBG.run(showCollection, completion: {
+//            self.menuIsAnimating = false
+//            parent.isUserInteractionEnabled = true
+//        })
+//        
+//        /* Add buttons */
+//        
+//        if type == "collection" {
+//            var yPosCounter: CGFloat = 0
+//            let collection = SKNode()
+//            collection.name = "collection"
+//            collection.isUserInteractionEnabled = false
+//            var itemButtons: [SKPixelCollectionToggleButtonNode] = []
+//            let disableButtons = SKAction.run({
+//                for itemButton in itemButtons {
+//                    itemButton.isUserInteractionEnabled = false
+//                }
+//            })
+//            let enableButtons = SKAction.run({
+//                for itemButton in itemButtons {
+//                    itemButton.isUserInteractionEnabled = true
+//                }
+//            })
+//            for item in collectionData {
+//                var itemImageName = (item.value as! NSDictionary).value(forKey: "image name") as? String
+//                let itemButton: SKPixelCollectionToggleButtonNode
+//                if itemImageName != nil {
+//                    itemButton = SKPixelCollectionToggleButtonNode(type: "collection", iconNamed: itemImageName!, withText: item.key as? String)
+//                }else {
+//                    itemButton = SKPixelCollectionToggleButtonNode(type: "collection", iconNamed: "burger", withText: item.key as? String)
+//                }
+//                itemButton.name = "itemButton"
+//                itemButtons.append(itemButton)
+//                itemButton.zPosition = 1
+//                itemButton.position.y = (-35*yPosCounter)-5-itemButton.currentHeight/2
+//                itemButton.isUserInteractionEnabled = false
+//                itemButton.run(SKAction.wait(forDuration: shiftTime), completion: {
+//                    itemButton.isUserInteractionEnabled = true
+//                })
+//                collection.addChild(itemButton)
+//                yPosCounter += 1
+//                var itemButtonsBelow: [SKPixelCollectionToggleButtonNode] = [] // All buttons below the selected one
+//                itemButton.onPress = {
+//                    if self.isOpen == true {
+//                        itemButton.run(disableButtons)
+//                        parent.isUserInteractionEnabled = false
+//                        if itemButton.enabled == true {
+//                            if let childCollectionBG = itemButton.childNode(withName: "collectionBG") as? SKSpriteNode {
+//                                if let childCollection = childCollectionBG.childNode(withName: "collection") {
+//                                    for childItemButton in childCollection.children {
+//                                        childItemButton.isUserInteractionEnabled = false
+//                                        
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    } else {
+//                        itemButton.reset()
+//                    }
+//                }
+//                itemButton.onCancel = { // when the touch moved out of the button
+//                    itemButton.run(enableButtons)
+//                    parent.isUserInteractionEnabled = true
+//                    if itemButton.enabled == true {
+//                        if let childCollectionBG = itemButton.childNode(withName: "collectionBG") as? SKSpriteNode {
+//                            if let childCollection = childCollectionBG.childNode(withName: "collection") {
+//                                for childItemButton in childCollection.children {
+//                                    childItemButton.isUserInteractionEnabled = true
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//                itemButton.action = {
+//                    
+//                    if self.menuIsAnimating == false && self.isOpen == true {
+//                        if parent.name == "itemButton" {
+//                            if let parentItemButton = parent as? SKPixelCollectionToggleButtonNode {
+//                                if parentItemButton.enabled == true && parentItemButton.texture == parentItemButton.pressedTexture {
+//                                    parentItemButton.reset()
+//                                }
+//                            }
+//                        }
+//                        
+//                        itemButton.isUserInteractionEnabled = false
+//                        self.menuIsAnimating = true
+//                        if itemButton.enabled == false || itemButton.enabled == nil { // CLOSE
+//                        
+//                            if let childCollectionBG = itemButton.childNode(withName: "collectionBG") as? SKSpriteNode {
+//                                var belowCounter: CGFloat = 1
+//                                collectionBG.run(SKAction.sequence([disableButtons, showCollection, enableButtons]))
+//                                
+//                                func moveButtonsBack() {
+//                                    var yPosCounterReplace: CGFloat = 0
+//                                    for button in itemButtons {
+//                                        let move = SKAction.moveTo(y: (-35*yPosCounterReplace)-5-itemButton.currentHeight/2, duration: shiftTime/2)
+//                                        move.timingMode = timeMode
+//                                        button.run(move, completion: {
+//                                            if button == itemButtons.last {
+//                                                yPosCounter = 0
+//                                                belowCounter = 0
+//                                                itemButton.zPosition = 1
+//                                                self.panelDepth -= 1
+//                                                itemButtonsBelow.removeAll()
+//                                                
+//                                                for itemButton in itemButtons {
+//                                                    itemButton.isUserInteractionEnabled = true
+//                                                }
+//                                                self.menuIsAnimating = false
+//                                                parent.isUserInteractionEnabled = true
+//                                            }
+//                                        })
+//                                        yPosCounterReplace += 1
+//                                    }
+//                                }
+//                                if self.panelDepth > 1 {
+//                                    let move = SKAction.moveTo(y: -15, duration: shiftTime/2)
+//                                    move.timingMode = timeMode
+//                                    parent.run(move)
+//                                }
+//                                if itemButtonsBelow.isEmpty == false {
+//                                    for itemButtonBelow in itemButtonsBelow {
+//                                        let move = SKAction.moveTo(y: (-35*belowCounter)-itemButton.currentHeight/2, duration: shiftTime)
+//                                        move.timingMode = timeMode
+//                                        itemButtonBelow.run(move)
+//                                        belowCounter += 1
+//                                    }
+//                                }
+//                                
+//                                let moveChildCollection = SKAction.moveTo(y: childCollectionBG.size.height-childCollectionBG.parent!.frame.height/2, duration: shiftTime)
+//                                moveChildCollection.timingMode = timeMode
+//                                childCollectionBG.run(moveChildCollection, completion: {
+//                                    childCollectionBG.removeFromParent()
+//                                    moveButtonsBack()
+//                                })
+//                            } else {
+//                                self.menuIsAnimating = false
+//                            }
+//                        } else { // OPEN
+//                            /* Move all buttons up, centering the selected button at the top */
+//                            for button in itemButtons {
+//                                /* calculate difference in index */
+//                                let thisIndex = itemButtons.index(of: button)
+//                                let baseIndex = itemButtons.index(of: itemButton)
+//                                let offset = -1*(baseIndex!-thisIndex!)
+//                                
+//                                let move = SKAction.moveTo(y: -button.currentHeight/2-(35*CGFloat(offset)), duration: shiftTime/2)
+//                                move.timingMode = timeMode
+//                                button.run(move, completion: {
+//                                    if offset == 0 {
+//                                        self.panelDepth += 1
+//                                        self.displayCollection(parent: itemButton, withData: collectionData.value(forKey: item.key as! String) as? NSMutableDictionary)
+//                                        var belowCounter: CGFloat = 0
+//                                        for itemButtonBelow in itemButtonsBelow {
+//                                            let move = SKAction.moveTo(y: -collectionBG.currentHeight-(35*belowCounter)-5-itemButton.currentHeight/2, duration: shiftTime)
+//                                            move.timingMode = timeMode
+//                                            itemButtonBelow.run(move)
+//                                            belowCounter += 1
+//                                        }
+//                                        itemButton.zPosition = 9
+//                                        self.menuIsAnimating = false
+//                                        
+//                                    }
+//                                })
+//                                if offset != 0 && button.enabled == true  { // Make sure only the selected button is enabled
+//                                    button.enabled = false
+//                                }
+//                                if offset > 0 {
+//                                    itemButtonsBelow.append(button)
+//                                }
+//                            }
+//                        }
+//                    } else {
+//                        itemButton.enabled = false
+//                    }
+//                }
+//            }
+//            collectionBG.addChild(collection)
+//        } else if type == "item" {
+//            
+//            let itemImageContainter = SKPixelSpriteNode(pixelImageNamed: "topbar_menupanel_itemimagecontainer")
+//            itemImageContainter.color = collectionBG.color.darkerColor(percent: 0.1)
+//            itemImageContainter.colorBlendFactor = 1
+//            itemImageContainter.zPosition = 1
+//            itemImageContainter.position.y = -36
+//            collectionBG.addChild(itemImageContainter)
+//            
+//            let itemImage = SKPixelSpriteNode(pixelImageNamed: collectionData.value(forKey: "image name") as! String)
+//            itemImage.zPosition = 1
+//            itemImage.position.y = 6
+//            itemImage.setScale(2)
+//            itemImageContainter.addChild(itemImage)
+//
+//            let itemDescription = SKLabelNode(fontNamed: "Silkscreen")
+//            itemDescription.zPosition = 2
+//            itemDescription.text = collectionData.value(forKey: "description") as? String
+//            itemDescription.setScale(1/10)
+//            itemDescription.fontSize = 80
+//            itemDescription.fontColor = SKColor(colorLiteralRed: 245/255, green: 245/255, blue: 245/255, alpha: 1)
+//            itemDescription.verticalAlignmentMode = .center
+//            itemDescription.position.y = itemImageContainter.frame.minY+10
+//            collectionBG.addChild(itemDescription)
+//            
+//            let infoTable = SKNode()
+//            let infoDict = collectionData.value(forKey: "info") as! NSDictionary
+//            let itemCost = infoDict.value(forKey: "price") as! Int
+//            var infoCounter = 0
+//            for infoItem in infoDict {
+//                // create left side and right side bg
+//                let leftSide = SKSpriteNode(color: collectionBG.color.darkerColor(percent: 0.1), size: CGSize(width: itemImageContainter.frame.width/2, height: 15))
+//                leftSide.position.x = -leftSide.frame.width/2
+//                leftSide.position.y = -(CGFloat(infoCounter)*16)
+//                infoTable.addChild(leftSide)
+//                
+//                let leftInfoText = SKLabelNode(fontNamed: "Silkscreen")
+//                leftInfoText.zPosition = 2
+//                leftInfoText.text = infoItem.key as? String
+//                leftInfoText.setScale(1/10)
+//                leftInfoText.fontSize = 80
+//                leftInfoText.fontColor = SKColor(colorLiteralRed: 245/255, green: 245/255, blue: 245/255, alpha: 1)
+//                leftInfoText.verticalAlignmentMode = .center
+//                leftInfoText.horizontalAlignmentMode = .right
+//                leftInfoText.position.x = leftSide.frame.width/2-6
+//                
+//                leftSide.addChild(leftInfoText)
+//                
+//                let rightSide = SKSpriteNode(color: collectionBG.color.darkerColor(percent: 0.2), size: CGSize(width: itemImageContainter.frame.width/2, height: 15))
+//                rightSide.position.x = rightSide.frame.width/2
+//                rightSide.position.y = -(CGFloat(infoCounter)*16)
+//                infoTable.addChild(rightSide)
+//                
+//                let rightInfoText = SKLabelNode(fontNamed: "Silkscreen")
+//                rightInfoText.zPosition = 2
+//                rightInfoText.text = "\(infoItem.value)"
+//                rightInfoText.setScale(1/10)
+//                rightInfoText.fontSize = 80
+//                rightInfoText.fontColor = SKColor(colorLiteralRed: 245/255, green: 245/255, blue: 245/255, alpha: 1)
+//                rightInfoText.verticalAlignmentMode = .center
+//                rightInfoText.horizontalAlignmentMode = .left
+//                rightInfoText.position.x = -rightSide.frame.width/2+6
+//                
+//                rightSide.addChild(rightInfoText)
+//                
+//                infoCounter += 1
+//            }
+//            collectionBG.addChild(infoTable)
+//            infoTable.position.y = itemImageContainter.frame.minY-8.5
+//            
+//            let enableButton = SKPixelToggleSliderNode(withState: collectionData.value(forKey: "enabled") as! Bool)
+//            enableButton.color = collectionBG.color.darkerColor(percent: 0.1)
+//            enableButton.colorBlendFactor = 1
+//            enableButton.zPosition = 2
+//            enableButton.position.y = infoTable.position.y - 49.2 //infoTable.position.y - 49.35 - 18
+//            enableButton.onStateChange = {
+////                GameScene.current.catCam.alert(type: "warning", message: "The enabled property of this button is now set to \(enableButton.enabled!).")
+//                
+//                if enableButton.enabled == true {
+//                    let wait = infoDict.value(forKey: "regen") as! Int
+//                    if GameScene.current.catCam.itemPanel.addQuickItem(itemName: collectionData.value(forKey: "image name")! as! String, waitTime: wait) == false {
+//                        GameScene.current.catCam.alert(type: "error", message: "Cannot enable an item already enabled.")
+//                    } else {
+//                        if GameScene.current.toggleEnable(withData: data!) == true {
+//                            GameScene.current.catCam.alert(type: "success", message: "Toggled.")
+//                        }
+//                    }
+//                } else {
+//                    if GameScene.current.catCam.itemPanel.removeQuickItem(itemName: collectionData.value(forKey: "image name")! as! String) == false {
+//                        GameScene.current.catCam.alert(type: "error", message: "Cannot remove an item that doesn't exist.")
+//                    } else {
+//                        if GameScene.current.toggleEnable(withData: data!) == true {
+//                            GameScene.current.catCam.alert(type: "success", message: "Toggled.")
+//                        }
+//                    }
+//                }
+//               
+//            }
+//            
+//            let buyButton = SKPixelButtonNode(pixelImageNamed: "basicbutton", withText: "Buy")
+//            buyButton.color = SKColor(colorLiteralRed: 255/255, green: 162/255, blue: 51/255, alpha: 1)
+//            buyButton.colorBlendFactor = 1
+//            buyButton.zPosition = 2
+//            buyButton.position.y = infoTable.position.y - 49.2
+//            buyButton.action = {
+//                if GameScene.current.world.score >= itemCost {
+//                    if GameScene.current.attemptPurchase(withData: data!) == true {
+//                        GameScene.current.catCam.alert(type: "success", message: "You successfully bought \(collectionData.value(forKey: "name")!)s.")
+//                        /* TODO: Hide buyButton */
+//                        buyButton.removeFromParent()
+//                        collectionBG.addChild(enableButton)
+//                    } else {
+//                        GameScene.current.catCam.alert(type: "error", message: "An error occured when attempting to purchase \(collectionData.value(forKey: "name")!)s.")
+//                    }
+//                } else {
+//                    GameScene.current.catCam.alert(type: "error", message: "You don't have enough calories to buy \(collectionData.value(forKey: "name")!)s.")
+//                }
+//            }
+//            
+//            if collectionData.value(forKey: "owned") as! Bool == true {
+//                collectionBG.addChild(enableButton)
+//            } else {
+//                collectionBG.addChild(buyButton)
+//            }
+//            
+//        }
+//    }
     
     func toggle() {
         removeAllActions()

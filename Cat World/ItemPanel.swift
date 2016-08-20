@@ -66,7 +66,7 @@ class ItemPanel: SKNode {
         
         let itemButton = SKPixelItemButtonNode(itemNamed: itemName, waitTime: waitTime) // add it to scene in updateButtons
         itemButton.action = {
-            GameScene.current.world.spawn(itemName: itemName)
+//            GameScene.current.world.spawn(itemName: itemName)
         }
         if itemButtons.count == 5 {
             itemButtons.first!.removeFromParent()
