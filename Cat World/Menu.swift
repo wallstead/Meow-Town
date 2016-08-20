@@ -133,7 +133,7 @@ class Menu: SKNode {
         }
         if toToggle.enabled == true { // enabling currently
             openTopButtonBackground()
-//            displayContentForTopButton(button: toToggle)
+            displayContentForTopButton(button: toToggle)
         } else { // disabling currently
             closeTopButtonBackground()
         }
@@ -161,127 +161,129 @@ class Menu: SKNode {
         }
     }
     
-//    func displayContentForTopButton(button: SKPixelToggleButtonNode) {
-//        let contentDisplayed: String?
-//        switch button.textureName {
-//            case "topbar_menupanel_settingsbutton":
-//                contentDisplayed = "settings"
-//            case "topbar_menupanel_infobutton":
-//                contentDisplayed = "info"
-//            case "topbar_menupanel_iapbutton":
-//                contentDisplayed = "iap"
-//            default:
-//                contentDisplayed = nil
-//        }
-//        
-//        if topbuttonPanelBG.name != contentDisplayed { // content not already shown
-//            topbuttonPanelBG.name = contentDisplayed
-//            /* Remove old content */
-//            for child in topbuttonPanelBG.children {
-//                child.removeAllActions()
-//                child.run(SKAction.fadeAlpha(to: 0, duration: 0.25), completion: {
-//                    child.removeFromParent()
-//                })
-//            }
-//            
-//            let content = SKNode()
-//            content.zPosition = 1
-//            content.alpha = 0
-//            content.run(SKAction.fadeAlpha(to: 1, duration: 0.25))
-//            
-//            topbuttonPanelBG.addChild(content)
-//            
-//            /* Add new content */
-//            if contentDisplayed == "settings" {
-//                let addCat = SKPixelButtonNode(pixelImageNamed: "catselect_done", withText: "+CAT")
-//                addCat.zPosition = 1
-//                addCat.action = {
-//                    let cats = PlistManager.sharedInstance.getValueForKey(key: "Selectable Cats") as! NSDictionary
-//                    var possibleCatNames: [String] = []
-//                    for cat in cats {
-//                        if let catSkin = (cat.value as AnyObject).value(forKey: "skin") as? String {
-//                            possibleCatNames.append(catSkin)
-//                        }
-//                    }
-//                    let randIndex = Int(arc4random_uniform(UInt32(possibleCatNames.count)))
-//                    GameScene.current.world.addCat(name: possibleCatNames[randIndex])
-//                }
-//                content.addChild(addCat)
-//                
-//                let togglePhysics = SKPixelButtonNode(pixelImageNamed: "catselect_done", withText: "phys")
-//                togglePhysics.zPosition = 1
-//                togglePhysics.position.y = addCat.position.y - 15
-//                togglePhysics.action = {
-//                    GameScene.current.view?.showsPhysics.toggle()
-//                }
-//                content.addChild(togglePhysics)
-//                
-//                let toggleNodeCount = SKPixelButtonNode(pixelImageNamed: "catselect_done", withText: "nodes")
-//                toggleNodeCount.zPosition = 1
-//                toggleNodeCount.position.y = addCat.position.y - 30
-//                toggleNodeCount.action = {
-//                    GameScene.current.view?.showsNodeCount.toggle()
-//                }
-//                content.addChild(toggleNodeCount)
-//                
-//                let toggleFPS = SKPixelButtonNode(pixelImageNamed: "catselect_done", withText: "fps")
-//                toggleFPS.zPosition = 1
-//                toggleFPS.position.y = addCat.position.y - 45
-//                toggleFPS.action = {
-//                    GameScene.current.view?.showsFPS.toggle()
-//                }
-//                content.addChild(toggleFPS)
-//                
-//                let killCats = SKPixelButtonNode(pixelImageNamed: "catselect_done", withText: "killall")
-//                killCats.zPosition = 1
-//                killCats.position.y = addCat.position.y - 60
-//                killCats.action = {
-//                    for cat in GameScene.current.world.cats {
-//                        cat.die()
-//                    }
-//                }
-//                content.addChild(killCats)
+    func displayContentForTopButton(button: SKPixelToggleButtonNode) {
+        let contentDisplayed: String?
+        switch button.textureName {
+            case "topbar_menupanel_settingsbutton":
+                contentDisplayed = "settings"
+            case "topbar_menupanel_infobutton":
+                contentDisplayed = "info"
+            case "topbar_menupanel_iapbutton":
+                contentDisplayed = "iap"
+            default:
+                contentDisplayed = nil
+        }
+        
+        if topbuttonPanelBG.name != contentDisplayed { // content not already shown
+            topbuttonPanelBG.name = contentDisplayed
+            /* Remove old content */
+            for child in topbuttonPanelBG.children {
+                child.removeAllActions()
+                child.run(SKAction.fadeAlpha(to: 0, duration: 0.25), completion: {
+                    child.removeFromParent()
+                })
+            }
+            
+            let content = SKNode()
+            content.zPosition = 1
+            content.alpha = 0
+            content.run(SKAction.fadeAlpha(to: 1, duration: 0.25))
+            
+            topbuttonPanelBG.addChild(content)
+            
+            /* Add new content */
+            if contentDisplayed == "settings" {
+                let addCat = SKPixelButtonNode(pixelImageNamed: "catselect_done", withText: "+CAT")
+                addCat.zPosition = 1
+                addCat.action = {
+                    var possibleCatNames: [String] = []
+                    if let availableCats = GameScene.current.defaultData?["Available Cats"].array {
+                        for cat in availableCats {
+                            if let catSkin = cat as? String {
+                                possibleCatNames.append(catSkin)
+                            }
+                        }
+                    }
+
+                    let randIndex = Int(arc4random_uniform(UInt32(possibleCatNames.count)))
+                    GameScene.current.world!.addCat(name: possibleCatNames[randIndex])
+                }
+                content.addChild(addCat)
+                
+                let togglePhysics = SKPixelButtonNode(pixelImageNamed: "catselect_done", withText: "phys")
+                togglePhysics.zPosition = 1
+                togglePhysics.position.y = addCat.position.y - 15
+                togglePhysics.action = {
+                    GameScene.current.view?.showsPhysics.toggle()
+                }
+                content.addChild(togglePhysics)
+                
+                let toggleNodeCount = SKPixelButtonNode(pixelImageNamed: "catselect_done", withText: "nodes")
+                toggleNodeCount.zPosition = 1
+                toggleNodeCount.position.y = addCat.position.y - 30
+                toggleNodeCount.action = {
+                    GameScene.current.view?.showsNodeCount.toggle()
+                }
+                content.addChild(toggleNodeCount)
+                
+                let toggleFPS = SKPixelButtonNode(pixelImageNamed: "catselect_done", withText: "fps")
+                toggleFPS.zPosition = 1
+                toggleFPS.position.y = addCat.position.y - 45
+                toggleFPS.action = {
+                    GameScene.current.view?.showsFPS.toggle()
+                }
+                content.addChild(toggleFPS)
+                
+                let killCats = SKPixelButtonNode(pixelImageNamed: "catselect_done", withText: "killall")
+                killCats.zPosition = 1
+                killCats.position.y = addCat.position.y - 60
+                killCats.action = {
+                    for cat in GameScene.current.world!.cats {
+                        cat.die()
+                    }
+                }
+                content.addChild(killCats)
+
+                
+            } else if contentDisplayed == "info" {
+                let title = SKLabelNode(fontNamed: "Fipps-Regular")
+                title.zPosition = 1
+                title.text = "Meow Town"
+                title.setScale(2/10)
+                title.fontSize = 80
+                title.fontColor = SKColor(colorLiteralRed: 245/255, green: 245/255, blue: 245/255, alpha: 1)
+                title.verticalAlignmentMode = .center
+                title.position.y = topbuttonPanelBG.currentHeight/2 - infoButton.currentHeight - 20
+                
+                let version = SKLabelNode(fontNamed: "Silkscreen")
+                version.zPosition = 1
+                version.text = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
+                version.setScale(1/10)
+                version.fontSize = 80
+                version.fontColor = SKColor(colorLiteralRed: 245/255, green: 245/255, blue: 245/255, alpha: 1)
+                version.verticalAlignmentMode = .center
+                version.position.y = topbuttonPanelBG.currentHeight/2 - infoButton.currentHeight - title.frame.height - 15
+                
+                content.addChild(title)
+                content.addChild(version)
+            } else {
+                let removeAds = SKLabelNode(fontNamed: "Silkscreen")
+                removeAds.zPosition = 1
+                removeAds.text = "Coming Soon"
+                removeAds.setScale(1/10)
+                removeAds.fontSize = 80
+                removeAds.fontColor = SKColor(colorLiteralRed: 245/255, green: 245/255, blue: 245/255, alpha: 1)
+                removeAds.verticalAlignmentMode = .center
+                
+                content.addChild(removeAds)
+            }
+        }
+    }
+    
+    func isAnimating() -> Bool {
+        return self.hasActions()
+    }
 //
-//                
-//            } else if contentDisplayed == "info" {
-//                let title = SKLabelNode(fontNamed: "Fipps-Regular")
-//                title.zPosition = 1
-//                title.text = "Meow Town"
-//                title.setScale(2/10)
-//                title.fontSize = 80
-//                title.fontColor = SKColor(colorLiteralRed: 245/255, green: 245/255, blue: 245/255, alpha: 1)
-//                title.verticalAlignmentMode = .center
-//                title.position.y = topbuttonPanelBG.currentHeight/2 - infoButton.currentHeight - 20
-//                
-//                let version = SKLabelNode(fontNamed: "Silkscreen")
-//                version.zPosition = 1
-//                version.text = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
-//                version.setScale(1/10)
-//                version.fontSize = 80
-//                version.fontColor = SKColor(colorLiteralRed: 245/255, green: 245/255, blue: 245/255, alpha: 1)
-//                version.verticalAlignmentMode = .center
-//                version.position.y = topbuttonPanelBG.currentHeight/2 - infoButton.currentHeight - title.frame.height - 15
-//                
-//                content.addChild(title)
-//                content.addChild(version)
-//            } else {
-//                let removeAds = SKLabelNode(fontNamed: "Silkscreen")
-//                removeAds.zPosition = 1
-//                removeAds.text = "Coming Soon"
-//                removeAds.setScale(1/10)
-//                removeAds.fontSize = 80
-//                removeAds.fontColor = SKColor(colorLiteralRed: 245/255, green: 245/255, blue: 245/255, alpha: 1)
-//                removeAds.verticalAlignmentMode = .center
-//                
-//                content.addChild(removeAds)
-//            }
-//        }
-//    }
-//    
-//    func isAnimating() -> Bool {
-//        return self.hasActions()
-//    }
-//    
     func dropPanelToY(y: CGFloat, duration: TimeInterval) -> SKAction {
         let down1 = SKAction.moveTo(y: y, duration: duration/2) // 1/2
         down1.timingMode = .easeIn
