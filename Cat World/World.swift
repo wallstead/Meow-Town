@@ -61,7 +61,6 @@ class World: SKNode, SKPhysicsContactDelegate {
         if let floor = floor { aCoder.encode(floor, forKey: "floor") }
         if let cats = cats {
             aCoder.encode(cats, forKey: "cats")
-            print("saving this to cats: \(cats)")
         }
         if let score = score { aCoder.encode(score, forKey: "calories") }
     }
@@ -72,7 +71,6 @@ class World: SKNode, SKPhysicsContactDelegate {
     func layout() {
         GameScene.current.physicsWorld.gravity = CGVector(dx: 0.0, dy: -5.0)
         GameScene.current.physicsWorld.contactDelegate = self
-//        GameScene.current.physicsWorld.speed = 1
         GameScene.current.catCam.updateScore(score: score!)
         self.setScale(GameScene.current.frame.width/floor.frame.width)
         
@@ -124,8 +122,8 @@ class World: SKNode, SKPhysicsContactDelegate {
     // MARK: Cat Stuff
     
     func addCat(name: String) {
-        let testCat = Cat(name: name.capitalized, skin: name, mood: "happy", birthday: NSDate(), world: self)
-        cats.append(testCat)
+        let newCat = Cat(name: name, skin: name+"_kitten", birthday: NSDate(), world: self)
+        cats.append(newCat)
         if GameScene.current.save(self) {
             print("[World] Saved world after adding cat")
         } else {
@@ -172,7 +170,7 @@ class World: SKNode, SKPhysicsContactDelegate {
             }
             score = score + points!
             GameScene.current.catCam.updateScore(score: score)
-            print("score: \(score!)")
+            print("[World] Score: \(score!)")
         }
     }
 

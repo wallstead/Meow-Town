@@ -686,8 +686,8 @@ class SKPixelCatNode: SKPixelSpriteNode {
 //    var colors: UIImageColors
     var mouth: SKSpriteNode
     
-    init(catName: String) {
-        skinName = catName
+    init(_ skin: String) {
+        skinName = skin
 //        colors = UIImage(named: skinName)!.getColors()
         mouth = SKSpriteNode(color: SKColor.clear, size: CGSize(width: 1, height: 1))
         

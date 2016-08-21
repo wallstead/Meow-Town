@@ -145,7 +145,7 @@ class CatCam: SKCameraNode {
     
             let catName = SKLabelNode(pixelFontNamed: "Silkscreen")
             catName.zPosition = 2
-            catName.text = currentFocus?.firstname
+            catName.text = currentFocus?.name
 //            catName.setScale(1/10)
 //            catName.fontSize = 81
 //            catName.fontColor = SKColor(colorLiteralRed: 245/255, green: 245/255, blue: 245/255, alpha: 1)
@@ -344,7 +344,7 @@ class CatCam: SKCameraNode {
     func update(currentTime: CFTimeInterval) {
         if currentFocus != nil {
             var point = currentFocus!.sprite.positionInScene
-            if currentFocus!.isKitten() {
+            if currentFocus!.isKitten {
                 point.y += 40
             } else {
                 point.y += 70

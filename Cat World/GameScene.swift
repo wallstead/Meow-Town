@@ -77,7 +77,7 @@ class GameScene: SKScene {
     }
    
     override func update(_ currentTime: CFTimeInterval) {
-//        world.update(currentTime: currentTime)
+        world?.update(currentTime: currentTime)
         catCam.update(currentTime: currentTime)
     }
     
