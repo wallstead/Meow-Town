@@ -196,7 +196,7 @@ class CatCam: SKCameraNode {
         background.alpha = 0
         self.addChild(background)
         
-        if let availableCats = GameScene.current.defaultData?["Available Cats"].array {
+        if let availableCats = GameScene.current.defaultCats?["Available Cats"].array {
             for cat in availableCats {
                 if let catSkin = cat as? String {
                     catSpriteArray.append(SKPixelSpriteNode(pixelImageNamed: catSkin))

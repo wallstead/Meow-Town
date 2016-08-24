@@ -17,11 +17,15 @@
 		433EEDE91D67EFFC00A5AE9D /* toggle_on.bfxrsound in Resources */ = {isa = PBXBuildFile; fileRef = 433EEDE51D67EFFC00A5AE9D /* toggle_on.bfxrsound */; };
 		433EEDEA1D67EFFC00A5AE9D /* toggle_on.wav in Resources */ = {isa = PBXBuildFile; fileRef = 433EEDE61D67EFFC00A5AE9D /* toggle_on.wav */; };
 		433EEDF01D68C72F00A5AE9D /* Plist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433EEDEF1D68C72F00A5AE9D /* Plist.swift */; };
+		433EEDF41D6AA0B100A5AE9D /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433EEDF31D6AA0B100A5AE9D /* Store.swift */; };
+		433EEDF61D6CE78000A5AE9D /* defaultstore.plist in Resources */ = {isa = PBXBuildFile; fileRef = 433EEDF51D6CE78000A5AE9D /* defaultstore.plist */; };
 		4345CD981CF77692003BA6D4 /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4345CD971CF77692003BA6D4 /* Activity.swift */; };
-		4345CD9A1CF77F09003BA6D4 /* defaultdata.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4345CD991CF77F09003BA6D4 /* defaultdata.plist */; };
+		4345CD9A1CF77F09003BA6D4 /* defaultcats.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4345CD991CF77F09003BA6D4 /* defaultcats.plist */; };
 		43470F2D1D07E9390069A8A4 /* CatCam.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43470F2C1D07E9390069A8A4 /* CatCam.swift */; };
 		4364AB941D64FE5000B8DCBE /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4364AB931D64FE5000B8DCBE /* Queue.swift */; };
 		43689FA11D4C2BEA001C3E73 /* SKMultilineLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43689FA01D4C2BEA001C3E73 /* SKMultilineLabel.swift */; };
+		4371A30A1D6D4C2F006E5C2C /* defaultstore.json in Resources */ = {isa = PBXBuildFile; fileRef = 4371A3091D6D4C2F006E5C2C /* defaultstore.json */; };
+		4371A30C1D6D4CD6006E5C2C /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4371A30B1D6D4CD6006E5C2C /* SwiftyJSON.swift */; };
 		4374EA221D43EBAC007CB9EA /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4374EA201D43EBAC007CB9EA /* UserNotifications.framework */; };
 		4374EA231D43EBAC007CB9EA /* UserNotificationsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4374EA211D43EBAC007CB9EA /* UserNotificationsUI.framework */; };
 		4374EA251D47F6E2007CB9EA /* ItemPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4374EA241D47F6E2007CB9EA /* ItemPanel.swift */; };
@@ -84,11 +88,15 @@
 		433EEDE51D67EFFC00A5AE9D /* toggle_on.bfxrsound */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = toggle_on.bfxrsound; sourceTree = "<group>"; };
 		433EEDE61D67EFFC00A5AE9D /* toggle_on.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = toggle_on.wav; sourceTree = "<group>"; };
 		433EEDEF1D68C72F00A5AE9D /* Plist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Plist.swift; sourceTree = "<group>"; };
+		433EEDF31D6AA0B100A5AE9D /* Store.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
+		433EEDF51D6CE78000A5AE9D /* defaultstore.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = defaultstore.plist; sourceTree = "<group>"; };
 		4345CD971CF77692003BA6D4 /* Activity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Activity.swift; sourceTree = "<group>"; };
-		4345CD991CF77F09003BA6D4 /* defaultdata.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = defaultdata.plist; path = ../defaultdata.plist; sourceTree = "<group>"; };
+		4345CD991CF77F09003BA6D4 /* defaultcats.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = defaultcats.plist; path = ../defaultcats.plist; sourceTree = "<group>"; };
 		43470F2C1D07E9390069A8A4 /* CatCam.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CatCam.swift; sourceTree = "<group>"; };
 		4364AB931D64FE5000B8DCBE /* Queue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Queue.swift; sourceTree = "<group>"; };
 		43689FA01D4C2BEA001C3E73 /* SKMultilineLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKMultilineLabel.swift; sourceTree = "<group>"; };
+		4371A3091D6D4C2F006E5C2C /* defaultstore.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = defaultstore.json; sourceTree = "<group>"; };
+		4371A30B1D6D4CD6006E5C2C /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
 		4374EA201D43EBAC007CB9EA /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		4374EA211D43EBAC007CB9EA /* UserNotificationsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotificationsUI.framework; path = System/Library/Frameworks/UserNotificationsUI.framework; sourceTree = SDKROOT; };
 		4374EA241D47F6E2007CB9EA /* ItemPanel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemPanel.swift; sourceTree = "<group>"; };
@@ -169,6 +177,7 @@
 			isa = PBXGroup;
 			children = (
 				437C2EC41D0BADBB00F05AEF /* Menu.swift */,
+				433EEDF31D6AA0B100A5AE9D /* Store.swift */,
 				4374EA241D47F6E2007CB9EA /* ItemPanel.swift */,
 			);
 			name = "Top Bar";
@@ -178,7 +187,9 @@
 			isa = PBXGroup;
 			children = (
 				439AD6861CB7681500E1E018 /* Assets.xcassets */,
-				4345CD991CF77F09003BA6D4 /* defaultdata.plist */,
+				4345CD991CF77F09003BA6D4 /* defaultcats.plist */,
+				433EEDF51D6CE78000A5AE9D /* defaultstore.plist */,
+				4371A3091D6D4C2F006E5C2C /* defaultstore.json */,
 				439AD68B1CB7681500E1E018 /* Info.plist */,
 				439AD67D1CB7681500E1E018 /* GameScene.sks */,
 				439AD6831CB7681500E1E018 /* Main.storyboard */,
@@ -245,6 +256,7 @@
 		43470F2B1D07E8960069A8A4 /* Utilites */ = {
 			isa = PBXGroup;
 			children = (
+				4371A30B1D6D4CD6006E5C2C /* SwiftyJSON.swift */,
 				433EEDEF1D68C72F00A5AE9D /* Plist.swift */,
 				433ECFB21D54FD8A00A01023 /* MiscExtensions.swift */,
 				4364AB931D64FE5000B8DCBE /* Queue.swift */,
@@ -444,15 +456,17 @@
 				43FD713D1CD3F66B0058DFBA /* mathgrant_calm.mp3 in Resources */,
 				43FD71471CD3FAED0058DFBA /* button_up.wav in Resources */,
 				433EEDE71D67EFFC00A5AE9D /* toggle_off.bfxrsound in Resources */,
+				433EEDF61D6CE78000A5AE9D /* defaultstore.plist in Resources */,
 				437C2EC71D10DC5200F05AEF /* CatSelection.wav in Resources */,
 				43F4530C1CC8AD3B009912D8 /* slkscr.ttf in Resources */,
 				43F4530E1CC8AD3B009912D8 /* slkscre.ttf in Resources */,
 				438BB4061D61726F00AAB6D4 /* select.bfxrsound in Resources */,
 				438BB4051D61726F00AAB6D4 /* press.wav in Resources */,
+				4371A30A1D6D4C2F006E5C2C /* defaultstore.json in Resources */,
 				433EEDE91D67EFFC00A5AE9D /* toggle_on.bfxrsound in Resources */,
 				433ECFBC1D55089E00A01023 /* website.rtf in Resources */,
 				4381308D1CD3F1D400BC0102 /* Intro_mixdown.mp3 in Resources */,
-				4345CD9A1CF77F09003BA6D4 /* defaultdata.plist in Resources */,
+				4345CD9A1CF77F09003BA6D4 /* defaultcats.plist in Resources */,
 				43FD71461CD3FAED0058DFBA /* button_down.wav in Resources */,
 				439AD6851CB7681500E1E018 /* Main.storyboard in Resources */,
 			);
@@ -482,6 +496,7 @@
 				43470F2D1D07E9390069A8A4 /* CatCam.swift in Sources */,
 				43689FA11D4C2BEA001C3E73 /* SKMultilineLabel.swift in Sources */,
 				4345CD981CF77692003BA6D4 /* Activity.swift in Sources */,
+				4371A30C1D6D4CD6006E5C2C /* SwiftyJSON.swift in Sources */,
 				43E113131D0755EF005ADA37 /* Globals.swift in Sources */,
 				433DA5F11CBEAA12009F1B36 /* SKPixel.swift in Sources */,
 				4374EA251D47F6E2007CB9EA /* ItemPanel.swift in Sources */,
@@ -493,6 +508,7 @@
 				4364AB941D64FE5000B8DCBE /* Queue.swift in Sources */,
 				43F71A781D396852008FF8D9 /* Item.swift in Sources */,
 				43FD71491CD41CAA0058DFBA /* World.swift in Sources */,
+				433EEDF41D6AA0B100A5AE9D /* Store.swift in Sources */,
 				433EEDF01D68C72F00A5AE9D /* Plist.swift in Sources */,
 				439AD6821CB7681500E1E018 /* GameViewController.swift in Sources */,
 				439AD67C1CB7681500E1E018 /* AppDelegate.swift in Sources */,

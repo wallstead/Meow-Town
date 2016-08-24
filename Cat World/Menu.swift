@@ -121,6 +121,8 @@ class Menu: SKNode {
         collectionBase.position.y = titleBG.position.y
         storeContainer.addChild(collectionBase)
         
+        Store()
+        
 //        displayCollection(parent: collectionBase)
     }
     
@@ -197,7 +199,7 @@ class Menu: SKNode {
                 addCat.zPosition = 1
                 addCat.action = {
                     var possibleCatNames: [String] = []
-                    if let availableCats = GameScene.current.defaultData?["Available Cats"].array {
+                    if let availableCats = GameScene.current.defaultCats?["Available Cats"].array {
                         for cat in availableCats {
                             if let catSkin = cat as? String {
                                 possibleCatNames.append(catSkin)
@@ -294,15 +296,16 @@ class Menu: SKNode {
         
         return SKAction.sequence([down1, up1, down2])
     }
+
+    func displayCollection(parent: SKSpriteNode, withData data: NSDictionary? = nil) {
 //
-//    func displayCollection(parent: SKSpriteNode, withData data: NSMutableDictionary? = nil) {
 //        let shiftTime = 0.3
 //        let timeMode: SKActionTimingMode = .easeOut
 //        var type: String
 //        self.menuIsAnimating = true
 //        
 //        /* Figure out what data needs to be displayed */
-//        let collectionData: NSMutableDictionary
+//        let collectionData: NSDictionary
 //        if data != nil {
 //            collectionData = data!
 //            if collectionData.count != 0 {
@@ -315,10 +318,10 @@ class Menu: SKNode {
 //                type = "unknown"
 //            }
 //        } else {
-//            let storeDict = PlistManager.sharedInstance.getValueForKey(key: "Store") as! NSMutableDictionary
-//            collectionData = storeDict.value(forKey: "Categories") as! NSMutableDictionary
+//            collectionData = GameScene.current.defaultData!["Store"].dict!
 //            type = "collection"
 //        }
+////        print(collectionData)
 //        
 //        if panelDepth > 1 {
 //            let move = SKAction.moveTo(y: 15, duration: shiftTime/2)
@@ -383,9 +386,14 @@ class Menu: SKNode {
 //                    itemButton.isUserInteractionEnabled = true
 //                })
 //                collection.addChild(itemButton)
+//
 //                yPosCounter += 1
+//                
+//                var itemSubDict = NSDictionary()
+//                
 //                var itemButtonsBelow: [SKPixelCollectionToggleButtonNode] = [] // All buttons below the selected one
 //                itemButton.onPress = {
+//                    itemSubDict = collectionData[item.key as! String] as! NSDictionary
 //                    if self.isOpen == true {
 //                        itemButton.run(disableButtons)
 //                        parent.isUserInteractionEnabled = false
@@ -417,6 +425,7 @@ class Menu: SKNode {
 //                    }
 //                }
 //                itemButton.action = {
+//                    
 //                    
 //                    if self.menuIsAnimating == false && self.isOpen == true {
 //                        if parent.name == "itemButton" {
@@ -483,18 +492,20 @@ class Menu: SKNode {
 //                            }
 //                        } else { // OPEN
 //                            /* Move all buttons up, centering the selected button at the top */
+//                            
 //                            for button in itemButtons {
 //                                /* calculate difference in index */
 //                                let thisIndex = itemButtons.index(of: button)
 //                                let baseIndex = itemButtons.index(of: itemButton)
 //                                let offset = -1*(baseIndex!-thisIndex!)
 //                                
+//                                
 //                                let move = SKAction.moveTo(y: -button.currentHeight/2-(35*CGFloat(offset)), duration: shiftTime/2)
 //                                move.timingMode = timeMode
 //                                button.run(move, completion: {
 //                                    if offset == 0 {
 //                                        self.panelDepth += 1
-//                                        self.displayCollection(parent: itemButton, withData: collectionData.value(forKey: item.key as! String) as? NSMutableDictionary)
+//                                        self.displayCollection(parent: itemButton, withData: itemSubDict)
 //                                        var belowCounter: CGFloat = 0
 //                                        for itemButtonBelow in itemButtonsBelow {
 //                                            let move = SKAction.moveTo(y: -collectionBG.currentHeight-(35*belowCounter)-5-itemButton.currentHeight/2, duration: shiftTime)
@@ -604,17 +615,17 @@ class Menu: SKNode {
 //                    if GameScene.current.catCam.itemPanel.addQuickItem(itemName: collectionData.value(forKey: "image name")! as! String, waitTime: wait) == false {
 //                        GameScene.current.catCam.alert(type: "error", message: "Cannot enable an item already enabled.")
 //                    } else {
-//                        if GameScene.current.toggleEnable(withData: data!) == true {
-//                            GameScene.current.catCam.alert(type: "success", message: "Toggled.")
-//                        }
+////                        if GameScene.current.toggleEnable(withData: data!) == true {
+////                            GameScene.current.catCam.alert(type: "success", message: "Toggled.")
+////                        }
 //                    }
 //                } else {
 //                    if GameScene.current.catCam.itemPanel.removeQuickItem(itemName: collectionData.value(forKey: "image name")! as! String) == false {
 //                        GameScene.current.catCam.alert(type: "error", message: "Cannot remove an item that doesn't exist.")
 //                    } else {
-//                        if GameScene.current.toggleEnable(withData: data!) == true {
-//                            GameScene.current.catCam.alert(type: "success", message: "Toggled.")
-//                        }
+////                        if GameScene.current.toggleEnable(withData: data!) == true {
+////                            GameScene.current.catCam.alert(type: "success", message: "Toggled.")
+////                        }
 //                    }
 //                }
 //               
@@ -626,18 +637,18 @@ class Menu: SKNode {
 //            buyButton.zPosition = 2
 //            buyButton.position.y = infoTable.position.y - 49.2
 //            buyButton.action = {
-//                if GameScene.current.world.score >= itemCost {
-//                    if GameScene.current.attemptPurchase(withData: data!) == true {
-//                        GameScene.current.catCam.alert(type: "success", message: "You successfully bought \(collectionData.value(forKey: "name")!)s.")
-//                        /* TODO: Hide buyButton */
-//                        buyButton.removeFromParent()
-//                        collectionBG.addChild(enableButton)
-//                    } else {
-//                        GameScene.current.catCam.alert(type: "error", message: "An error occured when attempting to purchase \(collectionData.value(forKey: "name")!)s.")
-//                    }
-//                } else {
-//                    GameScene.current.catCam.alert(type: "error", message: "You don't have enough calories to buy \(collectionData.value(forKey: "name")!)s.")
-//                }
+////                if GameScene.current.world.score >= itemCost {
+////                    if GameScene.current.attemptPurchase(withData: data!) == true {
+////                        GameScene.current.catCam.alert(type: "success", message: "You successfully bought \(collectionData.value(forKey: "name")!)s.")
+////                        /* TODO: Hide buyButton */
+////                        buyButton.removeFromParent()
+////                        collectionBG.addChild(enableButton)
+////                    } else {
+////                        GameScene.current.catCam.alert(type: "error", message: "An error occured when attempting to purchase \(collectionData.value(forKey: "name")!)s.")
+////                    }
+////                } else {
+////                    GameScene.current.catCam.alert(type: "error", message: "You don't have enough calories to buy \(collectionData.value(forKey: "name")!)s.")
+////                }
 //            }
 //            
 //            if collectionData.value(forKey: "owned") as! Bool == true {
@@ -647,7 +658,7 @@ class Menu: SKNode {
 //            }
 //            
 //        }
-//    }
+    }
     
     func toggle() {
         removeAllActions()

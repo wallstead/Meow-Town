@@ -150,28 +150,28 @@ class World: SKNode, SKPhysicsContactDelegate {
     }
     
     func addPoints(item: Item, location: CGPoint? = nil) {
-        let points = GameScene.current.defaultData?["Store"]["Categories"]["Foods"][item.sprite!.textureName]["info"]["calories"].int
-        
-        if points != nil {
-            if location != nil {
-                let pointLabel = SKLabelNode(fontNamed: "Silkscreen")
-                pointLabel.zPosition = item.zPosition+1
-                pointLabel.text = "+\(points!)"
-                pointLabel.setScale(1/10)
-                pointLabel.fontSize = 80
-                pointLabel.fontColor = SKColor(colorLiteralRed: 245/255, green: 245/255, blue: 245/255, alpha: 1)
-                pointLabel.verticalAlignmentMode = .center
-                pointLabel.position = location!
-                self.addChild(pointLabel)
-                
-                pointLabel.run(SKAction.group([SKAction.moveBy(x: 0, y: 30, duration: 1.5), SKAction.fadeOut(withDuration: 1.2)]), completion: {
-                    pointLabel.removeFromParent()
-                })
-            }
-            score = score + points!
-            GameScene.current.catCam.updateScore(score: score)
-            print("[World] Score: \(score!)")
-        }
+//        let points = GameScene.current.defaultData?["Store"]["Categories"]["Foods"][item.sprite!.textureName]["info"]["calories"].int
+//        
+//        if points != nil {
+//            if location != nil {
+//                let pointLabel = SKLabelNode(fontNamed: "Silkscreen")
+//                pointLabel.zPosition = item.zPosition+1
+//                pointLabel.text = "+\(points!)"
+//                pointLabel.setScale(1/10)
+//                pointLabel.fontSize = 80
+//                pointLabel.fontColor = SKColor(colorLiteralRed: 245/255, green: 245/255, blue: 245/255, alpha: 1)
+//                pointLabel.verticalAlignmentMode = .center
+//                pointLabel.position = location!
+//                self.addChild(pointLabel)
+//                
+//                pointLabel.run(SKAction.group([SKAction.moveBy(x: 0, y: 30, duration: 1.5), SKAction.fadeOut(withDuration: 1.2)]), completion: {
+//                    pointLabel.removeFromParent()
+//                })
+//            }
+//            score = score + points!
+//            GameScene.current.catCam.updateScore(score: score)
+//            print("[World] Score: \(score!)")
+//        }
     }
 
     func spawn(itemName: String) {

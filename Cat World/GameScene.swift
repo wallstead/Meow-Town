@@ -12,7 +12,7 @@ class GameScene: SKScene {
     var world: World?
     var catCam: CatCam!
     var scale: CGFloat!
-    var defaultData: Plist?
+    var defaultCats: Plist?
     var worldDataPath : String? {
         let manager = FileManager.default
         let url = manager.urls(for: .documentDirectory, in: .userDomainMask).first
@@ -31,8 +31,8 @@ class GameScene: SKScene {
         
         GameScene.current = self
         
-        if let path = Bundle.main.path(forResource: "defaultdata", ofType: "plist") {
-            defaultData = Plist(path: path)
+        if let path = Bundle.main.path(forResource: "defaultcats", ofType: "plist") {
+            defaultCats = Plist(path: path)
         }
     }
     
