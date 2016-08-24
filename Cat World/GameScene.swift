@@ -12,7 +12,7 @@ class GameScene: SKScene {
     var world: World?
     var catCam: CatCam!
     var scale: CGFloat!
-    var defaultCats: Plist?
+    var defaultCats: JSON?
     var worldDataPath : String? {
         let manager = FileManager.default
         let url = manager.urls(for: .documentDirectory, in: .userDomainMask).first
@@ -31,8 +31,14 @@ class GameScene: SKScene {
         
         GameScene.current = self
         
-        if let path = Bundle.main.path(forResource: "defaultcats", ofType: "plist") {
-            defaultCats = Plist(path: path)
+        if let path = Bundle.main.path(forResource: "defaultcats", ofType: "json") {
+            do {
+                let jsonData = try Data(contentsOf: URL(fileURLWithPath: path))
+                defaultCats = JSON(data: jsonData)
+                print("[GameScene] Loaded default cat data")
+            } catch {
+                print("[GameScene] Couldn't load default cat data")
+            }
         }
     }
     

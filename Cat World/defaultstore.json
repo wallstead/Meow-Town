@@ -1,74 +1,74 @@
 {
-  "Version": 0.5,
-  "Decor": {
-    "fries": {
-      "id": 1,
-      "name": "Fries",
-      "description": "Fries are yummy.",
-      "image name": "fries",
-      "info": {
-        "price": 10,
-        "calories": 10,
-        "regen": 15
-      },
-      "owned": false,
-      "enabled": false
-    }
-  },
-  "Magic": {
-    "fries": {
-      "id": 1,
-      "name": "Fries",
-      "description": "Fries are yummy.",
-      "image name": "fries",
-      "info": {
-        "price": 10,
-        "calories": 10,
-        "regen": 15
-      },
-      "owned": false,
-      "enabled": false
-    }
-  },
-  "Foods": {
-    "fries": {
-      "id": 1,
-      "name": "Fries",
-      "description": "Fries are yummy.",
-      "image name": "fries",
-      "info": {
-        "price": 200,
-        "calories": 20,
-        "regen": 15
-      },
-      "owned": false,
-      "enabled": false
+    "Version": 0.5,
+    "Decor": {
+        "fries": {
+            "id": 1,
+            "name": "Fries",
+            "description": "Fries are yummy.",
+            "image name": "fries",
+            "info": {
+                "price": 10,
+                "calories": 10,
+                "regen": 15
+            },
+            "owned": false,
+            "enabled": false
+        }
     },
-    "burger": {
-      "id": 0,
-      "name": "Burger",
-      "description": "MMMMMM burgers.",
-      "image name": "burger",
-      "info": {
-        "price": 10,
-        "calories": 10,
-        "regen": 10
-      },
-      "owned": false,
-      "enabled": false
+    "Magic": {
+        "fries": {
+            "id": 1,
+            "name": "Fries",
+            "description": "Fries are yummy.",
+            "image name": "fries",
+            "info": {
+                "price": 10,
+                "calories": 10,
+                "regen": 15
+            },
+            "owned": false,
+            "enabled": false
+        }
     },
-    "hotdog": {
-      "id": 2,
-      "name": "Hot Dog",
-      "description": "Hot Diggity Dog.",
-      "image name": "hotdog",
-      "info": {
-        "price": 10,
-        "calories": 10,
-        "regen": 15
-      },
-      "owned": false,
-      "enabled": false
+    "Foods": {
+        "fries": {
+            "id": 1,
+            "name": "Fries",
+            "description": "Fries are yummy.",
+            "image name": "fries",
+            "info": {
+                "price": 200,
+                "calories": 20,
+                "regen": 15
+            },
+            "owned": false,
+            "enabled": false
+        },
+        "burger": {
+            "id": 0,
+            "name": "Burger",
+            "description": "MMMMMM burgers.",
+            "image name": "burger",
+            "info": {
+                "price": 10,
+                "calories": 10,
+                "regen": 10
+            },
+            "owned": false,
+            "enabled": false
+        },
+        "hotdog": {
+            "id": 2,
+            "name": "Hot Dog",
+            "description": "Hot Diggity Dog.",
+            "image name": "hotdog",
+            "info": {
+                "price": 10,
+                "calories": 10,
+                "regen": 15
+            },
+            "owned": false,
+            "enabled": false
+        }
     }
-  }
 }
