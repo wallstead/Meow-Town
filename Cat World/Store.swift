@@ -10,15 +10,22 @@ import Foundation
 import SpriteKit
 
 class Store {
+    var panelDepth: Int = 0
     var storeDataPath : String? {
         let manager = FileManager.default
         let url = manager.urls(for: .documentDirectory, in: .userDomainMask).first
         return url?.appendingPathComponent("store.json").path
     }
-    
     var storeData: JSON?
+    var storeContainer: SKSpriteNode
+    var bgPanel: SKPixelSpriteNode
     
-    init() {
+    init(origin: SKSpriteNode, container: SKSpriteNode, panel: SKPixelSpriteNode) {
+        storeContainer = container
+        bgPanel = panel
+        
+        /* Load/Create data */
+        
         storeData = loadJSON() // load if exists
         
         if storeData == nil { // create and save if doesnt
@@ -40,8 +47,119 @@ class Store {
            print("[Store] Loaded local store data") 
         }
         
+        
+        let storeOrigin = StoreCollection(pos: CGPoint(x: origin.position.x, y: origin.position.y-23), width: self.storeContainer.frame.width)
+        storeOrigin.zPosition = 1
+        bgPanel.addChild(storeOrigin)
+        
+        
+        let collectionData = self.storeData!["Store"].dictionaryValue
+        for item in collectionData {
+            let itemSubDict: [String:JSON] = collectionData[item.key]!.dictionaryValue
+            let itemButton = StoreButton(type: "collection", iconName: "burger", text: item.key, jsonDict: itemSubDict)
+            itemButton.parentCollection = storeOrigin
+            storeOrigin.addSubButton(button: itemButton)
+        }
+        
+        storeOrigin.display()
+
+        
+        /* Display Content */
+        let queue = DispatchQueue(label: "com.meowtown.myqueue")
+        queue.async {
+//            self.displayCollection(parent: origin)
+            
+            // use base data to add buttons to collection. Then each button should be able to do their own work from here
+        }
+
     }
-  
+    
+    func displayCollection(parent: SKSpriteNode, withData data: Dictionary<String, JSON>? = nil) {
+        
+//        let shiftTime = 0.3
+//        let timeMode: SKActionTimingMode = .easeOut
+//
+//        var collectionData: [String:JSON]
+//        if data != nil {
+//            collectionData = data!
+//        } else {
+//            collectionData = self.storeData!["Store"].dictionaryValue
+//        }
+//        
+//        if panelDepth > 1 {
+//            let move = SKAction.moveTo(y: 15, duration: shiftTime/2)
+//            move.timingMode = timeMode
+//            parent.parent?.parent?.parent?.run(move)
+//        }
+//
+//        let collectionBG = SKSpriteNode()
+//        collectionBG.size = CGSize(width: storeContainer.frame.width, height: bgPanel.currentHeight-23-20-70)
+//        collectionBG.color = SKColor(colorLiteralRed: 182/255, green: 24/255, blue: 25/255, alpha: 1).darkerColor(percent: 0.125*Double(panelDepth))
+//        collectionBG.name = "collectionBG"
+//        collectionBG.zPosition = -7
+//        collectionBG.anchorPoint = CGPoint(x: 0.5, y: 1)
+//        collectionBG.position.y = collectionBG.size.height-parent.currentHeight/2
+//        collectionBG.isUserInteractionEnabled = false
+//
+//        parent.addChild(collectionBG)
+//        
+//        let showCollection = SKAction.moveTo(y: -parent.currentHeight/2, duration: shiftTime)
+//        showCollection.timingMode = timeMode
+//        collectionBG.run(showCollection, completion: {
+//            parent.isUserInteractionEnabled = true
+//        })
+//        
+//        var yPosCounter: CGFloat = 0
+//        
+//        let collection = SKNode()
+//        collection.name = "collection"
+//        collection.isUserInteractionEnabled = false
+//        
+//        var itemButtons: [StoreSubItem] = []
+//        
+//        for item in collectionData {
+//            let itemButton: StoreSubItem
+//            var itemSubDict: [String:JSON] = collectionData[item.key]!.dictionaryValue
+//            itemButton = StoreSubItem(type: "collection", iconName: "burger", text: item.key, jsonDict: itemSubDict)
+//            itemButton.name = "itemButton"
+//            itemButtons.append(itemButton)
+//            itemButton.zPosition = 1
+//            itemButton.position.y = (-35*yPosCounter)-5-itemButton.currentHeight/2
+//            itemButton.isUserInteractionEnabled = false
+//            itemButton.run(SKAction.wait(forDuration: shiftTime), completion: {
+//                itemButton.isUserInteractionEnabled = true
+//            })
+//            collection.addChild(itemButton)
+//
+//            yPosCounter += 1
+//
+//            
+//            
+////            itemButton.onPress = { [unowned self] in
+////                
+////            }
+////            
+////            itemButton.onCancel = { [unowned self] in// when the touch moved out of the button
+////                
+////            }
+////            
+////            itemButton.action = { [unowned self] in
+////                
+////            }
+//            
+//            /* 
+//             Alternative:
+//             
+//             Create a different class for the SKPixelCollectionToggleButtonNode (and shorten name) (SKPixelCollectionNode?)
+//                Make it:
+//                - 
+// 
+//             */
+//        }
+//        collectionBG.addChild(collection)
+
+    }
+    
     func saveJSON(j: JSON) -> Bool {
         if storeDataPath != nil {
             do {

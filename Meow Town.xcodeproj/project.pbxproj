@@ -16,10 +16,11 @@
 		433EEDE81D67EFFC00A5AE9D /* toggle_off.wav in Resources */ = {isa = PBXBuildFile; fileRef = 433EEDE41D67EFFC00A5AE9D /* toggle_off.wav */; };
 		433EEDE91D67EFFC00A5AE9D /* toggle_on.bfxrsound in Resources */ = {isa = PBXBuildFile; fileRef = 433EEDE51D67EFFC00A5AE9D /* toggle_on.bfxrsound */; };
 		433EEDEA1D67EFFC00A5AE9D /* toggle_on.wav in Resources */ = {isa = PBXBuildFile; fileRef = 433EEDE61D67EFFC00A5AE9D /* toggle_on.wav */; };
-		433EEDF01D68C72F00A5AE9D /* Plist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433EEDEF1D68C72F00A5AE9D /* Plist.swift */; };
 		433EEDF41D6AA0B100A5AE9D /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433EEDF31D6AA0B100A5AE9D /* Store.swift */; };
 		4345CD981CF77692003BA6D4 /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4345CD971CF77692003BA6D4 /* Activity.swift */; };
 		43470F2D1D07E9390069A8A4 /* CatCam.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43470F2C1D07E9390069A8A4 /* CatCam.swift */; };
+		434DE1A81D6F51EC00166C4C /* StoreSubItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434DE1A71D6F51EC00166C4C /* StoreSubItem.swift */; };
+		434DE1AA1D6FF05B00166C4C /* StoreCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434DE1A91D6FF05B00166C4C /* StoreCollection.swift */; };
 		4364AB941D64FE5000B8DCBE /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4364AB931D64FE5000B8DCBE /* Queue.swift */; };
 		43689FA11D4C2BEA001C3E73 /* SKMultilineLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43689FA01D4C2BEA001C3E73 /* SKMultilineLabel.swift */; };
 		4371A30A1D6D4C2F006E5C2C /* defaultstore.json in Resources */ = {isa = PBXBuildFile; fileRef = 4371A3091D6D4C2F006E5C2C /* defaultstore.json */; };
@@ -86,10 +87,11 @@
 		433EEDE41D67EFFC00A5AE9D /* toggle_off.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = toggle_off.wav; sourceTree = "<group>"; };
 		433EEDE51D67EFFC00A5AE9D /* toggle_on.bfxrsound */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = toggle_on.bfxrsound; sourceTree = "<group>"; };
 		433EEDE61D67EFFC00A5AE9D /* toggle_on.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = toggle_on.wav; sourceTree = "<group>"; };
-		433EEDEF1D68C72F00A5AE9D /* Plist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Plist.swift; sourceTree = "<group>"; };
 		433EEDF31D6AA0B100A5AE9D /* Store.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		4345CD971CF77692003BA6D4 /* Activity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Activity.swift; sourceTree = "<group>"; };
 		43470F2C1D07E9390069A8A4 /* CatCam.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CatCam.swift; sourceTree = "<group>"; };
+		434DE1A71D6F51EC00166C4C /* StoreSubItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoreSubItem.swift; sourceTree = "<group>"; };
+		434DE1A91D6FF05B00166C4C /* StoreCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoreCollection.swift; sourceTree = "<group>"; };
 		4364AB931D64FE5000B8DCBE /* Queue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Queue.swift; sourceTree = "<group>"; };
 		43689FA01D4C2BEA001C3E73 /* SKMultilineLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKMultilineLabel.swift; sourceTree = "<group>"; };
 		4371A3091D6D4C2F006E5C2C /* defaultstore.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = defaultstore.json; sourceTree = "<group>"; };
@@ -176,6 +178,8 @@
 			children = (
 				437C2EC41D0BADBB00F05AEF /* Menu.swift */,
 				433EEDF31D6AA0B100A5AE9D /* Store.swift */,
+				434DE1A91D6FF05B00166C4C /* StoreCollection.swift */,
+				434DE1A71D6F51EC00166C4C /* StoreSubItem.swift */,
 				4374EA241D47F6E2007CB9EA /* ItemPanel.swift */,
 			);
 			name = "Top Bar";
@@ -254,7 +258,6 @@
 			isa = PBXGroup;
 			children = (
 				4371A30B1D6D4CD6006E5C2C /* SwiftyJSON.swift */,
-				433EEDEF1D68C72F00A5AE9D /* Plist.swift */,
 				433ECFB21D54FD8A00A01023 /* MiscExtensions.swift */,
 				4364AB931D64FE5000B8DCBE /* Queue.swift */,
 				43CF9D001D610F8500C1EFEA /* SoundEffect-Swift3.swift */,
@@ -489,6 +492,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				434DE1AA1D6FF05B00166C4C /* StoreCollection.swift in Sources */,
 				43470F2D1D07E9390069A8A4 /* CatCam.swift in Sources */,
 				43689FA11D4C2BEA001C3E73 /* SKMultilineLabel.swift in Sources */,
 				4345CD981CF77692003BA6D4 /* Activity.swift in Sources */,
@@ -504,8 +508,8 @@
 				4364AB941D64FE5000B8DCBE /* Queue.swift in Sources */,
 				43F71A781D396852008FF8D9 /* Item.swift in Sources */,
 				43FD71491CD41CAA0058DFBA /* World.swift in Sources */,
+				434DE1A81D6F51EC00166C4C /* StoreSubItem.swift in Sources */,
 				433EEDF41D6AA0B100A5AE9D /* Store.swift in Sources */,
-				433EEDF01D68C72F00A5AE9D /* Plist.swift in Sources */,
 				439AD6821CB7681500E1E018 /* GameViewController.swift in Sources */,
 				439AD67C1CB7681500E1E018 /* AppDelegate.swift in Sources */,
 				433ECFB31D54FD8A00A01023 /* MiscExtensions.swift in Sources */,

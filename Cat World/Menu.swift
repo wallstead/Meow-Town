@@ -12,7 +12,6 @@ import SpriteKit
 class Menu: SKNode {
     var isOpen: Bool!
     var menuIsAnimating: Bool!
-    var panelDepth: Int = 0
     var camFrame: CGRect!
     var topBar: SKPixelSpriteNode!
     var menuCropper: SKCropNode!
@@ -121,7 +120,7 @@ class Menu: SKNode {
         collectionBase.position.y = titleBG.position.y
         storeContainer.addChild(collectionBase)
         
-        Store()
+        Store(origin: collectionBase, container: storeContainer, panel: bgpanel)
         
 //        displayCollection(parent: collectionBase)
     }
