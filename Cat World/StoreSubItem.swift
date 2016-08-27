@@ -69,27 +69,25 @@ class StoreButton: SKPixelToggleButtonNode {
             icon.position.y = 0.5
         }
         if enabled == false && size.width > 122.0 {
-            
+            print("shno")
             overlay.texture = SKTexture(pixelImageNamed: "topbar_menupanel_itemcategory_ui")
             icon.run(SKAction.fadeIn(withDuration: 0.1))
-//            parentCollection.onButtonEnable(enabledButton: self , completion: {
-//                
-//                self.childCollection?.display()
-//            })
             if childCollection != nil {
                 childCollection!.hide(completion: {
                     let resize = SKAction.resize(toWidth: 122.0, duration: 0.1)
                     resize.timingMode = .easeIn
                     self.run(resize)
                     self.parentCollection.onButtonDisable(disabledButton: self, completion: {
-                        
+                        for button in self.parentCollection.buttons {
+                            button.enabled = false // set to false instead of nil to allow interaction
+                            
+                        }
                     })
                 })
             }
             
         } else if enabled == true && size.width <= 122.0 {
             if childCollection == nil {
-                print("creating new one")
                 self.addChildCollection()
             }
             
@@ -105,55 +103,49 @@ class StoreButton: SKPixelToggleButtonNode {
             })
             overlay.texture = SKTexture(pixelImageNamed: "topbar_menupanel_itemcategory_ui2")
             icon.run(SKAction.fadeOut(withDuration: 0.1))
-            
-            
-            
-            
-        }
-
-        if enabled != nil {
-            isUserInteractionEnabled = true
         } else {
-            isUserInteractionEnabled = false
+            isUserInteractionEnabled = true // for when the user cancels a touch
         }
-
     }
     
     func addChildCollection() {
-        print(subJSONDict)
-        
-        zPosition = 5
-        
+        zPosition = 4
         let nextCollectionHeight: CGFloat
         if ((parentCollection.parent as? StoreButton) != nil) {
-            print("yo")
             nextCollectionHeight = parentCollection.size.height
         } else {
-            print("dro")
             nextCollectionHeight = parentCollection.size.height-frame.height
         }
-        
-        print(nextCollectionHeight)
         childCollection = StoreCollection(pos: CGPoint(x: 0, y: -frame.height/2), width: parentCollection.frame.width, height: nextCollectionHeight)
-        
-        childCollection?.zPosition = -4
+        childCollection?.zPosition = -3
         addChild(childCollection!)
         
-        
-        let collectionData = subJSONDict
-        for item in collectionData {
-            let itemSubDict: [String:JSON] = collectionData[item.key]!.dictionaryValue
-            let itemButton = StoreButton(type: "collection", iconName: "burger", text: item.key, jsonDict: itemSubDict)
-            itemButton.parentCollection = childCollection
-            childCollection?.addSubButton(button: itemButton)
+        if let infoDict =  subJSONDict["info"]?.dictionary {
+            /* Present item info */
+           
+        } else {
+            /* Present sub-items */
+            let collectionData = subJSONDict
+            for item in collectionData {
+                let itemSubDict: [String:JSON] = collectionData[item.key]!.dictionaryValue
+                let itemButton = StoreButton(type: "collection", iconName: "burger", text: item.key, jsonDict: itemSubDict)
+                itemButton.parentCollection = childCollection
+                childCollection?.addSubButton(button: itemButton)
+            }
         }
         
-        childCollection?.moveIntoPlace()
+        childCollection?.moveIntoPlace()  
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if enabled != nil {
             onPress?()
+            // make sure other buttons are disabled
+            for button in parentCollection.buttons {
+                if button != self {
+                    button.reset()
+                }
+            }
             texture = pressedTexture
             label!.position.y = -1
             overlay.position.y = -1
@@ -189,13 +181,17 @@ class StoreButton: SKPixelToggleButtonNode {
 
         isUserInteractionEnabled = false
 
+        print(enabled)
         if enabled != nil && texture != defaultTexture {
+            
             if enabled == false { // about to toggle to true
                 self.enabled = true
-            } else { // about to toggle to fals
+                
+            } else { // about to toggle to false
                 self.enabled = false
             }
         } else if enabled != nil && texture == defaultTexture {
+            
             if enabled == true {
                 self.enabled = true // reset
             } else {
@@ -203,7 +199,7 @@ class StoreButton: SKPixelToggleButtonNode {
                 onCancel?() // reset and run cancel
             }
         } else if enabled == nil && texture == defaultTexture {// if nil, but texture is default, set to
-            enabled = true
+            enabled = false
         }
     }
     

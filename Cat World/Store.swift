@@ -47,7 +47,7 @@ class Store {
         
         
         let storeOrigin = StoreCollection(pos: CGPoint(x: origin.position.x, y: origin.position.y), width: self.storeContainer.frame.width, height: self.storeContainer.frame.height-20)
-        storeOrigin.zPosition = 6
+        storeOrigin.zPosition = 8
         storeContainer.addChild(storeOrigin)
         
         

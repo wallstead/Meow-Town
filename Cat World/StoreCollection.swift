@@ -18,7 +18,7 @@ class StoreCollection: SKSpriteNode {
         super.init(texture: nil, color: SKColor.randomColor(), size: CGSize(width: width, height: height))
         position = pos
         anchorPoint = CGPoint(x: 0.5, y: 1)
-        alpha = 0.1
+        alpha = 0
     }
     
     func moveIntoPlace() {
@@ -39,29 +39,31 @@ class StoreCollection: SKSpriteNode {
     func display() { // push collection down into view (probably after button resizes)
     
         //move it up so that we can animate the drop-in
-        print("displaying")
         alpha = 1
         
         func show() {
-            run(SKAction.moveTo(y: position.y-size.height, duration: 0.2))
+            run(SKAction.moveTo(y: position.y-size.height, duration: 0.25), completion: {
+                if let parentButton = self.parent as? StoreButton { // if there is a parentbutton, resize its parent collection
+                    parentButton.isUserInteractionEnabled = true
+                    
+                }
+            })
             if let parentButton = parent as? StoreButton { // if there is a parentbutton, resize its parent collection
                 for eachButton in parentButton.parentCollection.buttons {
                     if eachButton.position.y < parentButton.y { // move buttons below out for now
-                        eachButton.run(SKAction.moveTo(y: eachButton.position.y-size.height, duration: 0.2))
+                        eachButton.run(SKAction.moveTo(y: eachButton.position.y-size.height, duration: 0.25))
                     }
                 }
-            } else {
-                print("nah")
             }
         }
         
         
         if let grandparentButton = (parent as? StoreButton)?.parentCollection.parent as? StoreButton {
-            print("yo")
-            grandparentButton.run(SKAction.moveBy(x: 0, y: grandparentButton.size.height, duration: 0.2), completion: {
+            
+            grandparentButton.run(SKAction.moveBy(x: 0, y: grandparentButton.size.height, duration: 0.15), completion: {
                 show()
             })
-            (parent as? StoreButton)?.parentCollection.run(SKAction.resize(byWidth: 0, height: (parent as? StoreButton)!.size.height, duration: 0.2))
+            (parent as? StoreButton)?.parentCollection.run(SKAction.resize(byWidth: 0, height: (parent as? StoreButton)!.size.height, duration: 0.15))
         } else {
             show()
         }
@@ -69,11 +71,11 @@ class StoreCollection: SKSpriteNode {
     
     func hide(completion: @escaping (Void)->()) {
         func hide() {
-            print("hiding")
+            
             for button in buttons {
                 button.zPosition = 0
             }
-            run(SKAction.moveTo(y: position.y+size.height, duration: 0.2), completion: {
+            run(SKAction.moveTo(y: position.y+size.height, duration: 0.25), completion: {
                 self.alpha = 0
                 completion()
             })
@@ -81,21 +83,19 @@ class StoreCollection: SKSpriteNode {
                 for eachButton in parentButton.parentCollection.buttons {
                     
                     if eachButton.position.y < parentButton.y { // move buttons below out for now
-                        eachButton.run(SKAction.moveTo(y: eachButton.position.y+size.height, duration: 0.2))
+                        eachButton.run(SKAction.moveTo(y: eachButton.position.y+size.height, duration: 0.25))
                     }
                 }
-            } else {
-                print("nah")
             }
         }
         
         
         if let grandparentButton = (parent as? StoreButton)?.parentCollection.parent as? StoreButton {
-            print("yo")
-            grandparentButton.run(SKAction.moveBy(x: 0, y: -grandparentButton.size.height, duration: 0.2), completion: {
+
+            grandparentButton.run(SKAction.moveBy(x: 0, y: -grandparentButton.size.height, duration: 0.15), completion: {
                  hide()
             })
-            (parent as? StoreButton)?.parentCollection.run(SKAction.resize(byWidth: 0, height: -(parent as? StoreButton)!.size.height, duration: 0.2))
+            (parent as? StoreButton)?.parentCollection.run(SKAction.resize(byWidth: 0, height: -(parent as? StoreButton)!.size.height, duration: 0.15))
         } else {
             hide()
         }
@@ -109,12 +109,13 @@ class StoreCollection: SKSpriteNode {
         
         
         for button in buttons {
+            button.isUserInteractionEnabled = false
             if button == enabledButton {
-                button.run(SKAction.moveTo(y: pointToTravelTo, duration: 0.2), completion: {
+                button.run(SKAction.moveTo(y: pointToTravelTo, duration: 0.15), completion: {
                     completion()
                 })
             } else {
-                button.run(SKAction.moveBy(x: 0, y: diff, duration: 0.2))
+                button.run(SKAction.moveBy(x: 0, y: diff, duration: 0.15))
             }
         }
         // buttons above
@@ -125,27 +126,13 @@ class StoreCollection: SKSpriteNode {
         
         for button in buttons {
             if button == disabledButton {
-                button.run(SKAction.moveTo(y: disabledButton.originalY!, duration: 0.2), completion: {
+                button.run(SKAction.moveTo(y: disabledButton.originalY!, duration: 0.15), completion: {
                     completion()
                 })
             } else {
-                button.run(SKAction.moveTo(y: button.originalY!, duration: 0.2))
+                button.run(SKAction.moveTo(y: button.originalY!, duration: 0.15))
             }
         }
     }
-    
-    func resize(heightDiff: CGFloat? = nil) {
-//        print("resizing")
-//        if heightDiff != nil { // if height diff was precalculated
-//            size.height += heightDiff!
-//        } else { // if we just want to update the height to make sure things fit
-//            var newHeight: CGFloat = 5 // 5 for top padding
-//            
-//            for eachButton in buttons {
-//                newHeight += eachButton.frame.height + 5
-//            }
-//            
-//            size.height = newHeight
-//        }
-    }
+
 }
