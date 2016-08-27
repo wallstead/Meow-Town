@@ -74,14 +74,21 @@ class StoreButton: SKPixelToggleButtonNode {
             overlay.texture = SKTexture(pixelImageNamed: "topbar_menupanel_itemcategory_ui")
             icon.run(SKAction.fadeIn(withDuration: 0.1))
         } else if enabled == true && size.width <= 122.0 {
-            addChildCollection()
+            self.addChildCollection()
+            
+            parentCollection.onButtonEnable(enabledButton: self , completion: {
+                
+                self.childCollection?.display()
+            })
             let resize = SKAction.resize(toWidth: 170, duration: 0.1)
             resize.timingMode = .easeIn
             run(resize, completion: {
-                self.childCollection?.display()
+                
             })
             overlay.texture = SKTexture(pixelImageNamed: "topbar_menupanel_itemcategory_ui2")
             icon.run(SKAction.fadeOut(withDuration: 0.1))
+            
+            
             
             
         }
@@ -99,7 +106,17 @@ class StoreButton: SKPixelToggleButtonNode {
         
         zPosition = 5
         
-        childCollection = StoreCollection(pos: CGPoint(x: 0, y: -frame.height/2), width: parentCollection.frame.width)
+        let nextCollectionHeight: CGFloat
+        if ((parentCollection.parent as? StoreButton) != nil) {
+            print("yo")
+            nextCollectionHeight = parentCollection.size.height
+        } else {
+            print("dro")
+            nextCollectionHeight = parentCollection.size.height-frame.height
+        }
+        
+        print(nextCollectionHeight)
+        childCollection = StoreCollection(pos: CGPoint(x: 0, y: -frame.height/2), width: parentCollection.frame.width, height: nextCollectionHeight)
         
         childCollection?.zPosition = -4
         addChild(childCollection!)

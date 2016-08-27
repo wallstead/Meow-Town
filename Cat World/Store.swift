@@ -18,11 +18,9 @@ class Store {
     }
     var storeData: JSON?
     var storeContainer: SKSpriteNode
-    var bgPanel: SKPixelSpriteNode
     
     init(origin: SKSpriteNode, container: SKSpriteNode, panel: SKPixelSpriteNode) {
         storeContainer = container
-        bgPanel = panel
         
         /* Load/Create data */
         
@@ -48,9 +46,9 @@ class Store {
         }
         
         
-        let storeOrigin = StoreCollection(pos: CGPoint(x: origin.position.x, y: origin.position.y-23), width: self.storeContainer.frame.width)
+        let storeOrigin = StoreCollection(pos: CGPoint(x: origin.position.x, y: origin.position.y), width: self.storeContainer.frame.width, height: self.storeContainer.frame.height-20)
         storeOrigin.zPosition = 1
-        bgPanel.addChild(storeOrigin)
+        storeContainer.addChild(storeOrigin)
         
         
         let collectionData = self.storeData!["Store"].dictionaryValue

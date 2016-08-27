@@ -117,12 +117,10 @@ class Menu: SKNode {
         let collectionBase = SKSpriteNode()
         collectionBase.size = titleBG.size
         collectionBase.zPosition = 10
-        collectionBase.position.y = titleBG.position.y
+        collectionBase.position.y = storeContainer.frame.height/2-titleBG.height
         storeContainer.addChild(collectionBase)
         
         Store(origin: collectionBase, container: storeContainer, panel: bgpanel)
-        
-//        displayCollection(parent: collectionBase)
     }
     
     func toggleTopButton(toToggle: SKPixelToggleButtonNode) {
