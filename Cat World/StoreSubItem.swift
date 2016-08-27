@@ -17,6 +17,7 @@ class StoreButton: SKPixelToggleButtonNode {
     let subJSONDict: [String:JSON] // prepolutated json that will be used on enable to create sub buttons
     var parentCollection: StoreCollection!
     var childCollection: StoreCollection?
+    var originalY: CGFloat?
     
     
     init(type: String, iconName: String,text: String? = nil, jsonDict: [String:JSON]) {
@@ -68,18 +69,35 @@ class StoreButton: SKPixelToggleButtonNode {
             icon.position.y = 0.5
         }
         if enabled == false && size.width > 122.0 {
-            let resize = SKAction.resize(toWidth: 122.0, duration: 0.1)
-            resize.timingMode = .easeIn
-            run(resize)
+            
             overlay.texture = SKTexture(pixelImageNamed: "topbar_menupanel_itemcategory_ui")
             icon.run(SKAction.fadeIn(withDuration: 0.1))
+//            parentCollection.onButtonEnable(enabledButton: self , completion: {
+//                
+//                self.childCollection?.display()
+//            })
+            if childCollection != nil {
+                childCollection!.hide(completion: {
+                    let resize = SKAction.resize(toWidth: 122.0, duration: 0.1)
+                    resize.timingMode = .easeIn
+                    self.run(resize)
+                    self.parentCollection.onButtonDisable(disabledButton: self, completion: {
+                        
+                    })
+                })
+            }
+            
         } else if enabled == true && size.width <= 122.0 {
-            self.addChildCollection()
+            if childCollection == nil {
+                print("creating new one")
+                self.addChildCollection()
+            }
             
             parentCollection.onButtonEnable(enabledButton: self , completion: {
-                
                 self.childCollection?.display()
+                
             })
+            
             let resize = SKAction.resize(toWidth: 170, duration: 0.1)
             resize.timingMode = .easeIn
             run(resize, completion: {
@@ -129,6 +147,8 @@ class StoreButton: SKPixelToggleButtonNode {
             itemButton.parentCollection = childCollection
             childCollection?.addSubButton(button: itemButton)
         }
+        
+        childCollection?.moveIntoPlace()
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

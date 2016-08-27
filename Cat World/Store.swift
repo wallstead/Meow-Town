@@ -47,7 +47,7 @@ class Store {
         
         
         let storeOrigin = StoreCollection(pos: CGPoint(x: origin.position.x, y: origin.position.y), width: self.storeContainer.frame.width, height: self.storeContainer.frame.height-20)
-        storeOrigin.zPosition = 1
+        storeOrigin.zPosition = 6
         storeContainer.addChild(storeOrigin)
         
         
@@ -58,7 +58,7 @@ class Store {
             itemButton.parentCollection = storeOrigin
             storeOrigin.addSubButton(button: itemButton)
         }
-        
+        storeOrigin.moveIntoPlace()
         storeOrigin.display()
 
         
