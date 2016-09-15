@@ -16,7 +16,7 @@ class Cat: NSObject, NSCoding  {
     var sprite: SKPixelCatNode
     var mood: String = "Happy"
     var birthday: NSDate
-    let lifespan: TimeInterval = 5.minutes
+    let lifespan: TimeInterval = 15.minutes
     var world: World
     var heartBeat: Timer
     var isKitten: Bool {

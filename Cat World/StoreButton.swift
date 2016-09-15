@@ -122,7 +122,126 @@ class StoreButton: SKPixelToggleButtonNode {
         
         if type == "item" {
             /* Present item info */
-           print("Present item info")
+            let itemImageContainter = SKPixelSpriteNode(pixelImageNamed: "topbar_menupanel_itemimagecontainer")
+            itemImageContainter.color = parentCollection.color.darkerColor(percent: 0.25)
+            itemImageContainter.colorBlendFactor = 1
+            itemImageContainter.zPosition = 1
+            itemImageContainter.position.y = -36
+            childCollection!.addChild(itemImageContainter)
+
+            let itemImage = SKPixelSpriteNode(pixelImageNamed: subJSONDict["image name"]!.stringValue)
+            itemImage.zPosition = 1
+            itemImage.position.y = 6
+            itemImage.setScale(2)
+            itemImageContainter.addChild(itemImage)
+
+            let itemDescription = SKLabelNode(pixelFontNamed: "Silkscreen")
+            itemDescription.zPosition = 2
+            itemDescription.text = subJSONDict["description"]!.stringValue
+            itemDescription.fontColor = SKColor(colorLiteralRed: 245/255, green: 245/255, blue: 245/255, alpha: 1)
+            itemDescription.verticalAlignmentMode = .center
+            itemDescription.position.y = itemImageContainter.frame.minY+10
+            childCollection!.addChild(itemDescription)
+
+            let infoTable = SKNode()
+            let infoDict = subJSONDict["info"]!.dictionaryValue
+            let itemCost = infoDict["price"]!.intValue
+            var infoCounter = 0
+            for infoItem in infoDict {
+                // create left side and right side bg
+                let leftSide = SKSpriteNode(color: parentCollection.color.darkerColor(percent: 0.2), size: CGSize(width: itemImageContainter.frame.width/2, height: 15))
+                leftSide.position.x = -leftSide.frame.width/2
+                leftSide.position.y = -(CGFloat(infoCounter)*16)
+                infoTable.addChild(leftSide)
+
+                let leftInfoText = SKLabelNode(fontNamed: "Silkscreen")
+                leftInfoText.zPosition = 2
+                leftInfoText.text = infoItem.key
+                leftInfoText.setScale(1/10)
+                leftInfoText.fontSize = 80
+                leftInfoText.fontColor = SKColor(colorLiteralRed: 245/255, green: 245/255, blue: 245/255, alpha: 1)
+                leftInfoText.verticalAlignmentMode = .center
+                leftInfoText.horizontalAlignmentMode = .right
+                leftInfoText.position.x = leftSide.frame.width/2-6
+
+                leftSide.addChild(leftInfoText)
+
+                let rightSide = SKSpriteNode(color: parentCollection.color.darkerColor(percent: 0.25), size: CGSize(width: itemImageContainter.frame.width/2, height: 15))
+                rightSide.position.x = rightSide.frame.width/2
+                rightSide.position.y = -(CGFloat(infoCounter)*16)
+                infoTable.addChild(rightSide)
+
+                let rightInfoText = SKLabelNode(fontNamed: "Silkscreen")
+                rightInfoText.zPosition = 2
+                rightInfoText.text = "\(infoItem.value)"
+                rightInfoText.setScale(1/10)
+                rightInfoText.fontSize = 80
+                rightInfoText.fontColor = SKColor(colorLiteralRed: 245/255, green: 245/255, blue: 245/255, alpha: 1)
+                rightInfoText.verticalAlignmentMode = .center
+                rightInfoText.horizontalAlignmentMode = .left
+                rightInfoText.position.x = -rightSide.frame.width/2+6
+
+                rightSide.addChild(rightInfoText)
+
+                infoCounter += 1
+            }
+            childCollection!.addChild(infoTable)
+            infoTable.position.y = itemImageContainter.frame.minY-8.5
+
+            let enableButton = SKPixelToggleSliderNode(withState: subJSONDict["enabled"]!.boolValue)
+            enableButton.color = parentCollection.color.darkerColor(percent: 0.25)
+            enableButton.colorBlendFactor = 1
+            enableButton.zPosition = 2
+            enableButton.position.y = infoTable.position.y - 49.2 //infoTable.position.y - 49.35 - 18
+//            enableButton.onStateChange = {
+////                GameScene.current.catCam.alert(type: "warning", message: "The enabled property of this button is now set to \(enableButton.enabled!).")
+//
+//                if enableButton.enabled == true {
+//                    let wait = infoDict.value(forKey: "regen") as! Int
+//                    if GameScene.current.catCam.itemPanel.addQuickItem(itemName: collectionData.value(forKey: "image name")! as! String, waitTime: wait) == false {
+//                        GameScene.current.catCam.alert(type: "error", message: "Cannot enable an item already enabled.")
+//                    } else {
+////                        if GameScene.current.toggleEnable(withData: data!) == true {
+////                            GameScene.current.catCam.alert(type: "success", message: "Toggled.")
+////                        }
+//                    }
+//                } else {
+//                    if GameScene.current.catCam.itemPanel.removeQuickItem(itemName: collectionData.value(forKey: "image name")! as! String) == false {
+//                        GameScene.current.catCam.alert(type: "error", message: "Cannot remove an item that doesn't exist.")
+//                    } else {
+////                        if GameScene.current.toggleEnable(withData: data!) == true {
+////                            GameScene.current.catCam.alert(type: "success", message: "Toggled.")
+////                        }
+//                    }
+//                }
+//
+//            }
+//
+            let buyButton = SKPixelButtonNode(pixelImageNamed: "basicbutton", withText: "Buy")
+            buyButton.color = SKColor(colorLiteralRed: 255/255, green: 162/255, blue: 51/255, alpha: 1)
+            buyButton.colorBlendFactor = 1
+            buyButton.zPosition = 2
+            buyButton.position.y = infoTable.position.y - 49.2
+//            buyButton.action = {
+////                if GameScene.current.world.score >= itemCost {
+////                    if GameScene.current.attemptPurchase(withData: data!) == true {
+////                        GameScene.current.catCam.alert(type: "success", message: "You successfully bought \(collectionData.value(forKey: "name")!)s.")
+////                        /* TODO: Hide buyButton */
+////                        buyButton.removeFromParent()
+////                        collectionBG.addChild(enableButton)
+////                    } else {
+////                        GameScene.current.catCam.alert(type: "error", message: "An error occured when attempting to purchase \(collectionData.value(forKey: "name")!)s.")
+////                    }
+////                } else {
+////                    GameScene.current.catCam.alert(type: "error", message: "You don't have enough calories to buy \(collectionData.value(forKey: "name")!)s.")
+////                }
+//            }
+//            
+            if subJSONDict["owned"]!.boolValue == true {
+                childCollection!.addChild(enableButton)
+            } else {
+                childCollection!.addChild(buyButton)
+            }
         } else {
             /* Present sub-items */
             let collectionData = subJSONDict
