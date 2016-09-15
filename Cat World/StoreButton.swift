@@ -18,10 +18,12 @@ class StoreButton: SKPixelToggleButtonNode {
     var parentCollection: StoreCollection!
     var childCollection: StoreCollection?
     var originalY: CGFloat?
+    let type: String
     
     
     init(type: String, iconName: String,text: String? = nil, jsonDict: [String:JSON]) {
         subJSONDict = jsonDict
+        self.type = type
         if type == "collection" || type == "item" {
             overlay = SKPixelSpriteNode(pixelImageNamed: "topbar_menupanel_itemcategory_ui")
             icon = SKPixelSpriteNode(pixelImageNamed: iconName)
@@ -45,6 +47,7 @@ class StoreButton: SKPixelToggleButtonNode {
         overlay = SKPixelSpriteNode(pixelImageNamed: "topbar_menupanel_itemcategory_ui")
         icon = SKPixelSpriteNode(pixelImageNamed: "burger")
         subJSONDict = ["test":JSON(Data())]
+        type = "collection"
         super.init(coder: aDecoder)
         
         
@@ -69,7 +72,6 @@ class StoreButton: SKPixelToggleButtonNode {
             icon.position.y = 0.5
         }
         if enabled == false && size.width > 122.0 {
-            print("shno")
             overlay.texture = SKTexture(pixelImageNamed: "topbar_menupanel_itemcategory_ui")
             icon.run(SKAction.fadeIn(withDuration: 0.1))
             if childCollection != nil {
@@ -80,12 +82,10 @@ class StoreButton: SKPixelToggleButtonNode {
                     self.parentCollection.onButtonDisable(disabledButton: self, completion: {
                         for button in self.parentCollection.buttons {
                             button.enabled = false // set to false instead of nil to allow interaction
-                            
                         }
                     })
                 })
             }
-            
         } else if enabled == true && size.width <= 122.0 {
             if childCollection == nil {
                 self.addChildCollection()
@@ -120,15 +120,19 @@ class StoreButton: SKPixelToggleButtonNode {
         childCollection?.zPosition = -3
         addChild(childCollection!)
         
-        if let infoDict =  subJSONDict["info"]?.dictionary {
+        if type == "item" {
             /* Present item info */
-           
+           print("Present item info")
         } else {
             /* Present sub-items */
             let collectionData = subJSONDict
             for item in collectionData {
                 let itemSubDict: [String:JSON] = collectionData[item.key]!.dictionaryValue
-                let itemButton = StoreButton(type: "collection", iconName: "burger", text: item.key, jsonDict: itemSubDict)
+                var itemType = "collection"
+                if itemSubDict["info"]?.dictionary != nil {
+                    itemType = "item"
+                }
+                let itemButton = StoreButton(type: itemType, iconName: "burger", text: item.key, jsonDict: itemSubDict)
                 itemButton.parentCollection = childCollection
                 childCollection?.addSubButton(button: itemButton)
             }
@@ -181,7 +185,7 @@ class StoreButton: SKPixelToggleButtonNode {
 
         isUserInteractionEnabled = false
 
-        print(enabled)
+        
         if enabled != nil && texture != defaultTexture {
             
             if enabled == false { // about to toggle to true

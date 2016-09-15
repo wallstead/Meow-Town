@@ -91,14 +91,6 @@ class Menu: SKNode {
         storeContainer.position.y = -infoButton.frame.height/2
         menuCropper.addChild(storeContainer)
         
-//        collectionBG = SKSpriteNode()
-//        collectionBG.color = SKColor(colorLiteralRed: 182/255, green: 24/255, blue: 25/255, alpha: 1)
-//        collectionBG.zPosition = 2
-//        collectionBG.anchorPoint = CGPoint(x: 0.5, y: 1)
-//        collectionBG.position.y = storeContainer.currentHeight/2 - 20
-//
-//        storeContainer.addChild(collectionBG)
-        
         let title = SKLabelNode(fontNamed: "Fipps-Regular")
         title.zPosition = 51
         title.text = "store"

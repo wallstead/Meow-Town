@@ -15,7 +15,11 @@ class StoreCollection: SKSpriteNode {
     
     init(pos: CGPoint, width: CGFloat, height: CGFloat) {
         buttons = []
-        super.init(texture: nil, color: SKColor.randomColor(), size: CGSize(width: width, height: height))
+        
+        super.init(texture: nil, color: SKColor(red: 212/255, green: 29/255, blue: 32/255, alpha: 1), size: CGSize(width: width, height: height))
+        
+        
+        
         position = pos
         anchorPoint = CGPoint(x: 0.5, y: 1)
         alpha = 0
@@ -39,7 +43,12 @@ class StoreCollection: SKSpriteNode {
     func display() { // push collection down into view (probably after button resizes)
     
         //move it up so that we can animate the drop-in
+        if let parentButton = parent as? StoreButton {
+            self.color = parentButton.parentCollection.color.darkerColor(percent: 0.15)
+        }
+        
         alpha = 1
+        
         
         func show() {
             run(SKAction.moveTo(y: position.y-size.height, duration: 0.25), completion: {

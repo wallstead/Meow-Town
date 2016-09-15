@@ -19,7 +19,7 @@
 		433EEDF41D6AA0B100A5AE9D /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433EEDF31D6AA0B100A5AE9D /* Store.swift */; };
 		4345CD981CF77692003BA6D4 /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4345CD971CF77692003BA6D4 /* Activity.swift */; };
 		43470F2D1D07E9390069A8A4 /* CatCam.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43470F2C1D07E9390069A8A4 /* CatCam.swift */; };
-		434DE1A81D6F51EC00166C4C /* StoreSubItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434DE1A71D6F51EC00166C4C /* StoreSubItem.swift */; };
+		434DE1A81D6F51EC00166C4C /* StoreButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434DE1A71D6F51EC00166C4C /* StoreButton.swift */; };
 		434DE1AA1D6FF05B00166C4C /* StoreCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434DE1A91D6FF05B00166C4C /* StoreCollection.swift */; };
 		4364AB941D64FE5000B8DCBE /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4364AB931D64FE5000B8DCBE /* Queue.swift */; };
 		43689FA11D4C2BEA001C3E73 /* SKMultilineLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43689FA01D4C2BEA001C3E73 /* SKMultilineLabel.swift */; };
@@ -90,7 +90,7 @@
 		433EEDF31D6AA0B100A5AE9D /* Store.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		4345CD971CF77692003BA6D4 /* Activity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Activity.swift; sourceTree = "<group>"; };
 		43470F2C1D07E9390069A8A4 /* CatCam.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CatCam.swift; sourceTree = "<group>"; };
-		434DE1A71D6F51EC00166C4C /* StoreSubItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoreSubItem.swift; sourceTree = "<group>"; };
+		434DE1A71D6F51EC00166C4C /* StoreButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoreButton.swift; sourceTree = "<group>"; };
 		434DE1A91D6FF05B00166C4C /* StoreCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoreCollection.swift; sourceTree = "<group>"; };
 		4364AB931D64FE5000B8DCBE /* Queue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Queue.swift; sourceTree = "<group>"; };
 		43689FA01D4C2BEA001C3E73 /* SKMultilineLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKMultilineLabel.swift; sourceTree = "<group>"; };
@@ -179,7 +179,7 @@
 				437C2EC41D0BADBB00F05AEF /* Menu.swift */,
 				433EEDF31D6AA0B100A5AE9D /* Store.swift */,
 				434DE1A91D6FF05B00166C4C /* StoreCollection.swift */,
-				434DE1A71D6F51EC00166C4C /* StoreSubItem.swift */,
+				434DE1A71D6F51EC00166C4C /* StoreButton.swift */,
 				4374EA241D47F6E2007CB9EA /* ItemPanel.swift */,
 			);
 			name = "Top Bar";
@@ -508,7 +508,7 @@
 				4364AB941D64FE5000B8DCBE /* Queue.swift in Sources */,
 				43F71A781D396852008FF8D9 /* Item.swift in Sources */,
 				43FD71491CD41CAA0058DFBA /* World.swift in Sources */,
-				434DE1A81D6F51EC00166C4C /* StoreSubItem.swift in Sources */,
+				434DE1A81D6F51EC00166C4C /* StoreButton.swift in Sources */,
 				433EEDF41D6AA0B100A5AE9D /* Store.swift in Sources */,
 				439AD6821CB7681500E1E018 /* GameViewController.swift in Sources */,
 				439AD67C1CB7681500E1E018 /* AppDelegate.swift in Sources */,
