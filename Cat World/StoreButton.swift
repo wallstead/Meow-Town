@@ -90,7 +90,7 @@ class StoreButton: SKPixelToggleButtonNode {
             if childCollection == nil {
                 self.addChildCollection()
             }
-            
+            zPosition = 6
             parentCollection.onButtonEnable(enabledButton: self , completion: {
                 self.childCollection?.display()
                 
@@ -109,7 +109,7 @@ class StoreButton: SKPixelToggleButtonNode {
     }
     
     func addChildCollection() {
-        zPosition = 4
+        
         let nextCollectionHeight: CGFloat
         if ((parentCollection.parent as? StoreButton) != nil) {
             nextCollectionHeight = parentCollection.size.height
@@ -117,7 +117,7 @@ class StoreButton: SKPixelToggleButtonNode {
             nextCollectionHeight = parentCollection.size.height-frame.height
         }
         childCollection = StoreCollection(pos: CGPoint(x: 0, y: -frame.height/2), width: parentCollection.frame.width, height: nextCollectionHeight)
-        childCollection?.zPosition = -3
+
         addChild(childCollection!)
         
         if type == "item" {

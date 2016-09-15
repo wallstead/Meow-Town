@@ -60,16 +60,6 @@ class Store {
         }
         storeOrigin.moveIntoPlace()
         storeOrigin.display()
-
-        
-        /* Display Content */
-        let queue = DispatchQueue(label: "com.meowtown.myqueue")
-        queue.async {
-//            self.displayCollection(parent: origin)
-            
-            // use base data to add buttons to collection. Then each button should be able to do their own work from here
-        }
-
     }
     
     func saveJSON(j: JSON) -> Bool {
