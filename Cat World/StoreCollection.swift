@@ -11,6 +11,7 @@ import SpriteKit
 
 class StoreCollection: SKSpriteNode {
     var buttons: [StoreButton]
+    let time: TimeInterval = 0.25
 //    let subPanels: [StorePanel]
     
     init(pos: CGPoint, width: CGFloat, height: CGFloat) {
@@ -43,14 +44,14 @@ class StoreCollection: SKSpriteNode {
     
         //move it up so that we can animate the drop-in
         if let parentButton = parent as? StoreButton {
-            self.color = parentButton.parentCollection.color.darkerColor(percent: 0.15)
+            self.color = parentButton.parentCollection.color.darkerColor(percent: time*0.6)
 //            zPosition = -4
         }
         
         alpha = 1
         
         func show() {
-            run(SKAction.moveTo(y: position.y-size.height, duration: 0.25), completion: {
+            run(SKAction.moveTo(y: position.y-size.height, duration: time), completion: {
                 if let parentButton = self.parent as? StoreButton { // if there is a parentbutton, resize its parent collection
                     parentButton.isUserInteractionEnabled = true
                     
@@ -59,7 +60,7 @@ class StoreCollection: SKSpriteNode {
             if let parentButton = parent as? StoreButton { // if there is a parentbutton, resize its parent collection
                 for eachButton in parentButton.parentCollection.buttons {
                     if eachButton.position.y < parentButton.y { // move buttons below out for now
-                        eachButton.run(SKAction.moveTo(y: eachButton.position.y-size.height, duration: 0.25))
+                        eachButton.run(SKAction.moveTo(y: eachButton.position.y-size.height, duration: time))
                     }
                 }
             }
@@ -67,10 +68,10 @@ class StoreCollection: SKSpriteNode {
         
         if let grandparentButton = (parent as? StoreButton)?.parentCollection.parent as? StoreButton {
             
-            grandparentButton.run(SKAction.moveBy(x: 0, y: grandparentButton.size.height, duration: 0.15), completion: {
+            grandparentButton.run(SKAction.moveBy(x: 0, y: grandparentButton.size.height, duration: time*0.6), completion: {
                 show()
             })
-            (parent as? StoreButton)?.parentCollection.run(SKAction.resize(byWidth: 0, height: (parent as? StoreButton)!.size.height, duration: 0.15))
+            (parent as? StoreButton)?.parentCollection.run(SKAction.resize(byWidth: 0, height: (parent as? StoreButton)!.size.height, duration: time*0.6))
         } else {
             show()
         }
@@ -81,7 +82,7 @@ class StoreCollection: SKSpriteNode {
             for eachbutton in buttons {
                 eachbutton.zPosition = 1
             }
-            run(SKAction.moveTo(y: position.y+size.height, duration: 0.25), completion: {
+            run(SKAction.moveTo(y: position.y+size.height, duration: time), completion: {
                 self.alpha = 0
                 completion()
             })
@@ -89,7 +90,7 @@ class StoreCollection: SKSpriteNode {
                 for eachButton in parentButton.parentCollection.buttons {
                     
                     if eachButton.position.y < parentButton.y { // move buttons below out for now
-                        eachButton.run(SKAction.moveTo(y: eachButton.position.y+size.height, duration: 0.25))
+                        eachButton.run(SKAction.moveTo(y: eachButton.position.y+size.height, duration: time))
                     }
                 }
             }
@@ -97,10 +98,10 @@ class StoreCollection: SKSpriteNode {
         
         if let grandparentButton = (parent as? StoreButton)?.parentCollection.parent as? StoreButton {
 
-            grandparentButton.run(SKAction.moveBy(x: 0, y: -grandparentButton.size.height, duration: 0.15), completion: {
+            grandparentButton.run(SKAction.moveBy(x: 0, y: -grandparentButton.size.height, duration: time*0.6), completion: {
                  hide()
             })
-            (parent as? StoreButton)?.parentCollection.run(SKAction.resize(byWidth: 0, height: -(parent as? StoreButton)!.size.height, duration: 0.15))
+            (parent as? StoreButton)?.parentCollection.run(SKAction.resize(byWidth: 0, height: -(parent as? StoreButton)!.size.height, duration: time*0.6))
         } else {
             hide()
         }
@@ -115,11 +116,11 @@ class StoreCollection: SKSpriteNode {
         for button in buttons {
             button.isUserInteractionEnabled = false
             if button == enabledButton {
-                button.run(SKAction.moveTo(y: pointToTravelTo, duration: 0.15), completion: {
+                button.run(SKAction.moveTo(y: pointToTravelTo, duration: time*0.6), completion: {
                     completion()
                 })
             } else {
-                button.run(SKAction.moveBy(x: 0, y: diff, duration: 0.15))
+                button.run(SKAction.moveBy(x: 0, y: diff, duration: time*0.6))
             }
         }
     }
@@ -127,12 +128,13 @@ class StoreCollection: SKSpriteNode {
     func onButtonDisable(disabledButton: StoreButton, completion: @escaping (Void)->()) {
         
         for button in buttons {
+            button.zPosition = 1
             if button == disabledButton {
-                button.run(SKAction.moveTo(y: disabledButton.originalY!, duration: 0.15), completion: {
+                button.run(SKAction.moveTo(y: disabledButton.originalY!, duration: time*0.6), completion: {
                     completion()
                 })
             } else {
-                button.run(SKAction.moveTo(y: button.originalY!, duration: 0.15))
+                button.run(SKAction.moveTo(y: button.originalY!, duration: time*0.6))
             }
         }
     }
