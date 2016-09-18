@@ -83,6 +83,10 @@ class StoreButton: SKPixelToggleButtonNode {
                         for button in self.parentCollection.buttons {
                             button.enabled = false // set to false instead of nil to allow interaction
                         }
+                        if let grandparentButton = self.parentCollection.parent as? StoreButton {
+                            grandparentButton.isUserInteractionEnabled = true
+                        }
+
                     })
                 })
             }
@@ -261,7 +265,15 @@ class StoreButton: SKPixelToggleButtonNode {
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if enabled != nil {
+        var isAlreadyAnimating = false
+        for otherButton in parentCollection.buttons {
+            if otherButton.enabled == true {
+                print("i'm enabled")
+                isAlreadyAnimating = true
+            }
+        }
+        
+        if enabled != nil && isAlreadyAnimating == false {
             onPress?()
             // make sure other buttons are disabled
             for button in parentCollection.buttons {
