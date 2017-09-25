@@ -16,10 +16,8 @@ class Cat: SKNode {
     var sprite: SKPixelCatNode!
     var mood: String!
     var birthday: NSDate!
-    let lifespan: TimeInterval = 5.minutes
+    let lifespan: TimeInterval = 30.minutes
     var world: World!
-//    let timer = SKTimer() // the timer calculates the time step value dt for every frame
-//    let scheduler = Scheduler() // an event scheduler
     var hasPubed: Bool!
     
     override var description: String { return "*** \(firstname) ***\nskin: \(skin)\nmood: \(mood)\nb-day: \(birthday)" }
@@ -37,6 +35,7 @@ class Cat: SKNode {
         self.hasPubed = decoder.decodeBool(forKey: "haspubed") // TODO: Understand why this has to be decodeBool rather than just decodeObject
         
         displayCat()
+        print("tesfasdkjfjkaskjlfdskljafslkd")
     }
     
     convenience init(name: String, skin: String, mood: String, birthday: NSDate, world: World) {
@@ -96,17 +95,12 @@ class Cat: SKNode {
         world.addChild(sprite)
         prance()
         
-//        scheduler
-//            .every(time: 1.0) // every one second
-//            .perform( action: self=>Cat.trackAge ) // update the elapsed time label
-//            .end()
-//        
-//        scheduler
-//            .every(time: 1.0) // every tenth of a second
-//            .perform( action: self=>Cat.brain ) // think
-//            .end()
-//        
-//        scheduler.start()
+        let wait = SKAction.wait(forDuration: 1)
+        let dothing = SKAction.run {
+            self.brain()
+            self.trackAge()
+        }
+        sprite.run(SKAction.repeatForever(SKAction.sequence([dothing, wait])))
     }
     
     func trackAge() {
@@ -119,30 +113,27 @@ class Cat: SKNode {
     }
     
     func brain() {
-        if !isBusy() {
-            if world.food?.isEmpty == false {
-                var closestItem = world.food.first!
-                for item in world.food! {
-                    if item.position.distanceFromCGPoint(point: sprite.position) < closestItem.position.distanceFromCGPoint(point: sprite.position) {
-                        closestItem = item
-                    }
-                }
-                eat(item: closestItem)
-            } else {
-                let randInt = Int.random(range: 0..<100) // 0 -> 99
-                switch randInt {
-                case 0..<10:
-                    blink()
-                case 10..<60:
-                    prance()
-                case 60..<100:
-                    relax()
-                default:
-                    relax()
+        if world.food?.isEmpty == false {
+            var closestItem = world.food.first!
+            for item in world.food! {
+                if item.position.distanceFromCGPoint(point: sprite.position) < closestItem.position.distanceFromCGPoint(point: sprite.position) {
+                    closestItem = item
                 }
             }
+            eat(item: closestItem)
+        } else {
+            let randInt = Int.random(range: 0..<100) // 0 -> 99
+            switch randInt {
+            case 0..<10:
+                blink()
+            case 10..<60:
+                prance()
+            case 60..<100:
+                relax()
+            default:
+                relax()
+            }
         }
-//        
     }
     
     // MARK: Calculatable Cat Data
@@ -168,8 +159,6 @@ class Cat: SKNode {
     func die() {
 //        world.addGraveStone(catName: firstname!, position: sprite.position, zPos: sprite.zPosition)
         sprite.removeAllActions()
-//        timer.pause()
-//        scheduler.stop()
         if GameScene.current.catCam.currentFocus == self {
             GameScene.current.catCam.toggleFocus(cat: self)
         }
@@ -343,8 +332,6 @@ class Cat: SKNode {
     // MARK: Update
     
     func update(currentTime: CFTimeInterval) {
-//        timer.advance()
-//        scheduler.update(dt: timer.dt)
         changeZPosition()
     }
     

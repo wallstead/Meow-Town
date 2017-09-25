@@ -125,8 +125,8 @@ class World: SKNode, SKPhysicsContactDelegate {
         self.addChild(floorCollisionBox!)
         
         spawn(itemName: "burger")
-        spawn(itemName: "fries")
-        spawn(itemName: "fries")
+//        spawn(itemName: "fries")
+//        spawn(itemName: "fries")
     }
     
     // MARK: Cat Stuff
