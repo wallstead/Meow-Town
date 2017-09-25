@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4309333C1F7881210046FCE5 /* PriorityQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4309333B1F7881210046FCE5 /* PriorityQueue.swift */; };
+		4309333E1F7881E90046FCE5 /* CatAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4309333D1F7881E90046FCE5 /* CatAction.swift */; };
 		43196E9C1D49AC9200B8A62E /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43196E9B1D49AC9200B8A62E /* iAd.framework */; };
 		43196E9E1D49AC9900B8A62E /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43196E9D1D49AC9900B8A62E /* AdSupport.framework */; };
 		433DA5F11CBEAA12009F1B36 /* SKPixel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433DA5F01CBEAA12009F1B36 /* SKPixel.swift */; };
@@ -72,6 +74,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4309333B1F7881210046FCE5 /* PriorityQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriorityQueue.swift; sourceTree = "<group>"; };
+		4309333D1F7881E90046FCE5 /* CatAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatAction.swift; sourceTree = "<group>"; };
 		43196E9B1D49AC9200B8A62E /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
 		43196E9D1D49AC9900B8A62E /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		433DA5F01CBEAA12009F1B36 /* SKPixel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKPixel.swift; sourceTree = "<group>"; };
@@ -157,6 +161,7 @@
 			children = (
 				439AD6AD1CB7683700E1E018 /* Cat.swift */,
 				43F71A771D396852008FF8D9 /* Item.swift */,
+				4309333D1F7881E90046FCE5 /* CatAction.swift */,
 			);
 			name = Entities;
 			sourceTree = "<group>";
@@ -245,6 +250,7 @@
 				433ECFB21D54FD8A00A01023 /* MiscExtensions.swift */,
 				437B81A01D66678800DF8139 /* GlowFilter.swift */,
 				4364AB931D64FE5000B8DCBE /* Queue.swift */,
+				4309333B1F7881210046FCE5 /* PriorityQueue.swift */,
 				43CF9D001D610F8500C1EFEA /* SoundEffect-Swift3.swift */,
 				43E4D1771D22E47C00E266EA /* SpriteKit-Spring.swift */,
 				43689FA01D4C2BEA001C3E73 /* SKMultilineLabel.swift */,
@@ -471,9 +477,11 @@
 			files = (
 				437B81A11D66678800DF8139 /* GlowFilter.swift in Sources */,
 				438032091D04DFB4004D9D58 /* PlistManager.swift in Sources */,
+				4309333E1F7881E90046FCE5 /* CatAction.swift in Sources */,
 				43470F2D1D07E9390069A8A4 /* CatCam.swift in Sources */,
 				43689FA11D4C2BEA001C3E73 /* SKMultilineLabel.swift in Sources */,
 				4345CD981CF77692003BA6D4 /* Activity.swift in Sources */,
+				4309333C1F7881210046FCE5 /* PriorityQueue.swift in Sources */,
 				43E113131D0755EF005ADA37 /* Globals.swift in Sources */,
 				433DA5F11CBEAA12009F1B36 /* SKPixel.swift in Sources */,
 				4374EA251D47F6E2007CB9EA /* ItemPanel.swift in Sources */,

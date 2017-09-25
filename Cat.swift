@@ -10,6 +10,7 @@ import Foundation
 import SpriteKit
 import UserNotifications
 
+
 class Cat: SKNode {
     var firstname: String!
     var skin: String!
@@ -19,6 +20,8 @@ class Cat: SKNode {
     let lifespan: TimeInterval = 30.minutes
     var world: World!
     var hasPubed: Bool!
+    var isBusy: Bool!
+    var todo: PriorityQueue<CatAction>!
     
     override var description: String { return "*** \(firstname) ***\nskin: \(skin)\nmood: \(mood)\nb-day: \(birthday)" }
     
@@ -33,7 +36,8 @@ class Cat: SKNode {
         self.birthday = decoder.decodeObject(forKey: "birthday") as! NSDate
         self.world = decoder.decodeObject(forKey: "world") as! World
         self.hasPubed = decoder.decodeBool(forKey: "haspubed") // TODO: Understand why this has to be decodeBool rather than just decodeObject
-        
+        self.isBusy = decoder.decodeBool(forKey: "isbusy")
+        self.todo = PriorityQueue(ascending: true, startingValues: [])
         displayCat()
     }
     
@@ -45,6 +49,8 @@ class Cat: SKNode {
         self.birthday = birthday
         self.world = world
         self.hasPubed = false
+        self.isBusy = false
+        self.todo = PriorityQueue(ascending: true, startingValues: [])
         
         birth()
     }
@@ -58,6 +64,8 @@ class Cat: SKNode {
         if let birthday = birthday { aCoder.encode(birthday, forKey: "birthday") }
         if let world = world { aCoder.encode(world, forKey: "world") }
         if let hasPubed = hasPubed { aCoder.encode(hasPubed, forKey: "haspubed") }
+        if let isBusy = isBusy { aCoder.encode(isBusy, forKey: "isbusy") }
+//        if let todo = todo { aCoder.encode(todo, forKey: "todo") }
     }
     
     func birth() {
@@ -94,7 +102,7 @@ class Cat: SKNode {
         world.addChild(sprite)
         prance()
         
-        let wait = SKAction.wait(forDuration: 1)
+        let wait = SKAction.wait(forDuration: 0.1)
         let dothing = SKAction.run {
             self.brain()
             self.trackAge()
@@ -105,32 +113,51 @@ class Cat: SKNode {
     func trackAge() {
         if age() >= lifespan {
             die()
-        } else if !isKitten() && !hasPubed && !isBusy()  {
+        } else if !isKitten() && !hasPubed && !isBusy  {
             hasPubed = true
             pube()
         }
     }
     
     func brain() {
-        if world.food?.isEmpty == false {
-            var closestItem = world.food.first!
-            for item in world.food! {
-                if item.position.distanceFromCGPoint(point: sprite.position) < closestItem.position.distanceFromCGPoint(point: sprite.position) {
-                    closestItem = item
+        if !isBusy {
+            if let nextAction = todo.peek() { // if something in todo queue do it
+                isBusy = true
+                nextAction.run()
+            } else {
+                // always eat food before all else if its on the floor
+                if world.food?.isEmpty == false {
+                    todo.push(CatAction(importance: 100, node: sprite) {
+                        var closestItem = self.world.food.first!
+                        for item in self.world.food! {
+                            if item.position.distanceFromCGPoint(point: self.sprite.position) < closestItem.position.distanceFromCGPoint(point: self.sprite.position) {
+                                closestItem = item
+                            }
+                        }
+                        self.eat(item: closestItem)
+                    })
+                } else {
+                    // think about what to do
+                    let randInt = Int.random(range: 0..<100) // 0 -> 99
+                    switch randInt {
+                    case 0..<10:
+                        todo.push(CatAction(importance: 0, node: sprite) {
+                            self.blink()
+                        })
+                    case 10..<40:
+                        todo.push(CatAction(importance: 0, node: sprite) {
+                            self.prance()
+                        })
+                    case 40..<100:
+                        todo.push(CatAction(importance: 0, node: sprite) {
+                            self.relax()
+                        })
+                    default:
+                        todo.push(CatAction(importance: 0, node: sprite) {
+                            self.relax()
+                        })
+                    }
                 }
-            }
-            eat(item: closestItem)
-        } else {
-            let randInt = Int.random(range: 0..<100) // 0 -> 99
-            switch randInt {
-            case 0..<10:
-                blink()
-            case 10..<60:
-                prance()
-            case 60..<100:
-                relax()
-            default:
-                relax()
             }
         }
     }
@@ -145,9 +172,7 @@ class Cat: SKNode {
         }
     }
     
-    func isBusy() -> Bool {
-        return sprite.hasActions()
-    }
+
     
     func age() -> TimeInterval {
         return NSDate().timeIntervalSince(birthday as Date)
@@ -256,7 +281,9 @@ class Cat: SKNode {
         }
         
         let randomPoint = CGPoint(x: randomX, y: randomY)
-        flyTo(point: randomPoint)
+        flyTo(point: randomPoint) {
+            self.finishCatAction()
+        }
     }
     
     func eat(item: Item) {
@@ -297,6 +324,7 @@ class Cat: SKNode {
                     self.world.addPoints(item: item, location: item.position)
                     item.removeFromParent()
                     item.removeAllActions()
+                    self.finishCatAction()
                 }
             })
         })
@@ -314,17 +342,25 @@ class Cat: SKNode {
         sprite.pube()
         self.skin = firstname.lowercased()
         world.save()
+        finishCatAction()
     }
     
-    func blink() {
+    func blink()  {
         sprite.closeEyes()
         sprite.run(SKAction.wait(forDuration: 0.2), completion: {
             self.sprite.openEyes()
+            self.finishCatAction()
         })
     }
     
     func relax() {
         sprite.run(SKAction.wait(forDuration: TimeInterval(Int.random(range: 1..<3))))
+        finishCatAction()
+    }
+    
+    func finishCatAction() {
+        let popped = self.todo.pop()
+        self.isBusy = false
     }
     
     
