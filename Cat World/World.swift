@@ -63,7 +63,6 @@ class World: SKNode, SKPhysicsContactDelegate {
         if let floor = floor { aCoder.encode(floor, forKey: "floor") }
         if let cats = cats {
             aCoder.encode(cats, forKey: "cats")
-            print("saving this to cats: \(cats)")
         }
         if let score = score { aCoder.encode(score, forKey: "calories") }
     }

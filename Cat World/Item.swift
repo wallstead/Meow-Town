@@ -41,11 +41,11 @@ class Item: SKNode, SKPhysicsContactDelegate {
     }
     
     func didBegin(_ contact: SKPhysicsContact) {
-        print("yo")
+        
     }
     
     func didEnd(_ contact: SKPhysicsContact) {
-        print("shmo")
+        
     }
     
   

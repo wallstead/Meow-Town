@@ -453,7 +453,6 @@ class SKPixelCollectionToggleButtonNode: SKPixelToggleButtonNode {
             icon.run(SKAction.fadeIn(withDuration: 0.1))
         }
 
-        print("then here")
         if enabled != nil {
             isUserInteractionEnabled = true
             print("finally here 1")
@@ -462,11 +461,9 @@ class SKPixelCollectionToggleButtonNode: SKPixelToggleButtonNode {
             print("finally here 2")
         }
         
-        print("enabled: \(enabled)")
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        print("enabled: \(enabled)")
         if enabled != nil {
             onPress?()
             texture = pressedTexture
@@ -537,7 +534,6 @@ class SKPixelCollectionToggleButtonNode: SKPixelToggleButtonNode {
                 onCancel?() // reset and run cancel
             }
         } else if enabled == nil && texture == defaultTexture {// if nil, but texture is default, set to
-            print("got here")
             enabled = true
             
         }
@@ -545,7 +541,6 @@ class SKPixelCollectionToggleButtonNode: SKPixelToggleButtonNode {
     
     func reset() { // resets to nil, so touches are canceled, then is recalled to
         enabled = nil
-        print("reseting")
     }
 }
 

@@ -202,12 +202,10 @@ class CatCam: SKCameraNode {
         self.addChild(background)
         
         let cats = PlistManager.sharedInstance.getValueForKey(key: "Selectable Cats") as! NSDictionary
-        print(cats)
-        print("got here")
+        
         for cat in cats {
             if let catSkin = (cat.value as AnyObject).value(forKey: "skin") as? String {
                 catSpriteArray.append(SKPixelSpriteNode(pixelImageNamed: catSkin))
-                print(catSkin)
             }
         }
         currentCatSprite = catSpriteArray[0]

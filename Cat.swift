@@ -35,7 +35,6 @@ class Cat: SKNode {
         self.hasPubed = decoder.decodeBool(forKey: "haspubed") // TODO: Understand why this has to be decodeBool rather than just decodeObject
         
         displayCat()
-        print("tesfasdkjfjkaskjlfdskljafslkd")
     }
     
     convenience init(name: String, skin: String, mood: String, birthday: NSDate, world: World) {

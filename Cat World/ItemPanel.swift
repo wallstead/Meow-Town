@@ -70,7 +70,6 @@ class ItemPanel: SKNode {
         }
         if itemButtons.count == 5 {
             itemButtons.first!.removeFromParent()
-            print("removed \(itemButtons.removeFirst())")
         }
         itemButtons.append(itemButton)
         updateButtons()
@@ -114,6 +113,5 @@ class ItemPanel: SKNode {
     }
     
     func update(currentTime: CFTimeInterval) {
-//        print(menuIsAnimating)
     }
 }
